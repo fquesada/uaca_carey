@@ -7,7 +7,7 @@
 // CWebApplication properties can be configured here.
 return array(
 	'basePath'=>dirname(__FILE__).DIRECTORY_SEPARATOR.'..',
-	'name'=>'Sistema Evaluación Competencias',
+	'name'=>'Carey',
 
 	// preloading 'log' component
 	'preload'=>array('log'),
@@ -16,6 +16,8 @@ return array(
 	'import'=>array(
 		'application.models.*',
 		'application.components.*',
+		'application.modules.rights.*', 
+		'application.modules.rights.components.*',
 	),
 
 	'modules'=>array(
@@ -28,6 +30,14 @@ return array(
 			'ipFilters'=>array('127.0.0.1','::1'),
 		),
 		
+		'rights'=>array( 'superuserName'=>'Admin',                    
+                    'authenticatedName'=>'Authenticated',
+                    'userClass' => 'Usuario',
+                    'userIdColumn'=>'id',
+                    'userNameColumn'=>'login',                    
+                    
+                    'install'=>false),
+		
 	),
 
 	// application components
@@ -35,7 +45,11 @@ return array(
 		'user'=>array(
 			// enable cookie-based authentication
 			'allowAutoLogin'=>true,
+			'class'=>'RWebUser',
 		),
+		
+		'authManager'=>array( 'class'=>'RDbAuthManager'),
+		
 		// uncomment the following to enable URLs in path-format
 		
 		'urlManager'=>array(
