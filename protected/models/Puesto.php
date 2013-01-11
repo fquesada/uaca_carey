@@ -1,29 +1,31 @@
 <?php
 
 /**
- * This is the model class for table "usuario".
+ * This is the model class for table "puesto".
  *
- * The followings are the available columns in table 'usuario':
+ * The followings are the available columns in table 'puesto':
  * @property integer $id
- * @property string $login
- * @property string $password
- * @property string $fechacreacion
  * @property string $nombre
- * @property string $apellido1
- * @property string $apellido2
+ * @property string $descripcion
+ * @property string $codigo
+ * @property string $funciones
+ * @property integer $unidadnegocio
  * @property string $activo
- * @property integer $empresa
  *
  * The followings are the available model relations:
- * @property Empresa[] $empresas
- * @property Empresa $empresa0
+ * @property Colaborador[] $colaboradors
+ * @property Evaluacion[] $evaluacions
+ * @property Historicopuesto[] $historicopuestos
+ * @property Unidadnegocio $unidadnegocio0
+ * @property Competencia[] $competencias
+ * @property Puntualizacion[] $puntualizacions
  */
-class Usuario extends CActiveRecord
+class Puesto extends CActiveRecord
 {
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
-	 * @return Usuario the static model class
+	 * @return Puesto the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
@@ -35,7 +37,7 @@ class Usuario extends CActiveRecord
 	 */
 	public function tableName()
 	{
-		return 'usuario';
+		return 'puesto';
 	}
 
 	/**
@@ -46,13 +48,14 @@ class Usuario extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('login, password, fechacreacion, nombre, apellido1, apellido2', 'required'),
-			array('empresa', 'numerical', 'integerOnly'=>true),
-			array('login, password, nombre, apellido1, apellido2', 'length', 'max'=>45),
+			array('nombre, codigo, unidadnegocio', 'required'),
+			array('unidadnegocio', 'numerical', 'integerOnly'=>true),
+			array('nombre, codigo', 'length', 'max'=>45),
 			array('activo', 'length', 'max'=>1),
+			array('descripcion, funciones', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, login, password, fechacreacion, nombre, apellido1, apellido2, activo, empresa', 'safe', 'on'=>'search'),
+			array('id, nombre, descripcion, codigo, funciones, unidadnegocio, activo', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -64,8 +67,12 @@ class Usuario extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'empresas' => array(self::HAS_MANY, 'Empresa', 'usuarioadmin'),
-			'empresa0' => array(self::BELONGS_TO, 'Empresa', 'empresa'),
+			'colaboradors' => array(self::HAS_MANY, 'Colaborador', 'puesto'),
+			'evaluacions' => array(self::HAS_MANY, 'Evaluacion', 'puesto'),
+			'historicopuestos' => array(self::HAS_MANY, 'Historicopuesto', 'puesto'),
+			'unidadnegocio0' => array(self::BELONGS_TO, 'Unidadnegocio', 'unidadnegocio'),
+			'competencias' => array(self::MANY_MANY, 'Competencia', 'puestocompetencia(puesto, competencia)'),
+			'puntualizacions' => array(self::MANY_MANY, 'Puntualizacion', 'puestopuntualizacion(puesto, puntualizacion)'),
 		);
 	}
 
@@ -76,14 +83,12 @@ class Usuario extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'login' => 'Login',
-			'password' => 'Password',
-			'fechacreacion' => 'Fechacreacion',
 			'nombre' => 'Nombre',
-			'apellido1' => 'Apellido1',
-			'apellido2' => 'Apellido2',
+			'descripcion' => 'Descripcion',
+			'codigo' => 'Codigo',
+			'funciones' => 'Funciones',
+			'unidadnegocio' => 'Unidadnegocio',
 			'activo' => 'Activo',
-			'empresa' => 'Empresa',
 		);
 	}
 
@@ -99,14 +104,12 @@ class Usuario extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
-		$criteria->compare('login',$this->login,true);
-		$criteria->compare('password',$this->password,true);
-		$criteria->compare('fechacreacion',$this->fechacreacion,true);
 		$criteria->compare('nombre',$this->nombre,true);
-		$criteria->compare('apellido1',$this->apellido1,true);
-		$criteria->compare('apellido2',$this->apellido2,true);
+		$criteria->compare('descripcion',$this->descripcion,true);
+		$criteria->compare('codigo',$this->codigo,true);
+		$criteria->compare('funciones',$this->funciones,true);
+		$criteria->compare('unidadnegocio',$this->unidadnegocio);
 		$criteria->compare('activo',$this->activo,true);
-		$criteria->compare('empresa',$this->empresa);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
