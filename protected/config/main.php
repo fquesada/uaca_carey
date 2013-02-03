@@ -67,10 +67,10 @@ return array(
 		// uncomment the following to use a MySQL database
 		
 		'db'=>array(
-			'connectionString' => 'mysql:host=rse-itcr.org;dbname=rseitcro_carey',
+			'connectionString' => 'mysql:host=localhost;dbname=rseitcro_carey',
 			'emulatePrepare' => true,
-			'username' => 'rseitcro_carey',
-			'password' => 'carey06122012.',
+			'username' => 'root',
+			'password' => '',
 			'charset' => 'utf8',
 		),
 		
