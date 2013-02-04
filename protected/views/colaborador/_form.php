@@ -4,7 +4,7 @@
 /* @var $form CActiveForm */
  $idusuario= Yii::app()->user->id;
  $usuario= Usuario::model()->findByPk($idusuario);
- $numempresa = $usuario->empresa;
+ $numempresa = $usuario->empresa;   
 ?>
 
 <div class="form">
@@ -61,9 +61,9 @@
 	</div>
 
 	<div class="row">
-		<?php echo $form->labelEx($model,'empresa'); ?>
                 <?php if (Yii::app()->user->checkAccess('Admin') || Yii::app()->user->checkAccess('Authenticated')){
                         if ($numempresa === null){
+                           echo $form->labelEx($model,'empresa');
                            echo $form->dropDownList($model,'empresa', CHtml::listData(Empresa::model()->findAll(),'id','nombre'),array('empty' => 'Seleccione una empresa'));
                             }
                         else{
@@ -79,12 +79,12 @@
 		<?php echo $form->labelEx($model,'puesto'); ?>
                 <?php if (Yii::app()->user->checkAccess('Admin') || Yii::app()->user->checkAccess('Authenticated')){
                         if ($numempresa === null){
-                           echo $form->dropDownList($model,'puesto', CHtml::listData(Puesto::model()->findAll(),'id','nombre'),array('empty' => 'Seleccione un puesto'));
-                            }
+                           echo $form->dropDownList($model,'puesto', CHtml::listData(Puesto::model()->findAll(),'id','nombre'),array('empty' => 'Selecione un puesto'));
+                           }
                         else{
-                            $form->dropDownList($model, 'puesto', CHtml::listData(Puesto::model()->findAllByAttributes(array('empresa' => $numempresa)),'id', 'nombre'),array('empty' => 'Selecione un puesto'));
+                           echo $form->dropDownList($model,'puesto', CHtml::listData(Puesto::model()->findAll(),'id','nombre'),array('empty' => 'Selecione un puesto'));
                         }
-                }
+                      }                   
                 else {
                 } ?>
 		<?php echo $form->error($model,'puesto'); ?>
