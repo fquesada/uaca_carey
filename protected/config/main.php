@@ -32,7 +32,8 @@ return array(
 			'ipFilters'=>array('127.0.0.1','::1'),
 		),
             
-                'rights'=>array( 'superuserName'=>'Admin',                    
+                'rights'=>array( 
+                    'superuserName'=>'admin',                    
                     'authenticatedName'=>'Authenticated',
                     'userClass' => 'Usuario',
                     'userIdColumn'=>'id',
@@ -66,7 +67,7 @@ return array(
 		// uncomment the following to use a MySQL database
 		
 		'db'=>array(
-			'connectionString' => 'mysql:host=localhost;dbname=uaca',
+			'connectionString' => 'mysql:host=localhost;dbname=uacasec',
 			'emulatePrepare' => true,
 			'username' => 'uaca_admin',
 			'password' => 'dbUACAsecadmin13!',
