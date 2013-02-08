@@ -58,8 +58,8 @@ class Puntaje extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'compromisos' => array(self::HAS_MANY, 'Compromiso', 'puntaje'),
-			'evaluacioncompetencias' => array(self::HAS_MANY, 'Evaluacioncompetencia', 'puntaje'),
+			'_compromisos' => array(self::HAS_MANY, 'Compromiso', 'puntaje'),
+			'_evaluacionescompetencia' => array(self::HAS_MANY, 'Evaluacioncompetencia', 'puntaje'),
 		);
 	}
 

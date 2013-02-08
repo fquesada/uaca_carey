@@ -58,8 +58,8 @@ class Puntualizacion extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'compromisos' => array(self::HAS_MANY, 'Compromiso', 'puntualizacion'),
-			'puestos' => array(self::MANY_MANY, 'Puesto', 'puestopuntualizacion(puntualizacion, puesto)'),
+			'_compromisos' => array(self::HAS_MANY, 'Compromiso', 'puntualizacion'),
+			'_puestos' => array(self::MANY_MANY, 'Puesto', 'puestopuntualizacion(puntualizacion, puesto)'),
 		);
 	}
 

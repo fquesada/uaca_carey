@@ -60,9 +60,9 @@ class Meritos extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'tipomerito0' => array(self::BELONGS_TO, 'Tipomerito', 'tipomerito'),
-			'ponderacion0' => array(self::BELONGS_TO, 'Ponderacion', 'ponderacion'),
-			'puesto0' => array(self::BELONGS_TO, 'Puesto', 'puesto'),
+			'_tipomerito' => array(self::BELONGS_TO, 'Tipomerito', 'tipomerito'),
+			'_ponderacion' => array(self::BELONGS_TO, 'Ponderacion', 'ponderacion'),
+			'_puesto' => array(self::BELONGS_TO, 'Puesto', 'puesto'),
 		);
 	}
 

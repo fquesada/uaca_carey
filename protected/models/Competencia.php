@@ -61,8 +61,8 @@ class Competencia extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'evaluacioncompetencias' => array(self::HAS_MANY, 'Evaluacioncompetencia', 'competencia'),
-			'puestos' => array(self::MANY_MANY, 'Puesto', 'puestocompetencia(competencia, puesto)'),
+			'_evaluacionescompetencia' => array(self::HAS_MANY, 'Evaluacioncompetencia', 'competencia'),
+			'_puestos' => array(self::MANY_MANY, 'Puesto', 'puestocompetencia(competencia, puesto)'),
 		);
 	}
 

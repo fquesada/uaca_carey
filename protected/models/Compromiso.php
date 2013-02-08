@@ -61,9 +61,9 @@ class Compromiso extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'evaluacion0' => array(self::BELONGS_TO, 'Evaluaciondesempeno', 'evaluacion'),
-			'puntualizacion0' => array(self::BELONGS_TO, 'Puntualizacion', 'puntualizacion'),
-			'puntaje0' => array(self::BELONGS_TO, 'Puntaje', 'puntaje'),
+			'_evaluacion' => array(self::BELONGS_TO, 'Evaluaciondesempeno', 'evaluacion'),
+			'_puntualizacion' => array(self::BELONGS_TO, 'Puntualizacion', 'puntualizacion'),
+			'_puntaje' => array(self::BELONGS_TO, 'Puntaje', 'puntaje'),
 		);
 	}
 

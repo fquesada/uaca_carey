@@ -66,13 +66,13 @@ class Puesto extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'colaboradors' => array(self::HAS_MANY, 'Colaborador', 'puesto'),
-			'evaluaciondesempenos' => array(self::HAS_MANY, 'Evaluaciondesempeno', 'puesto'),
-			'historicopuestos' => array(self::HAS_MANY, 'Historicopuesto', 'puesto'),
-			'meritoses' => array(self::HAS_MANY, 'Meritos', 'puesto'),
-			'unidadnegocio0' => array(self::BELONGS_TO, 'Unidadnegocio', 'unidadnegocio'),
-			'competencias' => array(self::MANY_MANY, 'Competencia', 'puestocompetencia(puesto, competencia)'),
-			'puntualizacions' => array(self::MANY_MANY, 'Puntualizacion', 'puestopuntualizacion(puesto, puntualizacion)'),
+			'_colaboradores' => array(self::HAS_MANY, 'Colaborador', 'puesto'),
+			'_evaluacionesdesempeno' => array(self::HAS_MANY, 'Evaluaciondesempeno', 'puesto'),
+			'_historicopuestos' => array(self::HAS_MANY, 'Historicopuesto', 'puesto'),
+			'_meritos' => array(self::HAS_MANY, 'Meritos', 'puesto'),
+			'_unidadnegocio' => array(self::BELONGS_TO, 'Unidadnegocio', 'unidadnegocio'),
+			'_competencias' => array(self::MANY_MANY, 'Competencia', 'puestocompetencia(puesto, competencia)'),
+			'_puntualizaciones' => array(self::MANY_MANY, 'Puntualizacion', 'puestopuntualizacion(puesto, puntualizacion)'),
 		);
 	}
 

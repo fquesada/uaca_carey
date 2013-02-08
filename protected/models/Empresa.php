@@ -59,8 +59,8 @@ class Empresa extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'unidadnegocios' => array(self::HAS_MANY, 'Unidadnegocio', 'empresa'),
-			'usuarios' => array(self::HAS_MANY, 'Usuario', 'empresa'),
+			'_unidadesnegocio' => array(self::HAS_MANY, 'Unidadnegocio', 'empresa'),
+			'_usuarios' => array(self::HAS_MANY, 'Usuario', 'empresa'),
 		);
 	}
 

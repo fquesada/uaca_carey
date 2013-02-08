@@ -64,8 +64,8 @@ class Usuario extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'empresa0' => array(self::BELONGS_TO, 'Empresa', 'empresa'),
-			'tipousuario0' => array(self::BELONGS_TO, 'Tipousuario', 'tipousuario'),
+			'_empresa' => array(self::BELONGS_TO, 'Empresa', 'empresa'),
+			'_tipousuario' => array(self::BELONGS_TO, 'Tipousuario', 'tipousuario'),
 		);
 	}
 

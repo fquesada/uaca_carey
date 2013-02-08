@@ -74,12 +74,12 @@ class Evaluaciondesempeno extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'compromisos' => array(self::HAS_MANY, 'Compromiso', 'evaluacion'),
-			'evaluacioncompetencias' => array(self::HAS_MANY, 'Evaluacioncompetencia', 'evaluacion'),
-			'colaborador0' => array(self::BELONGS_TO, 'Colaborador', 'colaborador'),
-			'evaluador0' => array(self::BELONGS_TO, 'Colaborador', 'evaluador'),
-			'periodo0' => array(self::BELONGS_TO, 'Periodo', 'periodo'),
-			'puesto0' => array(self::BELONGS_TO, 'Puesto', 'puesto'),
+			'_compromisos' => array(self::HAS_MANY, 'Compromiso', 'evaluacion'),
+			'_evaluacionescompetencia' => array(self::HAS_MANY, 'Evaluacioncompetencia', 'evaluacion'),
+			'_colaborador' => array(self::BELONGS_TO, 'Colaborador', 'colaborador'),
+			'_evaluador' => array(self::BELONGS_TO, 'Colaborador', 'evaluador'),
+			'_periodo' => array(self::BELONGS_TO, 'Periodo', 'periodo'),
+			'_puesto' => array(self::BELONGS_TO, 'Puesto', 'puesto'),
 		);
 	}
 

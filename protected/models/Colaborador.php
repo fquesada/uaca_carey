@@ -63,10 +63,10 @@ class Colaborador extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'puesto0' => array(self::BELONGS_TO, 'Puesto', 'puesto'),
-			'evaluaciondesempenos' => array(self::HAS_MANY, 'Evaluaciondesempeno', 'colaborador'),
-			'evaluaciondesempenos1' => array(self::HAS_MANY, 'Evaluaciondesempeno', 'evaluador'),
-			'historicopuestos' => array(self::HAS_MANY, 'Historicopuesto', 'colaborador'),
+			'_puesto' => array(self::BELONGS_TO, 'Puesto', 'puesto'),
+			'_evaluacionesdesempenocolaborador' => array(self::HAS_MANY, 'Evaluaciondesempeno', 'colaborador'),
+			'_evaluaciondesempenosevaluador' => array(self::HAS_MANY, 'Evaluaciondesempeno', 'evaluador'),
+			'_historicopuesto' => array(self::HAS_MANY, 'Historicopuesto', 'colaborador'),
 		);
 	}
 

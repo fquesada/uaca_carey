@@ -55,7 +55,7 @@ class Ponderacion extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'meritoses' => array(self::HAS_MANY, 'Meritos', 'ponderacion'),
+			'_meritos' => array(self::HAS_MANY, 'Meritos', 'ponderacion'),
 		);
 	}
 

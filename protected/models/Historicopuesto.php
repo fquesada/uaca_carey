@@ -57,8 +57,8 @@ class Historicopuesto extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'colaborador0' => array(self::BELONGS_TO, 'Colaborador', 'colaborador'),
-			'puesto0' => array(self::BELONGS_TO, 'Puesto', 'puesto'),
+			'_colaborador' => array(self::BELONGS_TO, 'Colaborador', 'colaborador'),
+			'_puesto' => array(self::BELONGS_TO, 'Puesto', 'puesto'),
 		);
 	}
 

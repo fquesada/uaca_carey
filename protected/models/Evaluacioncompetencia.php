@@ -59,9 +59,9 @@ class Evaluacioncompetencia extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'competencia0' => array(self::BELONGS_TO, 'Competencia', 'competencia'),
-			'evaluacion0' => array(self::BELONGS_TO, 'Evaluaciondesempeno', 'evaluacion'),
-			'puntaje0' => array(self::BELONGS_TO, 'Puntaje', 'puntaje'),
+			'_competencia' => array(self::BELONGS_TO, 'Competencia', 'competencia'),
+			'_evaluacion' => array(self::BELONGS_TO, 'Evaluaciondesempeno', 'evaluacion'),
+			'_puntaje' => array(self::BELONGS_TO, 'Puntaje', 'puntaje'),
 		);
 	}
 

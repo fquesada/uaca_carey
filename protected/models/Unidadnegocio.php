@@ -60,8 +60,8 @@ class Unidadnegocio extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'puestos' => array(self::HAS_MANY, 'Puesto', 'unidadnegocio'),
-			'empresa0' => array(self::BELONGS_TO, 'Empresa', 'empresa'),
+			'_puestos' => array(self::HAS_MANY, 'Puesto', 'unidadnegocio'),
+			'_empresa' => array(self::BELONGS_TO, 'Empresa', 'empresa'),
 		);
 	}
 
