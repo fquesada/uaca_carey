@@ -119,7 +119,7 @@ class SiteController extends Controller
                 $usuario->nombre = "nombre provisional";
                 $usuario->apellido1 = "apellido1 provisional";
                 $usuario->apellido2 = "apellido2 provisional";
-                $usuario->empresa = 3;
+                $usuario->empresa = 1;
                 $usuario->fechacreacion = date("Y-m-d");
                 $usuario->tipousuario = 1;
                 
