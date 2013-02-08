@@ -11,6 +11,8 @@ return array(
 
 	// preloading 'log' component
 	'preload'=>array('log'),
+        'sourceLanguage' => 'en',
+        'language' => 'es',
 
 	// autoloading model and component classes
 	'import'=>array(
@@ -68,7 +70,7 @@ return array(
 			'connectionString' => 'mysql:host=localhost;dbname=uaca',
 			'emulatePrepare' => true,
 			'username' => 'uaca_admin',
-			'password' => 'uaca123',
+			'password' => 'dbUACAsecadmin13!',
 			'charset' => 'utf8',
 		),
 		
@@ -83,6 +85,11 @@ return array(
 					'class'=>'CFileLogRoute',
 					'levels'=>'error, warning',
 				),
+                                array(
+                                    'class'=>'CFileLogRoute',
+                                    'levels'=>'info, trace',
+                                    'logFile'=>'info.log',
+                                ),
 				// uncomment the following to show log messages on web pages
 				/*
 				array(
@@ -99,4 +106,5 @@ return array(
 		// this is used in contact page
 		'adminEmail'=>'webmaster@example.com',
 	),
+        
 );
