@@ -11,6 +11,8 @@ return array(
 
 	// preloading 'log' component
 	'preload'=>array('log'),
+        'sourceLanguage' => 'en',
+        'language' => 'es',
 
 	// autoloading model and component classes
 	'import'=>array(
@@ -98,4 +100,5 @@ return array(
 		// this is used in contact page
 		'adminEmail'=>'webmaster@example.com',
 	),
+        
 );
