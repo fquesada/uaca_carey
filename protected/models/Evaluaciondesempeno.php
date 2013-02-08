@@ -20,12 +20,12 @@
  * @property integer $estadoevaluacion
  *
  * The followings are the available model relations:
- * @property Compromiso[] $compromisos
- * @property Evaluacioncompetencia[] $evaluacioncompetencias
- * @property Colaborador $colaborador0
- * @property Colaborador $evaluador0
- * @property Periodo $periodo0
- * @property Puesto $puesto0
+ * @property Compromiso[] $_compromisos
+ * @property Evaluacioncompetencia[] $_evaluacionescompetencia
+ * @property Colaborador $_colaborador
+ * @property Colaborador $_evaluador
+ * @property Periodo $_periodo
+ * @property Puesto $_puesto
  */
 class Evaluaciondesempeno extends CActiveRecord
 {

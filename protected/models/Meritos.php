@@ -11,9 +11,9 @@
  * @property string $descripcion
  *
  * The followings are the available model relations:
- * @property Tipomerito $tipomerito0
- * @property Ponderacion $ponderacion0
- * @property Puesto $puesto0
+ * @property Tipomerito $_tipomerito
+ * @property Ponderacion $_ponderacion
+ * @property Puesto $_puesto
  */
 class Meritos extends CActiveRecord
 {

@@ -8,7 +8,7 @@
  * @property string $nombre
  *
  * The followings are the available model relations:
- * @property Usuario[] $usuarios
+ * @property Usuario[] $_usuarios
  */
 class Tipousuario extends CActiveRecord
 {

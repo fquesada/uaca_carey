@@ -10,8 +10,8 @@
  * @property integer $estado
  *
  * The followings are the available model relations:
- * @property Compromiso[] $compromisos
- * @property Evaluacioncompetencia[] $evaluacioncompetencias
+ * @property Compromiso[] $_compromisos
+ * @property Evaluacioncompetencia[] $_evaluacionescompetencia
  */
 class Puntaje extends CActiveRecord
 {

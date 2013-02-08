@@ -9,7 +9,7 @@
  * @property integer $estado
  *
  * The followings are the available model relations:
- * @property Evaluaciondesempeno[] $evaluaciondesempenos
+ * @property Evaluaciondesempeno[] $_evaluacionesdesempeno
  */
 class Periodo extends CActiveRecord
 {

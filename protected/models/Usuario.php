@@ -16,8 +16,8 @@
  * @property integer $tipousuario
  *
  * The followings are the available model relations:
- * @property Empresa $empresa
- * @property Tipousuario $tipousuario
+ * @property Empresa $_empresa
+ * @property Tipousuario $_tipousuario
  */
 class Usuario extends CActiveRecord
 {

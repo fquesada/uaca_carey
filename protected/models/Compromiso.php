@@ -12,9 +12,9 @@
  * @property integer $puntaje
  *
  * The followings are the available model relations:
- * @property Evaluaciondesempeno $evaluacion0
- * @property Puntualizacion $puntualizacion0
- * @property Puntaje $puntaje0
+ * @property Evaluaciondesempeno $_evaluacion
+ * @property Puntualizacion $_puntualizacion
+ * @property Puntaje $_puntaje
  */
 class Compromiso extends CActiveRecord
 {
