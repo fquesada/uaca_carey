@@ -79,10 +79,10 @@
 		<?php echo $form->labelEx($model,'puesto'); ?>
                 <?php if (Yii::app()->user->checkAccess('Admin') || Yii::app()->user->checkAccess('Authenticated')){
                         if ($numempresa === null){
-                           echo $form->dropDownList($model,'puesto', CHtml::listData(Puesto::model()->findAll(),'id','nombre'),array('empty' => 'Selecione un puesto'));
+                           echo $form->dropDownList($model,'puesto', CHtml::listData(Puesto::model()->findAll(),'id','nombre'),array('empty' => 'Seleccione un puesto'));
                            }
                         else{
-                           echo $form->dropDownList($model,'puesto', CHtml::listData(Puesto::model()->findAll(),'id','nombre'),array('empty' => 'Selecione un puesto'));
+                           echo $form->dropDownList($model,'puesto', CHtml::listData(Puesto::model()->findAll(),'id','nombre'),array('empty' => 'Selecccione un puesto'));
                         }
                       }                   
                 else {

@@ -41,6 +41,7 @@ return array(
 	),
 
 	// application components
+        'language'=>'es',
 	'components'=>array(
 		'user'=>array(
 			// enable cookie-based authentication
