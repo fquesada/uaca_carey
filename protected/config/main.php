@@ -69,7 +69,7 @@ return array(
 			'connectionString' => 'mysql:host=localhost;dbname=uaca',
 			'emulatePrepare' => true,
 			'username' => 'uaca_admin',
-			'password' => 'uaca123',
+			'password' => 'dbUACAsecadmin13!',
 			'charset' => 'utf8',
 		),
 		
