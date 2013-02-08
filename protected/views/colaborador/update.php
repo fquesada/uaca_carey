@@ -18,4 +18,4 @@ $this->menu=array(
 
 <h1>Modificar Colaborador <?php echo $model->id; ?></h1>
 
-<?php echo $this->renderPartial('_form', array('model'=>$model)); ?>
+<?php echo $this->renderPartial('_form2', array('model'=>$model)); ?>
