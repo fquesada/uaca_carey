@@ -114,7 +114,7 @@ class SiteController extends Controller
                 $usuario = new Usuario();
                 
                 $usuario->login = $_POST['user'];
-                $usuario->password = crypt($_POST['password'], $_POST['password']);
+                $usuario->password = crypt($_POST['password'], $usuario->getsalt());
                 
                 $usuario->nombre = "nombre provisional";
                 $usuario->apellido1 = "apellido1 provisional";
@@ -126,7 +126,7 @@ class SiteController extends Controller
                 $result = $usuario->save();
                 if($result){
                    $model=new LoginForm;
-                   $this->render('site/login',array('model'=>$model));                   
+                   $this->redirect('login',array('model'=>$model));                   
                    }
                 else
                     throw new CHttpException(500,'Fallo al intentar crear usuario provisional,verifique conexion BD o Codigo.');

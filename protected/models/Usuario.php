@@ -26,6 +26,8 @@ class Usuario extends CActiveRecord
 	 * @param string $className active record class name.
 	 * @return Usuario the static model class
 	 */
+        private $salt = '$2y$06$Un2C0ntRaZenap2r2L0Gy';    //El salt para cryp
+    
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);
@@ -49,7 +51,7 @@ class Usuario extends CActiveRecord
 		return array(
 			array('login, password, fechacreacion, nombre, apellido1, apellido2, empresa, tipousuario', 'required'),
 			array('estado, empresa, tipousuario', 'numerical', 'integerOnly'=>true),
-			array('login, password, nombre, apellido1, apellido2', 'length', 'max'=>45),
+			array('login,nombre, apellido1, apellido2', 'length', 'max'=>45),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
 			array('id, login, password, fechacreacion, nombre, apellido1, apellido2, estado, empresa, tipousuario', 'safe', 'on'=>'search'),
@@ -114,4 +116,8 @@ class Usuario extends CActiveRecord
 			'criteria'=>$criteria,
 		));
 	}
+        
+        public function getsalt(){            
+            return $this->salt;
+        }
 }
