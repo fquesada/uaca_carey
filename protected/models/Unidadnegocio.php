@@ -11,8 +11,8 @@
  * @property integer $estado
  *
  * The followings are the available model relations:
- * @property Puesto[] $puestos
- * @property Empresa $empresa0
+ * @property Puesto[] $_puestos
+ * @property Empresa $_empresa
  */
 class Unidadnegocio extends CActiveRecord
 {

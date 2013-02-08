@@ -8,7 +8,7 @@
  * @property string $nombre
  *
  * The followings are the available model relations:
- * @property Meritos[] $meritoses
+ * @property Meritos[] $_meritos
  */
 class Tipomerito extends CActiveRecord
 {

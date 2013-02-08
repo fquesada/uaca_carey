@@ -13,10 +13,10 @@
  * @property integer $puesto
  *
  * The followings are the available model relations:
- * @property Puesto $puesto0
- * @property Evaluaciondesempeno[] $evaluaciondesempenos
- * @property Evaluaciondesempeno[] $evaluaciondesempenos1
- * @property Historicopuesto[] $historicopuestos
+ * @property Puesto $_puesto
+ * @property Evaluaciondesempeno[] $_evaluacionesdesempenocolaborador
+ * @property Evaluaciondesempeno[] $_evaluaciondesempenosevaluador
+ * @property Historicopuesto[] $_historicopuesto
  */
 class Colaborador extends CActiveRecord
 {

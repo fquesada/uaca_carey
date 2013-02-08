@@ -11,9 +11,9 @@
  * @property integer $puntaje
  *
  * The followings are the available model relations:
- * @property Competencia $competencia0
- * @property Evaluaciondesempeno $evaluacion0
- * @property Puntaje $puntaje0
+ * @property Competencia $_competencia
+ * @property Evaluaciondesempeno $_evaluacion
+ * @property Puntaje $_puntaje
  */
 class Evaluacioncompetencia extends CActiveRecord
 {

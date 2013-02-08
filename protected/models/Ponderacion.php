@@ -9,7 +9,7 @@
  * @property integer $estado
  *
  * The followings are the available model relations:
- * @property Meritos[] $meritoses
+ * @property Meritos[] $_meritos
  */
 class Ponderacion extends CActiveRecord
 {

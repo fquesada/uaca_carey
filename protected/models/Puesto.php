@@ -12,13 +12,13 @@
  * @property integer $estado
  *
  * The followings are the available model relations:
- * @property Colaborador[] $colaboradors
- * @property Evaluaciondesempeno[] $evaluaciondesempenos
- * @property Historicopuesto[] $historicopuestos
- * @property Meritos[] $meritoses
- * @property Unidadnegocio $unidadnegocio0
- * @property Competencia[] $competencias
- * @property Puntualizacion[] $puntualizacions
+ * @property Colaborador[] $_colaboradores
+ * @property Evaluaciondesempeno[] $_evaluacionesdesempeno
+ * @property Historicopuesto[] $_historicopuestos
+ * @property Meritos[] $_meritos
+ * @property Unidadnegocio $_unidadnegocio
+ * @property Competencia[] $_competencias
+ * @property Puntualizacion[] $_puntualizaciones
  */
 class Puesto extends CActiveRecord
 {

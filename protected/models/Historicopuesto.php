@@ -10,8 +10,8 @@
  * @property integer $puesto
  *
  * The followings are the available model relations:
- * @property Colaborador $colaborador0
- * @property Puesto $puesto0
+ * @property Colaborador $_colaborador
+ * @property Puesto $_puesto
  */
 class Historicopuesto extends CActiveRecord
 {

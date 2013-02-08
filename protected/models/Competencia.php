@@ -11,8 +11,8 @@
  * @property integer $estado
  *
  * The followings are the available model relations:
- * @property Evaluacioncompetencia[] $evaluacioncompetencias
- * @property Puesto[] $puestos
+ * @property Evaluacioncompetencia[] $_evaluacionescompetencia
+ * @property Puesto[] $_puestos
  */
 class Competencia extends CActiveRecord
 {

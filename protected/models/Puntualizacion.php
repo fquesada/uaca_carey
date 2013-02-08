@@ -10,8 +10,8 @@
  * @property integer $estado
  *
  * The followings are the available model relations:
- * @property Compromiso[] $compromisos
- * @property Puesto[] $puestos
+ * @property Compromiso[] $_compromisos
+ * @property Puesto[] $_puestos
  */
 class Puntualizacion extends CActiveRecord
 {
