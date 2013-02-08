@@ -49,7 +49,8 @@ class Usuario extends CActiveRecord
 		return array(
 			array('login, password, fechacreacion, nombre, apellido1, apellido2, empresa, tipousuario', 'required'),
 			array('estado, empresa, tipousuario', 'numerical', 'integerOnly'=>true),
-			array('login, password, nombre, apellido1, apellido2', 'length', 'max'=>45),
+			array('login, nombre, apellido1, apellido2', 'length', 'max'=>45),
+                        array('password', 'length', 'max'=>100),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
 			array('id, login, password, fechacreacion, nombre, apellido1, apellido2, estado, empresa, tipousuario', 'safe', 'on'=>'search'),
