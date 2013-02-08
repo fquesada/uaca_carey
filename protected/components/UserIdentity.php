@@ -24,8 +24,15 @@ class UserIdentity extends CUserIdentity
 			$this->errorCode=self::ERROR_USERNAME_INVALID;
 		else if($usuario->password!==crypt($this->password,$this->password))
                             $this->errorCode=self::ERROR_PASSWORD_INVALID;
-		else
-			$this->errorCode=self::ERROR_NONE;
+		else{
+                        $this->_id=$usuario->id;
+			$this->errorCode=self::ERROR_NONE;                        
+                }
 		return !$this->errorCode;
 	}
+        
+        public function getId()
+        {
+            return $this->_id;
+        }
 }
