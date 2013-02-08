@@ -5,6 +5,7 @@
  $idusuario= Yii::app()->user->id;
  $usuario= Usuario::model()->findByPk($idusuario);
  $numempresa = $usuario->empresa;   
+ $fecha = date('Y-m-d');
 ?>
 
 <div class="form">
@@ -49,15 +50,13 @@
 	</div>
 
 	<div class="row">
-		<?php echo $form->labelEx($model,'fechaedicion'); ?>
-		<?php echo $form->textField($model,'fechaedicion'); ?>
-		<?php echo $form->error($model,'fechaedicion'); ?>
+		<?php echo $form->hiddenField($model,'fechaedicion',array('value'=> $fecha)); ?>
+		
 	</div>
 
 	<div class="row">
-		<?php echo $form->labelEx($model,'activo'); ?>
-		<?php echo $form->textField($model,'activo',array('size'=>1,'maxlength'=>1)); ?>
-		<?php echo $form->error($model,'activo'); ?>
+		<?php echo $form->hiddenField($model,'activo',array('size'=>1,'maxlength'=>1,'value'=> '1')); ?>
+		
 	</div>
 
 	<div class="row">
