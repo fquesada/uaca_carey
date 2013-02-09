@@ -116,12 +116,8 @@ class SiteController extends Controller
                 $usuario->login = $_POST['user'];
                 $usuario->password = crypt($_POST['password'], $usuario->getsalt());
                 
-                $usuario->nombre = "nombre provisional";
-                $usuario->apellido1 = "apellido1 provisional";
-                $usuario->apellido2 = "apellido2 provisional";
                 $usuario->empresa = 1;
-                $usuario->fechacreacion = date("Y-m-d");
-                $usuario->tipousuario = 1;
+                $usuario->fechacreacion = date("Y-m-d");               
                 
                 $result = $usuario->save();
                 if($result){
