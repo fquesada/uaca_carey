@@ -14,6 +14,7 @@
  *
  * The followings are the available model relations:
  * @property Puesto $_puesto
+ * @property Usuario[] $_usuario
  * @property Evaluaciondesempeno[] $_evaluacionesdesempenocolaborador
  * @property Evaluaciondesempeno[] $_evaluaciondesempenosevaluador
  * @property Historicopuesto[] $_historicopuesto
@@ -64,6 +65,7 @@ class Colaborador extends CActiveRecord
 		// class name for the relations automatically generated below.
 		return array(
 			'_puesto' => array(self::BELONGS_TO, 'Puesto', 'puesto'),
+                        '_usuario' => array(self::MANY_MANY, 'Usuario', 'colaboradorusuario(colaborador, usuario)'),
 			'_evaluacionesdesempenocolaborador' => array(self::HAS_MANY, 'Evaluaciondesempeno', 'colaborador'),
 			'_evaluaciondesempenosevaluador' => array(self::HAS_MANY, 'Evaluaciondesempeno', 'evaluador'),
 			'_historicopuesto' => array(self::HAS_MANY, 'Historicopuesto', 'colaborador'),
