@@ -8,16 +8,12 @@
  * @property string $login
  * @property string $password
  * @property string $fechacreacion
- * @property string $nombre
- * @property string $apellido1
- * @property string $apellido2
  * @property integer $estado
  * @property integer $empresa
- * @property integer $tipousuario
  *
  * The followings are the available model relations:
+ * @property Colaborador[] $_colaborador
  * @property Empresa $_empresa
- * @property Tipousuario $_tipousuario
  */
 class Usuario extends CActiveRecord
 {
@@ -47,13 +43,13 @@ class Usuario extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('login, password, fechacreacion, nombre, apellido1, apellido2, empresa, tipousuario', 'required'),
-			array('estado, empresa, tipousuario', 'numerical', 'integerOnly'=>true),
-			array('login, nombre, apellido1, apellido2', 'length', 'max'=>45),
-                        array('password', 'length', 'max'=>100),
+			array('login, password, fechacreacion, empresa', 'required'),
+			array('estado, empresa', 'numerical', 'integerOnly'=>true),
+			array('login', 'length', 'max'=>45),
+			array('password', 'length', 'max'=>100),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, login, password, fechacreacion, nombre, apellido1, apellido2, estado, empresa, tipousuario', 'safe', 'on'=>'search'),
+			array('id, login, password, fechacreacion, estado, empresa', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -65,8 +61,8 @@ class Usuario extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+			'_colaborador' => array(self::MANY_MANY, 'Colaborador', 'colaboradorusuario(usuario, colaborador)'),
 			'_empresa' => array(self::BELONGS_TO, 'Empresa', 'empresa'),
-			'_tipousuario' => array(self::BELONGS_TO, 'Tipousuario', 'tipousuario'),
 		);
 	}
 
@@ -80,12 +76,8 @@ class Usuario extends CActiveRecord
 			'login' => 'Login',
 			'password' => 'Password',
 			'fechacreacion' => 'Fechacreacion',
-			'nombre' => 'Nombre',
-			'apellido1' => 'Apellido1',
-			'apellido2' => 'Apellido2',
 			'estado' => 'Estado',
 			'empresa' => 'Empresa',
-			'tipousuario' => 'Tipousuario',
 		);
 	}
 
@@ -104,12 +96,8 @@ class Usuario extends CActiveRecord
 		$criteria->compare('login',$this->login,true);
 		$criteria->compare('password',$this->password,true);
 		$criteria->compare('fechacreacion',$this->fechacreacion,true);
-		$criteria->compare('nombre',$this->nombre,true);
-		$criteria->compare('apellido1',$this->apellido1,true);
-		$criteria->compare('apellido2',$this->apellido2,true);
 		$criteria->compare('estado',$this->estado);
 		$criteria->compare('empresa',$this->empresa);
-		$criteria->compare('tipousuario',$this->tipousuario);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

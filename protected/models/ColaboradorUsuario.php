@@ -1,21 +1,18 @@
 <?php
 
 /**
- * This is the model class for table "tipousuario".
+ * This is the model class for table "colaboradorusuario".
  *
- * The followings are the available columns in table 'tipousuario':
- * @property integer $id
- * @property string $nombre
- *
- * The followings are the available model relations:
- * @property Usuario[] $_usuarios
+ * The followings are the available columns in table 'colaboradorusuario':
+ * @property integer $colaborador
+ * @property integer $usuario
  */
-class Tipousuario extends CActiveRecord
+class ColaboradorUsuario extends CActiveRecord
 {
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
-	 * @return Tipousuario the static model class
+	 * @return ColaboradorUsuario the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
@@ -27,7 +24,7 @@ class Tipousuario extends CActiveRecord
 	 */
 	public function tableName()
 	{
-		return 'tipousuario';
+		return 'colaboradorusuario';
 	}
 
 	/**
@@ -38,11 +35,11 @@ class Tipousuario extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('nombre', 'required'),
-			array('nombre', 'length', 'max'=>45),
+			array('colaborador, usuario', 'required'),
+			array('colaborador, usuario', 'numerical', 'integerOnly'=>true),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, nombre', 'safe', 'on'=>'search'),
+			array('colaborador, usuario', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -54,7 +51,6 @@ class Tipousuario extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'_usuarios' => array(self::HAS_MANY, 'Usuario', 'tipousuario'),
 		);
 	}
 
@@ -64,8 +60,8 @@ class Tipousuario extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'id' => 'ID',
-			'nombre' => 'Nombre',
+			'colaborador' => 'Colaborador',
+			'usuario' => 'Usuario',
 		);
 	}
 
@@ -80,8 +76,8 @@ class Tipousuario extends CActiveRecord
 
 		$criteria=new CDbCriteria;
 
-		$criteria->compare('id',$this->id);
-		$criteria->compare('nombre',$this->nombre,true);
+		$criteria->compare('colaborador',$this->colaborador);
+		$criteria->compare('usuario',$this->usuario);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

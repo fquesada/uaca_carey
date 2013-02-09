@@ -67,7 +67,7 @@ return array(
 		// uncomment the following to use a MySQL database
 		
 		'db'=>array(
-			'connectionString' => 'mysql:host=localhost;dbname=uaca',
+			'connectionString' => 'mysql:host=localhost;dbname=uacasec',
 			'emulatePrepare' => true,
 			'username' => 'uaca_admin',
 			'password' => 'dbUACAsecadmin13!',
