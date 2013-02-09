@@ -22,6 +22,8 @@ class Usuario extends CActiveRecord
 	 * @param string $className active record class name.
 	 * @return Usuario the static model class
 	 */
+        private $salt = '$2y$06$Un2C0ntRaZenap2r2L0Gy';    //El salt para cryp
+         
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);
@@ -103,4 +105,8 @@ class Usuario extends CActiveRecord
 			'criteria'=>$criteria,
 		));
 	}
+        
+        public function getsalt(){            
+            return $this->salt;
+        }
 }
