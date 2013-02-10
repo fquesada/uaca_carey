@@ -13,10 +13,10 @@
  *
  * The followings are the available model relations:
  * @property Colaborador[] $_colaboradores
- * @property Evaluaciondesempeno[] $_evaluacionesdesempeno
- * @property Historicopuesto[] $_historicopuestos
+ * @property EvaluacionDesempeno[] $_evaluacionesdesempeno
+ * @property HistoricoPuesto[] $_historicopuestos
  * @property Meritos[] $_meritos
- * @property Unidadnegocio $_unidadnegocio
+ * @property UnidadNegocio $_unidadnegocio
  * @property Competencia[] $_competencias
  * @property Puntualizacion[] $_puntualizaciones
  */
@@ -67,10 +67,10 @@ class Puesto extends CActiveRecord
 		// class name for the relations automatically generated below.
 		return array(
 			'_colaboradores' => array(self::HAS_MANY, 'Colaborador', 'puesto'),
-			'_evaluacionesdesempeno' => array(self::HAS_MANY, 'Evaluaciondesempeno', 'puesto'),
-			'_historicopuestos' => array(self::HAS_MANY, 'Historicopuesto', 'puesto'),
+			'_evaluacionesdesempeno' => array(self::HAS_MANY, 'EvaluacionDesempeno', 'puesto'),
+			'_historicopuestos' => array(self::HAS_MANY, 'HistoricoPuesto', 'puesto'),
 			'_meritos' => array(self::HAS_MANY, 'Meritos', 'puesto'),
-			'_unidadnegocio' => array(self::BELONGS_TO, 'Unidadnegocio', 'unidadnegocio'),
+			'_unidadnegocio' => array(self::BELONGS_TO, 'UnidadNegocio', 'unidadnegocio'),
 			'_competencias' => array(self::MANY_MANY, 'Competencia', 'puestocompetencia(puesto, competencia)'),
 			'_puntualizaciones' => array(self::MANY_MANY, 'Puntualizacion', 'puestopuntualizacion(puesto, puntualizacion)'),
 		);
