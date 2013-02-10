@@ -71,7 +71,7 @@ class Colaborador extends CActiveRecord
                         '_usuario' => array(self::MANY_MANY, 'Usuario', 'colaboradorusuario(colaborador, usuario)'),
 			'_evaluaciondesempenocolaborador' => array(self::HAS_MANY, 'EvaluacionDesempeno', 'colaborador'),
 			'_evaluaciondesempenoevaluador' => array(self::HAS_MANY, 'EvaluacionDesempeno', 'evaluador'),
-			'_historicopuesto' => array(self::HAS_MANY, 'Historicopuesto', 'colaborador'),
+			'_historicopuesto' => array(self::HAS_MANY, 'HistoricoPuesto', 'colaborador'),
 		);
 	}
 
