@@ -11,7 +11,7 @@
  * @property string $descripcion
  *
  * The followings are the available model relations:
- * @property Tipomerito $_tipomerito
+ * @property TipoMerito $_tipomerito
  * @property Ponderacion $_ponderacion
  * @property Puesto $_puesto
  */
@@ -60,7 +60,7 @@ class Meritos extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'_tipomerito' => array(self::BELONGS_TO, 'Tipomerito', 'tipomerito'),
+			'_tipomerito' => array(self::BELONGS_TO, 'TipoMerito', 'tipomerito'),
 			'_ponderacion' => array(self::BELONGS_TO, 'Ponderacion', 'ponderacion'),
 			'_puesto' => array(self::BELONGS_TO, 'Puesto', 'puesto'),
 		);
