@@ -70,8 +70,19 @@ class PuestoController extends Controller
 		if(isset($_POST['Puesto']))
 		{
 			$model->attributes=$_POST['Puesto'];
-			if($model->save())
+                        $criterio = new CDbCriteria();
+                        $criterio->addColumnCondition(array('unidadnegocio'=>$model->unidadnegocio));
+                        
+                        $nombres = Puesto::model()->findAllByAttributes(array('nombre'=>$model->nombre), $criterio);
+                        
+                        
+			if($nombres != null){
+                                $model->addError('nombre', 'El nombre utilizado para el puesto a crear ya se encuentra utilizado dentro de la unidad de negocio seleccionada.');
+                        }
+                        else{
+                            if($model->save())
 				$this->redirect(array('view','id'=>$model->id));
+                        }
 		}
 
 		$this->render('create',array(
@@ -89,7 +100,7 @@ class PuestoController extends Controller
 		$model=$this->loadModel($id);
 
 		// Uncomment the following line if AJAX validation is needed
-		// $this->performAjaxValidation($model);
+		$this->performAjaxValidation($model);
 
 		if(isset($_POST['Puesto']))
 		{
@@ -110,8 +121,12 @@ class PuestoController extends Controller
 	 */
 	public function actionDelete($id)
 	{
-		$this->loadModel($id)->delete();
+		$model = $this->loadModel($id);
+                $model->estado = '0';
 
+                if($model->save())
+                    $this->redirect(array('admin'));
+                
 		// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
 		if(!isset($_GET['ajax']))
 			$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));

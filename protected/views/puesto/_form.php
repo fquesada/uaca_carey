@@ -4,6 +4,10 @@
 /* @var $form CActiveForm */
 ?>
 
+<?php
+Yii::app()->clientScript->registerCssFile(Yii::app()->baseUrl . '/css/sexybuttons.css');
+?>
+
 <div class="form">
 
 <?php $form=$this->beginWidget('CActiveForm', array(
@@ -46,7 +50,7 @@
 	</div>-->
 
 	<div class="row buttons">
-		<?php echo CHtml::submitButton($model->isNewRecord ? 'Crear' : 'Actualizar'); ?>
+                <?php echo CHtml::submitButton($model->isNewRecord ? 'Crear' : 'Actualizar',array('class'=>'sexybutton sexysimple sexylarge')); ?>
 	</div>
 
 <?php $this->endWidget(); ?>

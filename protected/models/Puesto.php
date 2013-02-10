@@ -50,7 +50,7 @@ class Puesto extends CActiveRecord
 		return array(
 			array('nombre, codigo, unidadnegocio', 'required'),
 			array('unidadnegocio, estado', 'numerical', 'integerOnly'=>true),
-                        array('nombre, codigo','unique'),
+                        array('codigo','unique'),
 			array('nombre, codigo', 'length', 'max'=>45),
 			array('descripcion', 'length', 'max'=>200),
 			// The following rule is used by search().
@@ -110,10 +110,12 @@ class Puesto extends CActiveRecord
 		$criteria->compare('unidadnegocio',$this->unidadnegocio);
 		$criteria->compare('estado',$this->estado);
                 
+                //Muestra los puestos activos unicamente
                 $criteria->addcolumncondition(array('estado'=>'1'));
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
+                        'Pagination'=>array('pageSize'=>'10'),
 		));
 	}
 }
