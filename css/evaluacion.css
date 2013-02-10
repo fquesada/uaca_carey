@@ -1,0 +1,122 @@
+
+
+/*Seccion contenido general*/
+.content_section_evaluacion {margin-bottom: 20px;}
+.content_evaluacion{width: 850px; margin: 0px auto 0px auto;}
+.content_section_submit{width: 850px; margin: 0px 12% 0px 38%; padding: 10px 0px 10px 0px;}
+
+/*Seccion de encabezados*/
+.content_evaluacion h2 {background: url('../images/icons/hr.png') repeat-x scroll left bottom; padding-bottom: 12px; margin-bottom: 16px; text-indent: 2px}
+.content_evaluacion h4 {
+    color: #D1D1D1;
+    font-size: 14px;
+    font-style: normal;
+    padding-left: 30px;
+}
+.content_evaluacion h4:hover {
+    color: #7F7F7F;
+}
+
+/*Seccion de informacion evaluacion*/
+.table_info_evaluacion{border-collapse: collapse; border-spacing: 0; width: auto; margin: 20px auto 0px auto;}
+.table_info_evaluacion td {font-size: 12px}
+.table_info_evaluacion tr:hover {background-color: #E0EEEE;}
+.table_info_evaluacion td.label_column {text-align: right; font-weight: bold; padding: 3px 1em 5px 2em}
+.table_info_evaluacion td.data_column {padding: 3px 0px 5px 0px}
+
+/*Seccion de ejecucion evaluacion*/
+.table_ejecucion_evaluacion{border-collapse: collapse; border-spacing: 0; width: auto; margin: 20px auto 0px auto;}
+.table_ejecucion_evaluacion td {font-size: 12px}
+.table_ejecucion_evaluacion tr:hover {background-color: #E0EEEE;}
+.table_ejecucion_evaluacion td.label_column {text-align: right; font-weight: bold; padding: 3px 1em 5px 2em}
+.table_ejecucion_evaluacion td.data_column {padding: 3px 0px 5px 0px}
+
+/*Seccion de ingreso compromisos*/
+
+/*Seccion compromisos*/
+.table_ingreso_competencias{
+    border-collapse: collapse; 
+    border-spacing: 0; 
+    width: auto; 
+    margin: 20px auto 0px auto; 
+    table-layout: fixed;   
+}
+
+.table_ingreso_competencias thead th{
+    background-color: #033E6B;
+    color: #FFFFFF;
+    text-align: center;   
+    padding: 4px 10px 4px 5px;
+}
+
+.table_ingreso_competencias tbody{
+     border-top: 10px solid white; 
+/*     trick que permite hacer margin en un tbody*/
+}
+
+.table_ingreso_competencias tr:hover{
+    background-color: #ECF1EF;
+}
+
+.table_ingreso_competencias td{    
+    vertical-align: top;
+    text-align: justify;
+    font-size: 12px;
+}
+
+.table_ingreso_competencias td.data_puntualizacion_column{            
+    width: 320px;
+    font-family: Arial, Helvetica, sans-serif;  
+    font-weight: bold;
+}
+
+.table_ingreso_competencias td.data_indicador_column{            
+    width: 250px;
+    font-family: Arial, Helvetica, sans-serif;      
+}
+
+.table_ingreso_competencias td.textarea_column{    
+    width: 250px;
+    padding: 0;
+    vertical-align: top;    
+}
+
+.table_ingreso_competencias td textarea{    
+    width: 250px;
+    max-width: 250px;
+    min-width: 250px;
+    height: 95%;
+    max-height: 95%;
+    min-height: 95%;
+    padding: 0;
+    vertical-align: top;    
+}
+
+/*Seccion de inputs*/
+select {-moz-border-radius: 3px; -webkit-border-radius: 3px; border-radius: 3px; padding: 4px 5px; border: 1px solid #cccccc}
+input{border-width: 1px; border-style: solid; border-color: #888888 #c3c3c3 #dddddd; padding: 3px 2px 1px 2px; margin-right: 5px}
+input,textarea {-moz-border-radius: 3px; -webkit-border-radius: 3px; border-radius: 3px; font-size: 12px; padding: 5px 5px 4px; border: 1px solid #cccccc}
+
+
+.textarea_evaluacion_comentario{
+    margin: 30px auto 20px auto;
+    width: 97%;
+    max-width: 97%;
+    min-width: 97%;
+    height: 125px;
+    max-height: 125px;
+    min-height: 125px;
+    padding-top: 15px;
+    padding-left: 15px;
+    overflow:auto;
+}
+
+
+/*Seccion mensajes error*/
+.errorcalificacion{
+    font-style: italic;
+    font-size: 12px;
+    color: #EE0000;
+    text-align: center;
+    font-weight: normal;
+}
