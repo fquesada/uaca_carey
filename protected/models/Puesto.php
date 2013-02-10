@@ -7,14 +7,11 @@
  * @property integer $id
  * @property string $nombre
  * @property string $descripcion
- * @property string $codigo
- * @property integer $unidadnegocio
+ * @property string $codigo 
  * @property integer $estado
  *
  * The followings are the available model relations:
- * @property Colaborador[] $_colaboradores
  * @property EvaluacionDesempeno[] $_evaluacionesdesempeno
- * @property HistoricoPuesto[] $_historicopuestos
  * @property Meritos[] $_meritos
  * @property UnidadNegocio $_unidadnegocio
  * @property Competencia[] $_competencias
@@ -48,13 +45,14 @@ class Puesto extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('nombre, codigo, unidadnegocio', 'required'),
-			array('unidadnegocio, estado', 'numerical', 'integerOnly'=>true),
-			array('nombre, codigo', 'length', 'max'=>45),
+			array('nombre, codigo', 'required'),
+			array('estado', 'numerical', 'integerOnly'=>true),
+			array('nombre', 'length', 'max'=>90),
+                        array('codigo', 'length', 'max'=>45),
 			array('descripcion', 'length', 'max'=>200),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, nombre, descripcion, codigo, unidadnegocio, estado', 'safe', 'on'=>'search'),
+			array('id, nombre, descripcion, codigo, estado', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -65,10 +63,8 @@ class Puesto extends CActiveRecord
 	{
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
-		return array(
-			'_colaboradores' => array(self::HAS_MANY, 'Colaborador', 'puesto'),
-			'_evaluacionesdesempeno' => array(self::HAS_MANY, 'EvaluacionDesempeno', 'puesto'),
-			'_historicopuestos' => array(self::HAS_MANY, 'HistoricoPuesto', 'puesto'),
+		return array(			
+			'_evaluacionesdesempeno' => array(self::HAS_MANY, 'EvaluacionDesempeno', 'puesto'),			
 			'_meritos' => array(self::HAS_MANY, 'Meritos', 'puesto'),
 			'_unidadnegocio' => array(self::BELONGS_TO, 'UnidadNegocio', 'unidadnegocio'),
 			'_competencias' => array(self::MANY_MANY, 'Competencia', 'puestocompetencia(puesto, competencia)'),
@@ -85,8 +81,7 @@ class Puesto extends CActiveRecord
 			'id' => 'ID',
 			'nombre' => 'Nombre',
 			'descripcion' => 'Descripcion',
-			'codigo' => 'Codigo',
-			'unidadnegocio' => 'Unidadnegocio',
+			'codigo' => 'Codigo',			
 			'estado' => 'Estado',
 		);
 	}
@@ -105,8 +100,7 @@ class Puesto extends CActiveRecord
 		$criteria->compare('id',$this->id);
 		$criteria->compare('nombre',$this->nombre,true);
 		$criteria->compare('descripcion',$this->descripcion,true);
-		$criteria->compare('codigo',$this->codigo,true);
-		$criteria->compare('unidadnegocio',$this->unidadnegocio);
+		$criteria->compare('codigo',$this->codigo,true);		
 		$criteria->compare('estado',$this->estado);
 
 		return new CActiveDataProvider($this, array(
