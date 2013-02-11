@@ -42,8 +42,8 @@ class Unidadnegocio extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('nombre, empresa', 'required'),
-			array('empresa, estado', 'numerical', 'integerOnly'=>true),
+			array('nombre', 'required'),
+			//array('empresa, estado', 'numerical', 'integerOnly'=>true),
 			array('nombre', 'length', 'max'=>45),
 			array('descripcion', 'length', 'max'=>200),
 			// The following rule is used by search().
@@ -73,7 +73,7 @@ class Unidadnegocio extends CActiveRecord
 		return array(
 			'id' => 'ID',
 			'nombre' => 'Nombre',
-			'descripcion' => 'Descripcion',
+			'descripcion' => 'Descripción',
 			'empresa' => 'Empresa',
 			'estado' => 'Estado',
 		);
@@ -95,9 +95,12 @@ class Unidadnegocio extends CActiveRecord
 		$criteria->compare('descripcion',$this->descripcion,true);
 		$criteria->compare('empresa',$this->empresa);
 		$criteria->compare('estado',$this->estado);
+                
+                $criteria->addColumnCondition(array('estado'=>'1'));
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
+                        'pagination'=>array('pageSize'=>'10')
 		));
 	}
 }
