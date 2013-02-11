@@ -11,7 +11,7 @@
  *
  * The followings are the available model relations:
  * @property Compromiso[] $_compromisos
- * @property Evaluacioncompetencia[] $_evaluacionescompetencia
+ * @property EvaluacionCompetencia[] $_evaluacionescompetencia
  */
 class Puntaje extends CActiveRecord
 {
@@ -59,7 +59,7 @@ class Puntaje extends CActiveRecord
 		// class name for the relations automatically generated below.
 		return array(
 			'_compromisos' => array(self::HAS_MANY, 'Compromiso', 'puntaje'),
-			'_evaluacionescompetencia' => array(self::HAS_MANY, 'Evaluacioncompetencia', 'puntaje'),
+			'_evaluacionescompetencia' => array(self::HAS_MANY, 'EvaluacionCompetencia', 'puntaje'),
 		);
 	}
 

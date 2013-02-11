@@ -1,24 +1,25 @@
 <?php
 
 /**
- * This is the model class for table "historicopuesto".
+ * This is the model class for table "unidadnegocio".
  *
- * The followings are the available columns in table 'historicopuesto':
+ * The followings are the available columns in table 'unidadnegocio':
  * @property integer $id
- * @property string $fechadesignacion
- * @property integer $colaborador
- * @property integer $puesto
+ * @property string $nombre
+ * @property string $descripcion
+ * @property integer $empresa
+ * @property integer $estado
  *
  * The followings are the available model relations:
- * @property Colaborador $_colaborador
- * @property Puesto $_puesto
+ * @property Puesto[] $_puestos
+ * @property Empresa $_empresa
  */
-class Historicopuesto extends CActiveRecord
+class UnidadNegocio extends CActiveRecord
 {
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
-	 * @return Historicopuesto the static model class
+	 * @return UnidadNegocio the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
@@ -30,7 +31,7 @@ class Historicopuesto extends CActiveRecord
 	 */
 	public function tableName()
 	{
-		return 'historicopuesto';
+		return 'unidadnegocio';
 	}
 
 	/**
@@ -41,11 +42,13 @@ class Historicopuesto extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('fechadesignacion, colaborador, puesto', 'required'),
-			array('colaborador, puesto', 'numerical', 'integerOnly'=>true),
+			array('nombre', 'required'),
+			array('empresa, estado', 'numerical', 'integerOnly'=>true),
+			array('nombre', 'length', 'max'=>90),
+			array('descripcion', 'length', 'max'=>200),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, fechadesignacion, colaborador, puesto', 'safe', 'on'=>'search'),
+			array('id, nombre, descripcion, empresa, estado', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -56,9 +59,9 @@ class Historicopuesto extends CActiveRecord
 	{
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
-		return array(
-			'_colaborador' => array(self::BELONGS_TO, 'Colaborador', 'colaborador'),
-			'_puesto' => array(self::BELONGS_TO, 'Puesto', 'puesto'),
+		return array(			
+                        '_puestos' => array(self::MANY_MANY, 'Puesto', 'unidadnegociopuesto(unidadnegocio, puesto)'),
+			'_empresa' => array(self::BELONGS_TO, 'Empresa', 'empresa'),
 		);
 	}
 
@@ -69,9 +72,10 @@ class Historicopuesto extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'fechadesignacion' => 'Fechadesignacion',
-			'colaborador' => 'Colaborador',
-			'puesto' => 'Puesto',
+			'nombre' => 'Nombre',
+			'descripcion' => 'Descripcion',
+			'empresa' => 'Empresa',
+			'estado' => 'Estado',
 		);
 	}
 
@@ -87,9 +91,10 @@ class Historicopuesto extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
-		$criteria->compare('fechadesignacion',$this->fechadesignacion,true);
-		$criteria->compare('colaborador',$this->colaborador);
-		$criteria->compare('puesto',$this->puesto);
+		$criteria->compare('nombre',$this->nombre,true);
+		$criteria->compare('descripcion',$this->descripcion,true);
+		$criteria->compare('empresa',$this->empresa);
+		$criteria->compare('estado',$this->estado);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

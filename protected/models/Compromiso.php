@@ -12,7 +12,7 @@
  * @property integer $puntaje
  *
  * The followings are the available model relations:
- * @property Evaluaciondesempeno $_evaluacion
+ * @property EvaluacionDesempeno $_evaluacion
  * @property Puntualizacion $_puntualizacion
  * @property Puntaje $_puntaje
  */
@@ -61,7 +61,7 @@ class Compromiso extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'_evaluacion' => array(self::BELONGS_TO, 'Evaluaciondesempeno', 'evaluacion'),
+			'_evaluacion' => array(self::BELONGS_TO, 'EvaluacionDesempeno', 'evaluacion'),
 			'_puntualizacion' => array(self::BELONGS_TO, 'Puntualizacion', 'puntualizacion'),
 			'_puntaje' => array(self::BELONGS_TO, 'Puntaje', 'puntaje'),
 		);

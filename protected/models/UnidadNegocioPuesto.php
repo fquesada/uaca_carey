@@ -1,19 +1,24 @@
 <?php
 
 /**
- * This is the model class for table "puestocompetencia".
+ * This is the model class for table "unidadnegociopuesto".
  *
- * The followings are the available columns in table 'puestocompetencia':
- * @property integer $competencia
+ * The followings are the available columns in table 'unidadnegociopuesto':
+ * @property integer $unidadnegocio
  * @property integer $puesto
- * @property integer $ponderacion
+ *
+ * The followings are the available model relations:
+ * @property Colaborador[] $_colaboradorunidadnegocio
+ * @property Colaborador[] $_colaboradorpuesto
+ * @property HistoricoPuesto[] $_historicopuestounidadnegocio
+ * @property HistoricoPuesto[] $_historicopuestopuesto
  */
-class Puestocompetencia extends CActiveRecord
+class UnidadNegocioPuesto extends CActiveRecord
 {
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
-	 * @return Puestocompetencia the static model class
+	 * @return UnidadNegocioPuesto the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
@@ -25,7 +30,7 @@ class Puestocompetencia extends CActiveRecord
 	 */
 	public function tableName()
 	{
-		return 'puestocompetencia';
+		return 'unidadnegociopuesto';
 	}
 
 	/**
@@ -36,11 +41,11 @@ class Puestocompetencia extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('competencia, puesto, ponderacion', 'required'),
-			array('competencia, puesto, ponderacion', 'numerical', 'integerOnly'=>true),
+			array('unidadnegocio, puesto', 'required'),
+			array('unidadnegocio, puesto', 'numerical', 'integerOnly'=>true),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('competencia, puesto, ponderacion', 'safe', 'on'=>'search'),
+			array('unidadnegocio, puesto', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -52,6 +57,10 @@ class Puestocompetencia extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+			'_colaboradorunidadnegocio' => array(self::HAS_MANY, 'Colaborador', 'unidadnegocio'),
+			'_colaboradorpuesto' => array(self::HAS_MANY, 'Colaborador', 'puesto'),
+			'_historicopuestounidadnegocio' => array(self::HAS_MANY, 'HistoricoPuesto', 'unidadnegocio'),
+			'_historicopuestopuesto' => array(self::HAS_MANY, 'HistoricoPuesto', 'puesto'),
 		);
 	}
 
@@ -61,9 +70,8 @@ class Puestocompetencia extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'competencia' => 'Competencia',
+			'unidadnegocio' => 'Unidadnegocio',
 			'puesto' => 'Puesto',
-			'ponderacion' => 'Ponderacion',
 		);
 	}
 
@@ -78,9 +86,8 @@ class Puestocompetencia extends CActiveRecord
 
 		$criteria=new CDbCriteria;
 
-		$criteria->compare('competencia',$this->competencia);
+		$criteria->compare('unidadnegocio',$this->unidadnegocio);
 		$criteria->compare('puesto',$this->puesto);
-		$criteria->compare('ponderacion',$this->ponderacion);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
