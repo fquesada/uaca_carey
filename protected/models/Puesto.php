@@ -102,9 +102,13 @@ class Puesto extends CActiveRecord
 		$criteria->compare('descripcion',$this->descripcion,true);
 		$criteria->compare('codigo',$this->codigo,true);		
 		$criteria->compare('estado',$this->estado);
+                
+                //Muestra los puestos activos unicamente
+                $criteria->addcolumncondition(array('estado'=>'1'));
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
+                        'Pagination'=>array('pageSize'=>'10'),
 		));
 	}
 }
