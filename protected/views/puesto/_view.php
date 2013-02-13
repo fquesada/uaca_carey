@@ -21,10 +21,6 @@
 	<?php echo CHtml::encode($data->codigo); ?>
 	<br />
 
-	<b><?php echo CHtml::encode($data->getAttributeLabel('unidadnegocio')); ?>:</b>
-	<?php echo CHtml::encode($data->unidadnegocio); ?>
-	<br />
-
 <!--	<b><?php echo CHtml::encode($data->getAttributeLabel('estado')); ?>:</b>
 	<?php echo CHtml::encode($data->estado); ?>
 	<br />-->

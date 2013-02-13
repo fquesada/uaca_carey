@@ -49,7 +49,7 @@ or <b>=</b>) al inicio de cada valor de búsqueda para especificar cómo se debe
 		'nombre',
 		'descripcion',
 		'codigo',
-		'unidadnegocio',
+		//'unidadnegocio',
 		//'estado',
 		array(
 			'class'=>'CButtonColumn',

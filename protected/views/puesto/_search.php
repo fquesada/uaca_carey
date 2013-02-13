@@ -35,11 +35,6 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->baseUrl . '/css/sexybutton
 		<?php echo $form->textField($model,'codigo',array('size'=>45,'maxlength'=>45)); ?>
 	</div>
 
-	<div class="row">
-		<?php echo $form->label($model,'unidadnegocio'); ?>
-		<?php echo $form->textField($model,'unidadnegocio'); ?>
-	</div>
-
 <!--	<div class="row">
 		<?php echo $form->label($model,'estado'); ?>
 		<?php echo $form->textField($model,'estado'); ?>

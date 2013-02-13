@@ -25,7 +25,7 @@ $this->menu=array(
 		'nombre',
 		'descripcion',
 		'codigo',
-		'unidadnegocio',
+		//'unidadnegocio',
 		//'estado',
 	),
 )); ?>

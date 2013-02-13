@@ -37,12 +37,6 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->baseUrl . '/css/sexybutton
 		<?php echo $form->error($model,'codigo'); ?>
 	</div>
 
-	<div class="row">
-		<?php echo $form->labelEx($model,'unidadnegocio'); ?>
-		<?php echo $form->dropDownList($model,'unidadnegocio', CHtml::listData(Unidadnegocio::model()->findAllByAttributes(array('estado' => '1')),'id', 'nombre'),array('empty' => 'Selecione una unidad de negocio')); ?>
-		<?php echo $form->error($model,'unidadnegocio'); ?>
-	</div>
-
 <!--	<div class="row">
 		<?php echo $form->labelEx($model,'estado'); ?>
 		<?php echo $form->textField($model,'estado'); ?>
