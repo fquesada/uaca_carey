@@ -80,8 +80,8 @@ class Puesto extends CActiveRecord
 		return array(
 			'id' => 'ID',
 			'nombre' => 'Nombre',
-			'descripcion' => 'Descripcion',
-			'codigo' => 'Codigo',			
+			'descripcion' => 'Descripción',
+			'codigo' => 'Código',			
 			'estado' => 'Estado',
 		);
 	}
