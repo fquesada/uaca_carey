@@ -26,15 +26,20 @@ class EvaluacionController extends Controller
                 // escape % and _ characters
                 $keyword=strtr($keyword, array('%'=>'\%', '_'=>'\_'));
                                
-                $dataReader = Yii::app()->db->createCommand()
-                ->select(array('c.cedula','c.nombre','c.apellido1','c.apellido2','p.nombre as puesto','u.nombre as unidad', 'c.id'))
+                $dataReader = Yii::app()->db->createCommand(
+                        'SELECT c.cedula,c.nombre,c.apellido1,c.apellido2,p.nombre as puesto,u.nombre as unidad, c.id '.
+                        'FROM colaborador c '.
+                        'JOIN puesto p ON c.puesto = p.id '.
+                        'JOIN unidadnegocio u ON c.unidadnegocio = u.id '.
+                        'WHERE CONCAT_WS(" ", c.nombre, c.apellido1, c.apellido2 ) like "%'.$keyword.'%" AND c.estado = 1;'
+                        )->query();                               
+                
+                /*->select(array('c.cedula','c.nombre','c.apellido1','c.apellido2','p.nombre as puesto','u.nombre as unidad', 'c.id'))
                 ->from('colaborador c')
-                ->join('puesto p', 'c.puesto=p.id')
-                ->join('unidadnegocio u', 'u.id=p.unidadnegocio')
-                ->where(array('like', 'CONCAT_WS(" ", c.nombre, c.apellido1, c.apellido2 )','%'.$keyword.'%'))
-                ->where('c.estado=:estado', array(':estado'=>1))
-                ->limit(10)
-                ->query();
+                ->join('puesto p', 'c.puesto=p.id')                  
+                ->join('unidadnegocio u', 'u.id=c.unidadnegocio')
+                ->where(array('like', 'CONCAT_WS(" ", c.nombre, c.apellido1, c.apellido2 )','%'.$keyword.'%'))                
+                ->limit(10)*/
                                 
 
                 $return_array = array();
@@ -58,7 +63,8 @@ class EvaluacionController extends Controller
                         );
                     }
                 }
-                echo CJSON::encode($return_array);
+                
+                echo CJSON::encode($return_array);               
             }
         }
         
@@ -82,6 +88,8 @@ class EvaluacionController extends Controller
                     echo json_encode(array('error'=>'No hay evaluaciones realizadas.'));
             }
         }
+        
+   
         
 	// Uncomment the following methods and override them if needed
 	/*
