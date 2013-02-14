@@ -111,4 +111,16 @@ class Puesto extends CActiveRecord
                         'Pagination'=>array('pageSize'=>'10'),
 		));
 	}
+        
+        public function addPuesto()
+        {
+            $criteria = new CDbCriteria;
+            $criteria->addcolumncondition(array('estado'=>'1'));
+
+            
+            return new CActiveDataProvider($this, array(
+			//'keyAttribute'=>'id',
+                        'criteria'=>$criteria             
+		));
+        }
 }

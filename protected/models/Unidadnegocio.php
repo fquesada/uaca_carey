@@ -103,4 +103,4 @@ class Unidadnegocio extends CActiveRecord
                         'pagination'=>array('pageSize'=>'10')
 		));
 	}
-}
+        }

@@ -70,7 +70,7 @@ class UnidadNegocioPuesto extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'unidadnegocio' => 'Unidadnegocio',
+			'unidadnegocio' => 'Unidad de negocio',
 			'puesto' => 'Puesto',
 		);
 	}
@@ -79,7 +79,7 @@ class UnidadNegocioPuesto extends CActiveRecord
 	 * Retrieves a list of models based on the current search/filter conditions.
 	 * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
 	 */
-	public function search()
+	public function search($un)
 	{
 		// Warning: Please modify the following code to remove attributes that
 		// should not be searched.
@@ -88,6 +88,8 @@ class UnidadNegocioPuesto extends CActiveRecord
 
 		$criteria->compare('unidadnegocio',$this->unidadnegocio);
 		$criteria->compare('puesto',$this->puesto);
+                
+                $criteria->addColumnCondition(array('unidadnegocio'=>$un));
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
