@@ -71,13 +71,17 @@ class PuestoController extends Controller
 		{
 			$model->attributes=$_POST['Puesto'];
                         $criterio = new CDbCriteria();
-                        $criterio->addColumnCondition(array('unidadnegocio'=>$model->unidadnegocio));
+                        $criterio->addColumnCondition(array('estado'=>'1'));
                         
                         $nombres = Puesto::model()->findAllByAttributes(array('nombre'=>$model->nombre), $criterio);
+                        $codigos = Puesto::model()->findAllByAttributes(array('codigo'=>$model->codigo), $criterio);
                         
                         
 			if($nombres != null){
-                                $model->addError('nombre', 'El nombre utilizado para el puesto a crear ya se encuentra utilizado dentro de la unidad de negocio seleccionada.');
+                                $model->addError('nombre', 'El nombre utilizado para el puesto a crear ya se encuentra utilizado.');
+                        }
+                        elseif($codigos != null){
+                                $model->addError('codigo', 'El código utilizado para el puesto a crear ya se encuentra utilizado.');
                         }
                         else{
                             if($model->save())

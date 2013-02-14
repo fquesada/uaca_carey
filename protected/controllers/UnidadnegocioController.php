@@ -36,7 +36,7 @@ class UnidadnegocioController extends Controller
 				'users'=>array('@'),
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
-				'actions'=>array('admin','delete'),
+				'actions'=>array('admin','delete','addpuesto'),
 				'users'=>array('admin'),
 			),
 			array('deny',  // deny all users
@@ -155,8 +155,18 @@ class UnidadnegocioController extends Controller
 			'model'=>$model,
 		));
 	}
+        
+        public function actionAddpuesto($id)
+        {
+            $model=$this->loadModel($id);
+            
+            $this->render('addpuesto',array(
+			'model'=>$model,
+		));
 
-	/**
+        }
+        
+        /**
 	 * Returns the data model based on the primary key given in the GET variable.
 	 * If the data model is not found, an HTTP exception will be raised.
 	 * @param integer the ID of the model to be loaded

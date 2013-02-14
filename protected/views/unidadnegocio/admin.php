@@ -51,6 +51,15 @@ or <b>=</b>) al inicio de cada valor de búsqueda para especificar cómo se debe
 		//'estado',
 		array(
 			'class'=>'CButtonColumn',
+                        'htmlOptions'=>array('width'=>'70'),
+                        'template'=>'{view}{update}{delete}{addpuestos}',
+                        'buttons'=>array(
+                            'addpuestos'=>array(
+                                'label'=>'Agregar puestos',
+                                'imageUrl'=>  Yii::app()->request->baseUrl.'/images/icons/silk/add.png',
+                                'url'=>'Yii::app()->createUrl("unidadnegocio/addpuesto", array("id"=>$data->id))'                          
+                            )
+                        )
 		),
 	),
 )); ?>
