@@ -32,7 +32,7 @@ class UsuarioController extends Controller
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('create','update','CambiarPass'),
+				'actions'=>array('create','update','CambiarPass','AutoCompleteColaborador'),
 				'users'=>array('@'),
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -183,6 +183,44 @@ class UsuarioController extends Controller
 			throw new CHttpException(404,'The requested page does not exist.');
 		return $model;
 	}
+        
+        public function actionAutoCompleteColaborador()
+        {
+            if (isset($_GET['term'])) {
+
+                $keyword=$_GET['term'];
+                // escape % and _ characters
+                $keyword=strtr($keyword, array('%'=>'\%', '_'=>'\_'));
+                               
+                $dataReader = Yii::app()->db->createCommand(
+                        'SELECT c.cedula,c.nombre,c.apellido1,c.apellido2, c.id '.
+                        'FROM colaborador c '.
+                        'WHERE CONCAT_WS(" ", c.nombre, c.apellido1, c.apellido2 ) like "%'.$keyword.'%" AND c.estado = 1;'
+                        )->query();                               
+
+                $return_array = array();
+                if($dataReader->count() == 0)
+                {
+                    $return_array[] = array(
+                    'label'=>'No hay resultados.',
+                    'value'=>'',
+                    );
+                }
+                else{
+                    foreach($dataReader as $row){
+                        $nombrecompleto = $row['nombre'].' '.$row['apellido1'].' '.$row['apellido2'];
+                        $return_array[] = array(
+                        'label'=>'<div style="font-size:x-small">'.$row['cedula'].'</div>'.'<div>'.$nombrecompleto.'</div>',
+                        'value'=>$nombrecompleto,
+                        'id'=>$row['id'],
+                         'cedula'=>$row['cedula'],
+                        );
+                    }
+                }
+                
+                echo CJSON::encode($return_array);
+            }
+        }
 
 	/**
 	 * Performs the AJAX validation.

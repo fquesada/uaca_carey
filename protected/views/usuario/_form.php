@@ -3,6 +3,18 @@
 /* @var $model Usuario */
 /* @var $form CActiveForm */
 $fecha = date("Y-m-d");
+
+Yii::app()->clientScript->registerScript('autocomplete', '
+$["ui"]["autocomplete"].prototype["_renderItem"] = function( ul, item) {
+return $( "<li></li>" )
+.data( "item.autocomplete", item )
+.append( $( "<a></a>" ).html( item.label ) )
+.appendTo( ul );
+};
+',
+  CClientScript::POS_READY
+);
+
 ?>
 
 <div class="form">
@@ -48,8 +60,27 @@ $fecha = date("Y-m-d");
         
         <div class="row">
                 <?php echo $form->labelEx($model,'colaborador'); ?>
-                <?php echo $form->dropDownList($model,'colaborador', CHtml::listData(Colaborador::model()->findAll(),'id','nombre'),array('empty' => 'Selecione un colaborador')); ?>
+                <?php $this->widget('zii.widgets.jui.CJuiAutoComplete', array(
+                    'attribute'=>'colaborador',
+                    'name'=>'colaborador', 
+                    'id'=>'colaborador',
+                    'source'=>$this->createUrl('usuario/autocompletecolaborador'),
+                    // additional javascript options for the autocomplete plugin
+                    'options'=>array(
+                         'showAnim'=>'fold',
+                        'minLength'=>'2',
+                        'select'=>"js: function(event, ui) {                     
+                            $('#pk').text(ui.item['id']); 
+                        }",                
+                         ),
+                      'htmlOptions'=>array('size'=>'30'),
+                    ));
+                ?>
         </div>
+        
+         <div class="row">
+            <?php echo $form->hiddenField($model,'colaborador',array('id'=>'pk')); ?>
+         </div>
         
 	<div class="row buttons">
 		<?php echo CHtml::submitButton($model->isNewRecord ? 'Crear' : 'Guardar'); ?>
