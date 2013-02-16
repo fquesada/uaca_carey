@@ -2,7 +2,6 @@
 /* @var $this ColaboradorController */
 /* @var $model Colaborador */
 /* @var $form CActiveForm */
-$unidad = $model->unidadnegocio;
 ?>
 
 <div class="form">
@@ -51,7 +50,7 @@ $unidad = $model->unidadnegocio;
 
 	<div class="row">
 		<?php echo $form->labelEx($model,'puesto'); ?>
-		<?php echo $form->dropDownList($model,'puesto', CHtml::listData(UnidadNegocioPuesto::model()->findAllByAttributes(array('unidadnegocio' => $unidad)),'id', 'nombre'),array('empty' => 'Selecione un puesto')) ?>
+		<?php echo $form->dropDownList($model,'puesto', CHtml::listData(Puesto::model()->findAll(),'id','nombre'),array('empty' => 'Selecione un puesto')) ?>
 	</div>
 
 	<div class="row buttons">
