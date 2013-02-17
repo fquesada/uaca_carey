@@ -63,6 +63,8 @@ class UsuarioController extends Controller
 	public function actionCreate()
 	{
 		$model=new Usuario('create');
+                $transaction = Yii::app()->db->beginTransaction();
+                //$model2 = $this->loadModel($id);
 
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
@@ -72,10 +74,41 @@ class UsuarioController extends Controller
 			$model->attributes=$_POST['Usuario'];
                         $model->password = crypt($model->password, $model->getsalt());
                         $model->confirmarPassword = crypt($model->confirmarPassword, $model->getsalt());
+
+                        $result = $model->save();
+                        $idusuario = $model->id;
+                        $idcolaborador = $model->colaborador;
+
+                        if($result)
+                            {
+                                $tablaintermedia = new ColaboradorUsuario();
+
+                                $tablaintermedia->colaborador = $idcolaborador;
+                                $tablaintermedia->usuario = $idusuario;
+
+                                $result = $tablaintermedia.save();
+
+                                if($result)
+                                    {
+                                        $transaction->commit();
+                                        $this->redirect(array('view','id'=>$model->id));
+                                    }
+                                else{
+                                $transaction->rollBack();
+                                //yii->setflash('Hubo un error al crear la competencia');
+                                }
+                            }
+                }
                         
-			if($model->save()) 
-				$this->redirect(array('view','id'=>$model->id));
-		}
+                        else{
+                        $transaction->rollBack();
+                        //yii->setflash('Hubo un error al crear la competencia')
+                        }
+                
+                        
+                           //if($model->save()) 
+			//	$this->redirect(array('view','id'=>$model->id));
+		//}
 
 		$this->render('create',array(
 			'model'=>$model,
