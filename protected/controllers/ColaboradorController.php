@@ -28,7 +28,7 @@ class ColaboradorController extends Controller
 	{
 		return array(
 			array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('index','view'),
+				'actions'=>array('index','view','GetPuestos'),
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
@@ -142,6 +142,37 @@ class ColaboradorController extends Controller
 			'model'=>$model,
 		));
 	}
+        
+        public function actionGetPuestos()
+        {
+            echo CHtml::tag('option',
+                            array('value'=>'empty'),CHtml::encode('Selecione un puesto'),true);//Para que siempre aparezca al inicio
+            
+            if(isset($_POST['Colaborador']['unidadnegocio']))
+            {
+                $unidadnegocio = $_POST['Colaborador']['unidadnegocio'];
+                
+                $dataReader = Yii::app()->db->createCommand(
+                        'SELECT p.id, p.nombre '.
+                        'FROM puesto p '.
+                        'JOIN unidadnegociopuesto up ON up.puesto = p.id '.
+                        'JOIN unidadnegocio u ON up.unidadnegocio = u.id '.
+                        'WHERE unidadnegocio = '.$unidadnegocio.' AND p.estado = 1;'
+                        )->query();
+                
+                $data=CHtml::listData($dataReader,'id','nombre');
+                
+                foreach($data as $value=>$nombre) {
+                            echo CHtml::tag('option',
+                            array('value'=>$value),CHtml::encode($nombre),true);
+                    }
+            }
+            else
+            {
+                echo CHtml::tag('option',
+                            array('value'=>'0'),CHtml::encode('No existen puestos en esa unidad.'),true);
+            }
+        }
 
 	/**
 	 * Returns the data model based on the primary key given in the GET variable.
