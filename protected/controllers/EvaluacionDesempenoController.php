@@ -15,7 +15,7 @@ class EvaluacionDesempenoController extends RController
     
     public function allowedActions()
     {
-        return 'index';
+        return 'index, compromisos';
     }
     
     public function actionIndex(){        
@@ -23,6 +23,87 @@ class EvaluacionDesempenoController extends RController
     }
     
     //actions
+    
+    public function actionCompromisos($idcolaborador){
+        
+            //En caso de submit
+            if(isset($_POST['puntualizacion'])&& isset($_POST['periodo'])&& isset($_POST['fechaevaluacion'])){                        
+                $valoresevaluacion = $_SESSION['dataevaluacion'];
+                $evaluacion = new Evaluacion();
+                $evaluacion->evaluador = $valoresevaluacion['idevaluador'];
+                $evaluacion->fecharegistrocompromiso = $this->fechaphptomysql(date('d-m-Y'));
+                $evaluacion->fechaevaluacion = $this->fechaphptomysql($_POST['fechaevaluacion']);
+                $evaluacion->colaborador = $valoresevaluacion['idcolaborador'];
+                $evaluacion->comentariocompromisos = trim($_POST['comentario']);
+                $evaluacion->puesto = $valoresevaluacion['idpuesto'];
+                $evaluacion->periodo = $_POST['periodo'];
+
+
+                $compromisos = array();                
+                foreach ($_POST['puntualizacion'] as $id => $value) {
+                    $compromisos[] = array(
+                        'idpuntualizacion' => $id,
+                        'compromiso' => $value,
+                    );                            
+                }
+
+                $transaction = Yii::app()->db->beginTransaction();                       
+
+                $result = $evaluacion->save();                        
+                $idevaluacion = $evaluacion->id;
+
+                if($result){                        
+                    foreach($compromisos as $compromiso)
+                    {
+                        $nuevocompromiso = new Compromiso;
+                        $nuevocompromiso->evaluacion = $idevaluacion;
+                        $nuevocompromiso->puntualizacion = $compromiso['idpuntualizacion'];
+                        $nuevocompromiso->compromiso = $compromiso['compromiso'];
+                        $result = $nuevocompromiso->save();
+                    }
+                    if($result)
+                    {                                
+                        $transaction->commit();
+                        Yii::app()->user->setFlash('success', 'Se ha ingresado correctamente los compromisos del colaborador '.$valoresevaluacion['nombrecolaborador'].'.');                                                       
+                    }
+                    else{
+                        $transaction->rollBack();                  
+                         Yii::app()->user->setFlash('warning', 'Ha ocurrido un inconveniente al intentar guardar los compromisos del colaborador '.$valoresevaluacion['nombrecolaborador'].'.');                             
+                    }
+                }
+                else{
+                    $transaction->rollBack();                  
+                      Yii::app()->user->setFlash('warning', 'Ha ocurrido un inconveniente al intentar guardar los compromisos del colaborador '.$valoresevaluacion['nombrecolaborador'].'.');                          
+                }               
+            }
+
+            $idusuario = Yii::app()->user->id;
+            $usuario = Usuario::model()->findByPk($idusuario);
+            $evaluadorarray = $usuario->_evaluador;  
+            
+            if($evaluadorarray===null)
+                    throw new CHttpException(500,'La peticion solicitado no puede realizarse.');            
+            $evaluador = $evaluadorarray[0];
+            
+            $colaborador = Colaborador::model()->findByPk($idcolaborador);
+            
+            if($colaborador===null)
+                    throw new CHttpException(500,'La peticion solicitado no puede realizarse.');
+
+            $sessioneva['idevaluador'] = $evaluador->id;
+            $sessioneva['nombreevaluador'] = $evaluador->obtenernombrecompleto;
+            $sessioneva['idcolaborador'] = $colaborador->id;
+            $sessioneva['nombrecolaborador'] = $colaborador->obtenernombrecompleto;
+            $sessioneva['idpuesto'] = $colaborador->puesto;
+            $sessioneva['nombrepuesto'] = $colaborador->_puesto->nombre;
+
+            //Guardamos la informacion en una session para utilizarla en CrearNuevoCompromisos                
+            $_SESSION['dataevaluacion'] = $sessioneva;  
+
+            $this->render('nuevoscompromisos',array(
+                    'model'=>$sessioneva,
+            ));             
+    }
     
     public function actionNuevosCompromisos($idevaluador, $idcolaborador){	
 
@@ -518,8 +599,7 @@ class EvaluacionDesempenoController extends RController
         return (int) $pstring;
     }
     
-    public function loadModel($id)
-    {
+    public function loadModel($id){
             $model = Evaluaciondesempeno::model()->findByPk($id);
             if($model===null)
                     throw new CHttpException(404,'La pagina solicitada no existe.');

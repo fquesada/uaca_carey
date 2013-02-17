@@ -12,8 +12,9 @@
  * @property integer $empresa
  *
  * The followings are the available model relations:
- * @property Colaborador[] $_colaborador
+ * @property Colaborador[] $_colaboradores
  * @property Empresa $_empresa
+ * @property Colaborador[] $_evaluador
  */
 class Usuario extends CActiveRecord
 {
@@ -63,8 +64,9 @@ class Usuario extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'_colaborador' => array(self::MANY_MANY, 'Colaborador', 'colaboradorusuario(usuario, colaborador)'),
+			'_colaboradores' => array(self::MANY_MANY, 'Colaborador', 'colaboradorusuario(usuario, colaborador)'),
 			'_empresa' => array(self::BELONGS_TO, 'Empresa', 'empresa'),
+                        '_evaluador' => array(self::MANY_MANY, 'Colaborador', 'colaboradorusuario(usuario, colaborador)', 'limit'=>'1'),
 		);
 	}
 
@@ -108,5 +110,5 @@ class Usuario extends CActiveRecord
         
         public function getsalt(){            
             return $this->salt;
-        }
+        }                
 }

@@ -26,6 +26,9 @@ class Colaborador extends CActiveRecord
 	 * @param string $className active record class name.
 	 * @return Colaborador the static model class
 	 */
+    
+        private $_nombrecompleto;
+    
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);
@@ -111,4 +114,25 @@ class Colaborador extends CActiveRecord
 			'criteria'=>$criteria,
 		));
 	}
+        
+        public function obtenernombrecompleto(){
+           if(isset($this->_nombrecompleto)) {
+            return $this->_nombrecompleto;
+           }
+            
+           $this->_nombrecompleto = $this->nombre . " " . $this->apellido1 . " " . $this->apellido2;
+
+           return $this->_nombrecompleto;
+        }
+        
+        
+ 
+        public function getFullName()
+        {
+
+           
+
+           
+
+        }
 }
