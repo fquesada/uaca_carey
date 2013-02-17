@@ -1,24 +1,28 @@
 <?php
 
 /**
- * This is the model class for table "historicopuesto".
+ * This is the model class for table "entrevista".
  *
- * The followings are the available columns in table 'historicopuesto':
+ * The followings are the available columns in table 'entrevista':
  * @property integer $id
- * @property string $fechadesignacion
- * @property integer $colaborador
- * @property integer $puesto
+ * @property integer $vacante
+ * @property string $fecha
+ * @property integer $entrevistador
+ * @property integer $entrevistado
+ * @property integer $tipo
+ * @property integer $estado
  *
  * The followings are the available model relations:
- * @property Colaborador $_colaborador
- * @property Puesto $_puesto
+ * @property Vacante $_vacante
+ * @property Colaborador $_entrevistador
+ * @property Evaluacioncandidato[] $evaluacioncandidatos
  */
-class Historicopuesto extends CActiveRecord
+class Entrevista extends CActiveRecord
 {
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
-	 * @return Historicopuesto the static model class
+	 * @return Entrevista the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
@@ -30,7 +34,7 @@ class Historicopuesto extends CActiveRecord
 	 */
 	public function tableName()
 	{
-		return 'historicopuesto';
+		return 'entrevista';
 	}
 
 	/**
@@ -41,11 +45,11 @@ class Historicopuesto extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('fechadesignacion, colaborador, puesto', 'required'),
-			array('colaborador, puesto', 'numerical', 'integerOnly'=>true),
+			array('vacante, fecha, entrevistador, entrevistado, tipo', 'required'),
+			array('vacante, entrevistador, entrevistado, tipo, estado', 'numerical', 'integerOnly'=>true),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, fechadesignacion, colaborador, puesto', 'safe', 'on'=>'search'),
+			array('id, vacante, fecha, entrevistador, entrevistado, tipo, estado', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -57,8 +61,9 @@ class Historicopuesto extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'_colaborador' => array(self::BELONGS_TO, 'Colaborador', 'colaborador'),
-			'_puesto' => array(self::BELONGS_TO, 'Puesto', 'puesto'),
+			'_vacante' => array(self::BELONGS_TO, 'Vacante', 'vacante'),
+			'_entrevistador' => array(self::BELONGS_TO, 'Colaborador', 'entrevistador'),
+			'evaluacioncandidatos' => array(self::HAS_MANY, 'Evaluacioncandidato', 'entrevista'),
 		);
 	}
 
@@ -69,9 +74,12 @@ class Historicopuesto extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'fechadesignacion' => 'Fechadesignacion',
-			'colaborador' => 'Colaborador',
-			'puesto' => 'Puesto',
+			'vacante' => 'Vacante',
+			'fecha' => 'Fecha',
+			'entrevistador' => 'Entrevistador',
+			'entrevistado' => 'Entrevistado',
+			'tipo' => 'Tipo',
+			'estado' => 'Estado',
 		);
 	}
 
@@ -87,9 +95,12 @@ class Historicopuesto extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
-		$criteria->compare('fechadesignacion',$this->fechadesignacion,true);
-		$criteria->compare('colaborador',$this->colaborador);
-		$criteria->compare('puesto',$this->puesto);
+		$criteria->compare('vacante',$this->vacante);
+		$criteria->compare('fecha',$this->fecha,true);
+		$criteria->compare('entrevistador',$this->entrevistador);
+		$criteria->compare('entrevistado',$this->entrevistado);
+		$criteria->compare('tipo',$this->tipo);
+		$criteria->compare('estado',$this->estado);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

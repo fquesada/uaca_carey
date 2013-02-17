@@ -1,21 +1,22 @@
 <?php
 
 /**
- * This is the model class for table "tipomerito".
+ * This is the model class for table "postulante".
  *
- * The followings are the available columns in table 'tipomerito':
- * @property integer $idtipomerito
+ * The followings are the available columns in table 'postulante':
+ * @property integer $id
+ * @property integer $cedula
  * @property string $nombre
- *
- * The followings are the available model relations:
- * @property Meritos[] $_meritos
+ * @property string $apellido1
+ * @property string $apellido2
+ * @property integer $estado
  */
-class Tipomerito extends CActiveRecord
+class Postulante extends CActiveRecord
 {
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
-	 * @return Tipomerito the static model class
+	 * @return Postulante the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
@@ -27,7 +28,7 @@ class Tipomerito extends CActiveRecord
 	 */
 	public function tableName()
 	{
-		return 'tipomerito';
+		return 'postulante';
 	}
 
 	/**
@@ -38,11 +39,12 @@ class Tipomerito extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('nombre', 'required'),
-			array('nombre', 'length', 'max'=>200),
+			array('cedula, nombre, apellido1, apellido2', 'required'),
+			array('cedula, estado', 'numerical', 'integerOnly'=>true),
+			array('nombre, apellido1, apellido2', 'length', 'max'=>45),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('idtipomerito, nombre', 'safe', 'on'=>'search'),
+			array('id, cedula, nombre, apellido1, apellido2, estado', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -54,7 +56,6 @@ class Tipomerito extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'_meritos' => array(self::HAS_MANY, 'Meritos', 'tipomerito'),
 		);
 	}
 
@@ -64,8 +65,12 @@ class Tipomerito extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'idtipomerito' => 'Idtipomerito',
+			'id' => 'ID',
+			'cedula' => 'Cedula',
 			'nombre' => 'Nombre',
+			'apellido1' => 'Apellido1',
+			'apellido2' => 'Apellido2',
+			'estado' => 'Estado',
 		);
 	}
 
@@ -80,8 +85,12 @@ class Tipomerito extends CActiveRecord
 
 		$criteria=new CDbCriteria;
 
-		$criteria->compare('idtipomerito',$this->idtipomerito);
+		$criteria->compare('id',$this->id);
+		$criteria->compare('cedula',$this->cedula);
 		$criteria->compare('nombre',$this->nombre,true);
+		$criteria->compare('apellido1',$this->apellido1,true);
+		$criteria->compare('apellido2',$this->apellido2,true);
+		$criteria->compare('estado',$this->estado);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

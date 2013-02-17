@@ -1,24 +1,27 @@
 <?php
 
 /**
- * This is the model class for table "puntaje".
+ * This is the model class for table "vacante".
  *
- * The followings are the available columns in table 'puntaje':
+ * The followings are the available columns in table 'vacante':
  * @property integer $id
- * @property integer $valor
- * @property string $nombre
- * @property integer $estado
+ * @property integer $unidadnegocio
+ * @property integer $puesto
+ * @property integer $periodo
+ * @property string $fechareclutamiento
+ * @property string $fechaseleccion
  *
  * The followings are the available model relations:
- * @property Compromiso[] $_compromisos
- * @property EvaluacionCompetencia[] $_evaluacionescompetencia
+ * @property Entrevista[] $entrevistas
+ * @property Unidadnegociopuesto $_puesto
+ * @property Unidadnegociopuesto $_unidadnegocio
  */
-class Puntaje extends CActiveRecord
+class Vacante extends CActiveRecord
 {
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
-	 * @return Puntaje the static model class
+	 * @return Vacante the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
@@ -30,7 +33,7 @@ class Puntaje extends CActiveRecord
 	 */
 	public function tableName()
 	{
-		return 'puntaje';
+		return 'vacante';
 	}
 
 	/**
@@ -41,12 +44,12 @@ class Puntaje extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('valor, nombre, estado', 'required'),
-			array('valor, estado', 'numerical', 'integerOnly'=>true),
-			array('nombre', 'length', 'max'=>45),
+			array('unidadnegocio, puesto, periodo', 'required'),
+			array('unidadnegocio, puesto, periodo', 'numerical', 'integerOnly'=>true),
+			array('fechareclutamiento, fechaseleccion', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, valor, nombre, estado', 'safe', 'on'=>'search'),
+			array('id, unidadnegocio, puesto, periodo, fechareclutamiento, fechaseleccion', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -58,8 +61,9 @@ class Puntaje extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'_compromisos' => array(self::HAS_MANY, 'Compromiso', 'puntaje'),
-			'_evaluacionescompetencia' => array(self::HAS_MANY, 'EvaluacionCompetencia', 'puntaje'),
+			'entrevistas' => array(self::HAS_MANY, 'Entrevista', 'vacante'),
+			'_puesto' => array(self::BELONGS_TO, 'Unidadnegociopuesto', 'puesto'),
+			'_unidadnegocio' => array(self::BELONGS_TO, 'Unidadnegociopuesto', 'unidadnegocio'),
 		);
 	}
 
@@ -70,9 +74,11 @@ class Puntaje extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'valor' => 'Valor',
-			'nombre' => 'Nombre',
-			'estado' => 'Estado',
+			'unidadnegocio' => 'Unidadnegocio',
+			'puesto' => 'Puesto',
+			'periodo' => 'Periodo',
+			'fechareclutamiento' => 'Fechareclutamiento',
+			'fechaseleccion' => 'Fechaseleccion',
 		);
 	}
 
@@ -88,9 +94,11 @@ class Puntaje extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
-		$criteria->compare('valor',$this->valor);
-		$criteria->compare('nombre',$this->nombre,true);
-		$criteria->compare('estado',$this->estado);
+		$criteria->compare('unidadnegocio',$this->unidadnegocio);
+		$criteria->compare('puesto',$this->puesto);
+		$criteria->compare('periodo',$this->periodo);
+		$criteria->compare('fechareclutamiento',$this->fechareclutamiento,true);
+		$criteria->compare('fechaseleccion',$this->fechaseleccion,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

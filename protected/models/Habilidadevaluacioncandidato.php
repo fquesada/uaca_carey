@@ -1,26 +1,26 @@
 <?php
 
 /**
- * This is the model class for table "evaluacioncompetencia".
+ * This is the model class for table "habilidadevaluacioncandidato".
  *
- * The followings are the available columns in table 'evaluacioncompetencia':
+ * The followings are the available columns in table 'habilidadevaluacioncandidato':
  * @property integer $id
- * @property integer $evaluacion
  * @property integer $competencia
- * @property integer $escala
- * @property integer $puntaje
+ * @property integer $evaluacioncandidato
+ * @property string $variableequivalentemetodo
+ * @property string $calificacionobtenidoenmetodo
+ * @property integer $conversionescala
  *
  * The followings are the available model relations:
  * @property Competencia $_competencia
- * @property Evaluaciondesempeno $_evaluacion
- * @property Puntaje $_puntaje
+ * @property Evaluacioncandidato $_evaluacioncandidato
  */
-class Evaluacioncompetencia extends CActiveRecord
+class Habilidadevaluacioncandidato extends CActiveRecord
 {
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
-	 * @return Evaluacioncompetencia the static model class
+	 * @return Habilidadevaluacioncandidato the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
@@ -32,7 +32,7 @@ class Evaluacioncompetencia extends CActiveRecord
 	 */
 	public function tableName()
 	{
-		return 'evaluacioncompetencia';
+		return 'habilidadevaluacioncandidato';
 	}
 
 	/**
@@ -43,11 +43,13 @@ class Evaluacioncompetencia extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('evaluacion, competencia', 'required'),
-			array('evaluacion, competencia, escala, puntaje', 'numerical', 'integerOnly'=>true),
+			array('competencia, evaluacioncandidato, variableequivalentemetodo, calificacionobtenidoenmetodo, conversionescala', 'required'),
+			array('competencia, evaluacioncandidato, conversionescala', 'numerical', 'integerOnly'=>true),
+			array('variableequivalentemetodo', 'length', 'max'=>90),
+			array('calificacionobtenidoenmetodo', 'length', 'max'=>20),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, evaluacion, competencia, escala, puntaje', 'safe', 'on'=>'search'),
+			array('id, competencia, evaluacioncandidato, variableequivalentemetodo, calificacionobtenidoenmetodo, conversionescala', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -60,8 +62,7 @@ class Evaluacioncompetencia extends CActiveRecord
 		// class name for the relations automatically generated below.
 		return array(
 			'_competencia' => array(self::BELONGS_TO, 'Competencia', 'competencia'),
-			'_evaluacion' => array(self::BELONGS_TO, 'Evaluaciondesempeno', 'evaluacion'),
-			'_puntaje' => array(self::BELONGS_TO, 'Puntaje', 'puntaje'),
+			'_evaluacioncandidato' => array(self::BELONGS_TO, 'Evaluacioncandidato', 'evaluacioncandidato'),
 		);
 	}
 
@@ -72,10 +73,11 @@ class Evaluacioncompetencia extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'evaluacion' => 'Evaluacion',
 			'competencia' => 'Competencia',
-			'escala' => 'Escala',
-			'puntaje' => 'Puntaje',
+			'evaluacioncandidato' => 'Evaluacioncandidato',
+			'variableequivalentemetodo' => 'Variableequivalentemetodo',
+			'calificacionobtenidoenmetodo' => 'Calificacionobtenidoenmetodo',
+			'conversionescala' => 'Conversionescala',
 		);
 	}
 
@@ -91,10 +93,11 @@ class Evaluacioncompetencia extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
-		$criteria->compare('evaluacion',$this->evaluacion);
 		$criteria->compare('competencia',$this->competencia);
-		$criteria->compare('escala',$this->escala);
-		$criteria->compare('puntaje',$this->puntaje);
+		$criteria->compare('evaluacioncandidato',$this->evaluacioncandidato);
+		$criteria->compare('variableequivalentemetodo',$this->variableequivalentemetodo,true);
+		$criteria->compare('calificacionobtenidoenmetodo',$this->calificacionobtenidoenmetodo,true);
+		$criteria->compare('conversionescala',$this->conversionescala);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

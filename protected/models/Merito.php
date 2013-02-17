@@ -1,18 +1,27 @@
 <?php
 
 /**
- * This is the model class for table "puestopuntualizacion".
+ * This is the model class for table "merito".
  *
- * The followings are the available columns in table 'puestopuntualizacion':
- * @property integer $puntualizacion
+ * The followings are the available columns in table 'merito':
+ * @property integer $id
+ * @property integer $tipomerito
+ * @property integer $ponderacion
  * @property integer $puesto
+ * @property string $descripcion
+ *
+ * The followings are the available model relations:
+ * @property Ponderacion $_ponderacion
+ * @property Puesto $_puesto
+ * @property Tipomerito $_tipomerito
+ * @property Meritoevaluacioncandidato[] $meritoevaluacioncandidatos
  */
-class Puestopuntualizacion extends CActiveRecord
+class Merito extends CActiveRecord
 {
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
-	 * @return Puestopuntualizacion the static model class
+	 * @return Merito the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
@@ -24,7 +33,7 @@ class Puestopuntualizacion extends CActiveRecord
 	 */
 	public function tableName()
 	{
-		return 'puestopuntualizacion';
+		return 'merito';
 	}
 
 	/**
@@ -35,11 +44,12 @@ class Puestopuntualizacion extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('puntualizacion, puesto', 'required'),
-			array('puntualizacion, puesto', 'numerical', 'integerOnly'=>true),
+			array('tipomerito, ponderacion, puesto', 'required'),
+			array('tipomerito, ponderacion, puesto', 'numerical', 'integerOnly'=>true),
+			array('descripcion', 'length', 'max'=>800),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('puntualizacion, puesto', 'safe', 'on'=>'search'),
+			array('id, tipomerito, ponderacion, puesto, descripcion', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -51,6 +61,10 @@ class Puestopuntualizacion extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+			'_ponderacion' => array(self::BELONGS_TO, 'Ponderacion', 'ponderacion'),
+			'_puesto' => array(self::BELONGS_TO, 'Puesto', 'puesto'),
+			'_tipomerito' => array(self::BELONGS_TO, 'Tipomerito', 'tipomerito'),
+			'meritoevaluacioncandidatos' => array(self::HAS_MANY, 'Meritoevaluacioncandidato', 'merito'),
 		);
 	}
 
@@ -60,8 +74,11 @@ class Puestopuntualizacion extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'puntualizacion' => 'Puntualizacion',
+			'id' => 'ID',
+			'tipomerito' => 'Tipomerito',
+			'ponderacion' => 'Ponderacion',
 			'puesto' => 'Puesto',
+			'descripcion' => 'Descripcion',
 		);
 	}
 
@@ -76,8 +93,11 @@ class Puestopuntualizacion extends CActiveRecord
 
 		$criteria=new CDbCriteria;
 
-		$criteria->compare('puntualizacion',$this->puntualizacion);
+		$criteria->compare('id',$this->id);
+		$criteria->compare('tipomerito',$this->tipomerito);
+		$criteria->compare('ponderacion',$this->ponderacion);
 		$criteria->compare('puesto',$this->puesto);
+		$criteria->compare('descripcion',$this->descripcion,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

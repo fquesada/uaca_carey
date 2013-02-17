@@ -14,7 +14,6 @@
  * The followings are the available model relations:
  * @property Colaborador[] $_colaboradores
  * @property Empresa $_empresa
- * @property Colaborador[] $_evaluador
  */
 class Usuario extends CActiveRecord
 {
@@ -23,7 +22,8 @@ class Usuario extends CActiveRecord
 	 * @param string $className active record class name.
 	 * @return Usuario the static model class
 	 */
-        private $salt = '$2y$06$Un2C0ntRaZenap2r2L0Gy';    //El salt para cryp
+         
+        private $salt = '$2y$06$Un2C0ntRaZenap2r2L0Gy';    //El salt para cryp    
          
 	public static function model($className=__CLASS__)
 	{
@@ -110,5 +110,5 @@ class Usuario extends CActiveRecord
         
         public function getsalt(){            
             return $this->salt;
-        }                
+        }
 }

@@ -1,19 +1,24 @@
 <?php
 
 /**
- * This is the model class for table "puestocompetencia".
+ * This is the model class for table "meritoevaluacioncandidato".
  *
- * The followings are the available columns in table 'puestocompetencia':
- * @property integer $competencia
- * @property integer $puesto
- * @property integer $ponderacion
+ * The followings are the available columns in table 'meritoevaluacioncandidato':
+ * @property integer $id
+ * @property integer $evaluacioncandidato
+ * @property integer $merito
+ * @property integer $calificacion
+ *
+ * The followings are the available model relations:
+ * @property Evaluacioncandidato $_evaluacioncandidato
+ * @property Merito $_merito
  */
-class Puestocompetencia extends CActiveRecord
+class Meritoevaluacioncandidato extends CActiveRecord
 {
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
-	 * @return Puestocompetencia the static model class
+	 * @return Meritoevaluacioncandidato the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
@@ -25,7 +30,7 @@ class Puestocompetencia extends CActiveRecord
 	 */
 	public function tableName()
 	{
-		return 'puestocompetencia';
+		return 'meritoevaluacioncandidato';
 	}
 
 	/**
@@ -36,11 +41,11 @@ class Puestocompetencia extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('competencia, puesto, ponderacion', 'required'),
-			array('competencia, puesto, ponderacion', 'numerical', 'integerOnly'=>true),
+			array('evaluacioncandidato, merito, calificacion', 'required'),
+			array('evaluacioncandidato, merito, calificacion', 'numerical', 'integerOnly'=>true),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('competencia, puesto, ponderacion', 'safe', 'on'=>'search'),
+			array('id, evaluacioncandidato, merito, calificacion', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -52,6 +57,8 @@ class Puestocompetencia extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+			'_evaluacioncandidato' => array(self::BELONGS_TO, 'Evaluacioncandidato', 'evaluacioncandidato'),
+			'_merito' => array(self::BELONGS_TO, 'Merito', 'merito'),
 		);
 	}
 
@@ -61,9 +68,10 @@ class Puestocompetencia extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'competencia' => 'Competencia',
-			'puesto' => 'Puesto',
-			'ponderacion' => 'Ponderacion',
+			'id' => 'ID',
+			'evaluacioncandidato' => 'Evaluacioncandidato',
+			'merito' => 'Merito',
+			'calificacion' => 'Calificacion',
 		);
 	}
 
@@ -78,9 +86,10 @@ class Puestocompetencia extends CActiveRecord
 
 		$criteria=new CDbCriteria;
 
-		$criteria->compare('competencia',$this->competencia);
-		$criteria->compare('puesto',$this->puesto);
-		$criteria->compare('ponderacion',$this->ponderacion);
+		$criteria->compare('id',$this->id);
+		$criteria->compare('evaluacioncandidato',$this->evaluacioncandidato);
+		$criteria->compare('merito',$this->merito);
+		$criteria->compare('calificacion',$this->calificacion);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
