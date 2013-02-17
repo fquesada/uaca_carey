@@ -27,6 +27,14 @@ class Vacante extends CActiveRecord
 	{
 		return parent::model($className);
 	}
+        
+        public function getNombreVacante()
+        {
+            $nombrepuesto = Puesto::model()->findByPk($this->puesto)->nombre;
+            $nombreunidadnegocio = UnidadNegocio::model()->findByPk($this->unidadnegocio)->nombre;
+            
+            return $nombreunidadnegocio . " - " . $nombrepuesto;
+        }
 
 	/**
 	 * @return string the associated database table name
@@ -74,11 +82,11 @@ class Vacante extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'unidadnegocio' => 'Unidadnegocio',
+			'unidadnegocio' => 'Unidad de Negocio',
 			'puesto' => 'Puesto',
 			'periodo' => 'Periodo',
-			'fechareclutamiento' => 'Fechareclutamiento',
-			'fechaseleccion' => 'Fechaseleccion',
+			'fechareclutamiento' => 'Fecha de Reclutamiento',
+			'fechaseleccion' => 'Fecha de Selección',
 		);
 	}
 
