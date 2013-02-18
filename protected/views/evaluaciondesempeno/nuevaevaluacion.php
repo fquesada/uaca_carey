@@ -23,7 +23,7 @@ $this->breadcrumbs=array(
 
 <?php echo $this->renderPartial('_infonuevaevaluacion', array('model'=>$model)); ?>
     
-<?php echo CHtml::beginForm($this->createUrl('crearnuevaevaluacion'))?>
+<?php echo CHtml::beginForm($this->createUrl('crearevaluaciondesempeno'))?>
 
 <?php echo $this->renderPartial('_evaluarcompromisos', array('model'=>$model)); ?>
 <?php echo $this->renderPartial('_evaluarcompetencias', array('model'=>$model)); ?>

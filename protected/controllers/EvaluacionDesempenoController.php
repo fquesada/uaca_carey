@@ -15,7 +15,7 @@ class EvaluacionDesempenoController extends RController
     
     public function allowedActions()
     {
-        return 'index, ProcesarEvaluacionCompromisos, ProcesarEvaluacionCompetencias, CrearNuevaEvaluacion';
+        return 'index, ProcesarEvaluacionCompromisos, ProcesarEvaluacionCompetencias';
     }
     
     public function actionIndex(){        
@@ -180,7 +180,7 @@ class EvaluacionDesempenoController extends RController
             ));
     }
 
-    public function actionCrearNuevaEvaluacion(){
+    public function actionCrearEvaluacionDesempeno(){
         if(isset($_POST['compromisoeva'])&&isset($_POST['competenciaeva'])){
 
                 $idevaluacion = $this->convertirstringnumerico($_SESSION['dataevaluacion']['idevaluacion']);
