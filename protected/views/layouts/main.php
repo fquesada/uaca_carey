@@ -35,7 +35,8 @@
 				array('label'=>'Login', 'url'=>array('/site/login'), 'visible'=>Yii::app()->user->isGuest),
 				array('label'=>'Logout ('.Yii::app()->user->name.')', 'url'=>array('/site/logout'), 'visible'=>!Yii::app()->user->isGuest),
                                 array('label'=>'Crear Usuario Provisional', 'url'=>array('/site/crearusuarioprovisional')),
-                                array('label'=>'Admon Usuarios', 'url'=>array('/rights'))
+                                array('label'=>'Admon Usuarios', 'url'=>array('/rights')),
+                                array('label'=>'Módulo Evaluación Desempeño', 'url'=>array('evaluaciondesempeno/index'))
 			),
 		)); ?>
 	</div><!-- mainmenu -->
