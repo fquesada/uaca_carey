@@ -36,7 +36,7 @@ class UnidadnegocioController extends Controller
 				'users'=>array('@'),
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
-				'actions'=>array('admin','delete','addpuesto'),
+				'actions'=>array('admin','delete','addpuesto','save'),
 				'users'=>array('admin'),
 			),
 			array('deny',  // deny all users
@@ -45,7 +45,21 @@ class UnidadnegocioController extends Controller
 		);
 	}
 
-	/**
+	public function actionSave($idpuesto)
+        {
+         $puestounidad = new UnidadNegocioPuesto();
+                        
+         $puestounidad->puesto = $idpuesto;
+         $puestounidad->unidadnegocio = Yii::app()->session['unidadnegocio'];
+         
+         if($puestounidad->save()){
+             Yii::app()->user->setFlash('success','Se agrego correctamente el puesto a la unidad de negocio.');
+             $this->redirect(array('addpuesto','id'=>Yii::app()->session['unidadnegocio']));
+         }
+         
+        }
+        
+        /**
 	 * Displays a particular model.
 	 * @param integer $id the ID of the model to be displayed
 	 */

@@ -4,15 +4,14 @@
 /* @var $form CActiveForm */
 ?>
 
-<script>
-    function seleccionarPuesto ()
-    {
-        var idpuesto = $.fn.yiiGridView.getSelection('puestoexistente-grid');
-        
-        
-        
-    }
-</script>
+<?php
+    //CSS
+    Yii::app()->clientScript->registerCssFile(Yii::app()->baseUrl . '/css/messi.min.css');
+    
+    //JS
+    Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/messi.min.js');
+?>
+
 
     <?php
     $this->breadcrumbs=array(
@@ -30,6 +29,8 @@
             ),
     )); ?>
     
+    <?php Yii::app()->session['unidadnegocio']=$model->id;?>
+    
     <?php 
     $puesto = new Puesto();
     ?>
@@ -41,7 +42,7 @@
 	'id'=>'puestoexistente-grid',
         //'selectableRows'=>1,
         //'selectionChanged'=>'seleccionarPuesto',
-        'dataProvider'=>$puesto->addPuesto(),
+        'dataProvider'=>$puesto->addPuesto($model->id),
 	'filter'=>$puesto,
 	'columns'=>array(
 		'nombre',
@@ -55,7 +56,7 @@
                             'add'=>array(
                                 'label'=>'Agregar',
                                 'imageUrl'=>  Yii::app()->request->baseUrl.'/images/icons/silk/add.png',
-                                'url'=>'Yii::app()->createUrl("puesto/save", array("idpuesto"=>$data->id))'                          
+                                'url'=>'Yii::app()->createUrl("unidadnegocio/save", array("idpuesto"=>$data->id))',
                             )
                         )
 		),
@@ -68,14 +69,16 @@
      
      
     <?php 
-    $unpuesto = new UnidadNegocioPuesto();
+    $unpuesto = new Puesto();
     ?>
     
     <?php $this->widget('zii.widgets.grid.CGridView', array(
 	'id'=>'puestoasociado-grid',
-        'dataProvider'=>$unpuesto->search($model->id),
+        'dataProvider'=>$unpuesto->puestosasociados($model->id),
 	'columns'=>array(
-		'puesto',
+		'nombre',
+		'descripcion',
+                'codigo',
 //		array(
 //			'class'=>'CButtonColumn',
 //                        'htmlOptions'=>array('width'=>'20'),
@@ -90,3 +93,15 @@
 //		),
 	),
     )); ?>
+
+     <?php if(Yii::app()->user->hasFlash('success')):?>
+     <script type="text/javascript">
+          new Messi('<?php echo Yii::app()->user->getFlash('success'); ?>',
+            { title: 'Éxito.',
+                titleClass: 'success',
+                autoclose: '4000',
+                modal:true
+            });
+     </script>
+     <?php endif;?>
+         

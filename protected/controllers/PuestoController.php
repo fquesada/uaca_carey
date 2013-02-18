@@ -44,13 +44,7 @@ class PuestoController extends Controller
 			),
 		);
 	}
-        
-        public function actionSave()
-        {
-            
-                        
-        }
-            
+                      
         /**
 	 * Displays a particular model.
 	 * @param integer $id the ID of the model to be displayed
