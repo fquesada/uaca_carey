@@ -1,5 +1,5 @@
 <div class="content_section_evaluacion">
-        <h2>Ejecución de la evaluación</h2>
+        <h2>Ejecución de la evaluación desempeño</h2>
         <table class="table_ejecucion_evaluacion" id="tblejecucion">
             <tbody>
                 <tr>

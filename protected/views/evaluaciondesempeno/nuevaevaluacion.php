@@ -2,7 +2,7 @@
 
 <?php
 //Cargo el css de esta vista
-Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/css/evaluacion.css');
+Yii::app()->clientScript->registerCssFile(Yii::app()->baseUrl . '/css/evaluacion.css');
 Yii::app()->clientScript->registerCssFile(Yii::app()->baseUrl . '/css/nuevaevaluacion.css');
 Yii::app()->clientScript->registerCssFile(Yii::app()->baseUrl . '/css/sexybuttons.css');
 

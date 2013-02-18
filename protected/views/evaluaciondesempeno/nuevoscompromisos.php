@@ -3,7 +3,7 @@
 <?php
 
 //CSS
-Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/css/evaluacion.css');
+Yii::app()->clientScript->registerCssFile(Yii::app()->baseUrl . '/css/evaluacion.css');
 Yii::app()->clientScript->registerCssFile(Yii::app()->baseUrl . '/css/sexybuttons.css');
 Yii::app()->clientScript->registerCssFile(Yii::app()->baseUrl . '/css/messi.min.css');
 

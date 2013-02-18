@@ -1,5 +1,5 @@
 <div class="content_section_evaluacion">
-    <h2>Información de la Evaluación</h2>
+    <h2>Informacion de la evaluación desempeño</h2>
     <table class="table_info_evaluacion">
         <tbody>
             <tr>
