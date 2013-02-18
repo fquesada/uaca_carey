@@ -74,7 +74,7 @@ class Competencia extends CActiveRecord
 		return array(
 			'id' => 'ID',
 			'competencia' => 'Competencia',
-			'descripcion' => 'Descripcion',
+			'descripcion' => 'Descripción',
 			'pregunta' => 'Pregunta',
 			'estado' => 'Estado',
 		);
@@ -96,6 +96,8 @@ class Competencia extends CActiveRecord
 		$criteria->compare('descripcion',$this->descripcion,true);
 		$criteria->compare('pregunta',$this->pregunta,true);
 		$criteria->compare('estado',$this->estado);
+                
+                $criteria->addColumnCondition(array('estado'=>'1'));
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
