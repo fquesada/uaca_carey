@@ -8,7 +8,6 @@
  * @property string $compromiso
  * @property integer $evaluacion
  * @property integer $puntualizacion
- * @property integer $escala
  * @property integer $puntaje
  *
  * The followings are the available model relations:
@@ -45,11 +44,11 @@ class Compromiso extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('compromiso, evaluacion, puntualizacion', 'required'),
-			array('evaluacion, puntualizacion, escala, puntaje', 'numerical', 'integerOnly'=>true),
+			array('evaluacion, puntualizacion, puntaje', 'numerical', 'integerOnly'=>true),
 			array('compromiso', 'length', 'max'=>800),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, compromiso, evaluacion, puntualizacion, escala, puntaje', 'safe', 'on'=>'search'),
+			array('id, compromiso, evaluacion, puntualizacion, puntaje', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -76,8 +75,7 @@ class Compromiso extends CActiveRecord
 			'id' => 'ID',
 			'compromiso' => 'Compromiso',
 			'evaluacion' => 'Evaluacion',
-			'puntualizacion' => 'Puntualizacion',
-			'escala' => 'Escala',
+			'puntualizacion' => 'Puntualizacion',			
 			'puntaje' => 'Puntaje',
 		);
 	}
@@ -96,8 +94,7 @@ class Compromiso extends CActiveRecord
 		$criteria->compare('id',$this->id);
 		$criteria->compare('compromiso',$this->compromiso,true);
 		$criteria->compare('evaluacion',$this->evaluacion);
-		$criteria->compare('puntualizacion',$this->puntualizacion);
-		$criteria->compare('escala',$this->escala);
+		$criteria->compare('puntualizacion',$this->puntualizacion);		
 		$criteria->compare('puntaje',$this->puntaje);
 
 		return new CActiveDataProvider($this, array(
