@@ -15,7 +15,7 @@ class EvaluacionDesempenoController extends RController
     
     public function allowedActions()
     {
-        return 'index, compromisos, evaluacion';
+        return 'index, ProcesarEvaluacionCompromisos, ProcesarEvaluacionCompetencias';
     }
     
     public function actionIndex(){        
@@ -31,7 +31,7 @@ class EvaluacionDesempenoController extends RController
                 $valoresevaluacion = $_SESSION['dataevaluacion'];
                 $evaluacion = new EvaluacionDesempeno();
                 $evaluacion->evaluador = $valoresevaluacion['idevaluador'];
-                $evaluacion->fecharegistrocompromiso = $this->fechaphptomysql(date('d-m-Y H:i:s'));
+                $evaluacion->fecharegistrocompromiso = $this->fechaphptomysql(date('d-m-Y'));//Agregar horas minutos segundos
                 $evaluacion->fechaevaluacion = $this->fechaphptomysql($_POST['fechaevaluacion']);
                 $evaluacion->colaborador = $valoresevaluacion['idcolaborador'];
                 $evaluacion->comentariocompromisos = trim($_POST['comentario']);
@@ -184,7 +184,7 @@ class EvaluacionDesempenoController extends RController
         if(isset($_POST['compromisoeva'])&&isset($_POST['competenciaeva'])){
 
                 $idevaluacion = $this->convertirstringnumerico($_SESSION['dataevaluacion']['idevaluacion']);
-                $evaluacion = Evaluacion::model()->findByPk($idevaluacion);
+                $evaluacion = EvaluacionDesempeno::model()->findByPk($idevaluacion);
 
                 $evaluacion->fecharegistroevaluacion = $this->fechaphptomysql(date('d-m-Y'));
                 $evaluacion->comentarioevaluacion = trim($_POST['comentario']);
