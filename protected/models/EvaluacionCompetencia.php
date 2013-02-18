@@ -7,7 +7,6 @@
 * @property integer $id
 * @property integer $evaluacion
 * @property integer $competencia
-* @property integer $escala
 * @property integer $puntaje
 *
 * The followings are the available model relations:
@@ -44,10 +43,10 @@ class EvaluacionCompetencia extends CActiveRecord
             // will receive user inputs.
             return array(
                     array('evaluacion, competencia', 'required'),
-                    array('evaluacion, competencia, escala, puntaje', 'numerical', 'integerOnly'=>true),
+                    array('evaluacion, competencia, puntaje', 'numerical', 'integerOnly'=>true),
                     // The following rule is used by search().
                     // Please remove those attributes that should not be searched.
-                    array('id, evaluacion, competencia, escala, puntaje', 'safe', 'on'=>'search'),
+                    array('id, evaluacion, competencia, puntaje', 'safe', 'on'=>'search'),
             );
     }
 
@@ -74,7 +73,6 @@ class EvaluacionCompetencia extends CActiveRecord
                     'id' => 'ID',
                     'evaluacion' => 'Evaluacion',
                     'competencia' => 'Competencia',
-                    'escala' => 'Escala',
                     'puntaje' => 'Puntaje',
             );
     }
@@ -92,8 +90,7 @@ class EvaluacionCompetencia extends CActiveRecord
 
             $criteria->compare('id',$this->id);
             $criteria->compare('evaluacion',$this->evaluacion);
-            $criteria->compare('competencia',$this->competencia);
-            $criteria->compare('escala',$this->escala);
+            $criteria->compare('competencia',$this->competencia);            
             $criteria->compare('puntaje',$this->puntaje);
 
             return new CActiveDataProvider($this, array(
