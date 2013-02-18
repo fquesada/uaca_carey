@@ -15,7 +15,7 @@ class EvaluacionDesempenoController extends RController
     
     public function allowedActions()
     {
-        return 'index, ProcesarEvaluacionCompromisos, ProcesarEvaluacionCompetencias';
+        return 'index, ProcesarEvaluacionCompromisos, ProcesarEvaluacionCompetencias, CrearNuevaEvaluacion';
     }
     
     public function actionIndex(){        
@@ -203,7 +203,7 @@ class EvaluacionDesempenoController extends RController
                     foreach($compromisos as $key => $value)
                     {                            
                         $compromiso = Compromiso::model()->findByPk($key);
-                        $compromiso->escala = $this->convertirstringnumerico($value);                            
+                        $compromiso->puntaje = $this->convertirstringnumerico($value);                            
                         $result = $compromiso->save();
                     }
                     if($result)
@@ -214,7 +214,7 @@ class EvaluacionDesempenoController extends RController
                             $evaluacioncompetencia = new EvaluacionCompetencia();                            
                             $evaluacioncompetencia->evaluacion = $evaluacion->id;
                             $evaluacioncompetencia->competencia = $this->convertirstringnumerico($key);
-                            $evaluacioncompetencia->escala = $this->convertirstringnumerico($value);                                                          
+                            $evaluacioncompetencia->puntaje = $this->convertirstringnumerico($value);                                                          
                             $result = $evaluacioncompetencia->save();
                         }
                         if($result){
