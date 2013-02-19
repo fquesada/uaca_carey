@@ -95,7 +95,7 @@ Yii::app()->clientScript->registerScript('autocomplete', '
         <button  id="btnnuevocompromiso" disabled="disabled" type="submit" class="sexybutton sexysimple sexylarge disabled"><span class="add">Ingresar Nuevo Compromiso</span></button>
         <?php echo CHtml::endForm()?>
     </div>
-    
+    <br/>
     <div id="historial">
         
         <?php

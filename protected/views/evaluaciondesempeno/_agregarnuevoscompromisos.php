@@ -19,7 +19,13 @@
                             'changeMonth'=>true,
                             'showOn' => 'button',
                             'buttonImage'=>Yii::app()->baseUrl.'/images/icons/silk/calendar.png',
-                            'buttonImageOnly' => true
+                            'buttonImageOnly' => true,
+                            'onClose' => "js:function(dateText, inst){
+                                        $('#dpfecha').siblings('.errorcalificacion').remove();
+                                        if(dateText == ''){
+                                             $('#dpfecha').parent().append('<div class=\"errorcalificacion\">Seleccione una fecha.</div>'); 
+                                        }                                   
+                                }",
                         ),
                         'htmlOptions'=>array(                            
                             'readonly' => 'readonly',

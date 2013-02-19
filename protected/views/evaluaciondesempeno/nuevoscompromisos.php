@@ -9,7 +9,7 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->baseUrl . '/css/messi.min.
 
 //Javascript
 Yii::app()->clientScript->registerCoreScript('jquery');
-Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/evaluacion.js');
+Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/compromisos.js');
 Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/jquery.placeholder.min.js');
 Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/messi.min.js');
 
