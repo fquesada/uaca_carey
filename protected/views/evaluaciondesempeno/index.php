@@ -1,6 +1,9 @@
 <?php
 /* @var $this EvaluacionController */
 
+Yii::app()->clientScript->registerCssFile(Yii::app()->baseUrl . '/css/sexybuttons.css');
+Yii::app()->clientScript->registerCssFile(Yii::app()->baseUrl . '/css/evaluaciondesempeno.css');
+
 $this->breadcrumbs=array(
 	'Evaluacion',
 );
@@ -44,12 +47,16 @@ Yii::app()->clientScript->registerScript('autocomplete', '
                 'minLength'=>'2',
                 'select'=>"js: function(event, ui) {
                     $('#cedulaid').text(ui.item['cedula']);                      
-                    $('#id').text(ui.item['id']); 
+                    $('#id').text(ui.item['id']);                   
                     $('#puesto').text(ui.item['puesto']);                      
                     $('#unidad').text(ui.item['unidad']); 
                     $(this).prop('disabled', true);
                     $('#refrescar').show('slow');                    
-                    $.fn.yiiGridView.update('evaluaciones-grid',{data: {idcolaborador:$('#id').text()}});    
+                    $.fn.yiiGridView.update('evaluaciones-grid',{data: {idcolaborador:$('#id').text()}});
+                    
+                    $('#idcol').val(ui.item['id']);
+                    $('#btnnuevocompromiso').removeClass('disabled');
+                    $('#btnnuevocompromiso').removeAttr('disabled');
 
                 }",                
                  ),
@@ -81,6 +88,13 @@ Yii::app()->clientScript->registerScript('autocomplete', '
             <?php echo CHtml::label('-', 'id',array('id'=>'id','name'=>'id','style'=>'display:none')); ?>
     </div>
     
+    <br/>
+    <div class="content_ingresarnuevocompromiso">
+        <?php echo CHtml::beginForm($this->createUrl('compromisos'),'post', array('id'=>'formcompromisos'))?>              
+         <?php echo CHtml::hiddenField('idcol', ' ',array('id'=>'idcol'));?>
+        <button  id="btnnuevocompromiso" disabled="disabled" type="submit" class="sexybutton sexysimple sexylarge disabled"><span class="add">Ingresar Nuevo Compromiso</span></button>
+        <?php echo CHtml::endForm()?>
+    </div>
     
     <div id="historial">
         

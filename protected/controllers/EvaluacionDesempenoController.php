@@ -86,7 +86,7 @@ class EvaluacionDesempenoController extends RController
     
     //actions
     
-    public function actionCompromisos($idcolaborador){
+    public function actionCompromisos(){
         
             //En caso de submit
             if(isset($_POST['puntualizacion'])&& isset($_POST['periodo'])&& isset($_POST['fechaevaluacion'])){                        
@@ -147,7 +147,8 @@ class EvaluacionDesempenoController extends RController
                     throw new CHttpException(500,'La peticion solicitado no puede realizarse.');            
             $evaluador = $evaluadorarray[0];
             
-            $colaborador = Colaborador::model()->findByPk($idcolaborador);
+            $idcolaborador = $_POST['idcol'];
+            $colaborador = Colaborador::model()->findByPk($idcolaborador);            
             
             if($colaborador===null)
                     throw new CHttpException(500,'La peticion solicitado no puede realizarse.');
