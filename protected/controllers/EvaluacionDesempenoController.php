@@ -147,6 +147,10 @@ class EvaluacionDesempenoController extends RController
                     throw new CHttpException(500,'La peticion solicitado no puede realizarse.');            
             $evaluador = $evaluadorarray[0];
             
+            if(!isset($_POST['idcol'])){
+                $this->redirect('index');
+            }
+            
             $idcolaborador = $_POST['idcol'];
             $colaborador = Colaborador::model()->findByPk($idcolaborador);            
             
