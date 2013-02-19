@@ -64,6 +64,7 @@ class UsuarioController extends Controller
 	{
 		$model=new Usuario('create');
                 $transaction = Yii::app()->db->beginTransaction();
+
                 //$model2 = $this->loadModel($id);
 
 		// Uncomment the following line if AJAX validation is needed
@@ -77,7 +78,7 @@ class UsuarioController extends Controller
 
                         $result = $model->save();
                         $idusuario = $model->id;
-                        $idcolaborador = $model->colaborador;
+                        $idcolaborador = $_POST['Usuario']['colaborador'];
 
                         if($result)
                             {
@@ -86,7 +87,7 @@ class UsuarioController extends Controller
                                 $tablaintermedia->colaborador = $idcolaborador;
                                 $tablaintermedia->usuario = $idusuario;
 
-                                $result = $tablaintermedia.save();
+                                $result = $tablaintermedia->save();
 
                                 if($result)
                                     {

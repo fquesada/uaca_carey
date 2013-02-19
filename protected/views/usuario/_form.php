@@ -61,7 +61,7 @@ return $( "<li></li>" )
         <div class="row">
                 <?php echo $form->labelEx($model,'colaborador'); ?>
                 <?php $this->widget('zii.widgets.jui.CJuiAutoComplete', array(
-                    'attribute'=>'colaborador',
+                    //'attribute'=>'colaborador',
                     'name'=>'colaborador', 
                     'id'=>'colaborador',
                     'source'=>$this->createUrl('usuario/autocompletecolaborador'),
@@ -70,7 +70,9 @@ return $( "<li></li>" )
                          'showAnim'=>'fold',
                         'minLength'=>'2',
                         'select'=>"js: function(event, ui) {                     
-                            $('#pk').text(ui.item['id']); 
+                            $('#pk').val(ui.item['id']); 
+                            var x = $('#pk').val();
+                            alert(x);
                         }",                
                          ),
                       'htmlOptions'=>array('size'=>'30'),
