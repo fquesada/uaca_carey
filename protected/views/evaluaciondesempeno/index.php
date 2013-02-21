@@ -40,7 +40,7 @@ Yii::app()->clientScript->registerScript('autocomplete', '
             'attribute'=>'colaborador',
             'name'=>'colaborador', 
             'id'=>'colaborador',
-            'source'=>$this->createUrl('evaluacion/autocompletecolaborador'),
+            'source'=>$this->createUrl('autocompletecolaborador'),
             // additional javascript options for the autocomplete plugin
             'options'=>array(
                  'showAnim'=>'fold',
