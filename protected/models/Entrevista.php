@@ -15,7 +15,7 @@
  * The followings are the available model relations:
  * @property Vacante $_vacante
  * @property Colaborador $_entrevistador
- * @property Evaluacioncandidato[] $evaluacioncandidatos
+ * @property Evaluacioncandidato[] $_evaluacioncandidatos
  */
 class Entrevista extends CActiveRecord
 {
@@ -63,7 +63,7 @@ class Entrevista extends CActiveRecord
 		return array(
 			'_vacante' => array(self::BELONGS_TO, 'Vacante', 'vacante'),
 			'_entrevistador' => array(self::BELONGS_TO, 'Colaborador', 'entrevistador'),
-			'evaluacioncandidatos' => array(self::HAS_MANY, 'Evaluacioncandidato', 'entrevista'),
+			'_evaluacioncandidatos' => array(self::HAS_MANY, 'Evaluacioncandidato', 'entrevista'),
 		);
 	}
 
