@@ -106,4 +106,15 @@ class Entrevista extends CActiveRecord
 			'criteria'=>$criteria,
 		));
 	}
+        
+        public function obtenerNombreEntrevistado()
+        {
+            $entrevistado = ' ';
+            if($this->tipo == 1)
+                $entrevistado = Colaborador::model()->findByPk($this->entrevistado)->obtenerNombreCompleto();
+            else
+                $entrevistado = Postulante::model()->findByPk($this->entrevistado)->obtenerNombreCompleto();
+            
+            return $entrevistado;
+        }
 }
