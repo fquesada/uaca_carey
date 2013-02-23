@@ -96,4 +96,9 @@ class Postulante extends CActiveRecord
 			'criteria'=>$criteria,
 		));
 	}
+        
+        public function obtenerNombreCompleto()
+        {
+            return $this->nombre.' '.$this->apellido1.' '.$this->apellido2;
+        }
 }

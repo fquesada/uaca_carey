@@ -100,4 +100,17 @@ class UnidadNegocio extends CActiveRecord
 			'criteria'=>$criteria,
 		));
 	}
+        
+        public function obtenerPuestos($unidadnegocio)
+        {
+            return Yii::app()->db->createCommand(
+                        'SELECT p.id, p.nombre '.
+                        'FROM puesto p '.
+                        'JOIN unidadnegociopuesto up ON up.puesto = p.id '.
+                        'JOIN unidadnegocio u ON up.unidadnegocio = u.id '.
+                        'WHERE unidadnegocio = '.$unidadnegocio.' AND p.estado = 1;'
+                        )->query();
+        }
+        
+        
 }
