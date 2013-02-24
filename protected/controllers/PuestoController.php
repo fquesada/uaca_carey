@@ -36,7 +36,7 @@ class PuestoController extends Controller
 				'users'=>array('@'),
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
-				'actions'=>array('admin','delete'),
+				'actions'=>array('admin','delete','Addcompetence', 'pesocompetencia', 'save'),
 				'users'=>array('admin'),
 			),
 			array('deny',  // deny all users
@@ -169,8 +169,51 @@ class PuestoController extends Controller
 			'model'=>$model,
 		));
 	}
+        
+        public function actionAddcompetence($id)
+        {
+            $model=$this->loadModel($id);
 
-	/**
+            $this->render('addcompetence',array('model'=>$model));
+        }
+        
+        public function actionSave(){
+            
+            if (isset($_POST['compselect']) && $_POST['peso'] != ''){
+                $puestocomp = new Puestocompetencia();
+                                   
+                $puestocomp->puesto = Yii::app()->session['puesto'];
+                $puestocomp->ponderacion = $_POST['peso'];
+
+                $competencias = $_POST['compselect'];
+
+                foreach($competencias as $competencia){
+                    $puestocomp->competencia = $competencia;
+                }
+
+                if($puestocomp->save()){
+                    Yii::app()->user->setFlash('success','Se agrego correctamente la competencia al puesto.');
+                    $this->redirect(array('addcompetence','id'=>Yii::app()->session['puesto']));
+                }
+            }                
+            else{
+                
+                if(!isset($_POST['compselect'])){
+                    Yii::app()->user->setFlash('error','Se debe seleccionar una competencia para asociar al puesto.');
+                    $this->redirect(array('addcompetence','id'=>Yii::app()->session['puesto']));
+                }
+                //else(!isset($_POST['peso'])){
+                  elseif($_POST['peso'] == ''){
+                    Yii::app()->user->setFlash('error','Se debe seleccionar el peso de la competencia sobre el puesto.');
+                    $this->redirect(array('addcompetence','id'=>Yii::app()->session['puesto']));
+                }
+            }
+            
+            Yii::app()->user->setFlash('error','Paso recto');
+            $this->redirect(array('addcompetence','id'=>Yii::app()->session['puesto']));
+        }
+
+                	/**
 	 * Returns the data model based on the primary key given in the GET variable.
 	 * If the data model is not found, an HTTP exception will be raised.
 	 * @param integer the ID of the model to be loaded

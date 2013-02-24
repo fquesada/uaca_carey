@@ -49,10 +49,19 @@ or <b>=</b>) al inicio de cada valor de búsqueda para especificar cómo se debe
 		'nombre',
 		'descripcion',
 		'codigo',
-		//'unidadnegocio',
-		//'estado',
 		array(
 			'class'=>'CButtonColumn',
+                        'htmlOptions'=>array('width'=>'70'),
+                        'template'=>'{view}{update}{delete}{addcompetence}',
+                        'buttons'=>array(
+                            'addcompetence'=>array(
+                                'label'=>'Agregar competencia',
+                                'imageUrl'=>Yii::app()->request->baseUrl.'/images/icons/silk/table_add.png',
+                                'url'=>'Yii::app()->createUrl("puesto/addcompetence", array("id"=>$data->id))'
+                                
+                            )
+                        )
+                       
 		),
 	),
 )); ?>

@@ -151,6 +151,7 @@ class CompetenciaController extends Controller
 			'model'=>$model,
 		));
 	}
+        
 
 	/**
 	 * Returns the data model based on the primary key given in the GET variable.

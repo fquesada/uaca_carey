@@ -103,4 +103,64 @@ class Competencia extends CActiveRecord
 			'criteria'=>$criteria,
 		));
 	}
+        
+        public function addcompetencia($id){
+            $criteria = new CDbCriteria;
+            
+            $criteria->compare('id',$this->id);
+            $criteria->compare('competencia',$this->competencia,true);
+            $criteria->compare('descripcion',$this->descripcion,true);
+            $criteria->compare('pregunta',$this->pregunta,true);
+            $criteria->compare('estado',$this->estado);
+            
+            $criteria->addColumnCondition(array('estado'=>'1'));
+            
+            $competencias = Puestocompetencia::model()->findAllByAttributes(array('puesto'=>$id));
+            $competenciasasociadas = $this->obtenerArrayColumna($competencias, 'competencia');
+            $criteria->addNotInCondition('id', $competenciasasociadas);
+            
+            return new CActiveDataProvider($this, array(
+			'criteria'=>$criteria,
+                        'pagination'=>array('pageSize'=>'10'),
+            ));
+        }
+        
+        public function competenciaasociados($id){
+            $criteria = new CDbCriteria;
+            
+            $criteria->compare('id',$this->id);
+            $criteria->compare('competencia',$this->competencia,true);
+            $criteria->compare('descripcion',$this->descripcion,true);
+            $criteria->compare('pregunta',$this->pregunta,true);
+            $criteria->compare('estado',$this->estado);
+            
+            $criteria->addColumnCondition(array('estado'=>'1'));
+            
+            $competencias = Puestocompetencia::model()->findAllByAttributes(array('puesto'=>$id));
+            $competenciasasociadas = $this->obtenerArrayColumna($competencias, 'competencia');
+            $criteria->addInCondition('id', $competenciasasociadas);
+            
+            return new CActiveDataProvider($this, array(
+			'criteria'=>$criteria,
+                        'pagination'=>array('pageSize'=>'10'),
+            ));
+            
+            
+        }
+        
+                /**
+         * Returns an array with the values of the column needed.
+         * @param array $unidades the array with the objects that have the column needed
+         * @param string $columna  the name of the column that must be obtain
+         */
+
+           public function obtenerArrayColumna($unidades, $columna)
+        {
+            $idUnidades = array();
+            foreach ($unidades as $un) {
+                $idUnidades[] = $un->$columna;
+            }
+            return $idUnidades;
+        }
+        
 }
