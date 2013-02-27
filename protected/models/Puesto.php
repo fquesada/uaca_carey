@@ -134,27 +134,6 @@ class Puesto extends CActiveRecord
 		));
         }
         
-        public function puestosasociados($un){
-                $criteria=new CDbCriteria;
-
-		$criteria->compare('nombre',$this->nombre,true);
-                $criteria->compare('descripcion',$this->descripcion,true);
-                $criteria->compare('codigo',$this->codigo,true);
-                
-                $criteria->addColumnCondition(array('estado'=>'1'));
-                
-                $puestosasociados = UnidadNegocioPuesto::model()->findAllByAttributes(array('unidadnegocio'=>$un));
-                
-                $idpuestos = $this->obtenerArrayColumna($puestosasociados, 'puesto');
-                
-                $criteria->addInCondition('id', $idpuestos);
-                         
-		return new CActiveDataProvider($this, array(
-			'criteria'=>$criteria,
-		));
-        }
-
-
         /**
          * Returns an array with the values of the column needed.
          * @param array $unidades the array with the objects that have the column needed

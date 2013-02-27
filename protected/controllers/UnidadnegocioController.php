@@ -45,19 +45,25 @@ class UnidadnegocioController extends Controller
 		);
 	}
 
-	public function actionSave($idpuesto)
+	public function actionSave()
         {
-         $puestounidad = new UnidadNegocioPuesto();
-                        
-         $puestounidad->puesto = $idpuesto;
-         $puestounidad->unidadnegocio = Yii::app()->session['unidadnegocio'];
-         
-         if($puestounidad->save()){
-             Yii::app()->user->setFlash('success','Se agrego correctamente el puesto a la unidad de negocio.');
-             $this->redirect(array('addpuesto','id'=>Yii::app()->session['unidadnegocio']));
+             if (isset($_POST['puestoselect'])){
+
+                foreach ($_POST['puestoselect'] as $puesto){
+                    $puestounidad = new UnidadNegocioPuesto();
+                    $puestounidad->puesto = $puesto;
+                    $puestounidad->unidadnegocio = Yii::app()->session['unidadnegocio'];
+                    $puestounidad->save();
+                }
+
+                Yii::app()->user->setFlash('success','Se agrego correctamente los puestos a la unidad de negocio.');         
+                $this->redirect(array('addpuesto','id'=>Yii::app()->session['unidadnegocio']));
+             }
+             else
+                 Yii::app()->user->setFlash('error','Se debe seleccionar al menos un puesto para asociar a la unidad de negocio.');
+                 $this->redirect(array('addpuesto','id'=>Yii::app()->session['unidadnegocio']));
+             
          }
-         
-        }
         
         /**
 	 * Displays a particular model.

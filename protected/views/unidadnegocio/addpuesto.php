@@ -7,6 +7,7 @@
 <?php
     //CSS
     Yii::app()->clientScript->registerCssFile(Yii::app()->baseUrl . '/css/messi.min.css');
+    Yii::app()->clientScript->registerCssFile(Yii::app()->baseUrl . '/css/sexybuttons.css');
     
     //JS
     Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/messi.min.js');
@@ -31,6 +32,8 @@
     
     <?php Yii::app()->session['unidadnegocio']=$model->id;?>
     
+    
+    <?php echo CHtml::beginForm('','POST',array('id'=>'formpuesto'))?> 
     <?php 
     $puesto = new Puesto();
     ?>
@@ -38,59 +41,53 @@
     <p></br> </br> </br> </p>
      <h1>Puestos disponibles</h1>
      
+     <h5>Seleccione los puestos que desea agregar a la unidad de negocio y presione el botón "Asociar"</h5>
  <?php $this->widget('zii.widgets.grid.CGridView', array(
 	'id'=>'puestoexistente-grid',
-        //'selectableRows'=>1,
-        //'selectionChanged'=>'seleccionarPuesto',
         'dataProvider'=>$puesto->addPuesto($model->id),
 	'filter'=>$puesto,
 	'columns'=>array(
-		'nombre',
+                array(
+                    'id' => 'puestoselect',
+                    'class' => 'CCheckBoxColumn',
+                    'selectableRows'=>'25',
+                ),
+		'codigo',
+                'nombre',
 		'descripcion',
-                'codigo',
-		array(
-			'class'=>'CButtonColumn',
-                        'htmlOptions'=>array('width'=>'20'),
-                        'template'=>'{add}',
-                        'buttons'=>array(
-                            'add'=>array(
-                                'label'=>'Agregar',
-                                'imageUrl'=>  Yii::app()->request->baseUrl.'/images/icons/silk/add.png',
-                                'url'=>'Yii::app()->createUrl("unidadnegocio/save", array("idpuesto"=>$data->id))',
-                            )
-                        )
-		),
+                
 	),
     )); ?>
+      <?php echo CHtml::submitButton('Asociar',array('submit'=>'../save', 'class'=>'sexybutton sexysimple sexylarge'));?>
+
      
+     <?php echo CHtml::endForm()?>
      
          <p></br> </br> </br> </p>
      <h1>Puestos asociados</h1>
      
      
     <?php 
-    $unpuesto = new Puesto();
+    $unpuesto = new UnidadNegocioPuesto();
     ?>
     
     <?php $this->widget('zii.widgets.grid.CGridView', array(
 	'id'=>'puestoasociado-grid',
-        'dataProvider'=>$unpuesto->puestosasociados($model->id),
+        'dataProvider'=>$unpuesto->search($model->id),
 	'columns'=>array(
-		'nombre',
-		'descripcion',
-                'codigo',
-//		array(
-//			'class'=>'CButtonColumn',
-//                        'htmlOptions'=>array('width'=>'20'),
-//                        'template'=>'{add}',
-//                        'buttons'=>array(
-//                            'add'=>array(
-//                                'label'=>'Agregar',
-//                                'imageUrl'=>  Yii::app()->request->baseUrl.'/images/icons/silk/add.png',
-//                                'url'=>'Yii::app()->createUrl("unidadnegocio/addpuesto", array("id"=>$data->id))'                          
-//                            )
-//                        )
-//		),
+		'CodigoPuesto',
+                'NombrePuesto',
+		'DescripcionPuesto',              
+                    array(
+                            'class'=>'CButtonColumn',
+                            'htmlOptions'=>array('width'=>'20'),
+                            'template'=>'{delete}',
+                            'buttons'=>array(
+                                'delete'=>array(
+                                    'url'=>'Yii::app()->createUrl("unidadnegociopuesto/delete", array("unidadnegocio"=>$data->unidadnegocio, "puesto"=>$data->puesto))',
+                                )
+                            )
+                    ),
 	),
     )); ?>
 
@@ -99,6 +96,17 @@
           new Messi('<?php echo Yii::app()->user->getFlash('success'); ?>',
             { title: 'Éxito.',
                 titleClass: 'success',
+                autoclose: '4000',
+                modal:true
+            });
+     </script>
+     <?php endif;?>
+
+      <?php if(Yii::app()->user->hasFlash('error')):?>
+     <script type="text/javascript">
+          new Messi('<?php echo Yii::app()->user->getFlash('error'); ?>',
+            { title: 'Error',
+                titleClass: 'error',
                 autoclose: '4000',
                 modal:true
             });

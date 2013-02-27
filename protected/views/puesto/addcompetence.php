@@ -12,7 +12,14 @@
     //JS
     Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/messi.min.js');
 ?>
-
+//<?php
+//    Yii::app()->clientScript->registerScript('actualizar', "
+//    $('.competenciaasociado-grid').update(function(){
+//            $.fn.yiiGridView.update('competenciaasociado-grid');
+//            return false;
+//    });
+//    ");
+//?>
 
     <?php
     $this->breadcrumbs=array(
@@ -40,6 +47,7 @@
     <p></br> </br> </br> </p>
    
  <h1>Competencias disponibles</h1>
+ <h5>Seleccione la competencia y el peso correspondiente que desea agregar al puesto y presione el botón "Asociar"</h5>
  
  <?php echo CHtml::beginForm('','POST',array('id'=>'formpeso'))?> 
  
@@ -51,7 +59,7 @@
 	'columns'=>array(
                 array(
                     'id' => 'compselect',
-                    'class' => 'CCheckBoxColumn'
+                    'class' => 'CCheckBoxColumn',
                 ),
 		'competencia',
 		'descripcion',
@@ -63,9 +71,7 @@
      ?>
  
     <br></br>
-     <?php echo CHtml::submitButton('Asociar',array('submit'=>'../save', 'class'=>'sexybutton sexysimple sexylarge'));
-     //echo CHtml::ajaxSubmitButton('Asociar',Yii::app()->createUrl( 'puesto/save'),
-        //array('type'=>'POST', 'data'=>array('peso'=>'3'))); ?>
+     <?php echo CHtml::submitButton('Asociar',array('submit'=>'../save', 'class'=>'sexybutton sexysimple sexylarge'));?>
      
      <?php echo CHtml::endForm()?>
      
@@ -75,27 +81,25 @@
      
      
     <?php 
-    $puestocomp = new Competencia();
+    $puestocomp = new Puestocompetencia();
     ?>
     
     <?php $this->widget('zii.widgets.grid.CGridView', array(
 	'id'=>'competenciaasociado-grid',
-        'dataProvider'=>$puestocomp->competenciaasociados($model->id),
+        'dataProvider'=>$puestocomp->search($model->id),
 	'columns'=>array(
-		'competencia',
-		'descripcion',
-//		array(
-//			'class'=>'CButtonColumn',
-//                        'htmlOptions'=>array('width'=>'20'),
-//                        'template'=>'{add}',
-//                        'buttons'=>array(
-//                            'add'=>array(
-//                                'label'=>'Agregar',
-//                                'imageUrl'=>  Yii::app()->request->baseUrl.'/images/icons/silk/add.png',
-//                                'url'=>'Yii::app()->createUrl("unidadnegocio/addpuesto", array("id"=>$data->id))'                          
-//                            )
-//                        )
-//		),
+                    'NombreCompetencia',
+                    'ponderacion',
+                    array(
+                            'class'=>'CButtonColumn',
+                            'htmlOptions'=>array('width'=>'20'),
+                            'template'=>'{delete}',
+                            'buttons'=>array(
+                                'delete'=>array(
+                                    'url'=>'Yii::app()->createUrl("puestocompetencia/delete", array("competencia"=>$data->competencia, "puesto"=>$data->puesto))',
+                                )
+                            )
+                    ),
 	),
     )); ?>
 

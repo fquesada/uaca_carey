@@ -72,14 +72,43 @@ class UnidadNegocioPuesto extends CActiveRecord
 		return array(
 			'unidadnegocio' => 'Unidad de negocio',
 			'puesto' => 'Puesto',
+                        'NombrePuesto'=>'Nombre',
+                        'DescripcionPuesto'=>'Descripción',
+                        'CodigoPuesto'=>'Código',
 		);
 	}
+        
+        public function getNombrePuesto(){
+            
+            $puestosel = Puesto::model()->findAllByAttributes(array('id'=>$this->puesto));
+            foreach ($puestosel as $puesto){
+                $resultado = $puesto->nombre;
+            }
+            return $resultado;
+            
+        }
+        
+        public function getDescripcionPuesto(){
+            $puestosel = Puesto::model()->findAllByAttributes(array('id'=>$this->puesto));
+            foreach ($puestosel as $puesto){
+                $resultado = $puesto->descripcion;
+            }
+            return $resultado;
+        }
+        
+        public function  getCodigoPuesto(){
+            $puestosel = Puesto::model()->findAllByAttributes(array('id'=>$this->puesto));
+            foreach ($puestosel as $puesto){
+                $resultado = $puesto->codigo;
+            }
+            return $resultado;
+        }
 
-	/**
+        /**
 	 * Retrieves a list of models based on the current search/filter conditions.
 	 * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
 	 */
-	public function search($un)
+	public function search($unidadnegocio)
 	{
 		// Warning: Please modify the following code to remove attributes that
 		// should not be searched.
@@ -89,7 +118,7 @@ class UnidadNegocioPuesto extends CActiveRecord
 		$criteria->compare('unidadnegocio',$this->unidadnegocio);
 		$criteria->compare('puesto',$this->puesto);
                 
-                $criteria->addColumnCondition(array('unidadnegocio'=>$un));
+                $criteria->addColumnCondition(array('unidadnegocio'=>$unidadnegocio));
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
