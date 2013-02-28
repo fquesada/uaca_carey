@@ -24,7 +24,7 @@
     <?php
     $this->breadcrumbs=array(
 	'Gestionar'=>array('admin'),
-        'Agregar competencias'
+        'Agregar puntualización'
     );
     ?>
     <h1>Puesto</h1>
@@ -41,61 +41,58 @@
     <?php Yii::app()->session['puesto']=$model->id;?>
     
     <?php 
-    $competencia = new Competencia();
+    $puntualizacion = new Puntualizacion();
     ?>
     
     <p></br> </br> </br> </p>
    
- <h1>Competencias disponibles</h1>
- <h5>Seleccione la competencia y el peso correspondiente que desea agregar al puesto y presione el botón "Asociar"</h5>
+ <h1>Puntualizaciones disponibles</h1>
+ <h5>Seleccione las puntualizaciones que desea agregar al puesto y presione el botón "Asociar"</h5>
  
- <?php echo CHtml::beginForm('','POST',array('id'=>'formpeso'))?> 
+ <?php echo CHtml::beginForm('','POST',array('id'=>'formpuntualizacion'))?> 
  
  <?php $this->widget('zii.widgets.grid.CGridView', array(
-	'id'=>'competenciaexistente-grid',
-        'dataProvider'=>$competencia->addcompetencia($model->id),
-	'filter'=>$competencia,
+	'id'=>'puntualizacionexistente-grid',
+        'dataProvider'=>$puntualizacion->search($model->id),
+	'filter'=>$puntualizacion,
 	'columns'=>array(
                 array(
-                    'id' => 'compselect',
+                    'id' => 'puntualizacionselect',
                     'class' => 'CCheckBoxColumn',
+                    'selectableRows'=>'25',
                 ),
-		'competencia',
-		'descripcion',
+		'puntualizacion',
+		'indicadorpuntualizacion',
 	),
     )); ?>
      
-     <?php
-        echo CHtml::dropdownlist('peso','0',CHtml::listData(Ponderacion::model()->findAll(),'idponderacion','valor'), array('empty'=>'Seleccione el peso sobre el puesto que desea asignar a la competencia'))
-     ?>
- 
-    <br></br>
-     <?php echo CHtml::submitButton('Asociar',array('submit'=>'../savecompetencia', 'class'=>'sexybutton sexysimple sexylarge'));?>
+     <br></br>
+     <?php echo CHtml::submitButton('Asociar',array('submit'=>'../savepuntualizacion', 'class'=>'sexybutton sexysimple sexylarge'));?>
      
      <?php echo CHtml::endForm()?>
      
     
          <p></br> </br> </br> </p>
-     <h1>Competencias asociadas</h1>
+     <h1>Puntualizaciones asociadas</h1>
      
      
     <?php 
-    $puestocomp = new Puestocompetencia();
+    $puestopun = new PuestoPuntualizacion();
     ?>
     
     <?php $this->widget('zii.widgets.grid.CGridView', array(
-	'id'=>'competenciaasociado-grid',
-        'dataProvider'=>$puestocomp->search($model->id),
+	'id'=>'puntualizacionasociado-grid',
+        'dataProvider'=>$puestopun->search($model->id),
 	'columns'=>array(
-                    'NombreCompetencia',
-                    'ponderacion',
+                    'NombrePunt',
+                    'IndicadorPunt',
                     array(
                             'class'=>'CButtonColumn',
                             'htmlOptions'=>array('width'=>'20'),
                             'template'=>'{delete}',
                             'buttons'=>array(
                                 'delete'=>array(
-                                    'url'=>'Yii::app()->createUrl("puestocompetencia/delete", array("competencia"=>$data->competencia, "puesto"=>$data->puesto))',
+                                    'url'=>'Yii::app()->createUrl("puestopuntualizacion/delete", array("puntualizacion"=>$data->puntualizacion, "puesto"=>$data->puesto))',
                                 )
                             )
                     ),

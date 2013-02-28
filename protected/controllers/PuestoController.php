@@ -36,7 +36,7 @@ class PuestoController extends Controller
 				'users'=>array('@'),
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
-				'actions'=>array('admin','delete','Addcompetence', 'pesocompetencia', 'save'),
+				'actions'=>array('admin','delete','Addcompetence','Addpuntualizacion', 'SaveCompetencia','SavePuntualizacion'),
 				'users'=>array('admin'),
 			),
 			array('deny',  // deny all users
@@ -177,7 +177,14 @@ class PuestoController extends Controller
             $this->render('addcompetence',array('model'=>$model));
         }
         
-        public function actionSave(){
+        public function actionAddpuntualizacion($id)
+        {
+            $model=$this->loadModel($id);
+
+            $this->render('addpuntualizacion',array('model'=>$model));
+        }
+        
+        public function actionSaveCompetencia(){
             
             if (isset($_POST['compselect']) && $_POST['peso'] != ''){
                 $puestocomp = new Puestocompetencia();
@@ -208,9 +215,33 @@ class PuestoController extends Controller
                     $this->redirect(array('addcompetence','id'=>Yii::app()->session['puesto']));
                 }
             }
+        }
+        
+        public function actionSavePuntualizacion(){
             
-            Yii::app()->user->setFlash('error','Paso recto');
-            $this->redirect(array('addcompetence','id'=>Yii::app()->session['puesto']));
+            if (isset($_POST['puntualizacionselect'])){
+                                                
+                             
+                $puntualizaciones = $_POST['puntualizacionselect'];
+
+                foreach($puntualizaciones as $puntualizacion){
+                    $puestopun = new PuestoPuntualizacion();
+                    $puestopun->puesto = Yii::app()->session['puesto'];
+                    $puestopun->puntualizacion = $puntualizacion;
+                    
+                    $puestopun->save();
+                }
+
+                
+                Yii::app()->user->setFlash('success','Se agrego correctamente la puntualización al puesto.');
+                $this->redirect(array('addpuntualizacion','id'=>Yii::app()->session['puesto']));
+                
+            }                
+            else{
+                
+                 Yii::app()->user->setFlash('error','Se debe seleccionar al menos una puntualización para asociar al puesto.');
+                 $this->redirect(array('addpuntualizacion','id'=>Yii::app()->session['puesto']));
+                }
         }
 
                 	/**
