@@ -53,7 +53,7 @@
  
  <?php $this->widget('zii.widgets.grid.CGridView', array(
 	'id'=>'puntualizacionexistente-grid',
-        'dataProvider'=>$puntualizacion->search($model->id),
+        'dataProvider'=>$puntualizacion->addpuntualizacion($model->id),
 	'filter'=>$puntualizacion,
 	'columns'=>array(
                 array(
