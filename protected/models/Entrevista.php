@@ -5,7 +5,6 @@
  *
  * The followings are the available columns in table 'entrevista':
  * @property integer $id
- * @property integer $vacante
  * @property string $fecha
  * @property integer $entrevistador
  * @property integer $entrevistado
@@ -13,9 +12,10 @@
  * @property integer $estado
  *
  * The followings are the available model relations:
- * @property Vacante $_vacante
  * @property Colaborador $_entrevistador
- * @property Evaluacioncandidato[] $_evaluacioncandidatos
+ * @property Entrevistanormal[] $_entrevistasnormal
+ * @property Entrevistavacante[] $_entrevistasvacante
+ * @property Evaluacioncompetencias[] $_evaluacionescompetencias
  */
 class Entrevista extends CActiveRecord
 {
@@ -45,11 +45,11 @@ class Entrevista extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('vacante, fecha, entrevistador, entrevistado, tipo', 'required'),
-			array('vacante, entrevistador, entrevistado, tipo, estado', 'numerical', 'integerOnly'=>true),
+			array('fecha, entrevistador, entrevistado, tipo', 'required'),
+			array('entrevistador, entrevistado, tipo, estado', 'numerical', 'integerOnly'=>true),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, vacante, fecha, entrevistador, entrevistado, tipo, estado', 'safe', 'on'=>'search'),
+			array('id, fecha, entrevistador, entrevistado, tipo, estado', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -61,9 +61,10 @@ class Entrevista extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'_vacante' => array(self::BELONGS_TO, 'Vacante', 'vacante'),
 			'_entrevistador' => array(self::BELONGS_TO, 'Colaborador', 'entrevistador'),
-			'_evaluacioncandidatos' => array(self::HAS_MANY, 'Evaluacioncandidato', 'entrevista'),
+			'_entrevistasnormal' => array(self::HAS_MANY, 'Entrevistanormal', 'entrevista'),
+			'_entrevistasvacante' => array(self::HAS_MANY, 'Entrevistavacante', 'entrevista'),
+			'_evaluacionescompetencias' => array(self::HAS_MANY, 'Evaluacioncompetencias', 'entrevista'),
 		);
 	}
 
@@ -74,7 +75,6 @@ class Entrevista extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'vacante' => 'Vacante',
 			'fecha' => 'Fecha',
 			'entrevistador' => 'Entrevistador',
 			'entrevistado' => 'Entrevistado',
@@ -95,7 +95,6 @@ class Entrevista extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
-		$criteria->compare('vacante',$this->vacante);
 		$criteria->compare('fecha',$this->fecha,true);
 		$criteria->compare('entrevistador',$this->entrevistador);
 		$criteria->compare('entrevistado',$this->entrevistado);

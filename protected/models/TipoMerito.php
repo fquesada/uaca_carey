@@ -4,18 +4,18 @@
  * This is the model class for table "tipomerito".
  *
  * The followings are the available columns in table 'tipomerito':
- * @property integer $idtipomerito
+ * @property integer $id
  * @property string $nombre
  *
  * The followings are the available model relations:
- * @property Meritos[] $_meritos
+ * @property Merito[] $_meritos
  */
-class TipoMerito extends CActiveRecord
+class Tipomerito extends CActiveRecord
 {
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
-	 * @return TipoMerito the static model class
+	 * @return Tipomerito the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
@@ -42,7 +42,7 @@ class TipoMerito extends CActiveRecord
 			array('nombre', 'length', 'max'=>200),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('idtipomerito, nombre', 'safe', 'on'=>'search'),
+			array('id, nombre', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -54,7 +54,7 @@ class TipoMerito extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'_meritos' => array(self::HAS_MANY, 'Meritos', 'tipomerito'),
+			'_meritos' => array(self::HAS_MANY, 'Merito', 'tipomerito'),
 		);
 	}
 
@@ -64,7 +64,7 @@ class TipoMerito extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'idtipomerito' => 'Idtipomerito',
+			'id' => 'ID',
 			'nombre' => 'Nombre',
 		);
 	}
@@ -80,7 +80,7 @@ class TipoMerito extends CActiveRecord
 
 		$criteria=new CDbCriteria;
 
-		$criteria->compare('idtipomerito',$this->idtipomerito);
+		$criteria->compare('id',$this->id);
 		$criteria->compare('nombre',$this->nombre,true);
 
 		return new CActiveDataProvider($this, array(

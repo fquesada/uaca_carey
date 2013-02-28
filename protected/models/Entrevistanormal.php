@@ -1,23 +1,25 @@
 <?php
 
 /**
- * This is the model class for table "periodo".
+ * This is the model class for table "entrevistanormal".
  *
- * The followings are the available columns in table 'periodo':
+ * The followings are the available columns in table 'entrevistanormal':
  * @property integer $id
- * @property string $nombre
- * @property integer $estado
+ * @property integer $entrevista
+ * @property integer $puesto
+ * @property integer $unidadnegocio
  *
  * The followings are the available model relations:
- * @property Evaluaciondesempeno[] $_evaluaciondesempenos
- * @property Vacante[] $_vacantes
+ * @property Entrevista $_entrevista
+ * @property Unidadnegociopuesto $_puesto
+ * @property Unidadnegociopuesto $_unidadnegocio
  */
-class Periodo extends CActiveRecord
+class Entrevistanormal extends CActiveRecord
 {
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
-	 * @return Periodo the static model class
+	 * @return Entrevistanormal the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
@@ -29,7 +31,7 @@ class Periodo extends CActiveRecord
 	 */
 	public function tableName()
 	{
-		return 'periodo';
+		return 'entrevistanormal';
 	}
 
 	/**
@@ -40,12 +42,11 @@ class Periodo extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('nombre', 'required'),
-			array('estado', 'numerical', 'integerOnly'=>true),
-			array('nombre', 'length', 'max'=>45),
+			array('entrevista, puesto, unidadnegocio', 'required'),
+			array('entrevista, puesto, unidadnegocio', 'numerical', 'integerOnly'=>true),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, nombre, estado', 'safe', 'on'=>'search'),
+			array('id, entrevista, puesto, unidadnegocio', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -57,8 +58,9 @@ class Periodo extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'_evaluaciondesempenos' => array(self::HAS_MANY, 'Evaluaciondesempeno', 'periodo'),
-			'_vacantes' => array(self::HAS_MANY, 'Vacante', 'periodo'),
+			'_entrevista' => array(self::BELONGS_TO, 'Entrevista', 'entrevista'),
+			'_puesto' => array(self::BELONGS_TO, 'Unidadnegociopuesto', 'puesto'),
+			'_unidadnegocio' => array(self::BELONGS_TO, 'Unidadnegociopuesto', 'unidadnegocio'),
 		);
 	}
 
@@ -69,8 +71,9 @@ class Periodo extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'nombre' => 'Nombre',
-			'estado' => 'Estado',
+			'entrevista' => 'Entrevista',
+			'puesto' => 'Puesto',
+			'unidadnegocio' => 'Unidadnegocio',
 		);
 	}
 
@@ -86,8 +89,9 @@ class Periodo extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
-		$criteria->compare('nombre',$this->nombre,true);
-		$criteria->compare('estado',$this->estado);
+		$criteria->compare('entrevista',$this->entrevista);
+		$criteria->compare('puesto',$this->puesto);
+		$criteria->compare('unidadnegocio',$this->unidadnegocio);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

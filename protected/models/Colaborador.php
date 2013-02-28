@@ -14,12 +14,13 @@
  * @property integer $puesto
  *
  * The followings are the available model relations:
- * @property UnidadNegocioPuesto $_unidadnegocio
- * @property UnidadNegocioPuesto $_puesto
- * @property Usuario[] $_usuario
- * @property EvaluacionDesempeno[] $_evaluaciondesempenocolaborador
- * @property EvaluacionDesempeno[] $_evaluaciondesempenoevaluador
- * @property HistoricoPuesto[] $_historicopuesto
+ * @property Unidadnegociopuesto $_unidadnegocio
+ * @property Unidadnegociopuesto $_puesto
+ * @property Usuario[] $_usuarios
+ * @property Entrevista[] $_entrevistas
+ * @property Evaluaciondesempeno[] $_evaluaciondesempeno
+ * @property Evaluaciondesempeno[] $_evaluaciondesempeno1
+ * @property Historicopuesto[] $_historicopuestos
  */
 class Colaborador extends CActiveRecord
 {
@@ -66,12 +67,13 @@ class Colaborador extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-                        '_unidadnegocio' => array(self::BELONGS_TO, 'UnidadNegocioPuesto', 'unidadnegocio'),
-			'_puesto' => array(self::BELONGS_TO, 'UnidadNegocioPuesto', 'puesto'),
-                        '_usuario' => array(self::MANY_MANY, 'Usuario', 'colaboradorusuario(colaborador, usuario)'),
-			'_evaluaciondesempenocolaborador' => array(self::HAS_MANY, 'EvaluacionDesempeno', 'colaborador'),
-			'_evaluaciondesempenoevaluador' => array(self::HAS_MANY, 'EvaluacionDesempeno', 'evaluador'),
-			'_historicopuesto' => array(self::HAS_MANY, 'HistoricoPuesto', 'colaborador'),
+			'_unidadnegocio' => array(self::BELONGS_TO, 'Unidadnegociopuesto', 'unidadnegocio'),
+			'_puesto' => array(self::BELONGS_TO, 'Unidadnegociopuesto', 'puesto'),
+			'_usuarios' => array(self::MANY_MANY, 'Usuario', 'colaboradorusuario(colaborador, usuario)'),
+			'_entrevistas' => array(self::HAS_MANY, 'Entrevista', 'entrevistador'),
+			'_evaluaciondesempeno' => array(self::HAS_MANY, 'Evaluaciondesempeno', 'colaborador'),
+			'_evaluaciondesempeno1' => array(self::HAS_MANY, 'Evaluaciondesempeno', 'evaluador'),
+			'_historicopuesto' => array(self::HAS_MANY, 'Historicopuesto', 'colaborador'),
 		);
 	}
 
@@ -87,7 +89,7 @@ class Colaborador extends CActiveRecord
 			'apellido1' => 'Apellido1',
 			'apellido2' => 'Apellido2',
 			'estado' => 'Estado',
-                        'unidadnegocio' => 'Unidadnegocio',
+			'unidadnegocio' => 'Unidadnegocio',
 			'puesto' => 'Puesto',
 		);
 	}
@@ -109,7 +111,7 @@ class Colaborador extends CActiveRecord
 		$criteria->compare('apellido1',$this->apellido1,true);
 		$criteria->compare('apellido2',$this->apellido2,true);
 		$criteria->compare('estado',$this->estado);
-                $criteria->compare('unidadnegocio',$this->unidadnegocio);
+		$criteria->compare('unidadnegocio',$this->unidadnegocio);
 		$criteria->compare('puesto',$this->puesto);
 
 		return new CActiveDataProvider($this, array(

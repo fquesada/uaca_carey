@@ -8,17 +8,21 @@
  * @property integer $puesto
  *
  * The followings are the available model relations:
- * @property Colaborador[] $_colaboradorunidadnegocio
- * @property Colaborador[] $_colaboradorpuesto
- * @property HistoricoPuesto[] $_historicopuestounidadnegocio
- * @property HistoricoPuesto[] $_historicopuestopuesto
+ * @property Colaborador[] $_colaborador
+ * @property Colaborador[] $_colaborador1
+ * @property Entrevistanormal[] $_entrevistasnormal
+ * @property Entrevistanormal[] $_entrevistasnormal1
+ * @property Historicopuesto[] $_historicopuestos
+ * @property Historicopuesto[] $_historicopuestos1
+ * @property Vacante[] $_vacantes
+ * @property Vacante[] $_vacantes1
  */
-class UnidadNegocioPuesto extends CActiveRecord
+class Unidadnegociopuesto extends CActiveRecord
 {
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
-	 * @return UnidadNegocioPuesto the static model class
+	 * @return Unidadnegociopuesto the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
@@ -57,10 +61,14 @@ class UnidadNegocioPuesto extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'_colaboradorunidadnegocio' => array(self::HAS_MANY, 'Colaborador', 'unidadnegocio'),
-			'_colaboradorpuesto' => array(self::HAS_MANY, 'Colaborador', 'puesto'),
-			'_historicopuestounidadnegocio' => array(self::HAS_MANY, 'HistoricoPuesto', 'unidadnegocio'),
-			'_historicopuestopuesto' => array(self::HAS_MANY, 'HistoricoPuesto', 'puesto'),
+			'_colaborador' => array(self::HAS_MANY, 'Colaborador', 'unidadnegocio'),
+			'_colaborador1' => array(self::HAS_MANY, 'Colaborador', 'puesto'),
+			'_entrevistasnormal' => array(self::HAS_MANY, 'Entrevistanormal', 'puesto'),
+			'_entrevistasnormal1' => array(self::HAS_MANY, 'Entrevistanormal', 'unidadnegocio'),
+			'_historicopuestos' => array(self::HAS_MANY, 'Historicopuesto', 'unidadnegocio'),
+			'_historicopuestos1' => array(self::HAS_MANY, 'Historicopuesto', 'puesto'),
+			'_vacantes' => array(self::HAS_MANY, 'Vacante', 'puesto'),
+			'_vacantes1' => array(self::HAS_MANY, 'Vacante', 'unidadnegocio'),
 		);
 	}
 

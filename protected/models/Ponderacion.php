@@ -4,12 +4,12 @@
  * This is the model class for table "ponderacion".
  *
  * The followings are the available columns in table 'ponderacion':
- * @property integer $idponderacion
+ * @property integer $id
  * @property integer $valor
  * @property integer $estado
  *
  * The followings are the available model relations:
- * @property Meritos[] $_meritos
+ * @property Merito[] $_meritos
  */
 class Ponderacion extends CActiveRecord
 {
@@ -43,7 +43,7 @@ class Ponderacion extends CActiveRecord
 			array('valor, estado', 'numerical', 'integerOnly'=>true),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('idponderacion, valor, estado', 'safe', 'on'=>'search'),
+			array('id, valor, estado', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -55,7 +55,7 @@ class Ponderacion extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'_meritos' => array(self::HAS_MANY, 'Meritos', 'ponderacion'),
+			'_meritos' => array(self::HAS_MANY, 'Merito', 'ponderacion'),
 		);
 	}
 
@@ -65,7 +65,7 @@ class Ponderacion extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'idponderacion' => 'Idponderacion',
+			'id' => 'ID',
 			'valor' => 'Valor',
 			'estado' => 'Estado',
 		);
@@ -82,7 +82,7 @@ class Ponderacion extends CActiveRecord
 
 		$criteria=new CDbCriteria;
 
-		$criteria->compare('idponderacion',$this->idponderacion);
+		$criteria->compare('id',$this->id);
 		$criteria->compare('valor',$this->valor);
 		$criteria->compare('estado',$this->estado);
 

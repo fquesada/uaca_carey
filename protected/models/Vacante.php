@@ -12,7 +12,7 @@
  * @property string $fechaseleccion
  *
  * The followings are the available model relations:
- * @property Entrevista[] $_entrevistas
+ * @property Entrevistavacante[] $_entrevistavacantes
  * @property Unidadnegociopuesto $_puesto
  * @property Unidadnegociopuesto $_unidadnegocio
  * @property Periodo $_periodo
@@ -62,7 +62,7 @@ class Vacante extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'_entrevistas' => array(self::HAS_MANY, 'Entrevista', 'vacante'),
+			'_entrevistavacantes' => array(self::HAS_MANY, 'Entrevistavacante', 'vacante'),
 			'_puesto' => array(self::BELONGS_TO, 'Unidadnegociopuesto', 'puesto'),
 			'_unidadnegocio' => array(self::BELONGS_TO, 'Unidadnegociopuesto', 'unidadnegocio'),
 			'_periodo' => array(self::BELONGS_TO, 'Periodo', 'periodo'),

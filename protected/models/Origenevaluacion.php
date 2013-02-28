@@ -1,23 +1,22 @@
 <?php
 
 /**
- * This is the model class for table "periodo".
+ * This is the model class for table "origenevaluacion".
  *
- * The followings are the available columns in table 'periodo':
+ * The followings are the available columns in table 'origenevaluacion':
  * @property integer $id
  * @property string $nombre
  * @property integer $estado
  *
  * The followings are the available model relations:
- * @property Evaluaciondesempeno[] $_evaluaciondesempenos
- * @property Vacante[] $_vacantes
+ * @property Origenevaluacioncompetencias[] $_origenevaluacioncompetencias
  */
-class Periodo extends CActiveRecord
+class Origenevaluacion extends CActiveRecord
 {
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
-	 * @return Periodo the static model class
+	 * @return Origenevaluacion the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
@@ -29,7 +28,7 @@ class Periodo extends CActiveRecord
 	 */
 	public function tableName()
 	{
-		return 'periodo';
+		return 'origenevaluacion';
 	}
 
 	/**
@@ -57,8 +56,7 @@ class Periodo extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'_evaluaciondesempenos' => array(self::HAS_MANY, 'Evaluaciondesempeno', 'periodo'),
-			'_vacantes' => array(self::HAS_MANY, 'Vacante', 'periodo'),
+			'_origenevaluacioncompetencias' => array(self::HAS_MANY, 'Origenevaluacioncompetencias', 'origen'),
 		);
 	}
 
