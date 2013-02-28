@@ -27,13 +27,13 @@
 
 	<div class="row">
 		<?php echo $form->labelEx($model,'puesto'); ?>
-		<?php echo $form->dropDownList($model,'puesto', array(),array('empty' => 'Selecione un puesto')); ?>
+                 <?php echo $form->dropDownList($model,'puesto', array(),array('empty' => 'Selecione un puesto')); ?>		
 		<?php echo $form->error($model,'puesto'); ?>
 	</div>
 
 	<div class="row">
 		<?php echo $form->labelEx($model,'periodo'); ?>
-		<?php echo $form->textField($model,'periodo'); ?>
+		<?php echo $form->dropDownList($model,'periodo', CHtml::listData(Periodo::model()->findAllByAttributes(array('estado' => '1')),'id', 'nombre'),array('empty' => 'Selecione un periodo')); ?>
 		<?php echo $form->error($model,'periodo'); ?>
 	</div>
 

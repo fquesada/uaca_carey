@@ -32,7 +32,7 @@ class EntrevistaController extends Controller
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('create','update','autocompleteentrevistado'),
+				'actions'=>array('create','update','autocompleteentrevistado','plantilla'),
 				'users'=>array('@'),
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -56,6 +56,12 @@ class EntrevistaController extends Controller
 		));
 	}
         
+        public function actionPlantilla($id)
+	{
+		$this->render('plantilla',array(
+			'model'=>$this->loadModel($id),
+		));
+	}
 
 	/**
 	 * Creates a new model.
@@ -68,12 +74,12 @@ class EntrevistaController extends Controller
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
-		if(isset($_GET['Vacante']) )//&& isset($_GET['cedula']))
+		if(isset($_POST['Vacante']) )//&& isset($_GET['cedula']))
 		{
-			$model->vacante = $_GET['Vacante'];
-                        $model->entrevistado = $_GET['id'];
+			$model->vacante = $_POST['Vacante'];
+                        $model->entrevistado = $_POST['id'];
                         $model->fecha = date('Y-m-d');
-                        $model->entrevistador = 1;
+                        $model->entrevistador = 45;
                         $model->tipo = 1;
 			if($model->save())
 				$this->redirect(array('view','id'=>$model->id));

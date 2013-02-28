@@ -107,4 +107,11 @@ class Puesto extends CActiveRecord
 			'criteria'=>$criteria,
 		));
 	}
+        
+        
+        public function obtenerCompetencias()
+        {
+            
+             return Competencia::model()->findAll();
+        }
 }

@@ -32,7 +32,7 @@ Yii::app()->clientScript->registerScript('autocomplete', '
 
 <div class="form">
 
-    <?php echo CHtml::beginForm('','get'); ?>
+    <?php echo CHtml::beginForm('','post'); ?>
     
     <div class="row">
 		<?php echo CHtml::label('Vacante:', 'vacante'); ?>
@@ -76,7 +76,7 @@ Yii::app()->clientScript->registerScript('autocomplete', '
     </div>
 
     <div class="row buttons">
-    <?php echo CHtml::submitButton('Generar', array('id'=>'btnAdd')); ?>
+    <?php echo CHtml::submitButton('Generar'); ?>
         </div>
     
     <?php echo CHtml::endForm(); ?>
