@@ -10,8 +10,8 @@
  * @property integer $puntaje
  *
  * The followings are the available model relations:
- * @property Competencia $competencia0
- * @property Evaluaciondesempeno $evaluacion0
+ * @property Competencia $_competencia
+ * @property Evaluaciondesempeno $_evaluacion
  */
 class Evaluacioncompetencia extends CActiveRecord
 {
@@ -57,8 +57,8 @@ class Evaluacioncompetencia extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'competencia0' => array(self::BELONGS_TO, 'Competencia', 'competencia'),
-			'evaluacion0' => array(self::BELONGS_TO, 'Evaluaciondesempeno', 'evaluacion'),
+			'_competencia' => array(self::BELONGS_TO, 'Competencia', 'competencia'),
+			'_evaluacion' => array(self::BELONGS_TO, 'Evaluaciondesempeno', 'evaluacion'),
 		);
 	}
 
