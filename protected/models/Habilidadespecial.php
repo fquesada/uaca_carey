@@ -9,7 +9,7 @@
  * @property string $descripcion
  *
  * The followings are the available model relations:
- * @property Habilidadespecialevaluada[] $habilidadespecialevaluadas
+ * @property Habilidadespecialevaluada[] $_habilidadesespecialevaluada
  */
 class Habilidadespecial extends CActiveRecord
 {
@@ -56,7 +56,7 @@ class Habilidadespecial extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'habilidadespecialevaluadas' => array(self::HAS_MANY, 'Habilidadespecialevaluada', 'habilidadespecial'),
+			'_habilidadesespecialevaluada' => array(self::HAS_MANY, 'Habilidadespecialevaluada', 'habilidadespecial'),
 		);
 	}
 
