@@ -11,9 +11,9 @@
  * @property integer $evaluacioncompetencias
  *
  * The followings are the available model relations:
- * @property Habilidadespecial $habilidadespecial0
- * @property Evaluacionpersonas $evaluacionpersonas0
- * @property Evaluacioncompetencias $evaluacioncompetencias0
+ * @property Habilidadespecial $_habilidadespecial
+ * @property Evaluacionpersonas $_evaluacionpersonas
+ * @property Evaluacioncompetencias $_evaluacioncompetencias
  */
 class Habilidadespecialevaluada extends CActiveRecord
 {
@@ -59,9 +59,9 @@ class Habilidadespecialevaluada extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'habilidadespecial0' => array(self::BELONGS_TO, 'Habilidadespecial', 'habilidadespecial'),
-			'evaluacionpersonas0' => array(self::BELONGS_TO, 'Evaluacionpersonas', 'evaluacionpersonas'),
-			'evaluacioncompetencias0' => array(self::BELONGS_TO, 'Evaluacioncompetencias', 'evaluacioncompetencias'),
+			'_habilidadespecial' => array(self::BELONGS_TO, 'Habilidadespecial', 'habilidadespecial'),
+			'_evaluacionpersonas' => array(self::BELONGS_TO, 'Evaluacionpersonas', 'evaluacionpersonas'),
+			'_evaluacioncompetencias' => array(self::BELONGS_TO, 'Evaluacioncompetencias', 'evaluacioncompetencias'),
 		);
 	}
 
