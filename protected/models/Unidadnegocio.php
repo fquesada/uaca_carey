@@ -11,8 +11,8 @@
  * @property integer $estado
  *
  * The followings are the available model relations:
- * @property Empresa $empresa0
- * @property Puesto[] $puestos
+ * @property Empresa $_empresa
+ * @property Puesto[] $_puestos
  */
 class Unidadnegocio extends CActiveRecord
 {
@@ -60,8 +60,8 @@ class Unidadnegocio extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'empresa0' => array(self::BELONGS_TO, 'Empresa', 'empresa'),
-			'puestos' => array(self::MANY_MANY, 'Puesto', 'unidadnegociopuesto(unidadnegocio, puesto)'),
+			'_empresa' => array(self::BELONGS_TO, 'Empresa', 'empresa'),
+			'_puestos' => array(self::MANY_MANY, 'Puesto', 'unidadnegociopuesto(unidadnegocio, puesto)'),
 		);
 	}
 
