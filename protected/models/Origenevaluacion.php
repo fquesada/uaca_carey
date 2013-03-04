@@ -9,7 +9,7 @@
  * @property integer $estado
  *
  * The followings are the available model relations:
- * @property Habilidadevaluacioncandidato[] $habilidadevaluacioncandidatos
+ * @property Habilidadevaluacioncandidato[] $_habilidadesevaluacioncandidato
  */
 class Origenevaluacion extends CActiveRecord
 {
@@ -56,7 +56,7 @@ class Origenevaluacion extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'habilidadevaluacioncandidatos' => array(self::HAS_MANY, 'Habilidadevaluacioncandidato', 'origen'),
+			'_habilidadesevaluacioncandidato' => array(self::HAS_MANY, 'Habilidadevaluacioncandidato', 'origen'),
 		);
 	}
 
