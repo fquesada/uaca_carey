@@ -106,4 +106,28 @@ class SiteController extends Controller
 		Yii::app()->user->logout();
 		$this->redirect(Yii::app()->homeUrl);
 	}
+        
+        public function actioncrearusuarioprovisional(){
+            
+            if(isset($_POST['user'])&& isset($_POST['password'])){
+                
+                $usuario = new Usuario();
+                
+                $usuario->login = $_POST['user'];
+                $usuario->password = crypt($_POST['password'], $usuario->getsalt());
+                
+                $usuario->empresa = 1;
+                $usuario->fechacreacion = date("Y-m-d");               
+                
+                $result = $usuario->save();
+                if($result){
+                   $model=new LoginForm;
+                   $this->redirect('login',array('model'=>$model));                   
+                   }
+                else
+                    throw new CHttpException(500,'Fallo al intentar crear usuario provisional,verifique conexion BD o Codigo.');
+            }
+            
+            $this->render('crearusuarioprovisional');
+        }
 }
