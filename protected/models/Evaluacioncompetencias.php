@@ -17,15 +17,15 @@
  * @property integer $evaluado
  *
  * The followings are the available model relations:
- * @property Puesto $puestopotencial10
- * @property Puesto $puestopotencial20
- * @property Puesto $puestopotencial30
- * @property Evaluacionpersonas $evaluacionpersonas0
- * @property Colaborador $evaluador0
- * @property Habilidadespecialevaluada[] $habilidadespecialevaluadas
- * @property Habilidadevaluacioncandidato[] $habilidadevaluacioncandidatos
- * @property Habilidadnoequivalente[] $habilidadnoequivalentes
- * @property Meritoevaluacioncandidato[] $meritoevaluacioncandidatos
+ * @property Puesto $_puestopotencial1
+ * @property Puesto $_puestopotencial2
+ * @property Puesto $_puestopotencial3
+ * @property Evaluacionpersonas $_evaluacionpersonas
+ * @property Colaborador $_evaluador
+ * @property Habilidadespecialevaluada[] $_habilidadesespecialevaluada
+ * @property Habilidadevaluacioncandidato[] $_habilidadesevaluacioncandidato
+ * @property Habilidadnoequivalente[] $_habilidadesnoequivalente
+ * @property Meritoevaluacioncandidato[] $_meritosevaluacioncandidato
  */
 class Evaluacioncompetencias extends CActiveRecord
 {
@@ -72,15 +72,15 @@ class Evaluacioncompetencias extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'puestopotencial10' => array(self::BELONGS_TO, 'Puesto', 'puestopotencial1'),
-			'puestopotencial20' => array(self::BELONGS_TO, 'Puesto', 'puestopotencial2'),
-			'puestopotencial30' => array(self::BELONGS_TO, 'Puesto', 'puestopotencial3'),
-			'evaluacionpersonas0' => array(self::BELONGS_TO, 'Evaluacionpersonas', 'evaluacionpersonas'),
-			'evaluador0' => array(self::BELONGS_TO, 'Colaborador', 'evaluador'),
-			'habilidadespecialevaluadas' => array(self::HAS_MANY, 'Habilidadespecialevaluada', 'evaluacioncompetencias'),
-			'habilidadevaluacioncandidatos' => array(self::HAS_MANY, 'Habilidadevaluacioncandidato', 'evaluacioncandidato'),
-			'habilidadnoequivalentes' => array(self::HAS_MANY, 'Habilidadnoequivalente', 'evaluacioncandidato'),
-			'meritoevaluacioncandidatos' => array(self::HAS_MANY, 'Meritoevaluacioncandidato', 'evaluacioncandidato'),
+			'_puestopotencial1' => array(self::BELONGS_TO, 'Puesto', 'puestopotencial1'),
+			'_puestopotencial2' => array(self::BELONGS_TO, 'Puesto', 'puestopotencial2'),
+			'_puestopotencial3' => array(self::BELONGS_TO, 'Puesto', 'puestopotencial3'),
+			'_evaluacionpersonas' => array(self::BELONGS_TO, 'Evaluacionpersonas', 'evaluacionpersonas'),
+			'_evaluador' => array(self::BELONGS_TO, 'Colaborador', 'evaluador'),
+			'_habilidadesespecialevaluada' => array(self::HAS_MANY, 'Habilidadespecialevaluada', 'evaluacioncompetencias'),
+			'_habilidadesevaluacioncandidato' => array(self::HAS_MANY, 'Habilidadevaluacioncandidato', 'evaluacioncandidato'),
+			'_habilidadesnoequivalente' => array(self::HAS_MANY, 'Habilidadnoequivalente', 'evaluacioncandidato'),
+			'_meritosevaluacioncandidato' => array(self::HAS_MANY, 'Meritoevaluacioncandidato', 'evaluacioncandidato'),
 		);
 	}
 
