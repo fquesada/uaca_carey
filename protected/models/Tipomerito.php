@@ -8,7 +8,7 @@
  * @property string $nombre
  *
  * The followings are the available model relations:
- * @property Merito[] $meritos
+ * @property Merito[] $_meritos
  */
 class Tipomerito extends CActiveRecord
 {
@@ -54,7 +54,7 @@ class Tipomerito extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'meritos' => array(self::HAS_MANY, 'Merito', 'tipomerito'),
+			'_meritos' => array(self::HAS_MANY, 'Merito', 'tipomerito'),
 		);
 	}
 
