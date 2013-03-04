@@ -14,14 +14,14 @@
  * @property integer $puesto
  *
  * The followings are the available model relations:
- * @property Unidadnegociopuesto $unidadnegocio0
- * @property Unidadnegociopuesto $puesto0
- * @property Usuario[] $usuarios
- * @property Evaluacioncompetencias[] $evaluacioncompetenciases
- * @property Evaluaciondesempeno[] $evaluaciondesempenos
- * @property Evaluaciondesempeno[] $evaluaciondesempenos1
- * @property Evaluacionpersonas[] $evaluacionpersonases
- * @property Historicopuesto[] $historicopuestos
+ * @property Unidadnegociopuesto $_unidadnegocio
+ * @property Unidadnegociopuesto $_puesto
+ * @property Usuario[] $_usuarios
+ * @property Evaluacioncompetencias[] $_evaluadoresevaluacioncompetencias
+ * @property Evaluaciondesempeno[] $_colaboradoresevaluaciondesempeno
+ * @property Evaluaciondesempeno[] $_evaluadoresevaluaciondesempeno
+ * @property Evaluacionpersonas[] $_creadoresevaluacionpersonas
+ * @property Historicopuesto[] $_colaboradoreshistoricopuesto
  */
 class Colaborador extends CActiveRecord
 {
@@ -68,14 +68,14 @@ class Colaborador extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'unidadnegocio0' => array(self::BELONGS_TO, 'Unidadnegociopuesto', 'unidadnegocio'),
-			'puesto0' => array(self::BELONGS_TO, 'Unidadnegociopuesto', 'puesto'),
-			'usuarios' => array(self::MANY_MANY, 'Usuario', 'colaboradorusuario(colaborador, usuario)'),
-			'evaluacioncompetenciases' => array(self::HAS_MANY, 'Evaluacioncompetencias', 'evaluador'),
-			'evaluaciondesempenos' => array(self::HAS_MANY, 'Evaluaciondesempeno', 'colaborador'),
-			'evaluaciondesempenos1' => array(self::HAS_MANY, 'Evaluaciondesempeno', 'evaluador'),
-			'evaluacionpersonases' => array(self::HAS_MANY, 'Evaluacionpersonas', 'creador'),
-			'historicopuestos' => array(self::HAS_MANY, 'Historicopuesto', 'colaborador'),
+			'_unidadnegocio' => array(self::BELONGS_TO, 'Unidadnegociopuesto', 'unidadnegocio'),
+			'_puesto' => array(self::BELONGS_TO, 'Unidadnegociopuesto', 'puesto'),
+			'_usuarios' => array(self::MANY_MANY, 'Usuario', 'colaboradorusuario(colaborador, usuario)'),
+			'_evaluadoresevaluacioncompetencias' => array(self::HAS_MANY, 'Evaluacioncompetencias', 'evaluador'),
+			'_colaboradoresevaluaciondesempeno' => array(self::HAS_MANY, 'Evaluaciondesempeno', 'colaborador'),
+			'_evaluadoresevaluaciondesempeno' => array(self::HAS_MANY, 'Evaluaciondesempeno', 'evaluador'),
+			'_creadoresevaluacionpersonas' => array(self::HAS_MANY, 'Evaluacionpersonas', 'creador'),
+			'_colaboradoreshistoricopuesto' => array(self::HAS_MANY, 'Historicopuesto', 'colaborador'),
 		);
 	}
 
