@@ -10,10 +10,10 @@
  * @property integer $estado
  *
  * The followings are the available model relations:
- * @property Evaluacioncompetencias[] $evaluacioncompetenciases
- * @property Colaborador $creador0
- * @property Habilidadespecialevaluada[] $habilidadespecialevaluadas
- * @property Vacante[] $vacantes
+ * @property Evaluacioncompetencias[] $_evaluacionescompetencias
+ * @property Colaborador $_creador
+ * @property Habilidadespecialevaluada[] $_habilidadesespecialevaluada
+ * @property Vacante[] $_vacantes
  */
 class Evaluacionpersonas extends CActiveRecord
 {
@@ -59,10 +59,10 @@ class Evaluacionpersonas extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'evaluacioncompetenciases' => array(self::HAS_MANY, 'Evaluacioncompetencias', 'evaluacionpersonas'),
-			'creador0' => array(self::BELONGS_TO, 'Colaborador', 'creador'),
-			'habilidadespecialevaluadas' => array(self::HAS_MANY, 'Habilidadespecialevaluada', 'evaluacionpersonas'),
-			'vacantes' => array(self::HAS_MANY, 'Vacante', 'evaluacionpersonas'),
+			'_evaluacionescompetencias' => array(self::HAS_MANY, 'Evaluacioncompetencias', 'evaluacionpersonas'),
+			'_creador' => array(self::BELONGS_TO, 'Colaborador', 'creador'),
+			'_habilidadesespecialevaluada' => array(self::HAS_MANY, 'Habilidadespecialevaluada', 'evaluacionpersonas'),
+			'_vacantes' => array(self::HAS_MANY, 'Vacante', 'evaluacionpersonas'),
 		);
 	}
 
