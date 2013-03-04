@@ -14,11 +14,11 @@
  * @property integer $puestopotencial3
  *
  * The followings are the available model relations:
- * @property Competencia $competencia0
- * @property Puesto $puestopotencial10
- * @property Evaluacioncompetencias $evaluacioncandidato0
- * @property Puesto $puestopotencial20
- * @property Puesto $puestopotencial30
+ * @property Competencia $_competencia
+ * @property Puesto $_puestopotencial1
+ * @property Evaluacioncompetencias $_evaluacioncandidato
+ * @property Puesto $_puestopotencial2
+ * @property Puesto $_puestopotencial3
  */
 class Habilidadnoequivalente extends CActiveRecord
 {
@@ -65,11 +65,11 @@ class Habilidadnoequivalente extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'competencia0' => array(self::BELONGS_TO, 'Competencia', 'competencia'),
-			'puestopotencial10' => array(self::BELONGS_TO, 'Puesto', 'puestopotencial1'),
-			'evaluacioncandidato0' => array(self::BELONGS_TO, 'Evaluacioncompetencias', 'evaluacioncandidato'),
-			'puestopotencial20' => array(self::BELONGS_TO, 'Puesto', 'puestopotencial2'),
-			'puestopotencial30' => array(self::BELONGS_TO, 'Puesto', 'puestopotencial3'),
+			'_competencia' => array(self::BELONGS_TO, 'Competencia', 'competencia'),
+			'_puestopotencial1' => array(self::BELONGS_TO, 'Puesto', 'puestopotencial1'),
+			'_evaluacioncandidato' => array(self::BELONGS_TO, 'Evaluacioncompetencias', 'evaluacioncandidato'),
+			'_puestopotencial2' => array(self::BELONGS_TO, 'Puesto', 'puestopotencial2'),
+			'_puestopotencial3' => array(self::BELONGS_TO, 'Puesto', 'puestopotencial3'),
 		);
 	}
 
