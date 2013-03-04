@@ -11,8 +11,8 @@
  * @property integer $evaluacionpersonas
  *
  * The followings are the available model relations:
- * @property Periodo $periodo0
- * @property Evaluacionpersonas $evaluacionpersonas0
+ * @property Periodo $_periodo
+ * @property Evaluacionpersonas $_evaluacionpersonas
  */
 class Vacante extends CActiveRecord
 {
@@ -59,8 +59,8 @@ class Vacante extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'periodo0' => array(self::BELONGS_TO, 'Periodo', 'periodo'),
-			'evaluacionpersonas0' => array(self::BELONGS_TO, 'Evaluacionpersonas', 'evaluacionpersonas'),
+			'_periodo' => array(self::BELONGS_TO, 'Periodo', 'periodo'),
+			'_evaluacionpersonas' => array(self::BELONGS_TO, 'Evaluacionpersonas', 'evaluacionpersonas'),
 		);
 	}
 
