@@ -11,17 +11,17 @@
  * @property integer $estado
  *
  * The followings are the available model relations:
- * @property Evaluacioncompetencias[] $evaluacioncompetenciases
- * @property Evaluacioncompetencias[] $evaluacioncompetenciases1
- * @property Evaluacioncompetencias[] $evaluacioncompetenciases2
- * @property Evaluaciondesempeno[] $evaluaciondesempenos
- * @property Habilidadnoequivalente[] $habilidadnoequivalentes
- * @property Habilidadnoequivalente[] $habilidadnoequivalentes1
- * @property Habilidadnoequivalente[] $habilidadnoequivalentes2
- * @property Merito[] $meritos
- * @property Competencia[] $competencias
- * @property Puntualizacion[] $puntualizacions
- * @property Unidadnegocio[] $unidadnegocios
+ * @property Evaluacioncompetencias[] $_puestospotencial1evaluacioncompetencia
+ * @property Evaluacioncompetencias[] $_puestospotencial2evaluacioncompetencia
+ * @property Evaluacioncompetencias[] $_puestospotencial3evaluacioncompetencia
+ * @property Evaluaciondesempeno[] $_puestosevaluaciondesempeno
+ * @property Habilidadnoequivalente[] $_puestospotencial1habilidadnoequivalente
+ * @property Habilidadnoequivalente[] $_puestospotencial2habilidadnoequivalente
+ * @property Habilidadnoequivalente[] $_puestospotencial3habilidadnoequivalente
+ * @property Merito[] $_meritos
+ * @property Competencia[] $_competencias
+ * @property Puntualizacion[] $_puntualizaciones
+ * @property Unidadnegocio[] $_unidadesnegocio
  */
 class Puesto extends CActiveRecord
 {
@@ -70,17 +70,17 @@ class Puesto extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'evaluacioncompetenciases' => array(self::HAS_MANY, 'Evaluacioncompetencias', 'puestopotencial1'),
-			'evaluacioncompetenciases1' => array(self::HAS_MANY, 'Evaluacioncompetencias', 'puestopotencial2'),
-			'evaluacioncompetenciases2' => array(self::HAS_MANY, 'Evaluacioncompetencias', 'puestopotencial3'),
-			'evaluaciondesempenos' => array(self::HAS_MANY, 'Evaluaciondesempeno', 'puesto'),
-			'habilidadnoequivalentes' => array(self::HAS_MANY, 'Habilidadnoequivalente', 'puestopotencial1'),
-			'habilidadnoequivalentes1' => array(self::HAS_MANY, 'Habilidadnoequivalente', 'puestopotencial2'),
-			'habilidadnoequivalentes2' => array(self::HAS_MANY, 'Habilidadnoequivalente', 'puestopotencial3'),
-			'meritos' => array(self::HAS_MANY, 'Merito', 'puesto'),
-			'competencias' => array(self::MANY_MANY, 'Competencia', 'puestocompetencia(puesto, competencia)'),
-			'puntualizacions' => array(self::MANY_MANY, 'Puntualizacion', 'puestopuntualizacion(puesto, puntualizacion)'),
-			'unidadnegocios' => array(self::MANY_MANY, 'Unidadnegocio', 'unidadnegociopuesto(puesto, unidadnegocio)'),
+			'_puestospotencial1evaluacioncompetencia' => array(self::HAS_MANY, 'Evaluacioncompetencias', 'puestopotencial1'),
+			'_puestospotencial2evaluacioncompetencia' => array(self::HAS_MANY, 'Evaluacioncompetencias', 'puestopotencial2'),
+			'_puestospotencial3evaluacioncompetencia' => array(self::HAS_MANY, 'Evaluacioncompetencias', 'puestopotencial3'),
+			'_puestosevaluaciondesempeno' => array(self::HAS_MANY, 'Evaluaciondesempeno', 'puesto'),
+			'_puestospotencial1habilidadnoequivalente' => array(self::HAS_MANY, 'Habilidadnoequivalente', 'puestopotencial1'),
+			'_puestospotencial2habilidadnoequivalente' => array(self::HAS_MANY, 'Habilidadnoequivalente', 'puestopotencial2'),
+			'_puestospotencial3habilidadnoequivalente' => array(self::HAS_MANY, 'Habilidadnoequivalente', 'puestopotencial3'),
+			'_meritos' => array(self::HAS_MANY, 'Merito', 'puesto'),
+			'_competencias' => array(self::MANY_MANY, 'Competencia', 'puestocompetencia(puesto, competencia)'),
+			'_puntualizaciones' => array(self::MANY_MANY, 'Puntualizacion', 'puestopuntualizacion(puesto, puntualizacion)'),
+			'_unidadesnegocio' => array(self::MANY_MANY, 'Unidadnegocio', 'unidadnegociopuesto(puesto, unidadnegocio)'),
 		);
 	}
 
