@@ -18,7 +18,7 @@ $this->menu=array(
 
 <h3>Procesos de evaluacion</h3>
 
-<button  id="btnnuevocompromiso" type="submit" class="sexybutton sexysimple sexylarge disabled"><span class="add">Nuevo proceso evaluacion</span></button>
+<button  id="btnnuevocompromiso" type="submit" class="sexybutton sexysimple sexylarge"><span class="add">Nuevo proceso evaluacion</span></button>
 
 <?php $this->widget('zii.widgets.grid.CGridView', array(
 	'id'=>'evaluacionpersonas-grid',

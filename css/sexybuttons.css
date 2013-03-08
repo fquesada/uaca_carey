@@ -210,12 +210,12 @@
 	
 .sexybutton span,
 .sexybutton.sexysilver span {
-	background-image: url(images/skins/silver/button_right.gif);
+	background-image: url(../images/skins/silver/button_right.gif);
 }
 
 .sexybutton span span,
 .sexybutton.sexysilver span span {
-	background-image: url(images/skins/silver/button_left.gif);
+	background-image: url(../images/skins/silver/button_left.gif);
 }
 
 /* Orange Button Skin */
@@ -238,11 +238,11 @@
 }
 	
 .sexybutton.sexyorange span {
-	background-image: url(images/skins/orange/button_right.gif);
+	background-image: url(../images/skins/orange/button_right.gif);
 }
 
 .sexybutton.sexyorange span span {
-	background-image: url(images/skins/orange/button_left.gif);
+	background-image: url(../images/skins/orange/button_left.gif);
 }
 
 /* Yellow Button Skin */
@@ -254,11 +254,11 @@
 }
 	
 .sexybutton.sexyyellow span {
-	background-image: url(images/skins/yellow/button_right.gif);
+	background-image: url(../images/skins/yellow/button_right.gif);
 }
 
 .sexybutton.sexyyellow span span {
-	background-image: url(images/skins/yellow/button_left.gif);
+	background-image: url(../images/skins/yellow/button_left.gif);
 }
 
 
@@ -275,7 +275,7 @@
 	font-weight: bold !important; 
 	color: #fff !important;
 	line-height: 1; 
-	background-image: url(images/skins/simple/awesome-overlay-sprite.png);
+	background-image: url(../images/skins/simple/awesome-overlay-sprite.png);
 	background-repeat: repeat-x;
 	background-position: 0 0;
 	
@@ -422,9 +422,9 @@
 /* Silk Icons - http://www.famfamfam.com/lab/icons/silk/ */
 /* (Obviously not all Silk icons are defined here. Feel free to define any other icons that you may need.) */
 
-.sexybutton span.ok				{ background-image: url(images/icons/silk/tick.png) !important; }
-.sexybutton span.cancel			{ background-image: url(images/icons/silk/cross.png) !important; }
-.sexybutton span.add				{ background-image: url(images/icons/silk/add.png) !important; }
+.sexybutton span.ok				{ background-image: url(../images/icons/silk/tick.png) !important; }
+.sexybutton span.cancel			{ background-image: url(../images/icons/silk/cross.png) !important; }
+.sexybutton span.add				{ background-image: url(../images/icons/silk/add.png) !important; }
 .sexybutton span.delete			{ background-image: url(images/icons/silk/delete.png) !important; }
 .sexybutton span.download		{ background-image: url(images/icons/silk/arrow_down.png) !important; }
 .sexybutton span.download2		{ background-image: url(images/icons/silk/package_down.png) !important; }
