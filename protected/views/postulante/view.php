@@ -16,7 +16,7 @@ $this->menu=array(
 );
 ?>
 
-<h1>View Postulante #<?php echo $model->id; ?></h1>
+<h1>Mostrar Postulante #<?php echo $model->id; ?></h1>
 
 <?php $this->widget('zii.widgets.CDetailView', array(
 	'data'=>$model,
