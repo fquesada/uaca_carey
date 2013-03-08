@@ -37,8 +37,7 @@
 	</div>
 
 	<div class="row">
-		<?php echo $form->label($model,'estado'); ?>
-		<?php echo $form->textField($model,'estado'); ?>
+		<?php echo $form->hiddenField($model,'estado',array('value'=>1)); ?>
 	</div>
 
 	<div class="row buttons">
