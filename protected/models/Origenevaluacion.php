@@ -40,7 +40,7 @@ class Origenevaluacion extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('nombre', 'required'),
-                        //array('nombre', 'caseSensitive'=>true),
+                        array('nombre', 'unique', 'className' => 'Origenevaluacion','caseSensitive'=>'true'),
 			array('estado', 'numerical', 'integerOnly'=>true),
 			array('nombre', 'length', 'max'=>45),
 			// The following rule is used by search().
