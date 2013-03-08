@@ -9,7 +9,6 @@ $this->breadcrumbs=array(
 );
 
 $this->menu=array(
-	array('label'=>'Lista Postulantes', 'url'=>array('index')),
 	array('label'=>'Crear Postulante', 'url'=>array('create')),
 	array('label'=>'Mostrar Postulante', 'url'=>array('view', 'id'=>$model->id)),
 	array('label'=>'Gestionar Postulantes', 'url'=>array('admin')),

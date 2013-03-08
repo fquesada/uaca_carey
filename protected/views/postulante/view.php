@@ -8,7 +8,6 @@ $this->breadcrumbs=array(
 );
 
 $this->menu=array(
-	array('label'=>'Lista Postulante', 'url'=>array('index')),
 	array('label'=>'Crear Postulante', 'url'=>array('create')),
 	array('label'=>'Modificar Postulante', 'url'=>array('update', 'id'=>$model->id)),
 	array('label'=>'Eliminar Postulante', 'url'=>'#', 'linkOptions'=>array('submit'=>array('delete','id'=>$model->id),'confirm'=>'Are you sure you want to delete this item?')),

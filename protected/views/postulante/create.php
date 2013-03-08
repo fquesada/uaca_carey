@@ -8,7 +8,6 @@ $this->breadcrumbs=array(
 );
 
 $this->menu=array(
-	array('label'=>'Lista Postulantes', 'url'=>array('index')),
 	array('label'=>'Gestionar Postulantes', 'url'=>array('admin')),
 );
 ?>
