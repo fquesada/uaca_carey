@@ -27,5 +27,9 @@ $(document).ready(function() {
        return numerohabilidades;
    }
    
+   $('#tblhabilidades > tbody > tr > td > img').click(function(){  
+       alert('hola');
+   });
+   
 });
 
