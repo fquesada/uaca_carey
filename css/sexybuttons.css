@@ -448,7 +448,7 @@
 .sexybutton span.heart			{ background-image: url(images/icons/silk/heart.png) !important; }
 .sexybutton span.like			{ background-image: url(images/icons/silk/thumb_up.png) !important; }
 .sexybutton span.dislike		{ background-image: url(images/icons/silk/thumb_down.png) !important; }
-.sexybutton span.accept			{ background-image: url(images/icons/silk/accept.png) !important; }
+.sexybutton span.accept			{ background-image: url(../images/icons/silk/accept.png) !important; }
 .sexybutton span.decline		{ background-image: url(images/icons/silk/decline.png) !important; }
 .sexybutton span.help			{ background-image: url(images/icons/silk/help.png) !important; }
 .sexybutton span.home			{ background-image: url(images/icons/silk/house.png) !important; }

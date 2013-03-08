@@ -3,7 +3,7 @@
 
 <div>
                     
-<button  id="btncrearevaluacionpersona" type="submit" class="sexybutton sexysimple"><span class="add">Agregar habilidad especial</span></button>
+<button  id="btncrearevaluacionpersona" type="button" class="sexybutton sexysimple"><span class="add">Agregar habilidad especial</span></button>
 
 </div>
 
@@ -12,17 +12,15 @@
 
 <div>
     
-<table border="1">
+<table border="1" id="tblhabilidades">
   <thead>
     <tr>
       <th>Habilidad Especial</th>      
       <th>Descripción</th> 
+      <th></th> 
     </tr>
   </thead>  
-  <tbody>
-    <tr>
-      <td>Actualmente no hay habilidades.</td>      
-    </tr>   
+  <tbody>       
   </tbody>
 </table>
     
@@ -35,12 +33,14 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
         'title'=>'Crear Habilidad Especial',
         'autoOpen'=>false,
         'modal'=>true,
-        'width'=>550,
-        'height'=>470,
+        'width'=>395,
+        'height'=>270,
+        'resizable' => false,
+        'draggable' => false,
     ),
-));?>
+));?> 
 
-<div id="divhabilidad">
+<div id="divhabilidad" style="display: none">
     
     <div class="form">
         
@@ -52,12 +52,15 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
     <div class="row">
             <?php echo CHtml::label('Descripcion de la habilidad', 'txtareadescripcionhabilidad');?>
             <?php echo CHtml::textArea('txtareadescripcionhabilidad','', array('id'=>'txtareadescripcionhabilidad', 'rows' => '5', 'cols' => '40', 'maxlength' => '180'));?>        
-    </div>   
+    </div>  
+        
+    <div class="row buttons">                    
+        <button  id="btncrearhabilidad" type="button" class="sexybutton sexysimple"><span class="accept">Agregar habilidad especial</span></button>
+    </div>
            
     </div>
       
-</div><!-- form -->
-    
 </div>
- 
+
 <?php $this->endWidget();?>
+
