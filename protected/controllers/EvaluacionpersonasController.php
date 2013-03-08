@@ -32,7 +32,7 @@ class EvaluacionpersonasController extends Controller
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('create','update'),
+				'actions'=>array('crear','update'),
 				'users'=>array('@'),
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -78,6 +78,15 @@ class EvaluacionpersonasController extends Controller
 			'model'=>$model,
 		));
 	}
+        
+        public function actionCrear(){
+            
+            $model = new Evaluacionpersonas();
+            
+            $this->render('crear',array(
+			'model'=>$model,
+            ));
+        }
 
 	/**
 	 * Updates a particular model.
