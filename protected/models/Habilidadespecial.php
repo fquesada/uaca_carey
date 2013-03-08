@@ -7,8 +7,10 @@
  * @property integer $id
  * @property string $nombre
  * @property string $descripcion
+ * @property integer $evaluacionpersonas
  *
  * The followings are the available model relations:
+ * @property Evaluacionpersonas $_evaluacionpersonas
  * @property Habilidadespecialevaluada[] $_habilidadesespecialevaluada
  */
 class Habilidadespecial extends CActiveRecord
@@ -39,12 +41,13 @@ class Habilidadespecial extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('nombre, descripcion', 'required'),
+			array('nombre, descripcion, evaluacionpersonas', 'required'),
+			array('evaluacionpersonas', 'numerical', 'integerOnly'=>true),
 			array('nombre', 'length', 'max'=>45),
 			array('descripcion', 'length', 'max'=>180),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, nombre, descripcion', 'safe', 'on'=>'search'),
+			array('id, nombre, descripcion, evaluacionpersonas', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -56,6 +59,7 @@ class Habilidadespecial extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+			'_evaluacionpersonas' => array(self::BELONGS_TO, 'Evaluacionpersonas', 'evaluacionpersonas'),
 			'_habilidadesespecialevaluada' => array(self::HAS_MANY, 'Habilidadespecialevaluada', 'habilidadespecial'),
 		);
 	}
@@ -69,6 +73,7 @@ class Habilidadespecial extends CActiveRecord
 			'id' => 'ID',
 			'nombre' => 'Nombre',
 			'descripcion' => 'Descripcion',
+			'evaluacionpersonas' => 'Evaluacionpersonas',
 		);
 	}
 
@@ -86,6 +91,7 @@ class Habilidadespecial extends CActiveRecord
 		$criteria->compare('id',$this->id);
 		$criteria->compare('nombre',$this->nombre,true);
 		$criteria->compare('descripcion',$this->descripcion,true);
+		$criteria->compare('evaluacionpersonas',$this->evaluacionpersonas);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

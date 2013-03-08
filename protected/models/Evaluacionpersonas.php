@@ -8,10 +8,14 @@
  * @property string $fecha
  * @property integer $creador
  * @property integer $estado
+ * @property integer $puesto
+ * @property string $descripcion
  *
  * The followings are the available model relations:
  * @property Evaluacioncompetencias[] $_evaluacionescompetencias
  * @property Colaborador $_creador
+ * @property Puesto $_puesto
+ * @property Habilidadespecial[] $_habilidadesespecial
  * @property Habilidadespecialevaluada[] $_habilidadesespecialevaluada
  * @property Vacante[] $_vacantes
  */
@@ -43,11 +47,12 @@ class Evaluacionpersonas extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('fecha, creador', 'required'),
-			array('creador, estado', 'numerical', 'integerOnly'=>true),
+			array('fecha, creador, puesto', 'required'),
+			array('creador, estado, puesto', 'numerical', 'integerOnly'=>true),
+			array('descripcion', 'length', 'max'=>90),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, fecha, creador, estado', 'safe', 'on'=>'search'),
+			array('id, fecha, creador, estado, puesto, descripcion', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -61,6 +66,8 @@ class Evaluacionpersonas extends CActiveRecord
 		return array(
 			'_evaluacionescompetencias' => array(self::HAS_MANY, 'Evaluacioncompetencias', 'evaluacionpersonas'),
 			'_creador' => array(self::BELONGS_TO, 'Colaborador', 'creador'),
+			'_puesto' => array(self::BELONGS_TO, 'Puesto', 'puesto'),
+			'_habilidadesespecial' => array(self::HAS_MANY, 'Habilidadespecial', 'evaluacionpersonas'),
 			'_habilidadesespecialevaluada' => array(self::HAS_MANY, 'Habilidadespecialevaluada', 'evaluacionpersonas'),
 			'_vacantes' => array(self::HAS_MANY, 'Vacante', 'evaluacionpersonas'),
 		);
@@ -76,6 +83,8 @@ class Evaluacionpersonas extends CActiveRecord
 			'fecha' => 'Fecha',
 			'creador' => 'Creador',
 			'estado' => 'Estado',
+			'puesto' => 'Puesto',
+			'descripcion' => 'Descripcion',
 		);
 	}
 
@@ -94,6 +103,8 @@ class Evaluacionpersonas extends CActiveRecord
 		$criteria->compare('fecha',$this->fecha,true);
 		$criteria->compare('creador',$this->creador);
 		$criteria->compare('estado',$this->estado);
+		$criteria->compare('puesto',$this->puesto);
+		$criteria->compare('descripcion',$this->descripcion,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

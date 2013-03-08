@@ -9,10 +9,12 @@
  * @property string $fechareclutamiento
  * @property string $fechaseleccion
  * @property integer $evaluacionpersonas
+ * @property integer $unidadnegocio
  *
  * The followings are the available model relations:
  * @property Periodo $_periodo
  * @property Evaluacionpersonas $_evaluacionpersonas
+ * @property Unidadnegocio $_unidadnegocio
  */
 class Vacante extends CActiveRecord
 {
@@ -42,12 +44,12 @@ class Vacante extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('periodo', 'required'),
-			array('periodo, evaluacionpersonas', 'numerical', 'integerOnly'=>true),
+			array('periodo, unidadnegocio', 'required'),
+			array('periodo, evaluacionpersonas, unidadnegocio', 'numerical', 'integerOnly'=>true),
 			array('fechareclutamiento, fechaseleccion', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, periodo, fechareclutamiento, fechaseleccion, evaluacionpersonas', 'safe', 'on'=>'search'),
+			array('id, periodo, fechareclutamiento, fechaseleccion, evaluacionpersonas, unidadnegocio', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -61,6 +63,7 @@ class Vacante extends CActiveRecord
 		return array(
 			'_periodo' => array(self::BELONGS_TO, 'Periodo', 'periodo'),
 			'_evaluacionpersonas' => array(self::BELONGS_TO, 'Evaluacionpersonas', 'evaluacionpersonas'),
+			'_unidadnegocio0' => array(self::BELONGS_TO, 'Unidadnegocio', 'unidadnegocio'),
 		);
 	}
 
@@ -75,6 +78,7 @@ class Vacante extends CActiveRecord
 			'fechareclutamiento' => 'Fechareclutamiento',
 			'fechaseleccion' => 'Fechaseleccion',
 			'evaluacionpersonas' => 'Evaluacionpersonas',
+			'unidadnegocio' => 'Unidadnegocio',
 		);
 	}
 
@@ -94,6 +98,7 @@ class Vacante extends CActiveRecord
 		$criteria->compare('fechareclutamiento',$this->fechareclutamiento,true);
 		$criteria->compare('fechaseleccion',$this->fechaseleccion,true);
 		$criteria->compare('evaluacionpersonas',$this->evaluacionpersonas);
+		$criteria->compare('unidadnegocio',$this->unidadnegocio);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
