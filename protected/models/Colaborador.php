@@ -86,12 +86,12 @@ class Colaborador extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'cedula' => 'Cedula',
+			'cedula' => 'Cédula',
 			'nombre' => 'Nombre',
-			'apellido1' => 'Apellido1',
-			'apellido2' => 'Apellido2',
+			'apellido1' => 'Primer Apellido',
+			'apellido2' => 'Segundo Apellido',
 			'estado' => 'Estado',
-			'unidadnegocio' => 'Unidadnegocio',
+			'unidadnegocio' => 'Unidad de Negocio',
 			'puesto' => 'Puesto',
 		);
 	}
