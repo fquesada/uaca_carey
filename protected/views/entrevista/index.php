@@ -5,6 +5,12 @@ $this->breadcrumbs=array(
 	'Entrevista',
 );
 ?>
+
+<?php
+ Yii::app()->clientScript->registerCoreScript('jquery');
+ Yii::app()->clientScript->registerCoreScript('jquery.ui');
+
+?>
 <h1>Entrevista</h1>
 
 <div class="form">
@@ -27,30 +33,19 @@ $this->breadcrumbs=array(
         
 </div>
 
-<?php
-$this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
-    'id'=>'dialogEntrevista',
-    'options'=>array(
-        'title'=>'Entrevista',
-        'autoOpen'=>false,
-        'modal'=>true,
-        'width'=>550,
-        'height'=>470,
-    ),
-));?>
-<div id="view"></div>
- 
-<?php $this->endWidget();?>
-
-
-
 <script type="text/javascript">
 // here is the magic
  
       
             function cargarEntrevista() {                
-                var puesto = $('#puesto').val();
-                var page = './pdf/'+puesto;                
+                var puesto = $('#puesto').val();  
+                var url = $(location).attr('href');
+                
+                if(url.charAt( url.length-1 ) != "/") {
+                    url = url + "/";
+                }
+                
+                var page = url+"pdf/"+puesto; 
                 var wWidth = $(window).width();
                 var dWidth = wWidth * 0.9;
                 var wHeight = $(window).height();
