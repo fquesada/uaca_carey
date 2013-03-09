@@ -70,8 +70,8 @@ class Puntualizacion extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'puntualizacion' => 'Puntualizacion',
-			'indicadorpuntualizacion' => 'Indicadorpuntualizacion',
+			'puntualizacion' => 'Puntualización',
+			'indicadorpuntualizacion' => 'Indicador de puntualización',
 			'estado' => 'Estado',
 		);
 	}
@@ -91,9 +91,52 @@ class Puntualizacion extends CActiveRecord
 		$criteria->compare('puntualizacion',$this->puntualizacion,true);
 		$criteria->compare('indicadorpuntualizacion',$this->indicadorpuntualizacion,true);
 		$criteria->compare('estado',$this->estado);
-
+                
+                $criteria->addColumnCondition(array('estado'=>'1'));
+            
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
 		));
 	}
+
+/**
+	 * Retrieves a list of models based on the current search/filter conditions.
+	 * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
+	 */
+	public function addpuntualizacion($idpuesto)
+	{
+		// Warning: Please modify the following code to remove attributes that
+		// should not be searched.
+
+		$criteria=new CDbCriteria;
+
+		$criteria->compare('id',$this->id);
+		$criteria->compare('puntualizacion',$this->puntualizacion,true);
+		$criteria->compare('indicadorpuntualizacion',$this->indicadorpuntualizacion,true);
+		$criteria->compare('estado',$this->estado);
+                
+                $criteria->addColumnCondition(array('estado'=>'1'));
+            
+                $puntualizaciones = PuestoPuntualizacion::model()->findAllByAttributes(array('puesto'=>$idpuesto));
+                $puntualizacionessasociadas = $this->obtenerArrayColumna($puntualizaciones, 'puntualizacion');
+                $criteria->addNotInCondition('id', $puntualizacionessasociadas);
+
+		return new CActiveDataProvider($this, array(
+			'criteria'=>$criteria,
+		));
+	}        
+                        /**
+         * Returns an array with the values of the column needed.
+         * @param array $unidades the array with the objects that have the column needed
+         * @param string $columna  the name of the column that must be obtain
+         */
+
+           public function obtenerArrayColumna($unidades, $columna)
+        {
+            $idUnidades = array();
+            foreach ($unidades as $un) {
+                $idUnidades[] = $un->$columna;
+            }
+            return $idUnidades;
+        }
 }
