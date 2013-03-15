@@ -19,7 +19,7 @@ class UserIdentity extends CUserIdentity
     
 	public function authenticate()
 	{
-		$usuario=Usuario::model()->findByAttributes(array('login'=>$this->username));
+		$usuario=Usuario::model()->findByAttributes(array('login'=>$this->username, 'estado' => '1'));
 		if($usuario->login !== $this->username)
 			$this->errorCode=self::ERROR_USERNAME_INVALID;
 		else if($usuario->password!==crypt($this->password,$this->password))
