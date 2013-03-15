@@ -4,6 +4,11 @@
 /* @var $form CActiveForm */
 ?>
 
+<?php
+Yii::app()->clientScript->registerCssFile(Yii::app()->baseUrl . '/css/sexybuttons.css');
+?>
+
+
 <div class="form">
 
 <?php $form=$this->beginWidget('CActiveForm', array(
@@ -11,7 +16,7 @@
 	'enableAjaxValidation'=>false,
 )); ?>
 
-	<p class="note">Fields with <span class="required">*</span> are required.</p>
+	<p class="note">Los campos con  <span class="required">*</span> son requeridos.</p>
 
 	<?php echo $form->errorSummary($model); ?>
 
@@ -39,9 +44,6 @@
 		<?php echo $form->error($model,'apellido2'); ?>
 	</div>
 
-	<div class="row">
-		<?php echo $form->hiddenField($model,'estado',array('value'=>1)); ?>
-	</div>
 
 	<div class="row">
 		<?php echo $form->labelEx($model,'unidadnegocio'); ?>
@@ -57,11 +59,11 @@
 
 	<div class="row">
 		<?php echo $form->labelEx($model,'puesto'); ?>
-		<?php echo $form->dropDownList($model,'puesto',array(),array('empty'=>'Seleccione un puesto')) ?>
+		<?php echo $form->dropDownList($model,'puesto',CHtml::listData(Puesto::model()->findAllByAttributes(array('estado' => '1')),'id','nombre'),array('empty'=>'Seleccione un puesto')) ?>
 	</div>
 
 	<div class="row buttons">
-		<?php echo CHtml::submitButton($model->isNewRecord ? 'Crear' : 'Guardar'); ?>
+		<?php echo CHtml::submitButton($model->isNewRecord ? 'Crear' : 'Actualizar', array('class'=>'sexybutton sexysimple sexylarge'));?>
 	</div>
 
 <?php $this->endWidget(); ?>

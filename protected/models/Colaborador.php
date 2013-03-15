@@ -93,10 +93,30 @@ class Colaborador extends CActiveRecord
 			'estado' => 'Estado',
 			'unidadnegocio' => 'Unidad de Negocio',
 			'puesto' => 'Puesto',
+                        'NombreUnidadNegocio'=>'Unidad de Negocio',
+                        'NombrePuesto'=>'Puesto',
 		);
 	}
+        
+        Public function getNombreUnidadNegocio(){
+            $unidadsel = Unidadnegocio::model()->findAllByAttributes(array('id'=>$this->unidadnegocio));
+            foreach ($unidadsel as $unidadnegocio){
+                $resultado = $unidadnegocio->nombre;
+            }
+            return $resultado;
+        }
 
-	/**
+        Public function getNombrePuesto(){
+            $puestosel = Puesto::model()->findAllByAttributes(array('id'=>$this->puesto));
+            foreach ($puestosel as $puesto){
+                $resultado = $puesto->nombre;
+            }
+            return $resultado;
+        }
+        
+        
+
+        /**
 	 * Retrieves a list of models based on the current search/filter conditions.
 	 * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
 	 */

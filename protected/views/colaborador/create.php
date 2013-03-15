@@ -3,13 +3,12 @@
 /* @var $model Colaborador */
 
 $this->breadcrumbs=array(
-	'Colaboradors'=>array('index'),
-	'Create',
+	'Gestionar'=>array('index'),
+	'Crear',
 );
 
 $this->menu=array(
-	array('label'=>'Lista Colaboradores', 'url'=>array('index')),
-	array('label'=>'Gestionar Colaboradores', 'url'=>array('admin')),
+	array('label'=>'Gestionar Colaborador', 'url'=>array('admin')),
 );
 ?>
 

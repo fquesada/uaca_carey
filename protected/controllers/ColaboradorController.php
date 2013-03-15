@@ -122,9 +122,13 @@ class ColaboradorController extends Controller
 	 */
 	public function actionIndex()
 	{
-		$dataProvider=new CActiveDataProvider('Colaborador');
-		$this->render('index',array(
-			'dataProvider'=>$dataProvider,
+		$model=new Colaborador('search');
+		$model->unsetAttributes();  // clear any default values
+		if(isset($_GET['Colaborador']))
+			$model->attributes=$_GET['Colaborador'];
+
+		$this->render('admin',array(
+			'model'=>$model,
 		));
 	}
 
@@ -174,7 +178,7 @@ class ColaboradorController extends Controller
             }
         }
 
-	/**
+        /**
 	 * Returns the data model based on the primary key given in the GET variable.
 	 * If the data model is not found, an HTTP exception will be raised.
 	 * @param integer the ID of the model to be loaded

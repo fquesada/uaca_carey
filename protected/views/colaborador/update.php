@@ -3,19 +3,18 @@
 /* @var $model Colaborador */
 
 $this->breadcrumbs=array(
-	'Colaboradors'=>array('index'),
+	'Gestionar'=>array('admin'),
 	$model->id=>array('view','id'=>$model->id),
-	'Update',
+	'Actualizar',
 );
 
 $this->menu=array(
-	array('label'=>'Lista Colaboradores', 'url'=>array('index')),
 	array('label'=>'Crear Colaborador', 'url'=>array('create')),
-	array('label'=>'Mostrar Colaborador', 'url'=>array('view', 'id'=>$model->id)),
-	array('label'=>'Gestionar Colaboradores', 'url'=>array('admin')),
+	array('label'=>'Ver Colaborador', 'url'=>array('view', 'id'=>$model->id)),
+	array('label'=>'Gestionar Colaborador', 'url'=>array('admin')),
 );
 ?>
 
-<h1>Modificar Colaborador <?php echo $model->id; ?></h1>
+<h1>Actualizar Colaborador <?php echo $model->id; ?></h1>
 
 <?php echo $this->renderPartial('_form', array('model'=>$model)); ?>
