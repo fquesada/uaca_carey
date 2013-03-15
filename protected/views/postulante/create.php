@@ -3,8 +3,8 @@
 /* @var $model Postulante */
 
 $this->breadcrumbs=array(
-	'Postulantes'=>array('index'),
-	'Create',
+	'Gestionar'=>array('admin'),
+	'Crear',
 );
 
 $this->menu=array(

@@ -28,8 +28,8 @@ $('.search-form form').submit(function(){
 <h1>Gestionar Unidad de Negocios</h1>
 
 <p>
-Puede ingresar opcionalmente un operador comparativo (<b>&lt;</b>, <b>&lt;=</b>, <b>&gt;</b>, <b>&gt;=</b>, <b>&lt;&gt;</b>
-or <b>=</b>) al inicio de cada valor de búsqueda para especificar cómo se debe realizar la comparación.
+Puede ingresar opcionalmente un operador comparativo (<b>&lt;</b>, <b>&lt;=</b>, <b>&gt;</b>, <b>&gt;=</b>, <b>&lt;&gt;</b>,
+ <b>=</b>) al inicio de cada valor de búsqueda para especificar cómo se debe realizar la comparación.
 </p>
 
 <?php echo CHtml::link('Busqueda Avanzada','#',array('class'=>'search-button')); ?>

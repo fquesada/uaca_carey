@@ -3,24 +3,23 @@
 /* @var $model Postulante */
 
 $this->breadcrumbs=array(
-	'Postulantes'=>array('index'),
+	'Gestionar'=>array('admin'),
 	$model->id,
 );
 
 $this->menu=array(
 	array('label'=>'Crear Postulante', 'url'=>array('create')),
-	array('label'=>'Modificar Postulante', 'url'=>array('update', 'id'=>$model->id)),
-	array('label'=>'Eliminar Postulante', 'url'=>'#', 'linkOptions'=>array('submit'=>array('delete','id'=>$model->id),'confirm'=>'Are you sure you want to delete this item?')),
-	array('label'=>'Gestionar Postulantes', 'url'=>array('admin')),
+	array('label'=>'Actualizar Postulante', 'url'=>array('update', 'id'=>$model->id)),
+	array('label'=>'Eliminar Postulante', 'url'=>'#', 'linkOptions'=>array('submit'=>array('delete','id'=>$model->id),'confirm'=>'Seguro que desea borrar este elemento?')),
+	array('label'=>'Gestionar Postulante', 'url'=>array('admin')),
 );
 ?>
 
-<h1>Mostrar Postulante #<?php echo $model->id; ?></h1>
+<h1>Ver Postulante #<?php echo $model->id; ?></h1>
 
 <?php $this->widget('zii.widgets.CDetailView', array(
 	'data'=>$model,
 	'attributes'=>array(
-		'id',
 		'cedula',
 		'nombre',
 		'apellido1',

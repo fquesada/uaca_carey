@@ -3,9 +3,9 @@
 /* @var $model Postulante */
 
 $this->breadcrumbs=array(
-	'Postulantes'=>array('index'),
+	'Gestionar'=>array('admin'),
 	$model->id=>array('view','id'=>$model->id),
-	'Update',
+	'Actualizar',
 );
 
 $this->menu=array(
@@ -15,6 +15,6 @@ $this->menu=array(
 );
 ?>
 
-<h1>Modificar Postulante <?php echo $model->id; ?></h1>
+<h1>Actualizar Postulante <?php echo $model->id; ?></h1>
 
 <?php echo $this->renderPartial('_form', array('model'=>$model)); ?>

@@ -86,7 +86,7 @@ class Usuario extends CActiveRecord
 			'id' => 'ID',
 			'login' => 'Nombre de Usuario',
 			'password' => 'Contraseña',
-			'fechacreacion' => 'Fecha de creacion',
+			'fechacreacion' => 'Fecha de creación',
 			'estado' => 'Estado',
 			'empresa' => 'Empresa',
 		);

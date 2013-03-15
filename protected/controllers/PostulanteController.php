@@ -65,7 +65,7 @@ class PostulanteController extends Controller
 		$model=new Postulante;
 
 		// Uncomment the following line if AJAX validation is needed
-		// $this->performAjaxValidation($model);
+		$this->performAjaxValidation($model);
 
 		if(isset($_POST['Postulante']))
 		{
@@ -89,7 +89,7 @@ class PostulanteController extends Controller
 		$model=$this->loadModel($id);
 
 		// Uncomment the following line if AJAX validation is needed
-		// $this->performAjaxValidation($model);
+		$this->performAjaxValidation($model);
 
 		if(isset($_POST['Postulante']))
 		{
