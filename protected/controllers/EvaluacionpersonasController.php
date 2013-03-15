@@ -79,13 +79,13 @@ class EvaluacionpersonasController extends Controller
 		));
 	}
         
-        public function actionCrear(){
+        public function actionCrear(){            
+            $this->render('crear');
             
-            $model = new Evaluacionpersonas();
-            
-            $this->render('crear',array(
-			'model'=>$model,
-            ));
+            if(Yii::app()->request->isAjaxRequest)
+            {
+                
+            }
         }
 
 	/**

@@ -15,9 +15,9 @@ $this->breadcrumbs=array(
 <h3>Crear proceso evaluacion</h3>
 
 
-<?php echo CHtml::beginForm($this->createUrl('crearevaluacionpersona'))?>
+<?php echo CHtml::beginForm()?>
 
-<?php echo $this->renderPartial('_formevaluacionpersona', array('model'=>$model)); ?>
+<?php echo $this->renderPartial('_formevaluacionpersona'); ?>
 
 <?php echo $this->renderPartial('_habilidadespecial'); ?>
 
