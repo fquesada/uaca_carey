@@ -4,6 +4,10 @@
 /* @var $form CActiveForm */
 ?>
 
+<?php
+Yii::app()->clientScript->registerCssFile(Yii::app()->baseUrl . '/css/sexybuttons.css');
+?>
+
 <div class="wide form">
 
 <?php $form=$this->beginWidget('CActiveForm', array(
@@ -12,22 +16,13 @@
 )); ?>
 
 	<div class="row">
-		<?php echo $form->label($model,'id'); ?>
-		<?php echo $form->textField($model,'id'); ?>
-	</div>
-
-	<div class="row">
 		<?php echo $form->label($model,'nombre'); ?>
 		<?php echo $form->textField($model,'nombre',array('size'=>45,'maxlength'=>45)); ?>
 	</div>
 
-	<div class="row">
-		<?php echo $form->label($model,'estado'); ?>
-		<?php echo $form->textField($model,'estado'); ?>
-	</div>
 
 	<div class="row buttons">
-		<?php echo CHtml::submitButton('Search'); ?>
+		<?php echo CHtml::submitButton('Buscar', array('class'=>'sexybutton sexysimple sexylarge')); ?>
 	</div>
 
 <?php $this->endWidget(); ?>

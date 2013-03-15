@@ -3,12 +3,11 @@
 /* @var $model Origenevaluacion */
 
 $this->breadcrumbs=array(
-	'Origenevaluacions'=>array('index'),
-	'Create',
+	'Gestionar'=>array('admin'),
+	'Crear',
 );
 
 $this->menu=array(
-	array('label'=>'Lista Origen de evaluacion', 'url'=>array('index')),
 	array('label'=>'Gestionar Origen de evaluación', 'url'=>array('admin')),
 );
 ?>
