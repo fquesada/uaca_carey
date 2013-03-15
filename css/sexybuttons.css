@@ -425,7 +425,7 @@
 .sexybutton span.ok				{ background-image: url(../images/icons/silk/tick.png) !important; }
 .sexybutton span.cancel			{ background-image: url(../images/icons/silk/cross.png) !important; }
 .sexybutton span.add				{ background-image: url(../images/icons/silk/add.png) !important; }
-.sexybutton span.delete			{ background-image: url(images/icons/silk/delete.png) !important; }
+.sexybutton span.delete			{ background-image: url(../images/icons/silk/delete.png) !important; }
 .sexybutton span.download		{ background-image: url(images/icons/silk/arrow_down.png) !important; }
 .sexybutton span.download2		{ background-image: url(images/icons/silk/package_down.png) !important; }
 .sexybutton span.upload			{ background-image: url(images/icons/silk/arrow_up.png) !important; }

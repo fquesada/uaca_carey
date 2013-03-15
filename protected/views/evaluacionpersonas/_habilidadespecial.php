@@ -3,28 +3,12 @@
 
 <div>
                     
-<button  id="btncrearevaluacionpersona" type="button" class="sexybutton sexysimple"><span class="add">Agregar habilidad especial</span></button>
-
+<button  id="btndialoghabilidadespecial" type="button" class="sexybutton sexysimple"><span class="add">Agregar habilidad especial</span></button>
+<label>(Máximo 5 habilidades)</label>
 </div>
 
 <br/>
 <br/>
-
-<div>
-    
-<table border="1" id="tblhabilidades">
-  <thead>
-    <tr>
-      <th>Habilidad Especial</th>      
-      <th>Descripción</th> 
-      <th></th> 
-    </tr>
-  </thead>  
-  <tbody>       
-  </tbody>
-</table>
-    
-</div>
 
 <?php
 $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
@@ -37,6 +21,7 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
         'height'=>270,
         'resizable' => false,
         'draggable' => false,
+        'beforeClose' => 'js:function(){$("#divhabilidad").hide();}',
     ),
 ));?> 
 
@@ -63,4 +48,21 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
 </div>
 
 <?php $this->endWidget();?>
+
+
+<div>
+    
+<table border="1" id="tblhabilidades">
+  <thead>
+    <tr>
+      <th>Habilidad Especial</th>      
+      <th>Descripción</th> 
+      <th></th> 
+    </tr>
+  </thead>  
+  <tbody>       
+  </tbody>
+</table>
+    
+</div>
 
