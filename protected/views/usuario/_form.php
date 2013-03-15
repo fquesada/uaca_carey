@@ -2,6 +2,7 @@
 /* @var $this UsuarioController */
 /* @var $model Usuario */
 /* @var $form CActiveForm */
+
 $fecha = date("Y-m-d");
 
 Yii::app()->clientScript->registerScript('autocomplete', '
@@ -17,6 +18,10 @@ return $( "<li></li>" )
 
 ?>
 
+<?php
+Yii::app()->clientScript->registerCssFile(Yii::app()->baseUrl . '/css/sexybuttons.css');
+?>
+
 <div class="form">
 
 <?php $form=$this->beginWidget('CActiveForm', array(
@@ -24,7 +29,7 @@ return $( "<li></li>" )
 	'enableAjaxValidation'=>false,
 )); ?>
 
-	<p class="note">Fields with <span class="required">*</span> are required.</p>
+	<p class="note">Campos con <span class="required">*</span> son requeridos.</p>
 
 	<?php echo $form->errorSummary($model); ?>
 
@@ -72,7 +77,7 @@ return $( "<li></li>" )
                         'select'=>"js: function(event, ui) {                     
                             $('#pk').val(ui.item['id']); 
                             var x = $('#pk').val();
-                            alert(x);
+//                            alert(x);
                         }",                
                          ),
                       'htmlOptions'=>array('size'=>'30'),
@@ -85,7 +90,7 @@ return $( "<li></li>" )
          </div>
         
 	<div class="row buttons">
-		<?php echo CHtml::submitButton($model->isNewRecord ? 'Crear' : 'Guardar'); ?>
+		<?php echo CHtml::submitButton($model->isNewRecord ? 'Crear' : 'Actualizar', array('class'=>'sexybutton sexysimple sexylarge')); ?>
 	</div>
 
 <?php $this->endWidget(); ?>

@@ -47,7 +47,7 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->baseUrl . '/css/sexybutton
 	</div>
 
 	<div class="row buttons">
-		<?php echo CHtml::submitButton('Search', array('class'=>'sexybutton sexysimple sexylarge')); ?>
+		<?php echo CHtml::submitButton('Buscar', array('class'=>'sexybutton sexysimple sexylarge')); ?>
 	</div>
 
 <?php $this->endWidget(); ?>

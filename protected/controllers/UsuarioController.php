@@ -147,7 +147,12 @@ class UsuarioController extends Controller
 	 */
 	public function actionDelete($id)
 	{
-		$this->loadModel($id)->delete();
+		$usuario = $this->loadModel($id);
+                
+                $usuario->estado = '0';
+                
+                if($usuario->save())
+                    $this->redirect(array('admin'));
 
 		// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
 		if(!isset($_GET['ajax']))
@@ -184,9 +189,13 @@ class UsuarioController extends Controller
 	 */
 	public function actionIndex()
 	{
-		$dataProvider=new CActiveDataProvider('Usuario');
-		$this->render('index',array(
-			'dataProvider'=>$dataProvider,
+		$model=new Usuario('search');
+		$model->unsetAttributes();  // clear any default values
+		if(isset($_GET['Usuario']))
+			$model->attributes=$_GET['Usuario'];
+
+		$this->render('admin',array(
+			'model'=>$model,
 		));
 	}
 

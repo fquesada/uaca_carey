@@ -109,6 +109,8 @@ class Usuario extends CActiveRecord
 		$criteria->compare('fechacreacion',$this->fechacreacion,true);
 		$criteria->compare('estado',$this->estado);
 		$criteria->compare('empresa',$this->empresa);
+                
+                $criteria->addColumnCondition(array('estado'=>'1'));
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

@@ -3,12 +3,10 @@
 /* @var $model Usuario */
 
 $this->breadcrumbs=array(
-	'Usuarios'=>array('index'),
-	'Manage',
+	'Gestionar',
 );
 
 $this->menu=array(
-	array('label'=>'Lista Usuarios', 'url'=>array('index')),
 	array('label'=>'Crear Usuario', 'url'=>array('create')),
 );
 
@@ -26,14 +24,14 @@ $('.search-form form').submit(function(){
 ");
 ?>
 
-<h1>Gestionar Usuarios</h1>
+<h1>Gestionar Usuario</h1>
 
 <p>
-You may optionally enter a comparison operator (<b>&lt;</b>, <b>&lt;=</b>, <b>&gt;</b>, <b>&gt;=</b>, <b>&lt;&gt;</b>
-or <b>=</b>) at the beginning of each of your search values to specify how the comparison should be done.
+Puede ingresar opcionalmente un operador comparativo (<b>&lt;</b>, <b>&lt;=</b>, <b>&gt;</b>, <b>&gt;=</b>, <b>&lt;&gt;</b>
+or <b>=</b>) al inicio de cada valor de búsqueda para especificar cómo se debe realizar la comparación.
 </p>
 
-<?php echo CHtml::link('Advanced Search','#',array('class'=>'search-button')); ?>
+<?php echo CHtml::link('Busqueda Avanzada','#',array('class'=>'search-button')); ?>
 <div class="search-form" style="display:none">
 <?php $this->renderPartial('_search',array(
 	'model'=>$model,
@@ -45,12 +43,8 @@ or <b>=</b>) at the beginning of each of your search values to specify how the c
 	'dataProvider'=>$model->search(),
 	'filter'=>$model,
 	'columns'=>array(
-		'id',
 		'login',
-		'password',
 		'fechacreacion',
-		'estado',
-		'empresa',
 		array(
 			'class'=>'CButtonColumn',
 		),

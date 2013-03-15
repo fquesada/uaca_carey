@@ -110,7 +110,12 @@ class ColaboradorController extends Controller
 	 */
 	public function actionDelete($id)
 	{
-		$this->loadModel($id)->delete();
+		$colaborador = $this->loadModel($id);
+                
+                $colaborador->estado = '0';
+                
+                if($colaborador->save())
+                    $this->redirect(array('admin'));
 
 		// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
 		if(!isset($_GET['ajax']))

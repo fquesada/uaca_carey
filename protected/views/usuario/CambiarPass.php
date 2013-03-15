@@ -3,12 +3,11 @@
 /* @var $model Usuario */
 
 $this->breadcrumbs=array(
-	'Usuarios'=>array('index'),
+	'Gestionar'=>array('admin'),
 	'Cambiar Contraseña',
 );
 
 $this->menu=array(
-	array('label'=>'Lista Usuarios', 'url'=>array('index')),
 	array('label'=>'Gestionar Usuarios', 'url'=>array('admin')),
 );
 ?>
