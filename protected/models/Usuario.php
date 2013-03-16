@@ -14,6 +14,7 @@
  * The followings are the available model relations:
  * @property Colaborador[] $_colaboradores
  * @property Empresa $_empresa
+ * @property Colaborador $_colaborador
  */
 class Usuario extends CActiveRecord
 {
@@ -66,6 +67,7 @@ class Usuario extends CActiveRecord
 		return array(
 			'_colaboradores' => array(self::MANY_MANY, 'Colaborador', 'colaboradorusuario(usuario, colaborador)'),
 			'_empresa' => array(self::BELONGS_TO, 'Empresa', 'empresa'),
+                        '_colaborador' => array(self::MANY_MANY, 'Colaborador', 'colaboradorusuario(usuario, colaborador)', 'limit'=>'1'),
 		);
 	}
 

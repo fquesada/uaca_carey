@@ -92,6 +92,7 @@ class EvaluacionpersonasController extends Controller
                 $evaluacionpersona->descripcion = $nombreproceso;
                 $evaluacionpersona->puesto = $puesto; 
                 $evaluacionpersona->fecha = CommonFunctions::datenow();
+                $evaluacionpersona->creador = 
                 
                 if(isset($_POST['habilidades'])){
                     
