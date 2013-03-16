@@ -83,8 +83,18 @@ class EvaluacionpersonasController extends Controller
             $this->render('crear');
             
             if(Yii::app()->request->isAjaxRequest)
-            {
+            {                
+                $nombreproceso = $_POST['proceso'];
+                $puesto = $_POST['puesto'];
                 
+                $evaluacionpersona = new Evaluacionpersonas();
+                
+                $evaluacionpersona->descripcion = $nombreproceso;
+                $evaluacionpersona->puesto = $puesto;           
+                
+                if(isset($_POST['habilidades'])){
+                    
+                }
             }
         }
 
