@@ -65,7 +65,7 @@ class Usuario extends CActiveRecord
 		// class name for the relations automatically generated below.
 		return array(
 			'_colaboradores' => array(self::MANY_MANY, 'Colaborador', 'colaboradorusuario(usuario, colaborador)'),
-			'_empresa' => array(self::BELONGS_TO, 'Empresa', 'empresa'),                     
+			'_empresa' => array(self::BELONGS_TO, 'Empresa', 'empresa'),
 		);
 	}
 
@@ -112,7 +112,7 @@ class Usuario extends CActiveRecord
         }
         
         /*          
-	 * @return object type Colaborador
+	 * @return object type Colaborador, si no tiene Colaborador retorna false
 	 */
         public function getcolaborador(){
             $colaboradores = $this->_colaboradores;

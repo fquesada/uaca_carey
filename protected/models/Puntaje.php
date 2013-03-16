@@ -6,7 +6,6 @@
  * The followings are the available columns in table 'puntaje':
  * @property integer $id
  * @property integer $valor
- * @property string $nombre
  * @property integer $estado
  */
 class Puntaje extends CActiveRecord
@@ -37,12 +36,11 @@ class Puntaje extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('valor, nombre, estado', 'required'),
-			array('valor, estado', 'numerical', 'integerOnly'=>true),
-			array('nombre', 'length', 'max'=>45),
+			array('valor, estado', 'required'),
+			array('valor, estado', 'numerical', 'integerOnly'=>true),			
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, valor, nombre, estado', 'safe', 'on'=>'search'),
+			array('id, valor, estado', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -64,8 +62,7 @@ class Puntaje extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'valor' => 'Valor',
-			'nombre' => 'Nombre',
+			'valor' => 'Valor',			
 			'estado' => 'Estado',
 		);
 	}
@@ -82,8 +79,7 @@ class Puntaje extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
-		$criteria->compare('valor',$this->valor);
-		$criteria->compare('nombre',$this->nombre,true);
+		$criteria->compare('valor',$this->valor);		
 		$criteria->compare('estado',$this->estado);
 
 		return new CActiveDataProvider($this, array(
