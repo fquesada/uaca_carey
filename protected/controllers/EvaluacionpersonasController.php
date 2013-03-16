@@ -32,7 +32,7 @@ class EvaluacionpersonasController extends Controller
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('crear','update'),
+				'actions'=>array('crear','update','admin'),
 				'users'=>array('@'),
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -92,7 +92,11 @@ class EvaluacionpersonasController extends Controller
                 $evaluacionpersona->descripcion = $nombreproceso;
                 $evaluacionpersona->puesto = $puesto; 
                 $evaluacionpersona->fecha = CommonFunctions::datenow();
-                $evaluacionpersona->creador = 
+                
+                $usuario = Usuario::model()->findByPk(Yii::app()->user->id);
+                $res = $usuario->hascolaborador();
+                $colaborador = $usuario->getcolaborador();
+                $evaluacionpersona->creador = $colaborador->id;
                 
                 if(isset($_POST['habilidades'])){
                     

@@ -25,10 +25,10 @@ class CommonFunctions {
     }
     
     /*
-     * @return date fecha con el formato Y-m-d para almacenar en MYSQL
+     * @return date fecha con el formato d-m-Y
      */
     public static function datenow(){
-        return datephptomysql(date('d-m-Y'));
+        return self::datephptomysql(date('d-m-Y'));
     }
     
     /*
