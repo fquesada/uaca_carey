@@ -81,6 +81,8 @@ class Puntaje extends CActiveRecord
 		$criteria->compare('id',$this->id);
 		$criteria->compare('valor',$this->valor);		
 		$criteria->compare('estado',$this->estado);
+                
+                $criteria->addColumnCondition(array('estado'=>'1'));
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
