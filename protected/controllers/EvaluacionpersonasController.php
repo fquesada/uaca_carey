@@ -93,14 +93,35 @@ class EvaluacionpersonasController extends Controller
                 $evaluacionpersona->puesto = $puesto; 
                 $evaluacionpersona->fecha = CommonFunctions::datenow();
                 
-                $usuario = Usuario::model()->findByPk(Yii::app()->user->id);
-                $res = $usuario->hascolaborador();
+                $usuario = Usuario::model()->findByPk(Yii::app()->user->id);              
                 $colaborador = $usuario->getcolaborador();
                 $evaluacionpersona->creador = $colaborador->id;
                 
-                if(isset($_POST['habilidades'])){
+                $transaction = Yii::app()->db->beginTransaction();
+                
+                $saveresult = $evaluacionpersona->save();
+                
+                if($saveresult){
+                    if(isset($_POST['habilidades'])){
+                        foreach ($_POST['habilidades'] as $nombre => $descripcion) {
+                            $habilidadesespecial = new Habilidadespecial();
+                            $habilidadesespecial->nombre = $nombre;
+                            $habilidadesespecial->descripcion = $descripcion;
+                            $habilidadesespecial->evaluacionpersonas = $evaluacionpersona->id;
+                            $saveresult = $habilidadesespecial->save();                      
+                        }
+                    }
+                    if($saveresult){                    
+                       $transaction->commit();
+                    }else{
+                        $transaction->rollback();
+                    }                    
+                }else{
+                        $transaction->rollback();
+                } 
                     
-                }
+                
+                
             }
         }
 
