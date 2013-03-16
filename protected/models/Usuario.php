@@ -110,4 +110,23 @@ class Usuario extends CActiveRecord
         public function getsalt(){            
             return $this->salt;
         }
+        
+        /*          
+	 * @return object type Colaborador
+	 */
+        public function getcolaborador(){
+            $colaboradores = $this->_colaboradores;
+            reset($colaboradores);
+            return current($colaboradores);        
+        }
+        
+        /*          
+	 * @return true tiene colaboradores
+	 */
+        public function hascolaborador(){
+            if(count($this->_colaboradores) > 0)
+                return true;
+            else
+                return false;
+        }
 }
