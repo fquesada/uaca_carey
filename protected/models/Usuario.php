@@ -112,7 +112,7 @@ class Usuario extends CActiveRecord
         }
         
         /*          
-	 * @return object type Colaborador
+	 * @return object type Colaborador, si no tiene Colaborador retorna false
 	 */
         public function getcolaborador(){
             $colaboradores = $this->_colaboradores;
