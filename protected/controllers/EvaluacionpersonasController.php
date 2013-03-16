@@ -85,12 +85,13 @@ class EvaluacionpersonasController extends Controller
             if(Yii::app()->request->isAjaxRequest)
             {                
                 $nombreproceso = $_POST['proceso'];
-                $puesto = $_POST['puesto'];
+                $puesto = CommonFunctions::stringtonumber($_POST['puesto']);
                 
                 $evaluacionpersona = new Evaluacionpersonas();
                 
                 $evaluacionpersona->descripcion = $nombreproceso;
-                $evaluacionpersona->puesto = $puesto;           
+                $evaluacionpersona->puesto = $puesto; 
+                $evaluacionpersona->fecha = CommonFunctions::datenow();
                 
                 if(isset($_POST['habilidades'])){
                     

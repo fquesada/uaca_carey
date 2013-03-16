@@ -10,7 +10,7 @@ class CommonFunctions {
      * @param $datetime fecha Mysql con el formato Y-m-d H:i:s'
      * @return string fecha con el formato D-M-Y
      */
-    public function datemysqltophp($datetime){         
+    public static function datemysqltophp($datetime){         
         list($y, $m, $d) = explode('-', substr($datetime, 0, 10));              
         return $d.'-'.$m.'-'.$y;    
     }
@@ -19,7 +19,7 @@ class CommonFunctions {
      * @param $date string con el formato d-m-Y
      * @return date fecha con el formato Y-m-d
      */
-    public function datephptomysql($date){
+    public static function datephptomysql($date){
         list($d, $m, $y) = explode('-', $date);         
         return strftime('%Y-%m-%d', mktime(0, 0, 0, $m, $d, $y));
     }
@@ -27,7 +27,7 @@ class CommonFunctions {
     /*
      * @return date fecha con el formato Y-m-d para almacenar en MYSQL
      */
-    public function datenow(){
+    public static function datenow(){
         return datephptomysql(date('d-m-Y'));
     }
     
@@ -36,10 +36,10 @@ class CommonFunctions {
      * para estopuede utilizar la funcion is_numeric
      * @return int o float segun sea el caso
      */
-    public function stringtonumber($stringnumber) {//Para utilizar esta funcion se debe comprobar con anticipacion que el var es numerico
-    if ((float) $stringnumber != (int) $stringnumber)
-        return (float) $stringnumber;
-    else
-        return (int) $stringnumber;
+    public static function stringtonumber($stringnumber) {//Para utilizar esta funcion se debe comprobar con anticipacion que el var es numerico
+        if ((float) $stringnumber != (int) $stringnumber)
+            return (float) $stringnumber;
+        else
+            return (int) $stringnumber;
     }
 }
