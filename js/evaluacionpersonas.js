@@ -43,8 +43,9 @@ $(document).ready(function() {
    }
    
    //Gestion dialog habilidades especiales
-   $("#btndialoghabilidadespecial").click(function(){            
-       $("#divhabilidad").show();
+   $("#btndialoghabilidadespecial").click(function(){       
+       limpiarinputshabilidades();
+       $("#divhabilidad").show();       
        $("#dialogHabilidades").dialog('open');
    });
    
@@ -58,25 +59,66 @@ $(document).ready(function() {
    });
    
    $("#btncrearhabilidad").click(function(){         
-       var habilidad = $('#txtnombrehabilidad').val();
-       var habilidaddescripcion = $('#txtareadescripcionhabilidad').val();       
        
-       if(habilidad == ''){
-           $('#'+result.id).parent().append('<div class="errorcalificacion">'+ result.msg +'</div>');
+       if(validar($('#txtnombrehabilidad')) && validar($('#txtareadescripcionhabilidad'))){       
+        var habilidad = $('#txtnombrehabilidad').val();
+        var habilidaddescripcion = $('#txtareadescripcionhabilidad').val();                
+        $('#tblhabilidades > tbody').append('<tr><td name="habilidad">'+habilidad+'</td><td name="descripcion">'+habilidaddescripcion+'</td><td><img id="borrarhabilidad" style="cursor: pointer;" src="../../images/icons/silk/delete.png" alt="Eliminar habilidad"/></td></tr>');               
+        if (cantidadhabilidades() >= 5){
+            $("#btndialoghabilidadespecial").attr("disabled", "disabled");        
+        }       
+        $("#dialogHabilidades").dialog('close');
+       }else{
+           if(!validar($('#txtnombrehabilidad')))
+                mostrarerror($('#txtnombrehabilidad'));
+           if(!validar($('#txtareadescripcionhabilidad')))
+                mostrarerror($('#txtareadescripcionhabilidad'));
        }
-       
-       $('#txtnombrehabilidad').val('');
-       $('#txtareadescripcionhabilidad').val('');       
-       $('#tblhabilidades > tbody').append('<tr><td name="habilidad">'+habilidad+'</td><td name="descripcion">'+habilidaddescripcion+'</td><td><img id="borrarhabilidad" style="cursor: pointer;" src="../../images/icons/silk/delete.png" alt="Eliminar habilidad"/></td></tr>');               
-       if (cantidadhabilidades() >= 5){
-           $("#btndialoghabilidadespecial").attr("disabled", "disabled");        
-       }       
-       $("#dialogHabilidades").dialog('close');       
    });
    
    function cantidadhabilidades(){
       return $('#tblhabilidades > tbody tr').length;       
-   }  
+   }
+   
+   $('#txtnombrehabilidad').focusout(function(){
+       if(!validar($(this)))          
+           mostrarerror($(this));                           
+   });   
+   $('#txtnombrehabilidad').focusin(function(){
+        ocultarerror($(this));  
+   });
+   
+   $('#txtareadescripcionhabilidad').focusout(function(){
+       if(!validar($(this)))          
+           mostrarerror($(this));     
+   });
+   $('#txtareadescripcionhabilidad').focusin(function(){
+        ocultarerror($(this)); 
+   });
+   
+   function limpiarinputshabilidades(){
+       $('#txtnombrehabilidad').val('');
+       $('#txtareadescripcionhabilidad').val('');
+       ocultarerror($('#txtnombrehabilidad'));
+       ocultarerror($('#txtareadescripcionhabilidad'));
+    }
+   
+   function validar(elemento){
+       if($(elemento).val() == '')
+           return false;
+       else
+           return true;
+   }
+
+    function mostrarerror(elemento){
+        $('#'+$(elemento).attr('id')+'error').css('visibility', 'visible');
+    }
+    
+    function ocultarerror(elemento){
+        $('#'+$(elemento).attr('id')+'error').css('visibility', 'hidden');
+    }
+    
+    
       
 });
 

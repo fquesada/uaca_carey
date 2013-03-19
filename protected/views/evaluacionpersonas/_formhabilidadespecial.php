@@ -17,8 +17,8 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
         'title'=>'Crear Habilidad Especial',
         'autoOpen'=>false,
         'modal'=>true,
-        'width'=>395,
-        'height'=>270,
+        'width'=>375,
+        'height'=>340,
         'resizable' => false,
         'draggable' => false,
         'beforeClose' => 'js:function(){$("#divhabilidad").hide();}',
@@ -28,15 +28,18 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
 <div id="divhabilidad" style="display: none">
     
     <div class="form">
+    <p>Campos con * son obligatorios.</p>   
         
     <div class="row">
-            <?php echo CHtml::label('Habilidad Especial', 'txtnombrehabilidad');?>
+            <?php echo CHtml::label('Habilidad Especial *', 'txtnombrehabilidad');?>
             <?php echo CHtml::textField('txtnombrehabilidad','', array('id'=>'txtnombrehabilidad','maxlength' => '45'));?>        
+            <div id="txtnombrehabilidaderror" class="errorhabilidad">Debe ingresar una habilidad.</div>
     </div> 
 
     <div class="row">
-            <?php echo CHtml::label('Descripcion de la habilidad', 'txtareadescripcionhabilidad');?>
+            <?php echo CHtml::label('Descripcion de la habilidad *', 'txtareadescripcionhabilidad');?>
             <?php echo CHtml::textArea('txtareadescripcionhabilidad','', array('id'=>'txtareadescripcionhabilidad', 'rows' => '5', 'cols' => '40', 'maxlength' => '180'));?>        
+            <div id="txtareadescripcionhabilidaderror" class="errorhabilidad">Debe ingresar la descripción de la habilidad.</div>
     </div>  
         
     <div class="row buttons">                    
