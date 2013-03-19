@@ -4,6 +4,8 @@
 /* @var $this EvaluacionpersonasController */
 /* @var $model Evaluacionpersonas */
 
+Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/messi.min.js');
+Yii::app()->clientScript->registerCssFile(Yii::app()->baseUrl.'/css/messi.min.css');
 Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/evaluacionpersonas.js');
 Yii::app()->clientScript->registerCssFile(Yii::app()->baseUrl.'/css/evaluacionpersonas.css');
 
@@ -27,5 +29,9 @@ $this->breadcrumbs=array(
         
                   <?php echo CHtml::submitButton('Crear proceso evaluacion',array('id'=>'btncrearevaluacionpersona', 'class'=>'sexybutton sexysimple sexylarge'));?>
 </div>
-
 <?php echo CHtml::endForm()?>
+
+<div class="row buttons">        
+        
+    <button id="btnmessi">Messi</button>
+</div>

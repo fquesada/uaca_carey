@@ -80,8 +80,7 @@ class EvaluacionpersonasController extends Controller
 	}
         
         public function actionCrear(){            
-            $this->render('crear');
-            
+                        
             if(Yii::app()->request->isAjaxRequest)
             {                
                 $nombreproceso = $_POST['proceso'];
@@ -101,6 +100,7 @@ class EvaluacionpersonasController extends Controller
                 
                 $saveresult = $evaluacionpersona->save();
                 
+                               
                 if($saveresult){
                     if(isset($_POST['habilidades'])){
                         foreach ($_POST['habilidades'] as $nombre => $descripcion) {
@@ -113,16 +113,20 @@ class EvaluacionpersonasController extends Controller
                     }
                     if($saveresult){                    
                        $transaction->commit();
+                       $response = array('r' => true,'v' => "Se guardó con éxito el proceso: ".$evaluacionpersona->descripcion);
+                       echo CJSON::encode($response);                        
                     }else{
                         $transaction->rollback();
+                        $response = array('r' => false,'v' => "Ha ocurrido un inconveniente al intentar guardar el proceso: ".$evaluacionpersona->descripcion); 
+                        echo CJSON::encode($response);                        
                     }                    
                 }else{
                         $transaction->rollback();
-                } 
-                    
-                
-                
+                        $response = array('r' => false,'v' => "Ha ocurrido un inconveniente al intentar guardar el proceso: ".$evaluacionpersona->descripcion); 
+                        echo CJSON::encode($response);                        
+                }           
             }
+            $this->render('crear');
         }
 
 	/**

@@ -1,5 +1,19 @@
 $(document).ready(function() {
     
+    $('#btnmessi').click(function(event){
+       new Messi('responsejax.v', 
+                            {   title: 'Éxito.', 
+                                titleClass: 'success',                                 
+                                modal:true,
+                                closeButton: false,
+                                buttons: [{id: 0, label: 'Cerrar', val: 'X'}],
+                                callback: function(val){var url = "admin/";    
+                                                        $(location).attr('href',url);}
+                            });
+       
+    });
+    
+    
    //Proceso crear evaluacion persona
    $("#btncrearevaluacionpersona").click(function(event){
        event.preventDefault();
@@ -10,9 +24,12 @@ $(document).ready(function() {
                     url: "Crear",
                     data: obtenerdatoscrearpersona(),
                     dataType: 'json',
-                    success: function(result) {                       
-                        if(result.ok){                          
-                       
+                    success: function(data) {
+                    if(data.r){
+                        alert("hola");
+                    }
+                    else{
+                       alert("hola");
                         }				
                     }
         });
