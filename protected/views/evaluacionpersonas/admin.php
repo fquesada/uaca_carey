@@ -27,14 +27,29 @@ $this->menu=array(
 	'dataProvider'=>$model->search(),
 	'filter'=>$model,
 	'columns'=>array(
-		'id',
-		'fecha',
-		'creador',
-		'estado',
-		'puesto',
-		'descripcion',
-		array(
-			'class'=>'CButtonColumn',
-		),
+                 array(     
+                    'header'=>'Nombre proceso',
+                    'name'=>'descripcion',                    
+                ),
+                array(
+                    'header'=>'Puesto',
+                    'name'=>'puesto', 
+                    'value'=>'$data->_puesto->nombre',
+                ),
+                array(
+                    'header'=>'Creador',
+                    'name'=>'creador', 
+                    'value'=>'$data->_creador->nombre',
+                ),
+                array(
+                    'header'=>'Fecha',
+                    'name'=>'fecha', 
+                    'value'=>'$this->grid->owner->gridmysqltophpdate($data->fecha)',
+                ),
+                array(
+                    'header'=>'Estado',
+                    'name'=>'estado', 
+                    'value'=>'$this->grid->owner->gridestado($data->estado)',
+                ),
 	),
 )); ?>

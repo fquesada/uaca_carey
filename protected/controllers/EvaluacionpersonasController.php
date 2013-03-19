@@ -218,4 +218,19 @@ class EvaluacionpersonasController extends Controller
 			Yii::app()->end();
 		}
 	}
+        
+        public static function gridmysqltophpdate($date){
+            return CommonFunctions::datemysqltophp($date);
+        }
+        
+        public static function gridestado($estado){
+            switch ($estado){
+                case 1:
+                    return "En proceso";
+                    break;
+                case 2:
+                    return "Finalizado";
+                    break;
+            }
+        }
 }
