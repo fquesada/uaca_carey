@@ -3,7 +3,7 @@
 /* @var $model Puntaje */
 
 $this->breadcrumbs=array(
-	'Puntajes'=>array('index'),
+	'Gestionar'=>array('admin'),
 	$model->id=>array('view','id'=>$model->id),
 	'Update',
 );
