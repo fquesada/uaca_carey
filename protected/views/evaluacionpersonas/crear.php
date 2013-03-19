@@ -5,6 +5,7 @@
 /* @var $model Evaluacionpersonas */
 
 Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/evaluacionpersonas.js');
+Yii::app()->clientScript->registerCssFile(Yii::app()->baseUrl.'/css/evaluacionpersona.css');
 
 $this->breadcrumbs=array(
 	'Evaluacion'=>array('admin'),
@@ -19,7 +20,7 @@ $this->breadcrumbs=array(
 
 <?php echo $this->renderPartial('_formevaluacionpersona'); ?>
 
-<?php echo $this->renderPartial('_habilidadespecial'); ?>
+<?php echo $this->renderPartial('_formhabilidadespecial'); ?>
 
 <div class="row buttons">        
         

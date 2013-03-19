@@ -2,7 +2,7 @@
 
     <div class="row">
             <?php echo CHtml::label('Descripcion del proceso', 'descripcion');?>
-            <?php echo CHtml::textArea('txtareadescripcion','', array('id'=>'txtdescripcion', 'rows' => '3', 'cols' => '40', 'maxlength' => '90'));?>        
+            <?php echo CHtml::textArea('txtareadescripcion','', array('id'=>'txtdescripcion', 'rows' => '3', 'cols' => '40', 'maxlength' => '90'));?>                    
     </div>
     
     <div class="row">

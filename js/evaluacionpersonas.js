@@ -3,6 +3,10 @@ $(document).ready(function() {
    //Proceso crear evaluacion persona
    $("#btncrearevaluacionpersona").click(function(event){
        event.preventDefault();
+       
+       
+       
+       
        $.ajax({
                     type: "POST",
                     url: "Crear",
@@ -15,6 +19,11 @@ $(document).ready(function() {
                     }
         });       
    });
+   
+   function validarform(){
+       
+       
+   }
    
    function obtenerdatoscrearpersona(){             
     var data = {};
@@ -51,6 +60,11 @@ $(document).ready(function() {
    $("#btncrearhabilidad").click(function(){         
        var habilidad = $('#txtnombrehabilidad').val();
        var habilidaddescripcion = $('#txtareadescripcionhabilidad').val();       
+       
+       if(habilidad == ''){
+           $('#'+result.id).parent().append('<div class="errorcalificacion">'+ result.msg +'</div>');
+       }
+       
        $('#txtnombrehabilidad').val('');
        $('#txtareadescripcionhabilidad').val('');       
        $('#tblhabilidades > tbody').append('<tr><td name="habilidad">'+habilidad+'</td><td name="descripcion">'+habilidaddescripcion+'</td><td><img id="borrarhabilidad" style="cursor: pointer;" src="../../images/icons/silk/delete.png" alt="Eliminar habilidad"/></td></tr>');               
