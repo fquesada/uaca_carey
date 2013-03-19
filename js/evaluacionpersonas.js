@@ -25,12 +25,7 @@ $(document).ready(function() {
       }
    });
    
-   function validarform(){
-       
-       
-   }
-   
-   function obtenerdatoscrearpersona(){             
+    function obtenerdatoscrearpersona(){             
     var data = {};
     data['proceso'] = $("#txtdescripcion").val();
     data['puesto'] = $("#ddlpuesto").val(); 
