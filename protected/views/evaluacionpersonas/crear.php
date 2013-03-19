@@ -22,6 +22,7 @@ $this->breadcrumbs=array(
 
 <?php echo $this->renderPartial('_formhabilidadespecial'); ?>
 
+</br>
 <div class="row buttons">        
         
                   <?php echo CHtml::submitButton('Crear proceso evaluacion',array('id'=>'btncrearevaluacionpersona', 'class'=>'sexybutton sexysimple sexylarge'));?>

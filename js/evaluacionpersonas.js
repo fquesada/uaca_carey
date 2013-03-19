@@ -4,9 +4,7 @@ $(document).ready(function() {
    $("#btncrearevaluacionpersona").click(function(event){
        event.preventDefault();
        
-       
-       
-       
+      if(validar($('#txtdescripcion')) && validar($('#ddlpuesto'))){       
        $.ajax({
                     type: "POST",
                     url: "Crear",
@@ -17,7 +15,14 @@ $(document).ready(function() {
                        
                         }				
                     }
-        });       
+        });
+      }
+      else{
+          if(!validar($('#txtdescripcion')))
+                mostrarerror($('#txtdescripcion'));
+           if(!validar($('#ddlpuesto')))
+                mostrarerror($('#ddlpuesto'));
+      }
    });
    
    function validarform(){
@@ -49,7 +54,7 @@ $(document).ready(function() {
        $("#dialogHabilidades").dialog('open');
    });
    
-   $("#borrarhabilidad").css( "cursor", "pointer");
+
    
    $(document).on("click", "#borrarhabilidad", function(e){
         $(this).parents("tr").remove()
@@ -96,6 +101,22 @@ $(document).ready(function() {
         ocultarerror($(this)); 
    });
    
+   $('#txtdescripcion').focusout(function(){
+       if(!validar($(this)))          
+           mostrarerror($(this));     
+   });
+   $('#txtdescripcion').focusin(function(){
+        ocultarerror($(this)); 
+   });
+   
+   $('#ddlpuesto').focusout(function(){
+       if(!validar($(this)))          
+           mostrarerror($(this));     
+   });
+   $('#ddlpuesto').focusin(function(){
+        ocultarerror($(this)); 
+   });
+   
    function limpiarinputshabilidades(){
        $('#txtnombrehabilidad').val('');
        $('#txtareadescripcionhabilidad').val('');
@@ -117,8 +138,5 @@ $(document).ready(function() {
     function ocultarerror(elemento){
         $('#'+$(elemento).attr('id')+'error').css('visibility', 'hidden');
     }
-    
-    
-      
 });
 

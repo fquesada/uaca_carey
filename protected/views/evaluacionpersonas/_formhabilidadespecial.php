@@ -1,6 +1,3 @@
-<br/>
-<br/>
-
 <div>
                     
 <button  id="btndialoghabilidadespecial" type="button" class="sexybutton sexysimple"><span class="add">Agregar habilidad especial</span></button>
@@ -33,13 +30,13 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
     <div class="row">
             <?php echo CHtml::label('Habilidad Especial *', 'txtnombrehabilidad');?>
             <?php echo CHtml::textField('txtnombrehabilidad','', array('id'=>'txtnombrehabilidad','maxlength' => '45'));?>        
-            <div id="txtnombrehabilidaderror" class="errorhabilidad">Debe ingresar una habilidad.</div>
+            <div id="txtnombrehabilidaderror" class="errorevaluacionpersona">Debe ingresar una habilidad.</div>
     </div> 
 
     <div class="row">
             <?php echo CHtml::label('Descripcion de la habilidad *', 'txtareadescripcionhabilidad');?>
             <?php echo CHtml::textArea('txtareadescripcionhabilidad','', array('id'=>'txtareadescripcionhabilidad', 'rows' => '5', 'cols' => '40', 'maxlength' => '180'));?>        
-            <div id="txtareadescripcionhabilidaderror" class="errorhabilidad">Debe ingresar la descripción de la habilidad.</div>
+            <div id="txtareadescripcionhabilidaderror" class="errorevaluacionpersona">Debe ingresar la descripción de la habilidad.</div>
     </div>  
         
     <div class="row buttons">                    
