@@ -5,7 +5,7 @@
 /* @var $model Evaluacionpersonas */
 
 Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/evaluacionpersonas.js');
-Yii::app()->clientScript->registerCssFile(Yii::app()->baseUrl.'/css/evaluacionpersona.css');
+Yii::app()->clientScript->registerCssFile(Yii::app()->baseUrl.'/css/evaluacionpersonas.css');
 
 $this->breadcrumbs=array(
 	'Evaluacion'=>array('admin'),
