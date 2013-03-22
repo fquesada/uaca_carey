@@ -113,17 +113,20 @@ class EvaluacionpersonasController extends Controller
                     }
                     if($saveresult){                    
                        $transaction->commit();
-                       $response = array('r' => true,'v' => "Se guardó con éxito el proceso: ".$evaluacionpersona->descripcion);
-                       echo CJSON::encode($response);                        
+                       $response = array('result' => true,'value' => "Se guardó con éxito el proceso: ".$evaluacionpersona->descripcion);
+                       echo CJSON::encode($response);   
+                       Yii::app()->end();
                     }else{
                         $transaction->rollback();
-                        $response = array('r' => false,'v' => "Ha ocurrido un inconveniente al intentar guardar el proceso: ".$evaluacionpersona->descripcion); 
-                        echo CJSON::encode($response);                        
+                        $response = array('result' => false,'value' => "Ha ocurrido un inconveniente al intentar guardar el proceso: ".$evaluacionpersona->descripcion); 
+                        echo CJSON::encode($response); 
+                        Yii::app()->end();
                     }                    
                 }else{
                         $transaction->rollback();
-                        $response = array('r' => false,'v' => "Ha ocurrido un inconveniente al intentar guardar el proceso: ".$evaluacionpersona->descripcion); 
+                        $response = array('result' => false,'value' => "Ha ocurrido un inconveniente al intentar guardar el proceso: ".$evaluacionpersona->descripcion); 
                         echo CJSON::encode($response);                        
+                        Yii::app()->end();
                 }           
             }
             $this->render('crear');

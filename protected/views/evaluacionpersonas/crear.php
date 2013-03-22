@@ -30,8 +30,3 @@ $this->breadcrumbs=array(
                   <?php echo CHtml::submitButton('Crear proceso evaluacion',array('id'=>'btncrearevaluacionpersona', 'class'=>'sexybutton sexysimple sexylarge'));?>
 </div>
 <?php echo CHtml::endForm()?>
-
-<div class="row buttons">        
-        
-    <button id="btnmessi">Messi</button>
-</div>

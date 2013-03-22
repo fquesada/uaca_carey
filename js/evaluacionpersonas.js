@@ -1,19 +1,5 @@
 $(document).ready(function() {
-    
-    $('#btnmessi').click(function(event){
-       new Messi('responsejax.v', 
-                            {   title: 'Éxito.', 
-                                titleClass: 'success',                                 
-                                modal:true,
-                                closeButton: false,
-                                buttons: [{id: 0, label: 'Cerrar', val: 'X'}],
-                                callback: function(val){var url = "admin/";    
-                                                        $(location).attr('href',url);}
-                            });
-       
-    });
-    
-    
+   
    //Proceso crear evaluacion persona
    $("#btncrearevaluacionpersona").click(function(event){
        event.preventDefault();
@@ -24,13 +10,29 @@ $(document).ready(function() {
                     url: "Crear",
                     data: obtenerdatoscrearpersona(),
                     dataType: 'json',
-                    success: function(data) {
-                    if(data.r){
-                        alert("hola");
-                    }
-                    else{
-                       alert("hola");
-                        }				
+                    error: function (jqXHR, textStatus){
+                        if (jqXHR.status === 0) {                            
+                            messageerror("Problema de red, contacte al administrador de sistemas.");
+                        } else if (jqXHR.status == 404) {
+                            messagewarning("Solicitud no encontrada.");
+                        } else if (jqXHR.status == 500) {
+                            messageerror("Error 500. Ha ocurrido un problema con el servidor, contacte al administrador de sistemas.");
+                        } else if (textStatus === 'parsererror') {
+                            messagewarning("Ha ocurrido un inconveniente, intente nuevamente.");
+                        } else if (textStatus === 'timeout') {
+                            messageerror("Tiempo de espera excedido, intente nuevamente.");
+                        } else if (textStatus === 'abort') {
+                            messageerror("Se ha abortado la solicitud, intente nuevamente");
+                        } else {
+                            messageerror("Error desconocido, contacte al administrador de sistemas.");                            
+                        }
+                    },
+                    success: function(resultado){
+                        if(resultado.result){
+                            messagesuccess(resultado.value);
+                        }else{
+                            messageerror(resultado.value);
+                        }                        
                     }
         });
       }
@@ -41,7 +43,7 @@ $(document).ready(function() {
                 mostrarerror($('#ddlpuesto'));
       }
    });
-   
+  
     function obtenerdatoscrearpersona(){             
     var data = {};
     data['proceso'] = $("#txtdescripcion").val();
@@ -149,6 +151,36 @@ $(document).ready(function() {
     
     function ocultarerror(elemento){
         $('#'+$(elemento).attr('id')+'error').css('visibility', 'hidden');
+    }
+    
+    function messagesuccess(message){         
+        new Messi(message, 
+        {   title: 'Éxito.', 
+            titleClass: 'success',                                 
+            modal:true,
+            closeButton: false,
+            buttons: [{id: 0, label: 'Cerrar', val: 'X'}],
+            callback: function(val){var url = "admin/";    
+                                    $(location).attr('href',url);}
+        });
+    }
+    
+    function messageerror(message){
+        new Messi(message,
+        {   
+            title: 'Error', 
+            titleClass: 'anim error',                                 
+            modal:true                                          
+        });
+    }
+    
+    function messagewarning(message){
+        new Messi(message,
+        {   
+            title: 'Advertencia', 
+            titleClass: 'anim warning',                                 
+            modal:true
+        });
     }
 });
 
