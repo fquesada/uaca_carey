@@ -186,14 +186,16 @@ class EvaluacionpersonasController extends Controller
 	 */
 	public function actionAdmin()
 	{
-		$model=new Evaluacionpersonas('search');
-		$model->unsetAttributes();  // clear any default values
-		if(isset($_GET['Evaluacionpersonas']))
-			$model->attributes=$_GET['Evaluacionpersonas'];
+            $model = Evaluacionpersonas::model()->search();                
+            $filtersForm=new FiltersForm;
 
-		$this->render('admin',array(
-			'model'=>$model,
-		));
+            if (isset($_GET['FiltersForm']))
+                $filtersForm->filters=$_GET['FiltersForm'];                
+
+            $this->render('admin',array(
+                'model' => $filtersForm->filter($model),
+                'filtersForm' => $filtersForm,
+            ));
 	}
 
 	/**

@@ -24,8 +24,8 @@ $this->menu=array(
 
 <?php $this->widget('zii.widgets.grid.CGridView', array(
 	'id'=>'evaluacionpersonas-grid',
-	'dataProvider'=>$model->search(),
-	'filter'=>$model,
+	'dataProvider'=>$model,
+	'filter'=>$filtersForm,    
 	'columns'=>array(
                  array(     
                     'header'=>'Nombre proceso',
@@ -33,23 +33,19 @@ $this->menu=array(
                 ),
                 array(
                     'header'=>'Puesto',
-                    'name'=>'puesto', 
-                    'value'=>'$data->_puesto->nombre',
+                    'name'=>'puesto',                     
                 ),
                 array(
                     'header'=>'Creador',
-                    'name'=>'creador', 
-                    'value'=>'$data->_creador->nombre',
+                    'name'=>'creador',                     
                 ),
                 array(
                     'header'=>'Fecha',
-                    'name'=>'fecha', 
-                    'value'=>'$this->grid->owner->gridmysqltophpdate($data->fecha)',
+                    'name'=>'fecha',                     
                 ),
                 array(
                     'header'=>'Estado',
-                    'name'=>'estado', 
-                    'value'=>'$this->grid->owner->gridestado($data->estado)',
+                    'name'=>'estado',                     
                 ),
 	),
 )); ?>
