@@ -42,6 +42,7 @@ class Usuario extends CActiveRecord
         public $password_actual;
         public $password_nueva;
         public $colaborador;
+        public $confirmacion;
 
 	/**
 	 * @return array validation rules for model attributes.

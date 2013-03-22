@@ -61,6 +61,12 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->baseUrl . '/css/sexybutton
 	</div>
         
         <div class="row">
+                <?php echo $form->labelEx($model,'Asignar colaborador?'); ?>
+                <?php echo $form->checkbox($model,'confirmacion',array('value'=>'S','uncheckValue'=>'N')); ?>
+		
+	</div>
+        
+        <div class="row">
                 <?php echo $form->labelEx($model,'colaborador'); ?>
                 <?php $this->widget('zii.widgets.jui.CJuiAutoComplete', array(
                     //'attribute'=>'colaborador',
