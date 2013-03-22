@@ -10,18 +10,6 @@ $this->menu=array(
 	array('label'=>'Crear Origen de evaluación', 'url'=>array('create')),
 );
 
-Yii::app()->clientScript->registerScript('search', "
-$('.search-button').click(function(){
-	$('.search-form').toggle();
-	return false;
-});
-$('.search-form form').submit(function(){
-	$.fn.yiiGridView.update('origenevaluacion-grid', {
-		data: $(this).serialize()
-	});
-	return false;
-});
-");
 ?>
 
 <h1>Gestionar Origen de evaluación</h1>
@@ -34,7 +22,7 @@ Puede ingresar opcionalmente un operador comparativo (<b>&lt;</b>, <b>&lt;=</b>,
 <?php $this->widget('zii.widgets.grid.CGridView', array(
 	'id'=>'origenevaluacion-grid',
 	'dataProvider'=>$model->search(),
-	'filter'=>$model,
+        'template'=>"{pager}\n{items}\n{pager}\n{summary}",
 	'columns'=>array(
 		'nombre',
 		array(

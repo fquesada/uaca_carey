@@ -7,6 +7,7 @@
  * @property integer $id
  * @property integer $valor
  * @property integer $estado
+ * @property integer $descripcion
  */
 class Ponderacion extends CActiveRecord
 {
@@ -36,11 +37,11 @@ class Ponderacion extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('valor', 'required'),
+			array('valor, descripcion', 'required'),
 			array('valor, estado', 'numerical', 'integerOnly'=>true),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, valor, estado', 'safe', 'on'=>'search'),
+			array('id, valor, estado, descripcion', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -64,6 +65,7 @@ class Ponderacion extends CActiveRecord
 			'id' => 'ID',
 			'valor' => 'Valor',
 			'estado' => 'Estado',
+                        'descripcion'=> 'Descripción',
 		);
 	}
 
@@ -81,6 +83,7 @@ class Ponderacion extends CActiveRecord
 		$criteria->compare('id',$this->id);
 		$criteria->compare('valor',$this->valor);
 		$criteria->compare('estado',$this->estado);
+                $criteria->compare('descripcion',$this->descripcion);
                 
                 $criteria->addColumnCondition(array('estado'=>'1'));
 

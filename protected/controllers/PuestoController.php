@@ -190,12 +190,17 @@ class PuestoController extends Controller
                 $puestocomp = new Puestocompetencia();
                                    
                 $puestocomp->puesto = Yii::app()->session['puesto'];
-                $puestocomp->ponderacion = $_POST['peso'];
 
                 $competencias = $_POST['compselect'];
 
                 foreach($competencias as $competencia){
                     $puestocomp->competencia = $competencia;
+                }
+                
+                $ponderacion = $_POST['peso'];
+                
+                foreach($ponderacion as $peso){
+                    $puestocomp->ponderacion = $peso;
                 }
 
                 if($puestocomp->save()){

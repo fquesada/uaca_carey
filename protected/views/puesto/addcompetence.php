@@ -12,7 +12,7 @@
     //JS
     Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/messi.min.js');
 ?>
-//<?php
+<?php
 //    Yii::app()->clientScript->registerScript('actualizar', "
 //    $('.competenciaasociado-grid').update(function(){
 //            $.fn.yiiGridView.update('competenciaasociado-grid');
@@ -42,19 +42,21 @@
     
     <?php 
     $competencia = new Competencia();
+    $ponderacion = new Ponderacion();
     ?>
     
     <p></br> </br> </br> </p>
    
- <h1>Competencias disponibles</h1>
- <h5>Seleccione la competencia y el peso correspondiente que desea agregar al puesto y presione el botón "Asociar"</h5>
+ <h1>Paso 1: Competencias disponibles</h1>
+ <h5>Seleccione una de las competencias, enumeradas a continuación, que desea agregarle al puesto.</h5>
  
  <?php echo CHtml::beginForm('','POST',array('id'=>'formpeso'))?> 
  
  <?php $this->widget('zii.widgets.grid.CGridView', array(
 	'id'=>'competenciaexistente-grid',
         'dataProvider'=>$competencia->addcompetencia($model->id),
-	'filter'=>$competencia,
+        'template'=>"{pager}\n{items}\n{pager}\n{summary}",
+        'filter'=>$competencia,
 	'columns'=>array(
                 array(
                     'id' => 'compselect',
@@ -64,11 +66,24 @@
 		'descripcion',
 	),
     )); ?>
-     
-     <?php
-        echo CHtml::dropdownlist('peso','0',CHtml::listData(Ponderacion::model()->findAll(),'valor','valor'), array('empty'=>'Seleccione el peso sobre el puesto que desea asignar a la competencia'))
-     ?>
  
+    <h1>Paso 2: Peso de la competencia</h1>
+    <h5>Elija el peso que desea agregarle a la competencia anteriormente seleccionado y presione el botón "Asociar".</h5>
+
+     <?php $this->widget('zii.widgets.grid.CGridView', array(
+	'id'=>'peso-grid',
+        'dataProvider'=>$ponderacion->search(),
+        'template'=>"{pager}\n{items}\n{pager}\n{summary}",
+	'columns'=>array(
+                array(
+                    'id' => 'peso',
+                    'class' => 'CCheckBoxColumn',
+                ),
+		'valor',
+		'descripcion',
+	),
+    )); ?> 
+    
     <br></br>
      <?php echo CHtml::submitButton('Asociar',array('submit'=>'../savecompetencia', 'class'=>'sexybutton sexysimple sexylarge'));?>
      
@@ -76,7 +91,8 @@
      
     
          <p></br> </br> </br> </p>
-     <h1>Competencias asociadas</h1>
+     <h1>Paso 3: Competencias asociadas</h1>
+     <h5>Verifique que la competencia haya sido asociada correctamente</h5>
      
      
     <?php 
@@ -86,7 +102,8 @@
     <?php $this->widget('zii.widgets.grid.CGridView', array(
 	'id'=>'competenciaasociado-grid',
         'dataProvider'=>$puestocomp->search($model->id),
-	'columns'=>array(
+	'template'=>"{pager}\n{items}\n{pager}\n{summary}",
+        'columns'=>array(
                     'NombreCompetencia',
                     'ponderacion',
                     array(
