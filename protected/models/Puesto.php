@@ -92,8 +92,8 @@ class Puesto extends CActiveRecord
 		return array(
 			'id' => 'ID',
 			'nombre' => 'Nombre',
-			'descripcion' => 'Descripcion',
-			'codigo' => 'Codigo',
+			'descripcion' => 'Descripción',
+			'codigo' => 'Código',
 			'estado' => 'Estado',
 		);
 	}
@@ -112,11 +112,52 @@ class Puesto extends CActiveRecord
 		$criteria->compare('id',$this->id);
 		$criteria->compare('nombre',$this->nombre,true);
 		$criteria->compare('descripcion',$this->descripcion,true);
-		$criteria->compare('codigo',$this->codigo,true);
+		$criteria->compare('codigo',$this->codigo,true);		
 		$criteria->compare('estado',$this->estado);
+                
+                //Muestra los puestos activos unicamente
+                $criteria->addcolumncondition(array('estado'=>'1'));
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
+                        'Pagination'=>array('pageSize'=>'10'),
 		));
 	}
+        
+        public function addPuesto($idunidadnegocio)
+        {
+            $criteria = new CDbCriteria;
+            
+            $criteria->compare('nombre',$this->nombre,true);
+            $criteria->compare('descripcion',$this->descripcion,true);
+            $criteria->compare('codigo',$this->codigo,true);	
+            
+            $criteria->addcolumncondition(array('estado'=>'1'));
+            
+            $unidadpuesto = UnidadNegocioPuesto::model()->findAllByAttributes(array('unidadnegocio' => $idunidadnegocio));
+            
+            $existentes = $this->obtenerArrayColumna($unidadpuesto,'puesto');
+            
+            $criteria->addNotInCondition('id', $existentes);
+                        
+            return new CActiveDataProvider($this, array(
+			//'keyAttribute'=>'id',
+                        'criteria'=>$criteria             
+		));
+        }
+        
+        /**
+         * Returns an array with the values of the column needed.
+         * @param array $unidades the array with the objects that have the column needed
+         * @param string $columna  the name of the column that must be obtain
+         */
+
+           public function obtenerArrayColumna($unidades, $columna)
+        {
+            $idUnidades = array();
+            foreach ($unidades as $un) {
+                $idUnidades[] = $un->$columna;
+            }
+            return $idUnidades;
+        }
 }
