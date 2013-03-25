@@ -9,9 +9,9 @@ $this->breadcrumbs=array(
 );
 ?>
 
-<h1>Login</h1>
+<div class="LoginIncio">
 
-<p>Please fill out the following form with your login credentials:</p>
+<h1>Iniciar sesión</h1>
 
 <div class="form">
 <?php $form=$this->beginWidget('CActiveForm', array(
@@ -21,10 +21,7 @@ $this->breadcrumbs=array(
 		'validateOnSubmit'=>true,
 	),
 )); ?>
-
-	<p class="note">Fields with <span class="required">*</span> are required.</p>
-
-	<div class="row">
+        <div class="row">
 		<?php echo $form->labelEx($model,'username'); ?>
 		<?php echo $form->textField($model,'username'); ?>
 		<?php echo $form->error($model,'username'); ?>
@@ -33,10 +30,7 @@ $this->breadcrumbs=array(
 	<div class="row">
 		<?php echo $form->labelEx($model,'password'); ?>
 		<?php echo $form->passwordField($model,'password'); ?>
-		<?php echo $form->error($model,'password'); ?>
-		<p class="hint">
-			Hint: You may login with <kbd>demo</kbd>/<kbd>demo</kbd> or <kbd>admin</kbd>/<kbd>admin</kbd>.
-		</p>
+		<?php echo $form->error($model,'password'); ?>		
 	</div>
 
 	<div class="row rememberMe">
@@ -46,8 +40,9 @@ $this->breadcrumbs=array(
 	</div>
 
 	<div class="row buttons">
-		<?php echo CHtml::submitButton('Login'); ?>
+		<?php echo CHtml::submitButton('Iniciar sesión'); ?>
 	</div>
 
 <?php $this->endWidget(); ?>
 </div><!-- form -->
+</div><!-- fin LoginInicio -->
