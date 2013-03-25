@@ -32,7 +32,7 @@ class EvaluacionpersonasController extends Controller
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('crear','update','admin','AgregarPersonas','AgregarPersona','AutocompleteEvaluado'),
+				'actions'=>array('crear','update','admin','AgregarPersonas','AgregarPersona','AutocompleteEvaluado','HabilidadesEspeciales'),
 				'users'=>array('@'),
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -250,7 +250,10 @@ class EvaluacionpersonasController extends Controller
             
             $this->render('crear');
         }
-
+        
+        public function actionHabilidadesEspeciales($idproceso){
+            
+        }
 	/**
 	 * Updates a particular model.
 	 * If update is successful, the browser will be redirected to the 'view' page.

@@ -50,20 +50,20 @@ $this->menu=array(
                 array(
 			'class'=>'CButtonColumn',
                         'htmlOptions'=>array('width'=>'90'),
-                        'template'=>'{habilidades}{agregarpersonas}',
+                        'template'=>'{agregarpersonas}{habilidades}',
                         'buttons'=>array(
-                            'addcompetence'=>array(
-                                'label'=>'Ver/Editar Habilidades Especiales',
-                                'imageUrl'=>Yii::app()->request->baseUrl.'/images/icons/silk/award_star_gold_3.png',
-                                'url'=>'Yii::app()->createUrl("puesto/addcompetence", array("id"=>$data["id"]))'
-                                
-                            ),
-                            'addpuntualizacion'=>array(
+                            'agregarpersonas'=>array(
                                 'label'=>'Agregar personas al proceso',
                                 'imageUrl'=>Yii::app()->request->baseUrl.'/images/icons/silk/group_add.png',
                                 'url'=>'Yii::app()->createUrl("evaluacionpersonas/agregarpersonas", array("id"=>$data["id"]))'
                                 
-                            ),                            
+                            ),
+                            'habilidades'=>array(
+                                'label'=>'Ver/Editar Habilidades Especiales',
+                                'imageUrl'=>Yii::app()->request->baseUrl.'/images/icons/silk/award_star_gold_3.png',
+                                'url'=>'Yii::app()->createUrl("evaluacionpersonas/habilidadesespeciales", array("id"=>$data["id"]))'
+                                
+                            ),                                                        
                         )
                        
 		),
