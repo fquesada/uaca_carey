@@ -40,7 +40,8 @@ return array(
                     
                     'install'=>false),
 	),
-
+        
+        'homeUrl'=>array('site/login'),
 	// application components
 	'components'=>array(
 		'user'=>array(
