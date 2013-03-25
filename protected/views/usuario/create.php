@@ -2,6 +2,8 @@
 /* @var $this UsuarioController */
 /* @var $model Usuario */
 
+Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/usuario.js');
+
 $this->breadcrumbs=array(
 	'Gestionar'=>array('admin'),
 	'Crear',

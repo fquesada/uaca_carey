@@ -60,13 +60,11 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->baseUrl . '/css/sexybutton
 		<?php echo $form->hiddenField($model,'empresa',array('value'=>1)); ?>
 	</div>
         
-        <div class="row">
-                <?php echo $form->labelEx($model,'Asignar colaborador?'); ?>
-                <?php echo $form->checkbox($model,'confirmacion',array('value'=>'S','uncheckValue'=>'N')); ?>
-		
+        <div class="row">                
+                <?php echo $form->checkbox($model,'confirmacion',array('value'=>'S','uncheckValue'=>'N')); ?> <b>Asignar usuario del sistema a un colaborador.</b><?php echo CHtml::image(Yii::app()->request->baseUrl."/images/icons/silk/help.png", "Ayuda usuario colaborador", array("id"=>"imgcolaboradohelp", "style" => "padding-left:5px")) ?>
 	</div>
         
-        <div class="row">
+        <div class="row" id="divcolaborador">
                 <?php echo $form->labelEx($model,'colaborador'); ?>
                 <?php $this->widget('zii.widgets.jui.CJuiAutoComplete', array(
                     //'attribute'=>'colaborador',
