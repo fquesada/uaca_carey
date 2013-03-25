@@ -102,9 +102,29 @@ class Puestopuntualizacion extends CActiveRecord
             $criteria->compare('puesto',$this->puesto);
             
             $criteria->addColumnCondition(array('puesto'=>$idpuesto));
+            
+            $puntualizaciones = Puntualizacion::model()->findAllByAttributes(array('estado'=>'1'));
+            $puntualizacionesvalidas = $this->obtenerArrayColumna($puntualizaciones, 'id');
+            
+            $criteria->addInCondition('puntualizacion', $puntualizacionesvalidas);
 
             return new CActiveDataProvider($this, array(
                     'criteria'=>$criteria,
             ));
     }
+    
+        /**
+         * Returns an array with the values of the column needed.
+         * @param array $unidades the array with the objects that have the column needed
+         * @param string $columna  the name of the column that must be obtain
+         */
+
+           public function obtenerArrayColumna($unidades, $columna)
+        {
+            $idUnidades = array();
+            foreach ($unidades as $un) {
+                $idUnidades[] = $un->$columna;
+            }
+            return $idUnidades;
+        }
 }

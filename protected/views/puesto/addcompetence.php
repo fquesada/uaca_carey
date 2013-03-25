@@ -43,6 +43,8 @@
     <?php 
     $competencia = new Competencia();
     $ponderacion = new Ponderacion();
+    
+    $filterForm = new FiltersForm();
     ?>
     
     <p></br> </br> </br> </p>
@@ -50,13 +52,13 @@
  <h1>Paso 1: Competencias disponibles</h1>
  <h5>Seleccione una de las competencias, enumeradas a continuación, que desea agregarle al puesto.</h5>
  
- <?php echo CHtml::beginForm('','POST',array('id'=>'formpeso'))?> 
+ <?php echo CHtml::beginForm('','POST',array('id'=>'formpeso', 'onkeypress'=>'return event.keyCode != 13;'))?> 
  
  <?php $this->widget('zii.widgets.grid.CGridView', array(
 	'id'=>'competenciaexistente-grid',
         'dataProvider'=>$competencia->addcompetencia($model->id),
         'template'=>"{pager}\n{items}\n{pager}\n{summary}",
-        'filter'=>$competencia,
+        'filter'=>$filterForm,
 	'columns'=>array(
                 array(
                     'id' => 'compselect',
@@ -85,10 +87,10 @@
     )); ?> 
     
     <br></br>
-     <?php echo CHtml::submitButton('Asociar',array('submit'=>'../savecompetencia', 'class'=>'sexybutton sexysimple sexylarge'));?>
-     
+        
+    <?php echo CHtml::submitButton('Asociar',array('submit'=>'../savecompetencia', 'class'=>'sexybutton sexysimple sexylarge'));?>
+
      <?php echo CHtml::endForm()?>
-     
     
          <p></br> </br> </br> </p>
      <h1>Paso 3: Competencias asociadas</h1>

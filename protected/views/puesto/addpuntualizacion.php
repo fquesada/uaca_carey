@@ -12,7 +12,7 @@
     //JS
     Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/messi.min.js');
 ?>
-//<?php
+<?php
 //    Yii::app()->clientScript->registerScript('actualizar', "
 //    $('.competenciaasociado-grid').update(function(){
 //            $.fn.yiiGridView.update('competenciaasociado-grid');
@@ -42,47 +42,78 @@
     
     <?php 
     $puntualizacion = new Puntualizacion();
+    $filterForm = new FiltersForm();
     ?>
     
     <p></br> </br> </br> </p>
    
- <h1>Puntualizaciones disponibles</h1>
- <h5>Seleccione las puntualizaciones que desea agregar al puesto y presione el botón "Asociar"</h5>
+ <h1>Paso 1: Crear la puntualización</h1>
+ <h5>Presione la opción "Crear puntualización" para crear y asignarle una puntualización al puesto. Posteriormente verifique que la puntualización haya quedado asociada al puesto en la tabla de abajo</h5>
  
- <?php echo CHtml::beginForm('','POST',array('id'=>'formpuntualizacion'))?> 
+    <?php echo CHtml::link('Crear puntualización', "",
+            array(
+                'style'=>'cursor: pointer; text-decoration: underline;',
+                'onclick'=>"{addPuntualizacion(); $('#dialogPuntualizacion').dialog('open');}"
+                )
+            );
+    ?>
  
- <?php $this->widget('zii.widgets.grid.CGridView', array(
-	'id'=>'puntualizacionexistente-grid',
-        'dataProvider'=>$puntualizacion->addpuntualizacion($model->id),
-	'filter'=>$puntualizacion,
-	'columns'=>array(
-                array(
-                    'id' => 'puntualizacionselect',
-                    'class' => 'CCheckBoxColumn',
-                    'selectableRows'=>'25',
-                ),
-		'puntualizacion',
-		'indicadorpuntualizacion',
-	),
-    )); ?>
-     
-     <br></br>
-     <?php echo CHtml::submitButton('Asociar',array('submit'=>'../savepuntualizacion', 'class'=>'sexybutton sexysimple sexylarge'));?>
-     
-     <?php echo CHtml::endForm()?>
-     
+    <?php
+    $this->beginWidget('zii.widgets.jui.CJuiDialog', array(
+        'id'=>'dialogPuntualizacion',
+        'options'=>array(
+            'title'=>'Crear puntualizacion',
+            'autoOpen'=>false,
+            'modal'=>true,
+            'width'=>700,
+            'height'=>400,
+            'close'=>'js: function(event, ui){$.fn.yiiGridView.update("puntualizacionasociado-grid");}'
+        ),
+        
+    ));
+    ?>
     
-         <p></br> </br> </br> </p>
-     <h1>Puntualizaciones asociadas</h1>
+ <div class="divForForm"></div>
+ 
+ <?php $this->endWidget();?>
+ 
+ <script type="text/javascript">
      
-     
-    <?php 
+ function addPuntualizacion()
+ {
+     <?php echo CHtml::ajax(array(
+         'url'=>array('puntualizacion/create'),
+         'data'=>"js:$(this).serialize()",
+         'type'=>'post',
+         'dataType'=>'json',
+         'success'=>"function(data)
+             {
+                if(data.status == 'failure')
+                {
+                    $('#dialogPuntualizacion div.divForForm').html(data.div);
+                    $('#dialogPuntualizacion div.divForForm form').submit(addPuntualizacion);
+                }
+                else
+                {
+                    $('#dialogPuntualizacion div.divForForm').html(data.div);
+                    setTimeout(\"$('#dialogPuntualizacion').dialog('close') \",3000);
+                }
+             }"
+     ))
+    ?>;
+            
+    return false;
+        
+ }
+ </script>
+    <?php
     $puestopun = new PuestoPuntualizacion();
     ?>
     
     <?php $this->widget('zii.widgets.grid.CGridView', array(
 	'id'=>'puntualizacionasociado-grid',
         'dataProvider'=>$puestopun->search($model->id),
+        'template'=>"{pager}\n{items}\n{pager}\n{summary}",
 	'columns'=>array(
                     'NombrePunt',
                     'IndicadorPunt',

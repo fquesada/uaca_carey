@@ -71,12 +71,37 @@ class PuntualizacionController extends Controller
 		{
 			$model->attributes=$_POST['Puntualizacion'];
 			if($model->save())
-				$this->redirect(array('view','id'=>$model->id));
+                        {
+                            $puestopun = new PuestoPuntualizacion();
+                            $puestopun->puesto = Yii::app()->session['puesto'];
+                            $puestopun->puntualizacion = $model->id;
+                    
+                            $puestopun->save();
+                            
+                            if(Yii::app()->request->isAjaxRequest)
+                            {
+                                echo CJSON::encode(array(
+                                    'status'=>'success',
+                                    'div'=>"Puntualización creada con éxito"
+                                ));
+                                exit;
+                                
+                            }
+                            else
+				$this->redirect(array('view','id'=>$model->id));                                
+                        }
 		}
-
-		$this->render('create',array(
-			'model'=>$model,
-		));
+                if (Yii::app()->request->isAjaxRequest)
+                {
+                    echo CJSON::encode(array(
+                         'status'=>'failure',
+                         'div'=>  $this->renderPartial('_form', array('model'=>$model), true)
+                          )
+                    );
+                    exit;
+                }
+                else
+                    $this->render ('create', array('model'=>$model));
 	}
 
 	/**

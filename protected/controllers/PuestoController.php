@@ -222,32 +222,32 @@ class PuestoController extends Controller
             }
         }
         
-        public function actionSavePuntualizacion(){
-            
-            if (isset($_POST['puntualizacionselect'])){
-                                                
-                             
-                $puntualizaciones = $_POST['puntualizacionselect'];
-
-                foreach($puntualizaciones as $puntualizacion){
-                    $puestopun = new PuestoPuntualizacion();
-                    $puestopun->puesto = Yii::app()->session['puesto'];
-                    $puestopun->puntualizacion = $puntualizacion;
-                    
-                    $puestopun->save();
-                }
-
-                
-                Yii::app()->user->setFlash('success','Se agrego correctamente la puntualización al puesto.');
-                $this->redirect(array('addpuntualizacion','id'=>Yii::app()->session['puesto']));
-                
-            }                
-            else{
-                
-                 Yii::app()->user->setFlash('error','Se debe seleccionar al menos una puntualización para asociar al puesto.');
-                 $this->redirect(array('addpuntualizacion','id'=>Yii::app()->session['puesto']));
-                }
-        }
+//        public function actionSavePuntualizacion(){
+//            
+//            if (isset($_POST['puntualizacionselect'])){
+//                                                
+//                             
+//                $puntualizaciones = $_POST['puntualizacionselect'];
+//
+//                foreach($puntualizaciones as $puntualizacion){
+//                    $puestopun = new PuestoPuntualizacion();
+//                    $puestopun->puesto = Yii::app()->session['puesto'];
+//                    $puestopun->puntualizacion = $puntualizacion;
+//                    
+//                    $puestopun->save();
+//                }
+//
+//                
+//                Yii::app()->user->setFlash('success','Se agrego correctamente la puntualización al puesto.');
+//                $this->redirect(array('addpuntualizacion','id'=>Yii::app()->session['puesto']));
+//                
+//            }                
+//            else{
+//                
+//                 Yii::app()->user->setFlash('error','Se debe seleccionar al menos una puntualización para asociar al puesto.');
+//                 $this->redirect(array('addpuntualizacion','id'=>Yii::app()->session['puesto']));
+//                }
+//        }
 
                 	/**
 	 * Returns the data model based on the primary key given in the GET variable.

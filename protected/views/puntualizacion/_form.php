@@ -21,7 +21,7 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->baseUrl . '/css/sexybutton
 
 	<div class="row">
 		<?php echo $form->labelEx($model,'puntualizacion'); ?>
-		<?php echo $form->textField($model,'puntualizacion',array('size'=>60,'maxlength'=>800)); ?>
+		<?php echo $form->textArea($model,'puntualizacion', array('width'=>386, 'height'=>166)); ?>
 		<?php echo $form->error($model,'puntualizacion'); ?>
 	</div>
 
