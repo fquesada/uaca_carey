@@ -73,6 +73,7 @@ class UsuarioController extends Controller
 		if(isset($_POST['Usuario']))
 		{
 			$model->attributes=$_POST['Usuario'];
+                        $model->confirmacion= $_POST['Usuario']['confirmacion'];
                         $model->password = crypt($model->password, $model->getsalt());
                         $model->confirmarPassword = crypt($model->confirmarPassword, $model->getsalt());
                         $model->fechacreacion = CommonFunctions::datenow();

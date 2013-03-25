@@ -18,10 +18,6 @@ return $( "<li></li>" )
 
 ?>
 
-<?php
-Yii::app()->clientScript->registerCssFile(Yii::app()->baseUrl . '/css/sexybuttons.css');
-?>
-
 <div class="form">
 
 <?php $form=$this->beginWidget('CActiveForm', array(
@@ -61,7 +57,7 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->baseUrl . '/css/sexybutton
 	</div>
         
         <div class="row">                
-                <?php echo $form->checkbox($model,'confirmacion',array('value'=>'S','uncheckValue'=>'N')); ?> <b>Asignar usuario del sistema a un colaborador.</b><?php echo CHtml::image(Yii::app()->request->baseUrl."/images/icons/silk/help.png", "Ayuda usuario colaborador", array("id"=>"imgcolaboradohelp", "style" => "padding-left:5px")) ?>
+                <?php echo $form->checkbox($model,'confirmacion',array('value'=>'S','uncheckValue'=>'N')); ?> <b>Asignar usuario del sistema a un colaborador.</b><?php echo CHtml::image(Yii::app()->request->baseUrl."/images/icons/silk/help.png", "Ayuda usuario colaborador", array("id"=>"imgcolaboradorhelp", "style" => "padding-left:5px; cursor:pointer")) ?>
 	</div>
         
         <div class="row" id="divcolaborador">
