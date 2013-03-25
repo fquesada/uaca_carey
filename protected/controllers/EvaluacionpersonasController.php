@@ -32,7 +32,7 @@ class EvaluacionpersonasController extends Controller
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('crear','update','admin'),
+				'actions'=>array('crear','update','admin','AgregarPersonas','AgregarPersona','AutocompleteEvaluado'),
 				'users'=>array('@'),
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -44,6 +44,123 @@ class EvaluacionpersonasController extends Controller
 			),
 		);
 	}
+        
+        public function actionAgregarPersonas($id)
+        {
+            $evaluacionpersonas = Evaluacionpersonas::model()->findByPk($id);                         
+            
+            if(isset($evaluacionpersonas))
+            {            
+                $dataProvider =new CActiveDataProvider('Evaluacioncompetencias',array('criteria'=>array(
+                    'condition'=>'evaluacionpersonas='.$id)));            
+
+                $this->render('agregarpersonas',array(
+                            'model'=>$evaluacionpersonas,'dataProvider'=>$dataProvider
+                    ));
+            }
+            else
+                $this->redirect(array('admin'));
+            
+        }
+        
+        public function actionAgregarPersona()
+        {
+            if(Yii::app()->request->isAjaxRequest)
+            {
+                
+                $idpersona = $_POST['id'];
+                $tipopersona = $_POST['tipo'];                                
+                $idevaluacion = $_POST['idevaluacion'];
+                
+                //ver validar
+                
+                $evaluacion = Evaluacioncompetencias::model()->findByAttributes(array('tipo'=>$tipopersona,'evaluado'=>$idpersona,'evaluacionpersonas'=>$idevaluacion));                
+                
+                if(!$evaluacion)
+                {
+
+                    $evaluacionCompetencia = new Evaluacioncompetencias();
+                    $evaluacionCompetencia->tipo = CommonFunctions::stringtonumber($tipopersona); 
+                    $evaluacionCompetencia->evaluado = CommonFunctions::stringtonumber($idpersona);                                
+                    $evaluacionCompetencia->evaluacionpersonas = CommonFunctions::stringtonumber($idevaluacion);
+                    $evaluacionCompetencia->fechaevaluacion = CommonFunctions::datenow();
+                                                            
+                    if($evaluacionCompetencia->save())
+                        $response = array('result' => true,'value' => "La persona fue agregada correctamente.");
+                    else                    
+                        $response = array('result' => false,'value' => 'Ha ocurrido un inconveniente, intente nuevamente.');                    
+                        
+
+                    echo CJSON::encode($response);               
+                    
+                }
+                else
+                {
+                    $response = array('result' => false,'value' => 'La persona seleccionada ya ha sido registrada en esta evaluación.');                    
+                    echo CJSON::encode($response);               
+                }
+                
+                Yii::app()->end();
+            }
+            
+        }
+        
+        public function actionAutocompleteEvaluado()
+        {
+            if (isset($_GET['term'])) {
+
+                $keyword=$_GET['term'];
+                // escape % and _ characters
+                $keyword=strtr($keyword, array('%'=>'\%', '_'=>'\_'));
+                               
+                $dataReader = Yii::app()->db->createCommand(
+                        'SELECT c.cedula,c.nombre,c.apellido1,c.apellido2, c.id '.
+                        'FROM colaborador c '.                        
+                        'WHERE CONCAT_WS(" ", c.nombre, c.apellido1, c.apellido2 ) like "%'.$keyword.'%" AND c.estado = 1;'
+                        )->query(); 
+                
+                $dataReaderPos = Yii::app()->db->createCommand(
+                        'SELECT c.cedula,c.nombre,c.apellido1,c.apellido2, c.id '.
+                        'FROM postulante c '.                        
+                        'WHERE CONCAT_WS(" ", c.nombre, c.apellido1, c.apellido2 ) like "%'.$keyword.'%" AND c.estado = 1;'
+                        )->query(); 
+                                
+
+                $return_array = array();
+                if($dataReader->count() == 0)
+                {
+                    $return_array[] = array(
+                    'label'=>'No hay resultados.',
+                    'value'=>'', 
+                    );
+                }
+                else{ 
+                    foreach($dataReader as $row){ 
+                        $nombrecompleto = $row['nombre'].' '.$row['apellido1'].' '.$row['apellido1'];
+                        $return_array[] = array(
+                        'label'=>'<div style="font-size:x-small">Cédula: '.$row['cedula'].'</div>'.'<div>'.$nombrecompleto.'</div>',
+                        'value'=>$nombrecompleto, 
+                        'id'=>$row['id'],
+                         'cedula'=>$row['cedula'],                        
+                            'tipo'=>1,                        
+                        );
+                    }
+                    foreach($dataReaderPos as $row){ 
+                        $nombrecompleto = $row['nombre'].' '.$row['apellido1'].' '.$row['apellido1'];
+                        $return_array[] = array(
+                        'label'=>'<div style="font-size:x-small">Cédula: '.$row['cedula'].'</div>'.'<div>'.$nombrecompleto.'</div>',
+                        'value'=>$nombrecompleto, 
+                        'id'=>$row['id'],
+                         'cedula'=>$row['cedula'],                        
+                            'tipo'=>0,                        
+                        );
+                    }
+                }
+                echo CJSON::encode($return_array);
+            }
+        }
+        
+        
 
 	/**
 	 * Displays a particular model.

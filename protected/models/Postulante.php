@@ -13,6 +13,7 @@
  */
 class Postulante extends CActiveRecord
 {
+        private $_nombrecompleto;
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
@@ -96,4 +97,12 @@ class Postulante extends CActiveRecord
 			'criteria'=>$criteria,
 		));
 	}
+        
+           public function getnombrecompleto(){            
+            if(isset($this->_nombrecompleto)) {
+                return $this->_nombrecompleto;
+            }            
+            $this->_nombrecompleto = $this->nombre." ".$this->apellido1." ".$this->apellido2;
+            return $this->_nombrecompleto;            
+        }
 }

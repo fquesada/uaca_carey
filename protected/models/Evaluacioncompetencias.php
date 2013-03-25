@@ -101,6 +101,10 @@ class Evaluacioncompetencias extends CActiveRecord
 			'tipo' => 'Tipo',
 			'evaluador' => 'Evaluador',
 			'evaluado' => 'Evaluado',
+                        'TipoEvaluado' => 'Tipo de Evaluado',
+                        'NombreEvaluado' => 'Nombre de Evaluado',
+                        'EstadoEvaluacion'=>'Estado de la Evaluación'
+                    
 		);
 	}
 
@@ -131,4 +135,30 @@ class Evaluacioncompetencias extends CActiveRecord
 			'criteria'=>$criteria,
 		));
 	}
+        
+        
+         public function getTipoEvaluado()
+        {
+            $estado = 'Interno';
+            if($this->tipo==0)
+                $estado = 'Externo';
+            
+            return $estado;
+        }
+        
+        public function getNombreEvaluado()
+        {
+            if($this->tipo==1)
+                return Colaborador::model()->findByPk($this->evaluado)->nombrecompleto;
+            else
+                return Postulante::model()->findByPk($this->evaluado)->nombrecompleto;
+        }
+        
+        public function getEstadoEvaluacion()
+        {            
+            if($this->promedioponderado != null)
+                return 'Pendiente';
+            else
+                return 'En proceso';
+        }
 }

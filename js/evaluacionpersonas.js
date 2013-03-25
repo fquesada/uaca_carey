@@ -139,7 +139,7 @@ $(document).ready(function() {
     }
    
    function validar(elemento){
-       if($(elemento).val() == '')
+       if($(elemento).val() == '' || $(elemento).val()=='-')
            return false;
        else
            return true;
@@ -182,5 +182,74 @@ $(document).ready(function() {
             modal:true
         });
     }
+    
+    
+    //Pertenece a la vista agregarpersona
+    $("#formagregarpersona").submit(function(event){
+       event.preventDefault();   
+       
+       //if(validar($('#cedula')) && validar($('#colaborador')) && validar($('#tipo'))&& validar($('#id')))
+       if(validar('#colaborador') && validar('#colaborador') && validar('#tipo')&& validar('#id'))
+       {
+            $.ajax({
+                        type: "POST",
+                        url: "../agregarpersona",  
+                        data: $("#formagregarpersona").serialize(),
+                        dataType: "json",
+                        error: function (jqXHR, textStatus){
+                            if (jqXHR.status === 0) {                            
+                                messageerror("Problema de red, contacte al administrador de sistemas.");
+                            } else if (jqXHR.status == 404) {
+                                messagewarning("Solicitud no encontrada.");
+                            } else if (jqXHR.status == 500) {
+                                messageerror("Error 500. Ha ocurrido un problema con el servidor, contacte al administrador de sistemas.");
+                            } else if (textStatus === 'parsererror') {
+                                messagewarning("Ha ocurrido un inconveniente, intente nuevamente.");
+                            } else if (textStatus === 'timeout') {
+                                messageerror("Tiempo de espera excedido, intente nuevamente.");
+                            } else if (textStatus === 'abort') {
+                                messageerror("Se ha abortado la solicitud, intente nuevamente");
+                            } else {
+                                messageerror("Error desconocido, contacte al administrador de sistemas.");                            
+                            }
+                        },
+                        success: function(resultado){
+                            if(resultado.result){
+                                $.fn.yiiGridView.update('historial-grid');                                                                                    
+                                $('#btnagregarpersona').removeAttr('disabled');                                                        
+
+                            }else{
+                                messageerror(resultado.value);
+                            }                       
+
+                        }
+                });
+
+                $('#cedula').text('-');                             
+                $('#colaborador').val('');                                              
+                $('#id').val('');                              
+                $('#tipo').val('');                             
+                $('#colaborador').removeAttr("disabled");
+                $('#btnagregarpersona').attr('disabled', 'true');	
+                $("#imgborrar").hide();
+                
+       }       
+
+            
+        });
+
+   $("#imgborrar").on("click",function(){        
+       
+          $('#cedula').text('-');                             
+                $('#colaborador').val('');                                              
+                $('#id').val('');                              
+                $('#tipo').val('');                             
+                $('#colaborador').removeAttr("disabled");
+                $('#btnagregarpersona').attr('disabled', 'true');
+                $("#imgborrar").hide();
+   });
+   
+    
+    
 });
 
