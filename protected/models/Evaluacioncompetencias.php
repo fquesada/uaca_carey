@@ -57,7 +57,7 @@ class Evaluacioncompetencias extends CActiveRecord
 		return array(
 			array('evaluacionpersonas, fechaevaluacion', 'required'),
 			array('evaluacionpersonas, frecuencia, puestopotencial1, puestopotencial2, puestopotencial3, tipo, evaluador, evaluado', 'numerical', 'integerOnly'=>true),
-			array('promedioponderado', 'numerical'),
+			array('promedioponderado', 'numerical'),                        
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
 			array('id, evaluacionpersonas, fechaevaluacion, frecuencia, puestopotencial1, puestopotencial2, puestopotencial3, promedioponderado, tipo, evaluador, evaluado', 'safe', 'on'=>'search'),
@@ -131,4 +131,21 @@ class Evaluacioncompetencias extends CActiveRecord
 			'criteria'=>$criteria,
 		));
 	}
+        
+        public function getTipoEvaluado()
+        {
+            $estado = 'Interno';
+            if($this->tipo==0)
+                $estado = 'Externo';
+            
+            return $estado;
+        }
+        
+        public function getNombreEvaluado()
+        {
+            if($this->tipo==1)
+                return Colaborador::model()->findByPk($this->evaluado)->nombrecompleto;
+            else
+                return Postulante::model()->findByPk($this->evaluado)->nombrecompleto;
+        }
 }

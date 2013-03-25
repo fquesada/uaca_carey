@@ -25,6 +25,8 @@
  */
 class Colaborador extends CActiveRecord
 {
+    
+    private $_nombrecompleto;
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
@@ -59,6 +61,14 @@ class Colaborador extends CActiveRecord
 			array('id, cedula, nombre, apellido1, apellido2, estado, unidadnegocio, puesto', 'safe', 'on'=>'search'),
 		);
 	}
+        
+        public function getnombrecompleto(){            
+           if(isset($this->_nombrecompleto)) {
+               return $this->_nombrecompleto;
+           }            
+           $this->_nombrecompleto = $this->nombre." ".$this->apellido1." ".$this->apellido2;
+           return $this->_nombrecompleto;            
+       }
 
 	/**
 	 * @return array relational rules.

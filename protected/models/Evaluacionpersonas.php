@@ -110,4 +110,20 @@ class Evaluacionpersonas extends CActiveRecord
 			'criteria'=>$criteria,
 		));
 	}
+        
+     public function ExistePersonaEvaluacion($tipo,$idpersona)
+     {
+         $existe = false;
+         
+             foreach($this->_evaluacionescompetencias as $evaluacion)
+             {
+                 if($evaluacion->evaluado == $idpersona and $evaluacion->tipo == $tipo)
+                     $existe = true;
+             }
+             
+         return $existe;
+         
+     }
+             
+             
 }
