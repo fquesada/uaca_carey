@@ -7,7 +7,7 @@
 // CWebApplication properties can be configured here.
 return array(
 	'basePath'=>dirname(__FILE__).DIRECTORY_SEPARATOR.'..',
-	'name'=>'UACA',
+	'name'=>'Gestión por Competencias',
 
 	// preloading 'log' component
 	'preload'=>array('log'),

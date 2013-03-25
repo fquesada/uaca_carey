@@ -1,0 +1,148 @@
+/* 
+    Document   : home
+    Created on : 22/03/2013, 04:56:24 PM
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+root { 
+    display: block;
+} 
+ 
+#Body {
+	width: 100%;
+	height: 400px;
+}
+
+#Desmpeño {
+        -webkit-border-radius: 30px;
+        -moz-border-radius: 30px;
+        border-radius: 30px;
+        
+        width: 30%;
+	height: 400px;
+	float: left;
+        margin: 15px 15px 35px 15px;
+        background-color: #0099CC;
+        box-shadow: 10px 10px 5px #888888;
+}
+
+#Competencias {
+        -webkit-border-radius: 30px;
+        -moz-border-radius: 30px;
+        border-radius: 30px;
+        
+        width: 30%;
+	height: 400px;
+	float: left;
+        margin: 15px 15px 35px 15px;
+        background-color: #006699;
+        box-shadow: 10px 10px 5px #888888;
+}
+
+#Reclutamiento {
+        -webkit-border-radius: 30px;
+        -moz-border-radius: 30px;
+        border-radius: 30px;
+        
+        width: 30%;
+	height: 400px;
+	float: left;
+        margin: 15px 15px 35px 15px;
+        background-color: #003366;
+        box-shadow: 10px 10px 5px #888888;
+}
+
+#TituloD {	
+        -webkit-border-radius: 30px;
+        -moz-border-radius: 30px;
+        border-radius: 30px;
+    
+	width: 100%;
+	height: 100px;
+	float: left;
+	background-color: #0099CC;
+}
+
+#ContenidoD {	
+	-webkit-border-radius: 30px;
+        -moz-border-radius: 30px;
+        border-radius: 30px;
+        
+	width: 97.75%;
+	height: 300px;
+	float: left;
+	background-color: #FFFFFF;
+        border: solid #0099CC;
+}
+
+#TituloC {	
+	-webkit-border-radius: 30px;
+        -moz-border-radius: 30px;
+        border-radius: 30px;
+        
+	width: 100%;
+	height: 100px;
+	float: left;
+	background-color: #006699;
+}
+
+#ContenidoC {	
+	-webkit-border-radius: 30px;
+        -moz-border-radius: 30px;
+        border-radius: 30px;
+        
+	width: 97.75%;
+	height: 300px;
+	float: left;
+	background-color: #FFFFFF;
+        border: solid #006699;
+}
+
+#TituloR {	
+	-webkit-border-radius: 30px;
+        -moz-border-radius: 30px;
+        border-radius: 30px;
+        
+	width: 100%;
+	height: 100px;
+	float: left;
+	background-color: #003366;
+}
+
+#ContenidoR {	
+	-webkit-border-radius: 30px;
+        -moz-border-radius: 30px;
+        border-radius: 30px;
+        
+	width: 97.75%;
+	height: 300px;
+	float: left;
+	background-color: #FFFFFF;
+        border: solid #003399;
+}
+
+#Desmpeño:hover {
+    box-shadow: 13px 13px 8px #888888;
+}
+
+#Competencias:hover {
+    box-shadow: 13px 13px 8px #888888;
+}
+
+#Reclutamiento:hover {
+    box-shadow: 13px 13px 8px #888888;
+}
+
+h1 {
+  padding: 25px;
+  color: #FFFFFF;
+}
+
+p {
+    padding: 25px;
+}
+ 
+
+
+
