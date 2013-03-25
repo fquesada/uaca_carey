@@ -129,6 +129,8 @@ class EvaluacionpersonasController extends Controller
                         Yii::app()->end();
                 }           
             }
+            
+            
             $this->render('crear');
         }
 
@@ -191,7 +193,8 @@ class EvaluacionpersonasController extends Controller
 
             if (isset($_GET['FiltersForm']))
                 $filtersForm->filters=$_GET['FiltersForm'];                
-
+            
+            $this->layout='column1';
             $this->render('admin',array(
                 'model' => $filtersForm->filter($model),
                 'filtersForm' => $filtersForm,
