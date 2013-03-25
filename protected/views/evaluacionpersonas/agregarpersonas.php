@@ -128,8 +128,7 @@ $this->widget('zii.widgets.grid.CGridView', array(
                            'evaluar'=>array(
                                'label'=>'Evaluar competencias',
                                'imageUrl'=>Yii::app()->request->baseUrl.'/images/icons/silk/script_start.png',
-                               //'url'=>'Yii::app()>createUrl("puesto/addcompetence", array("id"=>$data>id))'
-                               
+                               //'url'=>'Yii::app()>createUrl("puesto/addcompetence", array("id"=>$data>id))'                               
                            )                           
                        )
                       
