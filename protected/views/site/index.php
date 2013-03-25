@@ -5,7 +5,7 @@ $this->pageTitle=Yii::app()->name;
 ?>
 
 <body>
-<div id="Body">
+<div class="MenuInicial">
     <div id="Desmpeño">
        <div id="TituloD">
            <h1 align="center">Evaluación de Desempeño</h1>

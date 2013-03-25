@@ -9,12 +9,12 @@ root {
     display: block;
 } 
  
-#Body {
+.MenuInicial {
 	width: 100%;
 	height: 400px;
 }
 
-#Desmpeño {
+.MenuInicial #Desmpeño {
         -webkit-border-radius: 30px;
         -moz-border-radius: 30px;
         border-radius: 30px;
@@ -27,7 +27,7 @@ root {
         box-shadow: 10px 10px 5px #888888;
 }
 
-#Competencias {
+.MenuInicial #Competencias {
         -webkit-border-radius: 30px;
         -moz-border-radius: 30px;
         border-radius: 30px;
@@ -40,7 +40,7 @@ root {
         box-shadow: 10px 10px 5px #888888;
 }
 
-#Reclutamiento {
+.MenuInicial #Reclutamiento {
         -webkit-border-radius: 30px;
         -moz-border-radius: 30px;
         border-radius: 30px;
@@ -53,7 +53,7 @@ root {
         box-shadow: 10px 10px 5px #888888;
 }
 
-#TituloD {	
+.MenuInicial #TituloD {	
         -webkit-border-radius: 30px;
         -moz-border-radius: 30px;
         border-radius: 30px;
@@ -64,7 +64,7 @@ root {
 	background-color: #0099CC;
 }
 
-#ContenidoD {	
+.MenuInicial #ContenidoD {	
 	-webkit-border-radius: 30px;
         -moz-border-radius: 30px;
         border-radius: 30px;
@@ -76,7 +76,7 @@ root {
         border: solid #0099CC;
 }
 
-#TituloC {	
+.MenuInicial #TituloC {	
 	-webkit-border-radius: 30px;
         -moz-border-radius: 30px;
         border-radius: 30px;
@@ -87,7 +87,7 @@ root {
 	background-color: #006699;
 }
 
-#ContenidoC {	
+.MenuInicial #ContenidoC {	
 	-webkit-border-radius: 30px;
         -moz-border-radius: 30px;
         border-radius: 30px;
@@ -99,7 +99,7 @@ root {
         border: solid #006699;
 }
 
-#TituloR {	
+.MenuInicial #TituloR {	
 	-webkit-border-radius: 30px;
         -moz-border-radius: 30px;
         border-radius: 30px;
@@ -110,7 +110,7 @@ root {
 	background-color: #003366;
 }
 
-#ContenidoR {	
+.MenuInicial #ContenidoR {	
 	-webkit-border-radius: 30px;
         -moz-border-radius: 30px;
         border-radius: 30px;
@@ -122,24 +122,24 @@ root {
         border: solid #003399;
 }
 
-#Desmpeño:hover {
+.MenuInicial #Desmpeño:hover {
     box-shadow: 13px 13px 8px #888888;
 }
 
-#Competencias:hover {
+.MenuInicial #Competencias:hover {
     box-shadow: 13px 13px 8px #888888;
 }
 
-#Reclutamiento:hover {
+.MenuInicial #Reclutamiento:hover {
     box-shadow: 13px 13px 8px #888888;
 }
 
-h1 {
+.MenuInicial h1 {
   padding: 25px;
   color: #FFFFFF;
 }
 
-p {
+.MenuInicial p {
     padding: 25px;
 }
  
