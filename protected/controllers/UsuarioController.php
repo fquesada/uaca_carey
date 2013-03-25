@@ -73,15 +73,19 @@ class UsuarioController extends Controller
 		if(isset($_POST['Usuario']))
 		{
 			$model->attributes=$_POST['Usuario'];
+                        $model->confirmacion= $_POST['Usuario']['confirmacion'];
                         $model->password = crypt($model->password, $model->getsalt());
                         $model->confirmarPassword = crypt($model->confirmarPassword, $model->getsalt());
+                        $model->fechacreacion = CommonFunctions::datenow();
 
-                        $result = $model->save();
+                        $resultado = $model->save();
                         $idusuario = $model->id;
                         $idcolaborador = $_POST['Usuario']['colaborador'];
-
-                        if($result)
-                            {
+                       
+                       if($model->confirmacion == 'S')
+                       {
+                            if($resultado)
+                                {
                                 $tablaintermedia = new ColaboradorUsuario();
 
                                 $tablaintermedia->colaborador = $idcolaborador;
@@ -96,24 +100,22 @@ class UsuarioController extends Controller
                                     }
                                 else{
                                 $transaction->rollBack();
-                                //yii->setflash('Hubo un error al crear la competencia');
                                 }
                             }
-                }
-                        
-                        else{
-                        $transaction->rollBack();
-                        //yii->setflash('Hubo un error al crear la competencia')
-                        }
+                       }
                 
-                        
-                           //if($model->save()) 
-			//	$this->redirect(array('view','id'=>$model->id));
-		//}
-
-		$this->render('create',array(
-			'model'=>$model,
-		));
+                       else if($resultado){
+                         $transaction->commit();
+                         $this->redirect(array('view','id'=>$model->id));
+                       }
+                       
+                       else{
+                           $transaction->rollBack();
+                       }
+                }
+                 $this->render('create',array(
+                    'model'=>$model,));
+                
 	}
 
 	/**

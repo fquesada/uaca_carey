@@ -1,6 +1,7 @@
 <?php
 /* @var $this UsuarioController */
 /* @var $data Usuario */
+$fechamysql = CommonFunctions::datemysqltophp($model->fechacreacion)
 ?>
 
 <div class="view">
@@ -15,7 +16,7 @@
 	<br />
 
 	<b><?php echo CHtml::encode($data->getAttributeLabel('fechacreacion')); ?>:</b>
-	<?php echo CHtml::encode($data->fechacreacion); ?>
+	<?php echo CHtml::encode($data->$fechamysql); ?>
 	<br />
 
 	<b><?php echo CHtml::encode($data->getAttributeLabel('empresa')); ?>:</b>

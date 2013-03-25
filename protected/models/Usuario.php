@@ -12,7 +12,7 @@
  * @property integer $empresa
  *
  * The followings are the available model relations:
- * @property Colaborador[] $_colaborador
+ * @property Colaborador[] $_colaboradores
  * @property Empresa $_empresa
  */
 class Usuario extends CActiveRecord
@@ -22,9 +22,9 @@ class Usuario extends CActiveRecord
 	 * @param string $className active record class name.
 	 * @return Usuario the static model class
 	 */
-         
-        private $salt = '$2y$06$Un2C0ntRaZenap2r2L0Gy';    //El salt para cryp    
-         
+    
+        private $salt = '$2y$06$Un2C0ntRaZenap2r2L0Gy';    //El salt para cryp  
+    
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);
@@ -37,11 +37,13 @@ class Usuario extends CActiveRecord
 	{
 		return 'usuario';
 	}
-
+        
         public $confirmarPassword;
         public $password_actual;
         public $password_nueva;
         public $colaborador;
+        public $confirmacion;
+
 	/**
 	 * @return array validation rules for model attributes.
 	 */
@@ -50,19 +52,19 @@ class Usuario extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('login, password, confirmarPassword', 'required','on'=>'create'),
-                        array('login, empresa', 'required', 'on'=>'update'),
-                        array('password_actual, password_nueva, confirmarPassword', 'required', 'on'=>'CambiarPass'),
-			array('estado, empresa', 'numerical', 'integerOnly'=>true),
-			array('login', 'length', 'max'=>45),
-			array('password', 'length', 'max'=>100),
-			// The following rule is used by search().
-			// Please remove those attributes that should not be searched.
-			array('id, login, password, fechacreacion, estado, empresa', 'safe', 'on'=>'search'),
-                        array('password', 'compare', 'compareAttribute' => 'confirmarPassword', 'on'=>'create', 'message'=>'Las contraseñas no son iguales, introduzcalas de nuevo'),
-                        array('password_nueva', 'compare', 'compareAttribute' => 'confirmarPassword', 'on'=>'CambiarPass', 'message'=>'Las contraseñas no son iguales, introduzcalas de nuevo'),
-		);
-	}
+				array('login, password, confirmarPassword', 'required','on'=>'create'),
+                                array('login, empresa', 'required', 'on'=>'update'),
+                                array('password_actual, password_nueva, confirmarPassword', 'required', 'on'=>'CambiarPass'),
+                                array('estado, empresa', 'numerical', 'integerOnly'=>true),
+                                array('login', 'length', 'max'=>45),
+                                array('password', 'length', 'max'=>100),
+                                // The following rule is used by search().
+                                // Please remove those attributes that should not be searched.
+                                array('id, login, password, fechacreacion, estado, empresa', 'safe', 'on'=>'search'),
+                                array('password', 'compare', 'compareAttribute' => 'confirmarPassword', 'on'=>'create', 'message'=>'Las contraseñas no son iguales, introduzcalas de nuevo'),
+                                array('password_nueva', 'compare', 'compareAttribute' => 'confirmarPassword', 'on'=>'CambiarPass', 'message'=>'Las contraseñas no son iguales, introduzcalas de nuevo'),
+                );
+    }
 
 	/**
 	 * @return array relational rules.
@@ -72,7 +74,7 @@ class Usuario extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'_colaborador' => array(self::MANY_MANY, 'Colaborador', 'colaboradorusuario(usuario, colaborador)'),
+			'_colaboradores' => array(self::MANY_MANY, 'Colaborador', 'colaboradorusuario(usuario, colaborador)'),
 			'_empresa' => array(self::BELONGS_TO, 'Empresa', 'empresa'),
 		);
 	}
@@ -84,9 +86,9 @@ class Usuario extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'login' => 'Nombre de Usuario',
-			'password' => 'Contraseña',
-			'fechacreacion' => 'Fecha de creación',
+			'login' => 'Login',
+			'password' => 'Password',
+			'fechacreacion' => 'Fechacreacion',
 			'estado' => 'Estado',
 			'empresa' => 'Empresa',
 		);
@@ -109,8 +111,6 @@ class Usuario extends CActiveRecord
 		$criteria->compare('fechacreacion',$this->fechacreacion,true);
 		$criteria->compare('estado',$this->estado);
 		$criteria->compare('empresa',$this->empresa);
-                
-                $criteria->addColumnCondition(array('estado'=>'1'));
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -119,5 +119,24 @@ class Usuario extends CActiveRecord
         
         public function getsalt(){            
             return $this->salt;
+        }
+        
+        /*          
+	 * @return object type Colaborador, si no tiene Colaborador retorna false
+	 */
+        public function getcolaborador(){
+            $colaboradores = $this->_colaboradores;
+            reset($colaboradores);
+            return current($colaboradores);        
+        }
+        
+        /*          
+	 * @return true tiene colaboradores
+	 */
+        public function hascolaborador(){
+            if(count($this->_colaboradores) > 0)
+                return true;
+            else
+                return false;
         }
 }
