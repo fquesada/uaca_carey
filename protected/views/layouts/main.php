@@ -41,6 +41,7 @@
 	<?php if(isset($this->breadcrumbs)):?>
 		<?php $this->widget('zii.widgets.CBreadcrumbs', array(
 			'links'=>$this->breadcrumbs,
+                        'homeLink' => CHtml::link('Inicio', array('site/index')),
 		)); ?><!-- breadcrumbs -->
 	<?php endif?>
 
