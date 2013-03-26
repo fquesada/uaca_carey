@@ -17,6 +17,7 @@ $this->breadcrumbs=array(
 <?php $this->widget('zii.widgets.grid.CGridView', array(
 	'id'=>'evaluacionpersonas-grid',
 	'dataProvider'=>$model,
+        'template' => '{summary}{pager}<br/>{items}{pager}',
 	'filter'=>$filtersForm,    
 	'columns'=>array(
                  array(     
