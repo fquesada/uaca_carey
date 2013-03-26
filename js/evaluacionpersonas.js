@@ -262,7 +262,7 @@ $(document).ready(function() {
     
 });
 
-//Dialog Informacion
+//Dialog Informacion Ponderacion en Habilidades Especiales Dialog
 
     function infoponderacion(){
     $("#imgponderacionhelp").on("click",function(){            
