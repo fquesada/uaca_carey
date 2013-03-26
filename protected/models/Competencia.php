@@ -78,7 +78,7 @@ class Competencia extends CActiveRecord
 		return array(
 			'id' => 'ID',
 			'competencia' => 'Competencia',
-			'descripcion' => 'Descripcion',
+			'descripcion' => 'Descripción',
 			'pregunta' => 'Pregunta',
 			'estado' => 'Estado',
 		);
@@ -100,9 +100,112 @@ class Competencia extends CActiveRecord
 		$criteria->compare('descripcion',$this->descripcion,true);
 		$criteria->compare('pregunta',$this->pregunta,true);
 		$criteria->compare('estado',$this->estado);
+                
+                $criteria->addColumnCondition(array('estado'=>'1'));
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
+                        'pagination'=>array('pageSize'=>'10'),
 		));
 	}
+        
+        public function addcompetencia($id){
+//            $criteria = new CDbCriteria;
+//            
+//            $criteria->compare('competencia',$this->competencia,true);
+//            $criteria->compare('descripcion',$this->descripcion,true);
+//
+//            
+//            $criteria->addColumnCondition(array('estado'=>'1'));
+//            
+//            $competencias = Puestocompetencia::model()->findAllByAttributes(array('puesto'=>$id));
+//            $competenciasasociadas = $this->obtenerArrayColumna($competencias, 'competencia');
+//            $criteria->addNotInCondition('id', $competenciasasociadas);
+//            
+//            return new CActiveDataProvider($this, array(
+//			'criteria'=>$criteria,
+//                        'pagination'=>array('pageSize'=>'10'),
+//                        'sort'=>array(
+//                            'attributes'=>array(
+//                                'competencia',
+//                                'descripcion',
+//         
+//                                )
+//                        )
+//            ));
+            
+            $connection = Yii::app()->db;            
+            $sql = "SELECT competencia.id, competencia.competencia, competencia.descripcion
+                FROM competencia
+                WHERE competencia.estado = 1 AND competencia.id NOT IN(SELECT competencia.id              
+                FROM puesto
+                INNER JOIN puestocompetencia
+                ON (puesto.id = puestocompetencia.puesto)
+                INNER JOIN competencia
+                ON (puestocompetencia.competencia = competencia.id)
+                WHERE puesto = :idpuesto)";
+            $command = $connection->createCommand($sql);
+            $command->bindParam(":idpuesto", $id, PDO::PARAM_INT);
+            
+            $competencias = $command->queryAll();
+            
+            $dataProvider = new CArrayDataProvider($competencias, array(
+               'keyField'=>'id',
+               'id'=>'competenciaexistente-grid',
+               'sort'=>array(
+                   'attributes'=>array(
+                       'competencia',
+                       'descripcion',
+                       ),
+                   ),
+                   'pagination'=>array(
+                       'pageSize'=>10,
+                   ),
+               ));
+            
+            $filtersForm = new FiltersForm;
+            if (isset($_GET['FiltersForm']))
+               $filtersForm->filters=$_GET['FiltersForm'];                       
+            $filtro = $filtersForm->filter($dataProvider);            
+            return $filtro;
+             
+        }
+        
+        public function competenciaasociados($id){
+            $criteria = new CDbCriteria;
+            
+            $criteria->compare('id',$this->id);
+            $criteria->compare('competencia',$this->competencia,true);
+            $criteria->compare('descripcion',$this->descripcion,true);
+            $criteria->compare('pregunta',$this->pregunta,true);
+            $criteria->compare('estado',$this->estado);
+            
+            $criteria->addColumnCondition(array('estado'=>'1'));
+            
+            $competencias = Puestocompetencia::model()->findAllByAttributes(array('puesto'=>$id));
+            $competenciasasociadas = $this->obtenerArrayColumna($competencias, 'competencia');
+            $criteria->addInCondition('id', $competenciasasociadas);
+            
+            return new CActiveDataProvider($this, array(
+			'criteria'=>$criteria,
+                        'pagination'=>array('pageSize'=>'10'),
+            ));
+            
+            
+        }
+        
+                /**
+         * Returns an array with the values of the column needed.
+         * @param array $unidades the array with the objects that have the column needed
+         * @param string $columna  the name of the column that must be obtain
+         */
+
+           public function obtenerArrayColumna($unidades, $columna)
+        {
+            $idUnidades = array();
+            foreach ($unidades as $un) {
+                $idUnidades[] = $un->$columna;
+            }
+            return $idUnidades;
+        }
 }

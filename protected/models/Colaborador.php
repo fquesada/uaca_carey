@@ -86,17 +86,37 @@ class Colaborador extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'cedula' => 'Cedula',
+			'cedula' => 'Cédula',
 			'nombre' => 'Nombre',
-			'apellido1' => 'Apellido1',
-			'apellido2' => 'Apellido2',
+			'apellido1' => 'Primer Apellido',
+			'apellido2' => 'Segundo Apellido',
 			'estado' => 'Estado',
-			'unidadnegocio' => 'Unidadnegocio',
+			'unidadnegocio' => 'Unidad de Negocio',
 			'puesto' => 'Puesto',
+                        'NombreUnidadNegocio'=>'Unidad de Negocio',
+                        'NombrePuesto'=>'Puesto',
 		);
 	}
+        
+        Public function getNombreUnidadNegocio(){
+            $unidadsel = Unidadnegocio::model()->findAllByAttributes(array('id'=>$this->unidadnegocio));
+            foreach ($unidadsel as $unidadnegocio){
+                $resultado = $unidadnegocio->nombre;
+            }
+            return $resultado;
+        }
 
-	/**
+        Public function getNombrePuesto(){
+            $puestosel = Puesto::model()->findAllByAttributes(array('id'=>$this->puesto));
+            foreach ($puestosel as $puesto){
+                $resultado = $puesto->nombre;
+            }
+            return $resultado;
+        }
+        
+        
+
+        /**
 	 * Retrieves a list of models based on the current search/filter conditions.
 	 * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
 	 */
@@ -115,6 +135,8 @@ class Colaborador extends CActiveRecord
 		$criteria->compare('estado',$this->estado);
 		$criteria->compare('unidadnegocio',$this->unidadnegocio);
 		$criteria->compare('puesto',$this->puesto);
+                
+                $criteria->addColumnCondition(array('estado'=>'1'));
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
