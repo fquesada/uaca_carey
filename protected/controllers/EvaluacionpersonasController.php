@@ -253,16 +253,16 @@ class EvaluacionpersonasController extends Controller
             $this->render('crear');
         }
         
-        public function actionHabilidadesEspeciales($idproceso){
+        public function actionHabilidadesEspeciales(){
             
             if (Yii::app()->request->isAjaxRequest)
             {
-                $evaluacionpersonas = Evaluacionpersonas::model()->findByPk($idproceso);
+                $hashabilidades = true;
+                $evaluacionpersonas = Evaluacionpersonas::model()->findByPk($_GET['id']);
                 $habilidadesespeciales = $evaluacionpersonas->_habilidadesespecial;
-               
-                $this->renderPartial('view', array('model'=> $habilidadesespeciales),false,true);
-                if ($_GET['dialog']) 
-                    echo CHtml::script('$("#dlghabilidadesespeciales").dialog("open")');
+                if(empty($habilidadesespeciales)){$hashabilidades = false;}
+                $this->renderPartial('verhabilidadesespeciales', array('evaluacionpersonanombre' => $evaluacionpersonas->descripcion, 'habilidadesespeciales'=> $habilidadesespeciales, 'hashabilidades' => $hashabilidades),false,true);                
+                echo CHtml::script('$("#dlghabilidadesespeciales").dialog("open")');
                 Yii::app()->end();
             }
         }
