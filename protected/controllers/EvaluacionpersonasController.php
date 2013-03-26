@@ -220,10 +220,11 @@ class EvaluacionpersonasController extends Controller
                                
                 if($saveresult){
                     if(isset($_POST['habilidades'])){
-                        foreach ($_POST['habilidades'] as $nombre => $descripcion) {
+                        foreach ($_POST['habilidades'] as $nombre => $informacion) {
                             $habilidadesespecial = new Habilidadespecial();
                             $habilidadesespecial->nombre = $nombre;
-                            $habilidadesespecial->descripcion = $descripcion;
+                            $habilidadesespecial->descripcion = $informacion['descripcion'];
+                            $habilidadesespecial->ponderacion = $informacion['ponderacion'];
                             $habilidadesespecial->evaluacionpersonas = $evaluacionpersona->id;
                             $saveresult = $habilidadesespecial->save();                      
                         }

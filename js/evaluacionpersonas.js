@@ -53,8 +53,9 @@ $(document).ready(function() {
         var habilidades = {};
         $("#tblhabilidades > tbody > tr").each(function(index, value) {		
             var habilidad = $(value).find('td:eq(0)').text();	
-            var descripcion = $(value).find('td:eq(1)').text();					
-            habilidades[habilidad] = descripcion;
+            var descripcion = $(value).find('td:eq(1)').text();
+            var ponderacion = $(value).find('td:eq(2)').text();
+            habilidades[habilidad] = {'descripcion' : descripcion, 'ponderacion': ponderacion};
         });
         data['habilidades'] = habilidades;
     }
@@ -79,10 +80,11 @@ $(document).ready(function() {
    
    $("#btncrearhabilidad").click(function(){         
        
-       if(validar($('#txtnombrehabilidad')) && validar($('#txtareadescripcionhabilidad'))){       
+       if(validar($('#txtnombrehabilidad')) && validar($('#txtareadescripcionhabilidad'))&& validar($('#dllponderacion'))){       
         var habilidad = $('#txtnombrehabilidad').val();
-        var habilidaddescripcion = $('#txtareadescripcionhabilidad').val();                
-        $('#tblhabilidades > tbody').append('<tr><td name="habilidad">'+habilidad+'</td><td name="descripcion">'+habilidaddescripcion+'</td><td><img id="borrarhabilidad" style="cursor: pointer;" src="../../images/icons/silk/delete.png" alt="Eliminar habilidad"/></td></tr>');               
+        var habilidaddescripcion = $('#txtareadescripcionhabilidad').val();
+        var ponderacion = $('#dllponderacion').val(); 
+        $('#tblhabilidades > tbody').append('<tr><td name="habilidad">'+habilidad+'</td><td name="descripcion">'+habilidaddescripcion+'</td><td name="ponderacion">'+ponderacion+'</td><td><img id="borrarhabilidad" style="cursor: pointer;" src="../../images/icons/silk/delete.png" alt="Eliminar habilidad"/></td></tr>');               
         if (cantidadhabilidades() >= 5){
             $("#btndialoghabilidadespecial").attr("disabled", "disabled");        
         }       
@@ -92,6 +94,8 @@ $(document).ready(function() {
                 mostrarerror($('#txtnombrehabilidad'));
            if(!validar($('#txtareadescripcionhabilidad')))
                 mostrarerror($('#txtareadescripcionhabilidad'));
+           if(!validar($('#dllponderacion')))
+                mostrarerror($('#dllponderacion'));
        }
    });
    
@@ -130,12 +134,17 @@ $(document).ready(function() {
    $('#ddlpuesto').focusin(function(){
         ocultarerror($(this)); 
    });
+   $('#dllponderacion').click(function(){
+        ocultarerror($(this)); 
+   });
    
    function limpiarinputshabilidades(){
        $('#txtnombrehabilidad').val('');
        $('#txtareadescripcionhabilidad').val('');
+       $('#dllponderacion').val('');
        ocultarerror($('#txtnombrehabilidad'));
        ocultarerror($('#txtareadescripcionhabilidad'));
+       ocultarerror($('#dllponderacion'));
     }
    
    function validar(elemento){
