@@ -29,7 +29,7 @@ $(document).ready(function() {
                     },
                     success: function(resultado){
                         if(resultado.result){
-                            messagesuccess(resultado.value);
+                            messagesuccess(resultado.value, 'agregarpersonas/'+resultado.idproceso);
                         }else{
                             messageerror(resultado.value);
                         }                        
@@ -162,15 +162,14 @@ $(document).ready(function() {
         $('#'+$(elemento).attr('id')+'error').css('visibility', 'hidden');
     }
     
-    function messagesuccess(message){         
+    function messagesuccess(message, url){         
         new Messi(message, 
         {   title: 'Éxito.', 
             titleClass: 'success',                                 
             modal:true,
             closeButton: false,
             buttons: [{id: 0, label: 'Cerrar', val: 'X'}],
-            callback: function(val){var url = "admin/";    
-                                    $(location).attr('href',url);}
+            callback: function(val){$(location).attr('href',url);}
         });
     }
     

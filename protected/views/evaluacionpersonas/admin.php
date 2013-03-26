@@ -2,26 +2,18 @@
 /* @var $this EvaluacionpersonasController */
 /* @var $model Evaluacionpersonas */
 
-$this->breadcrumbs=array(
-	'Evaluacionpersonases'=>array('index'),
-	'Manage',
+$this->breadcrumbs=array(	
+	'Gestión de evaluación de competencias',
 );
-
-$this->menu=array(
-	array('label'=>'List Evaluacionpersonas', 'url'=>array('index')),
-	array('label'=>'Create Evaluacionpersonas', 'url'=>array('create')),
-);
-
 ?>
 
 
 
-<h3>Procesos de evaluacion</h3>
+<h3 style="text-align: center">Gestión de evaluación de competencias</h3>
 
 <?php echo CHtml::beginForm($this->createUrl('evaluacionpersonas/crear'),'post', array('id'=>'formcrearevaluacionpersona'))?>                      
-<button  id="btncrearevaluacionpersona" type="submit" class="sexybutton sexysimple sexylarge"><span class="add">Crear proceso evaluación</span></button>
+<button  id="btncrearevaluacionpersona" type="submit" class="sexybutton sexysimple"><span class="add">Crear proceso evaluación</span></button>
 <?php echo CHtml::endForm()?>
-
 <?php $this->widget('zii.widgets.grid.CGridView', array(
 	'id'=>'evaluacionpersonas-grid',
 	'dataProvider'=>$model,
@@ -74,6 +66,7 @@ $this->menu=array(
                         )//buttons                       
 		),
 	),//columns
+        'htmlOptions' => array("style" => "padding:0"),
 )); ?>
 
 <?php

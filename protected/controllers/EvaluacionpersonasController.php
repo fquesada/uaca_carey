@@ -231,7 +231,7 @@ class EvaluacionpersonasController extends Controller
                     }
                     if($saveresult){                    
                        $transaction->commit();
-                       $response = array('result' => true,'value' => "Se guardó con éxito el proceso: ".$evaluacionpersona->descripcion);
+                       $response = array('result' => true,'value' => "Se guardó con éxito el proceso: ".$evaluacionpersona->descripcion, 'idproceso' => $evaluacionpersona->id);
                        echo CJSON::encode($response);   
                        Yii::app()->end();
                     }else{
