@@ -119,6 +119,7 @@
                             )
                     ),
 	),
+        'afterAjaxUpdate'=>'js:function(id,data){$.fn.yiiGridView.update("competenciaexistente-grid");}'
     )); ?>
 
      <?php if(Yii::app()->user->hasFlash('success')):?>
