@@ -61,11 +61,33 @@ $this->menu=array(
                             'habilidades'=>array(
                                 'label'=>'Ver/Editar Habilidades Especiales',
                                 'imageUrl'=>Yii::app()->request->baseUrl.'/images/icons/silk/award_star_gold_3.png',
-                                'url'=>'Yii::app()->createUrl("evaluacionpersonas/habilidadesespeciales", array("id"=>$data["id"]))'
-                                
-                            ),                                                        
-                        )
-                       
+                                'url'=>'Yii::app()->createUrl("evaluacionpersonas/habilidadesespeciales", array("id"=>$data["id"], "dialog"=>true))',
+                                'options'=>array(  
+                                    'ajax'=>array(
+                                            'type'=>'POST',
+                                                // ajax post will use 'url' specified above 
+                                            'url'=>"js:$(this).attr('href')", 
+                                            'update'=>'#id_view',
+                                           ),
+                                 ), //options                               
+                            ),//habilidades
+                        )//buttons                       
 		),
-	),
+	),//columns
 )); ?>
+
+<?php
+//the dialog
+$this->beginWidget('zii.widgets.jui.CJuiDialog', array( 
+'id'=>'dlghabilidadesespeciales',
+'options'=>array(
+    'title'=>'Habilidades especiales',
+    'autoOpen'=>false, //important!
+    'modal'=>false,
+    'width'=>550,
+    'height'=>470,
+),
+));
+?>
+<div id="id_view"></div>
+<?php $this->endWidget();?>

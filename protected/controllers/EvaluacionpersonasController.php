@@ -253,6 +253,16 @@ class EvaluacionpersonasController extends Controller
         
         public function actionHabilidadesEspeciales($idproceso){
             
+            if (Yii::app()->request->isAjaxRequest)
+            {
+                $evaluacionpersonas = Evaluacionpersonas::model()->findByPk($idproceso);
+                $habilidadesespeciales = $evaluacionpersonas->_habilidadesespecial;
+               
+                $this->renderPartial('view', array('model'=> $habilidadesespeciales),false,true);
+                if ($_GET['dialog']) 
+                    echo CHtml::script('$("#dlghabilidadesespeciales").dialog("open")');
+                Yii::app()->end();
+            }
         }
 	/**
 	 * Updates a particular model.
