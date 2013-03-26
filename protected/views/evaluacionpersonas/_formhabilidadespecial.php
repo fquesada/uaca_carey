@@ -40,7 +40,8 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
     </div>  
     
     <div class="row">
-            <?php echo CHtml::label('Ponderación de la habilidad *', 'dllponderacion');?>          
+            <?php echo CHtml::label('Ponderación de la habilidad *', 'dllponderacion', array("style" => "display : inline"));?>
+            <?php echo CHtml::image(Yii::app()->request->baseUrl."/images/icons/silk/help.png", "Ayuda ponderacion", array("id"=>"imgponderacionhelp", "style" => "padding-left:5px; cursor:pointer")) ?>
             <?php echo CHtml::dropDownList('ponderacion', 'valor',
                         CHtml::listData(Ponderacion::model()->findAll(), 'valor', 'valor'), array('empty'=>'Elija la ponderación', 'id'=>'dllponderacion')) ?>		                 
             <div id="dllponderacionerror" class="errorevaluacionpersona">Debe seleccionar una ponderación.</div>

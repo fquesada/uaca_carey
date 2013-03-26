@@ -32,7 +32,8 @@ class EvaluacionpersonasController extends Controller
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('crear','update','admin','AgregarPersonas','AgregarPersona','AutocompleteEvaluado','HabilidadesEspeciales'),
+				'actions'=>array('crear','update','admin','AgregarPersonas','AgregarPersona','AutocompleteEvaluado',
+                                                    'HabilidadesEspeciales','InfoPonderacion'),
 				'users'=>array('@'),
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -371,5 +372,23 @@ class EvaluacionpersonasController extends Controller
                     return "Finalizado";
                     break;
             }
+        }
+        
+        public function actionInfoPonderacion(){
+            $criterio = new CDbCriteria();
+            $criterio->addColumnCondition(array('estado'=>'1'));
+            $ponderaciones = Ponderacion::model()->findAll($criterio);
+            $html = '';
+            $html .= '<div>';
+            $html .= '<h4 style="text-align:center">Interpretación de la escala de ponderación.</h4>';
+            $html .= '<ul>';
+            foreach ($ponderaciones as $ponderacion) {                
+                $html .= '<li>Ponderación: '.$ponderacion->valor.' = '.$ponderacion->descripcion.'</li>';                              
+            }
+            $html .= '</ul>'; 
+            $html .= '</div>';
+            $response = array('html' => $html);                    
+            echo CJSON::encode($response);                                           
+            Yii::app()->end();
         }
 }

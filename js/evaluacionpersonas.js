@@ -67,6 +67,7 @@ $(document).ready(function() {
        limpiarinputshabilidades();
        $("#divhabilidad").show();       
        $("#dialogHabilidades").dialog('open');
+       infoponderacion();
    });
    
 
@@ -260,4 +261,28 @@ $(document).ready(function() {
     
     
 });
+
+//Dialog Informacion
+
+    function infoponderacion(){
+    $("#imgponderacionhelp").on("click",function(){            
+            infodialog();
+        });
+    }
+    
+    function infodialog(){       
+         $.ajax({
+                    type: "POST",
+                    url: 'infoponderacion',                    
+                    dataType: 'json',
+                    error: function (){                        
+                        new Messi('Ha ocurrido un inconveniente al obtener la información.',
+                        {title: 'Información', titleClass: 'info', buttons: [{id: 0, label: 'Cerrar', val: 'X'}]});
+                    },                        
+                    success: function(result){                        
+                        new Messi(result.html,
+                        {title: 'Información', titleClass: 'info', buttons: [{id: 0, label: 'Cerrar', val: 'X'}]});              
+                    }
+        });                  
+    }
 
