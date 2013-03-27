@@ -21,7 +21,7 @@ $this->menu=array(
 
 
 
-<h3>Crear proceso de evaluación de competencias</h3>
+<h3 style="text-align: center">Crear proceso de evaluación de competencias</h3>
 
 
 <?php echo CHtml::beginForm()?>
