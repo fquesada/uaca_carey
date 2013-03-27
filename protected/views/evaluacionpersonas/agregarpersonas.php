@@ -9,7 +9,7 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->baseUrl.'/css/evaluacionpe
 
 $this->breadcrumbs=array(
 	'Evaluación de competencias'=>array('admin'),
-	'Agregar Personas',
+	'Agregar personas',
 );
 
 Yii::app()->clientScript->registerScript('autocomplete', '
