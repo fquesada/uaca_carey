@@ -157,8 +157,8 @@ class Evaluacioncompetencias extends CActiveRecord
         public function getEstadoEvaluacion()
         {            
             if($this->promedioponderado != null)
-                return 'Pendiente';
+                return 'Finalizado';
             else
-                return 'En proceso';
+                return 'Pendiente';
         }
 }

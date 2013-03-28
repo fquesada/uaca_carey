@@ -74,7 +74,7 @@ $this->breadcrumbs=array(
                             }',
                         'buttons'=>array(
                             'agregarpersonas'=>array(
-                                'label'=>'Agregar personas al proceso',
+                                'label'=>'Gestión de personas en el proceso',
                                 'imageUrl'=>Yii::app()->request->baseUrl.'/images/icons/silk/group_add.png',
                                 'url'=>'Yii::app()->createUrl("evaluacionpersonas/agregarpersonas", array("id"=>$data["id"]))'
                                 

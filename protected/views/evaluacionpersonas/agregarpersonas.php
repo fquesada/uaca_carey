@@ -9,7 +9,7 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->baseUrl.'/css/evaluacionpe
 
 $this->breadcrumbs=array(
 	'Evaluación de competencias'=>array('admin'),
-	'Agregar personas',
+	'Gestionar personas',
 );
 
 Yii::app()->clientScript->registerScript('autocomplete', '
@@ -29,7 +29,7 @@ $this->menu=array(
 );
 ?>
 
-<h3 style="text-align: center">Agregar personas al proceso de evaluación</h3>
+<h3 style="text-align: center">Gestión de personas</h3>
 
 <?php $this->widget('zii.widgets.CDetailView', array(
 	'data'=>$model,
@@ -123,13 +123,21 @@ $this->widget('zii.widgets.grid.CGridView', array(
          array(
                        'class'=>'CButtonColumn',
                        'htmlOptions'=>array('width'=>'10'),
-                       'template'=>'{evaluar}',
+                       'template'=>'{evaluar}{reporte}',
                        'buttons'=>array(
                            'evaluar'=>array(
                                'label'=>'Evaluar competencias',
                                'imageUrl'=>Yii::app()->request->baseUrl.'/images/icons/silk/script_start.png',
+                               'visible' => '($data->estadoevaluacion==="Finalizado")?false:true;',
                                //'url'=>'Yii::app()>createUrl("puesto/addcompetence", array("id"=>$data>id))'                               
-                           )                           
+                           ),
+                           'reporte'=>array(
+                                'label'=>'Ver reporte',
+                                'imageUrl'=>Yii::app()->request->baseUrl.'/images/icons/silk/chart_pie.png',
+                                'url'=>'Yii::app()->createUrl("evaluacionpersonas/grafica")',
+                                'visible' => '($data->estadoevaluacion==="Finalizado")?true:false;',
+                                
+                            )
                        )
                       
                ),
