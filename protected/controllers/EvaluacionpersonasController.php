@@ -137,7 +137,7 @@ class EvaluacionpersonasController extends Controller
                 }
                 else{ 
                     foreach($dataReader as $row){ 
-                        $nombrecompleto = $row['nombre'].' '.$row['apellido1'].' '.$row['apellido1'];
+                        $nombrecompleto = $row['nombre'].' '.$row['apellido1'].' '.$row['apellido2'];
                         $return_array[] = array(
                         'label'=>'<div style="font-size:x-small">Cédula: '.$row['cedula'].'</div>'.'<div>'.$nombrecompleto.'</div>',
                         'value'=>$nombrecompleto, 
@@ -147,7 +147,7 @@ class EvaluacionpersonasController extends Controller
                         );
                     }
                     foreach($dataReaderPos as $row){ 
-                        $nombrecompleto = $row['nombre'].' '.$row['apellido1'].' '.$row['apellido1'];
+                        $nombrecompleto = $row['nombre'].' '.$row['apellido1'].' '.$row['apellido2'];
                         $return_array[] = array(
                         'label'=>'<div style="font-size:x-small">Cédula: '.$row['cedula'].'</div>'.'<div>'.$nombrecompleto.'</div>',
                         'value'=>$nombrecompleto, 
