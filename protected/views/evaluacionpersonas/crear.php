@@ -10,12 +10,18 @@ Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/evaluacion
 Yii::app()->clientScript->registerCssFile(Yii::app()->baseUrl.'/css/evaluacionpersonas.css');
 
 $this->breadcrumbs=array(
-	'Evaluacion'=>array('admin'),
-	'Crear',
+	'Evaluación de competencias'=>array('admin'),
+	'Creación proceso de evaluación de competencias',
+);
+
+$this->menu=array(
+	array('label'=>'Gestión de evaluación de competencias' , 'url'=>array('admin')),	
 );
 ?>
 
-<h3>Crear proceso evaluacion</h3>
+
+
+<h3 style="text-align: center">Crear proceso de evaluación de competencias</h3>
 
 
 <?php echo CHtml::beginForm()?>
@@ -25,8 +31,8 @@ $this->breadcrumbs=array(
 <?php echo $this->renderPartial('_formhabilidadespecial'); ?>
 
 </br>
-<div class="row buttons">        
+<div class="row buttons" style="text-align: center">        
         
-                  <?php echo CHtml::submitButton('Crear proceso evaluacion',array('id'=>'btncrearevaluacionpersona', 'class'=>'sexybutton sexysimple sexylarge'));?>
+                  <?php echo CHtml::submitButton('Crear proceso',array('id'=>'btncrearevaluacionpersona', 'class'=>'sexybutton sexysimple sexylarge'));?>
 </div>
 <?php echo CHtml::endForm()?>

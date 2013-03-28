@@ -8,6 +8,7 @@
  * @property string $nombre
  * @property string $descripcion
  * @property integer $evaluacionpersonas
+ * @property integer $ponderacion
  *
  * The followings are the available model relations:
  * @property Evaluacionpersonas $_evaluacionpersonas
@@ -41,13 +42,13 @@ class Habilidadespecial extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('nombre, descripcion, evaluacionpersonas', 'required'),
-			array('evaluacionpersonas', 'numerical', 'integerOnly'=>true),
+			array('nombre, descripcion, evaluacionpersonas, ponderacion', 'required'),
+			array('evaluacionpersonas, ponderacion', 'numerical', 'integerOnly'=>true),
 			array('nombre', 'length', 'max'=>45),
 			array('descripcion', 'length', 'max'=>180),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, nombre, descripcion, evaluacionpersonas', 'safe', 'on'=>'search'),
+			array('id, nombre, descripcion, evaluacionpersonas, ponderacion', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -74,6 +75,7 @@ class Habilidadespecial extends CActiveRecord
 			'nombre' => 'Nombre',
 			'descripcion' => 'Descripcion',
 			'evaluacionpersonas' => 'Evaluacionpersonas',
+                        'ponderacion' => 'Ponderacion',
 		);
 	}
 
@@ -92,6 +94,7 @@ class Habilidadespecial extends CActiveRecord
 		$criteria->compare('nombre',$this->nombre,true);
 		$criteria->compare('descripcion',$this->descripcion,true);
 		$criteria->compare('evaluacionpersonas',$this->evaluacionpersonas);
+                $criteria->compare('ponderacion',$this->ponderacion);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

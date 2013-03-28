@@ -32,7 +32,8 @@ class EvaluacionpersonasController extends Controller
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('crear','update','admin','AgregarPersonas','AgregarPersona','AutocompleteEvaluado','HabilidadesEspeciales'),
+				'actions'=>array('crear','update','admin','AgregarPersonas','AgregarPersona','AutocompleteEvaluado',
+                                                    'HabilidadesEspeciales','InfoPonderacion', 'delete'),
 				'users'=>array('@'),
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -220,17 +221,18 @@ class EvaluacionpersonasController extends Controller
                                
                 if($saveresult){
                     if(isset($_POST['habilidades'])){
-                        foreach ($_POST['habilidades'] as $nombre => $descripcion) {
+                        foreach ($_POST['habilidades'] as $nombre => $informacion) {
                             $habilidadesespecial = new Habilidadespecial();
                             $habilidadesespecial->nombre = $nombre;
-                            $habilidadesespecial->descripcion = $descripcion;
+                            $habilidadesespecial->descripcion = $informacion['descripcion'];
+                            $habilidadesespecial->ponderacion = $informacion['ponderacion'];
                             $habilidadesespecial->evaluacionpersonas = $evaluacionpersona->id;
                             $saveresult = $habilidadesespecial->save();                      
                         }
                     }
                     if($saveresult){                    
                        $transaction->commit();
-                       $response = array('result' => true,'value' => "Se guardó con éxito el proceso: ".$evaluacionpersona->descripcion);
+                       $response = array('result' => true,'value' => "Se guardó con éxito el proceso: ".$evaluacionpersona->descripcion, 'idproceso' => $evaluacionpersona->id);
                        echo CJSON::encode($response);   
                        Yii::app()->end();
                     }else{
@@ -251,8 +253,18 @@ class EvaluacionpersonasController extends Controller
             $this->render('crear');
         }
         
-        public function actionHabilidadesEspeciales($idproceso){
+        public function actionHabilidadesEspeciales(){
             
+            if (Yii::app()->request->isAjaxRequest)
+            {
+                $hashabilidades = true;
+                $evaluacionpersonas = Evaluacionpersonas::model()->findByPk($_GET['id']);
+                $habilidadesespeciales = $evaluacionpersonas->_habilidadesespecial;
+                if(empty($habilidadesespeciales)){$hashabilidades = false;}
+                $this->renderPartial('verhabilidadesespeciales', array('evaluacionpersonanombre' => $evaluacionpersonas->descripcion, 'habilidadesespeciales'=> $habilidadesespeciales, 'hashabilidades' => $hashabilidades),false,true);                
+                echo CHtml::script('$("#dlghabilidadesespeciales").dialog("open")');
+                Yii::app()->end();
+            }
         }
 	/**
 	 * Updates a particular model.
@@ -283,9 +295,18 @@ class EvaluacionpersonasController extends Controller
 	 * If deletion is successful, the browser will be redirected to the 'admin' page.
 	 * @param integer $id the ID of the model to be deleted
 	 */
-	public function actionDelete($id)
+	public function actionDelete()
 	{
-		$this->loadModel($id)->delete();
+		$evaluacionpersonas = $this->loadModel($_GET["id"]);
+                $evaluacionpersonas->estado = 0;
+                $resultado = $evaluacionpersonas->save();
+                
+                if($resultado){
+                    echo 'Exito';
+                }
+                else{
+                    echo 'Fallo';
+                }
 
 		// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
 		if(!isset($_GET['ajax']))
@@ -360,5 +381,23 @@ class EvaluacionpersonasController extends Controller
                     return "Finalizado";
                     break;
             }
+        }
+        
+        public function actionInfoPonderacion(){
+            $criterio = new CDbCriteria();
+            $criterio->addColumnCondition(array('estado'=>'1'));
+            $ponderaciones = Ponderacion::model()->findAll($criterio);
+            $html = '';
+            $html .= '<div>';
+            $html .= '<h4 style="text-align:center">Interpretación de la escala de ponderación.</h4>';
+            $html .= '<ul>';
+            foreach ($ponderaciones as $ponderacion) {                
+                $html .= '<li>Ponderación: '.$ponderacion->valor.' = '.$ponderacion->descripcion.'</li>';                              
+            }
+            $html .= '</ul>'; 
+            $html .= '</div>';
+            $response = array('html' => $html);                    
+            echo CJSON::encode($response);                                           
+            Yii::app()->end();
         }
 }

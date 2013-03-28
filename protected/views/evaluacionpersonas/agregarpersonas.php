@@ -8,8 +8,8 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->baseUrl.'/css/evaluacionpe
 
 
 $this->breadcrumbs=array(
-	'Evaluacionpersonases'=>array('index'),
-	'Agregar Personas',
+	'Evaluación de competencias'=>array('admin'),
+	'Agregar personas',
 );
 
 Yii::app()->clientScript->registerScript('autocomplete', '
@@ -24,30 +24,29 @@ Yii::app()->clientScript->registerScript('autocomplete', '
   CClientScript::POS_READY
 );
 
-/*$this->menu=array(
-	array('label'=>'List Evaluacionpersonas', 'url'=>array('index')),
-	array('label'=>'Manage Evaluacionpersonas', 'url'=>array('admin')),
-);*/
+$this->menu=array(
+	array('label'=>'Gestión de evaluación de competencias' , 'url'=>array('admin')),	
+);
 ?>
 
-<h1>Agregar Personas a Evaluación</h1>
-
-
+<h3 style="text-align: center">Agregar personas al proceso de evaluación</h3>
 
 <?php $this->widget('zii.widgets.CDetailView', array(
 	'data'=>$model,
-	'attributes'=>array(		
-		'_puesto.nombre',
-                 'fecha',
-                'descripcion'
+	'attributes'=>array(
+                array('label' => 'Nombre proceso', 'name' => 'descripcion'),                
+                array('label' => 'Puesto', 'name' => '_puesto.nombre'),		
+                array('label' => 'Fecha', 'name' => 'fecha', 'value' => $this->gridmysqltophpdate($model->fecha)),
+                                
 	),
 )); ?>
 
-
+<br/>
 <div class="form">
     
         <?php echo CHtml::beginForm('','post',array('id'=>'formagregarpersona')); ?>
-
+        <fieldset>
+            <legend>Búsqueda de persona por nombre</legend>
         <div class="row">     
         
         <?php  echo CHtml::label('Nombre:', 'colaborador');?>
@@ -105,6 +104,7 @@ Yii::app()->clientScript->registerScript('autocomplete', '
     <div class="row buttons">
                 <?php echo CHtml::submitButton('Agregar Persona',array('disabled'=>'true','id'=>'btnagregarpersona','class'=>'sexybutton sexysimple')); ?>
         </div>
+   </fieldset>
     <?php echo CHtml::endForm(); ?>
 
 </div>

@@ -29,7 +29,7 @@ $(document).ready(function() {
                     },
                     success: function(resultado){
                         if(resultado.result){
-                            messagesuccess(resultado.value);
+                            messagesuccess(resultado.value, 'agregarpersonas/'+resultado.idproceso);
                         }else{
                             messageerror(resultado.value);
                         }                        
@@ -53,8 +53,9 @@ $(document).ready(function() {
         var habilidades = {};
         $("#tblhabilidades > tbody > tr").each(function(index, value) {		
             var habilidad = $(value).find('td:eq(0)').text();	
-            var descripcion = $(value).find('td:eq(1)').text();					
-            habilidades[habilidad] = descripcion;
+            var descripcion = $(value).find('td:eq(1)').text();
+            var ponderacion = $(value).find('td:eq(2)').text();
+            habilidades[habilidad] = {'descripcion' : descripcion, 'ponderacion': ponderacion};
         });
         data['habilidades'] = habilidades;
     }
@@ -66,6 +67,7 @@ $(document).ready(function() {
        limpiarinputshabilidades();
        $("#divhabilidad").show();       
        $("#dialogHabilidades").dialog('open');
+       infoponderacion();
    });
    
 
@@ -79,10 +81,11 @@ $(document).ready(function() {
    
    $("#btncrearhabilidad").click(function(){         
        
-       if(validar($('#txtnombrehabilidad')) && validar($('#txtareadescripcionhabilidad'))){       
+       if(validar($('#txtnombrehabilidad')) && validar($('#txtareadescripcionhabilidad'))&& validar($('#dllponderacion'))){       
         var habilidad = $('#txtnombrehabilidad').val();
-        var habilidaddescripcion = $('#txtareadescripcionhabilidad').val();                
-        $('#tblhabilidades > tbody').append('<tr><td name="habilidad">'+habilidad+'</td><td name="descripcion">'+habilidaddescripcion+'</td><td><img id="borrarhabilidad" style="cursor: pointer;" src="../../images/icons/silk/delete.png" alt="Eliminar habilidad"/></td></tr>');               
+        var habilidaddescripcion = $('#txtareadescripcionhabilidad').val();
+        var ponderacion = $('#dllponderacion').val(); 
+        $('#tblhabilidades > tbody').append('<tr><td name="habilidad">'+habilidad+'</td><td name="descripcion">'+habilidaddescripcion+'</td><td name="ponderacion">'+ponderacion+'</td><td><img id="borrarhabilidad" style="cursor: pointer;" src="../../images/icons/silk/delete.png" alt="Eliminar habilidad"/></td></tr>');               
         if (cantidadhabilidades() >= 5){
             $("#btndialoghabilidadespecial").attr("disabled", "disabled");        
         }       
@@ -92,6 +95,8 @@ $(document).ready(function() {
                 mostrarerror($('#txtnombrehabilidad'));
            if(!validar($('#txtareadescripcionhabilidad')))
                 mostrarerror($('#txtareadescripcionhabilidad'));
+           if(!validar($('#dllponderacion')))
+                mostrarerror($('#dllponderacion'));
        }
    });
    
@@ -130,12 +135,17 @@ $(document).ready(function() {
    $('#ddlpuesto').focusin(function(){
         ocultarerror($(this)); 
    });
+   $('#dllponderacion').click(function(){
+        ocultarerror($(this)); 
+   });
    
    function limpiarinputshabilidades(){
        $('#txtnombrehabilidad').val('');
        $('#txtareadescripcionhabilidad').val('');
+       $('#dllponderacion').val('');
        ocultarerror($('#txtnombrehabilidad'));
        ocultarerror($('#txtareadescripcionhabilidad'));
+       ocultarerror($('#dllponderacion'));
     }
    
    function validar(elemento){
@@ -153,15 +163,14 @@ $(document).ready(function() {
         $('#'+$(elemento).attr('id')+'error').css('visibility', 'hidden');
     }
     
-    function messagesuccess(message){         
+    function messagesuccess(message, url){         
         new Messi(message, 
         {   title: 'Éxito.', 
             titleClass: 'success',                                 
             modal:true,
             closeButton: false,
             buttons: [{id: 0, label: 'Cerrar', val: 'X'}],
-            callback: function(val){var url = "admin/";    
-                                    $(location).attr('href',url);}
+            callback: function(val){$(location).attr('href',url);}
         });
     }
     
@@ -252,4 +261,60 @@ $(document).ready(function() {
     
     
 });
+
+//Dialog Informacion Ponderacion en Habilidades Especiales Dialog
+
+    function infoponderacion(){
+    $("#imgponderacionhelp").on("click",function(){            
+            infodialog();
+        });
+    }
+    
+    function infodialog(){       
+         $.ajax({
+                    type: "POST",
+                    url: 'infoponderacion',                    
+                    dataType: 'json',
+                    error: function (){                        
+                        new Messi('Ha ocurrido un inconveniente al obtener la información.',
+                        {title: 'Información', titleClass: 'info', buttons: [{id: 0, label: 'Cerrar', val: 'X'}]});
+                    },                        
+                    success: function(result){                        
+                        new Messi(result.html,
+                        {title: 'Información', titleClass: 'info', buttons: [{id: 0, label: 'Cerrar', val: 'X'}]});              
+                    }
+        });                  
+    }
+    
+    
+    function messageconfirmacion(){
+        new Messi("This is a message with Messi with custom buttons.", 
+        {title: "Buttons", buttons: [{id: 0, label: "Yes", val: true}, {id: 1, label: "No", val: false}], 
+            callback: function(val) {                
+                   if(val){return true;}
+                   else{return false;}         
+                }
+    });
+    }
+    
+    function borrarprocesoevalucion(url){
+//        'ajax'=>array(
+//                                            'type'=>'POST',  
+//                                            'beforeSend' => 'function(jqXHR, settings){                                               
+//                                                            
+//                                                            new Messi("This is a message with Messi with custom buttons.", 
+//        {title: "Buttons", buttons: [{id: 0, label: "Yes", val: true}, {id: 1, label: "No", val: false}], 
+//            callback: function(val) {                
+//                    jqXHR.abort();                
+//                }
+//    });
+//                                            }',
+//                                            'url'=>"js:$(this).attr('href')", 
+//                                            'error' => 'function (jqXHR, textStatus){console.log("ERRO");}',
+//                                            'complete' => 'function(){
+//                                                            console.log("DONE");
+//                                                        }',
+//                                           ),
+//    }
+ }
 
