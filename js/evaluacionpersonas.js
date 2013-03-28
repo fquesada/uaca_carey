@@ -285,4 +285,36 @@ $(document).ready(function() {
                     }
         });                  
     }
+    
+    
+    function messageconfirmacion(){
+        new Messi("This is a message with Messi with custom buttons.", 
+        {title: "Buttons", buttons: [{id: 0, label: "Yes", val: true}, {id: 1, label: "No", val: false}], 
+            callback: function(val) {                
+                   if(val){return true;}
+                   else{return false;}         
+                }
+    });
+    }
+    
+    function borrarprocesoevalucion(url){
+//        'ajax'=>array(
+//                                            'type'=>'POST',  
+//                                            'beforeSend' => 'function(jqXHR, settings){                                               
+//                                                            
+//                                                            new Messi("This is a message with Messi with custom buttons.", 
+//        {title: "Buttons", buttons: [{id: 0, label: "Yes", val: true}, {id: 1, label: "No", val: false}], 
+//            callback: function(val) {                
+//                    jqXHR.abort();                
+//                }
+//    });
+//                                            }',
+//                                            'url'=>"js:$(this).attr('href')", 
+//                                            'error' => 'function (jqXHR, textStatus){console.log("ERRO");}',
+//                                            'complete' => 'function(){
+//                                                            console.log("DONE");
+//                                                        }',
+//                                           ),
+//    }
+ }
 

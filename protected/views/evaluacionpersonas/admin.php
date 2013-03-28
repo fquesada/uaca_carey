@@ -1,6 +1,8 @@
 <?php
 /* @var $this EvaluacionpersonasController */
 /* @var $model Evaluacionpersonas */
+Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/evaluacionpersonas.js');
+
 
 $this->breadcrumbs=array(	
 	'Gestión de evaluación de competencias',
@@ -20,6 +22,11 @@ $this->breadcrumbs=array(
         'template' => '{summary}{pager}<br/>{items}{pager}',
 	'filter'=>$filtersForm,    
 	'columns'=>array(
+                 array(
+                     'header'=>'Nombre proceso',
+                     'name'=>'id',
+                     'visible'=>false,
+                 ),
                  array(     
                     'header'=>'Nombre proceso',
                     'name'=>'descripcion',                    
@@ -43,7 +50,28 @@ $this->breadcrumbs=array(
                 array(
 			'class'=>'CButtonColumn',
                         'htmlOptions'=>array('width'=>'90'),
-                        'template'=>'{agregarpersonas}{habilidades}',
+                        'template'=>'{agregarpersonas}{habilidades}{borrar}{delete}',
+                        'deleteButtonUrl'=>'Yii::app()->controller->createUrl("evaluacionpersonas/borrar", array("id"=>$data["id"]))',
+                        'deleteButtonLabel' => 'Eliminar este proceso.', 
+                        'deleteButtonImageUrl'=>Yii::app()->request->baseUrl.'/images/icons/silk/delete.png',                          
+                        'deleteConfirmation'=>'js:alert("hola")',
+                        'afterDelete'=>'function(link,success,data){ 
+                            if(success) {
+                                new Messi(data,
+                                { title: "Exito.",
+                                    titleClass: "success",
+                                    autoclose: "4000",
+                                    modal:true
+                                });
+                            }else{
+                                new Messi("",
+                                { title: "Error",
+                                    titleClass: "anim error",
+                                    autoclose: "4000",
+                                    modal:true
+                                });
+                            }
+                            }',
                         'buttons'=>array(
                             'agregarpersonas'=>array(
                                 'label'=>'Agregar personas al proceso',
@@ -54,16 +82,22 @@ $this->breadcrumbs=array(
                             'habilidades'=>array(
                                 'label'=>'Ver Habilidades Especiales',
                                 'imageUrl'=>Yii::app()->request->baseUrl.'/images/icons/silk/award_star_gold_3.png',
-                                'url'=>'Yii::app()->createUrl("evaluacionpersonas/habilidadesespeciales", array("id"=>$data["id"]))',
+                                'url'=>'Yii::app()->createUrl("evaluacionpersonas/habilidadesespeciales", array("id"=>$data["id"]))',                               
                                 'options'=>array(  
                                     'ajax'=>array(
                                             'type'=>'POST',
-                                                // ajax post will use 'url' specified above 
+                                                // se utiliza el atributo 'url' definido arriba
                                             'url'=>"js:$(this).attr('href')", 
                                             'update'=>'#divhabilidades',
                                            ),
                                  ), //options                               
                             ),//habilidades
+                            'borrar'=>array(
+                                'label'=>'Borrar este proceso.',
+                                'imageUrl'=>Yii::app()->request->baseUrl.'/images/icons/silk/delete.png',
+                                'url'=>'Yii::app()->createUrl("evaluacionpersonas/delete", array("id"=>$data["id"]))',                               
+                                'click'=>'function(){messageconfirmacion();}',                                                               
+                            ),//borrar
                         )//buttons                       
 		),
 	),//columns
@@ -88,3 +122,25 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array(
 ?>
 <div id="divhabilidades"></div>
 <?php $this->endWidget();?>
+
+ <?php if(Yii::app()->user->hasFlash('success')):?>
+     <script type="text/javascript">
+          new Messi("",
+            { title: "Exito.",
+                titleClass: "success",
+                autoclose: "4000",
+                modal:true
+            });
+     </script>
+     <?php endif;?>
+
+          <?php if(Yii::app()->user->hasFlash('error')):?>
+     <script type="text/javascript">
+          new Messi("",
+            { title: "Error",
+                titleClass: "error anim",
+                autoclose: "4000",
+                modal:true
+            });
+     </script>
+<?php endif;?>
