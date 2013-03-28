@@ -14,7 +14,7 @@ $this->breadcrumbs=array(
 <h3 style="text-align: center">Gestión de evaluación de competencias</h3>
 
 <?php echo CHtml::beginForm($this->createUrl('evaluacionpersonas/crear'),'post', array('id'=>'formcrearevaluacionpersona'))?>                      
-<button  id="btncrearevaluacionpersona" type="submit" class="sexybutton sexysimple"><span class="add">Crear proceso evaluación</span></button>
+<button  id="btnformcrearevaluacionpersona" type="submit" class="sexybutton sexysimple"><span class="add">Crear proceso evaluación</span></button>
 <?php echo CHtml::endForm()?>
 <?php $this->widget('zii.widgets.grid.CGridView', array(
 	'id'=>'evaluacionpersonas-grid',
@@ -40,17 +40,17 @@ $this->breadcrumbs=array(
                     'name'=>'creador',                     
                 ),
                 array(
-                    'header'=>'Fecha',
+                    'header'=>'Fecha creación',
                     'name'=>'fecha',                     
                 ),
-                array(
-                    'header'=>'Estado',
-                    'name'=>'estado',                     
-                ),
+//                array(
+//                    'header'=>'Estado',
+//                    'name'=>'estado',                     
+//                ),
                 array(
 			'class'=>'CButtonColumn',
                         'htmlOptions'=>array('width'=>'90'),
-                        'template'=>'{agregarpersonas}{habilidades}{borrar}{delete}',
+                        'template'=>'{agregarpersonas}{habilidades}',
                         'deleteButtonUrl'=>'Yii::app()->controller->createUrl("evaluacionpersonas/borrar", array("id"=>$data["id"]))',
                         'deleteButtonLabel' => 'Eliminar este proceso.', 
                         'deleteButtonImageUrl'=>Yii::app()->request->baseUrl.'/images/icons/silk/delete.png',                          
@@ -92,12 +92,12 @@ $this->breadcrumbs=array(
                                            ),
                                  ), //options                               
                             ),//habilidades
-                            'borrar'=>array(
-                                'label'=>'Borrar este proceso.',
-                                'imageUrl'=>Yii::app()->request->baseUrl.'/images/icons/silk/delete.png',
-                                'url'=>'Yii::app()->createUrl("evaluacionpersonas/delete", array("id"=>$data["id"]))',                               
-                                'click'=>'function(){messageconfirmacion();}',                                                               
-                            ),//borrar
+//                            'borrar'=>array(
+//                                'label'=>'Borrar este proceso.',
+//                                'imageUrl'=>Yii::app()->request->baseUrl.'/images/icons/silk/delete.png',
+//                                'url'=>'Yii::app()->createUrl("evaluacionpersonas/delete", array("id"=>$data["id"]))',                               
+//                                'click'=>'function(){messageconfirmacion();}',                                                               
+//                            ),//borrar
                         )//buttons                       
 		),
 	),//columns
