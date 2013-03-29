@@ -60,7 +60,7 @@ class Evaluacioncompetencias extends CActiveRecord
 			array('promedioponderado', 'numerical'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, evaluacionpersonas, fechaevaluacion, frecuencia, puestopotencial1, puestopotencial2, puestopotencial3, promedioponderado, tipo, evaluador, evaluado', 'safe', 'on'=>'search'),
+			array('id, evaluacionpersonas, fechaevaluacion, frecuencia, puestopotencial1, puestopotencial2, puestopotencial3, promedioponderado, tipo, evaluador, evaluado', 'safe', 'on'=>'search'),                        
 		);
 	}
 
@@ -160,5 +160,84 @@ class Evaluacioncompetencias extends CActiveRecord
                 return 'Finalizado';
             else
                 return 'Pendiente';
+        }
+        
+        public function obtenerGraficoSpiderCalificado($idevaluacioncompetencias,$idevaluacionpersonas){
+            
+            $connection=Yii::app()->db;
+            $sql = "SELECT h.nombre as 'eje',he.calificacion as 'calificacion'
+                    FROM Habilidadespecialevaluada he
+                    INNER JOIN Habilidadespecial h ON he.evaluacionpersonas = h.evaluacionpersonas
+                    AND he.habilidadespecial = h.id
+                    WHERE he.evaluacionpersonas = :idevaluacionpersonas AND he.evaluacioncompetencias = :idevaluacioncompetencias
+                                        UNION
+                    SELECT tm.nombre as 'eje',mec.calificacion as 'calificacion'
+                    FROM meritoevaluacioncandidato mec
+                    INNER JOIN merito m ON mec.merito = m.id
+                    INNER JOIN tipomerito tm ON tm.id =  m.tipomerito
+                    WHERE mec.evaluacioncandidato = :idevaluacioncompetencias";
+//                    UNION
+//                    SELECT c.competencia as 'eje',hec.calificacion as 'calificacion'
+//                    FROM habilidadevaluacioncandidato hec
+//                    INNER JOIN competencia c ON hec.competencia = c.id
+//                    WHERE hec.evaluacioncandidato = :idevaluacioncompetencias
+//                    UNION
+//                    SELECT tm.nombre as 'eje',mec.calificacion as 'calificacion'
+//                    FROM meritoevaluacioncandidato mec
+//                    INNER JOIN merito m ON mec.merito = m.id
+//                    INNER JOIN tipomerito tm ON tm.id =  m.tipomerito
+//                    WHERE mec.evaluacioncandidato = :idevaluacioncompetencias";
+            $command = $connection->createCommand($sql);
+            $command->bindParam(":idevaluacionpersonas", $idevaluacionpersonas, PDO::PARAM_INT);
+            $command->bindParam(":idevaluacioncompetencias", $idevaluacioncompetencias, PDO::PARAM_INT);            
+            $dataspider = $command->queryAll();
+            
+            if(empty($dataspider))
+                return false;
+            else 
+                return $dataspider;
+        }
+        
+        public function obtenerGraficoSpiderRelativo($idevaluacioncompetencias,$idevaluacionpersonas){
+            
+            $connection=Yii::app()->db;
+            if($this->tipo==1){          
+            $sql = "SELECT he.nombre as 'eje',he.ponderacion as 'calificacion'
+                    FROM Habilidadespecial he
+                    INNER JOIN evaluacionpersonas e ON he.evaluacionpersonas = e.id
+                    WHERE he.evaluacionpersonas = :idevaluacionpersonas
+                   UNION
+                    SELECT tm.nombre as 'eje',mec.calificacion as 'calificacion'
+                    FROM meritoevaluacioncandidato mec
+                    INNER JOIN merito m ON mec.merito = m.id
+                    INNER JOIN tipomerito tm ON tm.id =  m.tipomerito
+                    WHERE mec.evaluacioncandidato = :idevaluacioncompetencias";
+//                    UNION
+//                    SELECT c.competencia as 'eje', pc.ponderacion as 'calificacion'
+//                    FROM habilidadevaluacioncandidato hec
+//                    INNER JOIN evaluacioncompetencias ec ON hec.evaluacioncandidato = ec.id
+//                    INNER JOIN competencia c ON hec.competencia = c.id
+//                    INNER JOIN puestocompetencia pc ON c.id = pc.competencia
+//                    INNER JOIN colaborador co ON ec.evaluado = co.id
+//                    INNER JOIN unidadnegociopuesto up ON co.puesto = up.puesto
+//                    INNER JOIN puesto p ON up.puesto = p.id
+//                    WHERE pc.puesto = p.id
+//                    AND hec.evaluacioncandidato = :idevaluacioncompetencias
+//                    UNION
+//                    SELECT tm.nombre as 'eje', m.ponderacion as 'calificacion'
+//                    FROM meritoevaluacioncandidato mec
+//                    INNER JOIN merito m ON mec.merito = m.id
+//                    INNER JOIN tipomerito tm ON tm.id =  m.tipomerito
+//                    WHERE mec.evaluacioncandidato = :idevaluacioncompetencias";
+            }
+            $command = $connection->createCommand($sql);
+            $command->bindParam(":idevaluacionpersonas", $idevaluacionpersonas, PDO::PARAM_INT);
+            $command->bindParam(":idevaluacioncompetencias", $idevaluacioncompetencias, PDO::PARAM_INT);            
+            $dataspider = $command->queryAll();
+            
+            if(empty($dataspider))
+                return false;
+            else 
+                return $dataspider;
         }
 }

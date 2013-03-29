@@ -33,7 +33,7 @@ class EvaluacionpersonasController extends Controller
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
 				'actions'=>array('crear','update','admin','AgregarPersonas','AgregarPersona','AutocompleteEvaluado',
-                                                    'HabilidadesEspeciales','InfoPonderacion', 'delete'),
+                                                    'HabilidadesEspeciales','InfoPonderacion', 'delete', 'reporte', 'getjson'),
 				'users'=>array('@'),
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -400,4 +400,61 @@ class EvaluacionpersonasController extends Controller
             echo CJSON::encode($response);                                           
             Yii::app()->end();
         }
+        
+        public function actionReporte(){            
+                $idevaluacionpersonas = $_GET['idevaluacionpersonas'];
+                $idevaluacioncompetencias = $_GET['idevaluacioncompetencias'];
+                
+                $evaluacioncompetencias = Evaluacioncompetencias::model()->findByPk($idevaluacioncompetencias);                
+                $datacalificado = $evaluacioncompetencias->obtenerGraficoSpiderCalificado($idevaluacioncompetencias, $idevaluacionpersonas);
+                $datarelativo = $evaluacioncompetencias->obtenerGraficoSpiderRelativo($idevaluacioncompetencias, $idevaluacionpersonas);
+                
+                
+                $dataideal = $datarelativo;
+                
+                for ($index = 0; $index < count($dataideal); $index++) {
+                    $dataideal[$index]["calificacion"] = CommonFunctions::ponderaciontoideal($dataideal[$index]["calificacion"]);
+                }
+                
+                $this->render('reporte',array(
+                        'evaluacioncompetencias'=>$evaluacioncompetencias,
+			'datacalificacion'=>$datacalificado,
+                        'datarelativo' => $datarelativo,
+                        'dataideal' => $dataideal,
+		));                
+            
+        }
+        
+        public function actiongetjson()
+        {            
+           $idevaluacionpersonas = $_GET['idevaluacionpersonas'];
+           $idevaluacioncompetencias = $_GET['idevaluacioncompetencias'];
+           
+            $evaluacioncompetencias = Evaluacioncompetencias::model()->findByPk($idevaluacioncompetencias);                
+            $datacalificado = $evaluacioncompetencias->obtenerGraficoSpiderCalificado($idevaluacioncompetencias, $idevaluacionpersonas);
+            $datarelativo = $evaluacioncompetencias->obtenerGraficoSpiderRelativo($idevaluacioncompetencias, $idevaluacionpersonas);
+            
+            $dataideal = $datarelativo;
+                
+                for ($index = 0; $index < count($dataideal); $index++) {
+                    $dataideal[$index]["calificacion"] = CommonFunctions::ponderaciontoideal($dataideal[$index]["calificacion"]);
+                }
+                
+           $calificado = array();
+           foreach ($datacalificado as $value) {
+               $calificado[$value["eje"]] = CommonFunctions::stringtonumber($value["calificacion"]);
+           }
+           
+           $relativo = array();           
+           foreach ($dataideal as $value) {
+               $relativo[$value["eje"]] = CommonFunctions::stringtonumber($value["calificacion"]);
+           }
+            
+           $data = array($calificado, $relativo);
+           
+           echo CJSON::encode($data);                        
+           Yii::app()->end();                
+           
+        }
+        
 }
