@@ -23,7 +23,7 @@ root {
 	height: 400px;
 	float: left;
         margin: 15px 15px 35px 15px;
-        background-color: #0099CC;
+        background-color: #003366;
         box-shadow: 10px 10px 5px #888888;
 }
 
@@ -49,7 +49,7 @@ root {
 	height: 400px;
 	float: left;
         margin: 15px 15px 35px 15px;
-        background-color: #003366;
+        background-color: #0099CC;
         box-shadow: 10px 10px 5px #888888;
 }
 
@@ -61,7 +61,7 @@ root {
 	width: 100%;
 	height: 100px;
 	float: left;
-	background-color: #0099CC;
+	background-color: #003366;
 }
 
 .MenuInicial #ContenidoD {	
@@ -73,7 +73,7 @@ root {
 	height: 300px;
 	float: left;
 	background-color: #FFFFFF;
-        border: solid #0099CC;
+        border: solid #003366;
 }
 
 .MenuInicial #TituloC {	
@@ -107,7 +107,7 @@ root {
 	width: 100%;
 	height: 100px;
 	float: left;
-	background-color: #003366;
+	background-color: #0099CC;
 }
 
 .MenuInicial #ContenidoR {	
@@ -119,19 +119,19 @@ root {
 	height: 300px;
 	float: left;
 	background-color: #FFFFFF;
-        border: solid #003399;
+        border: solid #0099CC;
 }
 
 .MenuInicial #Desmpeño:hover {
-    box-shadow: 13px 13px 8px #888888;
+    box-shadow: 14px 14px 9px #888888;
 }
 
 .MenuInicial #Competencias:hover {
-    box-shadow: 13px 13px 8px #888888;
+    box-shadow: 14px 14px 9px #888888;
 }
 
 .MenuInicial #Reclutamiento:hover {
-    box-shadow: 13px 13px 8px #888888;
+    box-shadow: 14px 14px 9px #888888;
 }
 
 .MenuInicial h1 {
@@ -139,10 +139,26 @@ root {
   color: #FFFFFF;
 }
 
-.MenuInicial p {
-    padding: 25px;
+a.boton {
+	-moz-border-radius:6px;
+	-webkit-border-radius:6px;
+	border-radius:6px;
+        
+        background-color:transparent;
+        width: 70%;
+	border: 1px solid #003366;
+	display: inline-block;
+	color: #003366;
+	font-family: arial;
+	font-size: 15px;
+	font-weight: bold;
+	padding: 3px 24px;
+	text-decoration: none;
+        text-align: center;
+	margin: 5px 15px 10px 15px;
 }
- 
 
-
-
+a.boton:hover {
+    background-color: #003366;
+    color: #FFFFFF;
+}

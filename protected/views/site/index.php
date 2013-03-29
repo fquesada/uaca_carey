@@ -6,14 +6,15 @@ $this->pageTitle=Yii::app()->name;
 
 <body>
 <div class="MenuInicial">
-    <div id="Desmpeño">
-       <div id="TituloD">
-           <h1 align="center">Evaluación de Desempeño</h1>
+    <div id="Reclutamiento">
+       <div id="TituloR">
+           <h1 align="center">Reclutamiento y Selección</h1>
        </div>
-       <div id="ContenidoD">
-           <p><h3 align="center"><a href="#">Link1</a></h3>
-           <h3 align="center"><a href="#">Link2</a></h3>
-           <h3 align="center"><a href="#">Link3</a></h3></p>
+       <div id="ContenidoR">
+           <br>
+           <a href="#" class="boton">Link1</a></h3>
+           <a href="#" class="boton">Link2</a></h3>
+           <a href="#" class="boton">Link3</a></h3>
        </div>
    </div>
     <div id="Competencias">
@@ -21,19 +22,21 @@ $this->pageTitle=Yii::app()->name;
            <h1 align="center">Evaluación de Competencias</h1>
        </div>
        <div id="ContenidoC">
-           <p><h3 align="center"><a href="#">Link1</a></h3>
-           <h3 align="center"><a href="#">Link2</a></h3>
-           <h3 align="center"><a href="#">Link3</a></h3></p>
+           <br>
+           <a href="evaluacionpersonas/crear" class="boton">Nueva evaluación</a>
+           <a href="evaluacionpersonas/admin" class="boton">Gestión de evaluaciones</a>
+           <a href="#" class="boton">Link3</a>
        </div>
    </div>
-     <div id="Reclutamiento">
-       <div id="TituloR">
-           <h1 align="center">Reclutamiento y Selección</h1>
+     <div id="Desmpeño">
+       <div id="TituloD">
+           <h1 align="center">Evaluación de Desempeño</h1>
        </div>
-       <div id="ContenidoR">
-           <p><h3 align="center"><a href="#">Link1</a></h3>
-           <h3 align="center"><a href="#">Link2</a></h3>
-           <h3 align="center"><a href="#">Link3</a></h3></p>
+       <div id="ContenidoD">
+           <br>
+           <a href="#" class="boton">Link1</a></h3>
+           <a href="#" class="boton">Link2</a></h3>
+           <a href="#" class="boton">Link3</a></h3>
        </div>
    </div>
 </div>
