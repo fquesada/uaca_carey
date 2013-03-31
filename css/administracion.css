@@ -1,0 +1,52 @@
+/* 
+    Document   : administracion
+    Created on : 30/03/2013, 05:52:25 PM
+    Author     : Teto
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+root { 
+    display: block;
+}
+
+.MenuAdministracion {
+	width: 100%;
+	height: 400px;
+}
+
+.MenuAdministracion #Administracion {
+        width: 100%;
+        height: 50px;
+}
+
+.Menu {        
+        width: 30%;
+	height: 350px;
+	float: left;
+        margin: 15px 15px 35px 15px;
+}
+
+a.btn {
+	-moz-border-radius:6px;
+	-webkit-border-radius:6px;
+	border-radius:6px;
+        
+        background-color:transparent;
+        width: 70%;
+	border: 1px solid #003366;
+	display: inline-block;
+	color: #003366;
+	font-family: arial;
+	font-size: 15px;
+	font-weight: bold;
+	padding: 8px 24px;
+	text-decoration: none;
+        text-align: center;
+	margin: 5px 15px 15px 15px;
+}
+
+a.btn:hover {
+    background-color: #003366;
+    color: #FFFFFF;
+}

@@ -39,6 +39,20 @@ class SiteController extends Controller
                     $this->redirect('index.php/site/login');
                 }
 	}
+        
+                public function actionAdministracion()
+	{
+		// renders the view file 'protected/views/site/index.php'
+		// using the default layout 'protected/views/layouts/main.php'
+		if(!Yii::app()->user->isGuest)
+                {
+                    $this->render('administracion');
+                }
+                else 
+                {
+                    $this->redirect('index.php/site/login');
+                }
+	}
 
 	/**
 	 * This is the action to handle external exceptions.
