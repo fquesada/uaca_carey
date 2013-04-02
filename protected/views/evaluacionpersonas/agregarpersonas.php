@@ -134,7 +134,7 @@ $this->widget('zii.widgets.grid.CGridView', array(
                            'reporte'=>array(
                                 'label'=>'Ver reporte',
                                 'imageUrl'=>Yii::app()->request->baseUrl.'/images/icons/silk/chart_pie.png',
-                                'url'=>'Yii::app()->createUrl("evaluacionpersonas/reporte", array("idevaluacioncompetencias" => $data->id, "idevaluacionpersonas" => $data->evaluacionpersonas))',
+                                'url'=>'Yii::app()->createUrl("evaluacionpersonas/reporteevaluacioncompetencias", array("idevaluacioncompetencias" => $data->id, "idevaluacionpersonas" => $data->evaluacionpersonas))',
                                 'visible' => '($data->estadoevaluacion==="Finalizado")?true:false;',
                                 
                             )

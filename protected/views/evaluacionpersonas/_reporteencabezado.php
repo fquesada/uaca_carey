@@ -1,11 +1,14 @@
-<?php
-
-?>
 <div id="reporteencabezado">
 
     <div id="tituloreporte" style="text-align: center">
         <h3>Modelo de Gestion por Competencias</h3>
         <h4>Modelo ampliado por evaluacion de competencias</h4>
+    </div>
+    <div id="dividcompetenciapersonas" style="display: none">
+    <?php
+    echo CHtml::label($evaluacioncompetencias->id, '', array("id"=>"lblidcompetencia"));
+    echo CHtml::label($evaluacioncompetencias->_evaluacionpersonas->id, '', array("id"=>"lblidpersonas"));
+    ?>
     </div>
     <div id="reporteinfo">
             <table>

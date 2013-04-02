@@ -20,6 +20,7 @@ return array(
 		'application.components.*',
                 'application.modules.rights.*', 
 		'application.modules.rights.components.*',
+                'application.components.jpgraph.*',
 	),
 
 	'modules'=>array(

@@ -175,18 +175,18 @@ class Evaluacioncompetencias extends CActiveRecord
                     FROM meritoevaluacioncandidato mec
                     INNER JOIN merito m ON mec.merito = m.id
                     INNER JOIN tipomerito tm ON tm.id =  m.tipomerito
+                    WHERE mec.evaluacioncandidato = :idevaluacioncompetencias
+                    UNION
+                    SELECT c.competencia as 'eje',hec.calificacion as 'calificacion'
+                    FROM habilidadevaluacioncandidato hec
+                    INNER JOIN competencia c ON hec.competencia = c.id
+                    WHERE hec.evaluacioncandidato = :idevaluacioncompetencias
+                    UNION
+                    SELECT tm.nombre as 'eje',mec.calificacion as 'calificacion'
+                    FROM meritoevaluacioncandidato mec
+                    INNER JOIN merito m ON mec.merito = m.id
+                    INNER JOIN tipomerito tm ON tm.id =  m.tipomerito
                     WHERE mec.evaluacioncandidato = :idevaluacioncompetencias";
-//                    UNION
-//                    SELECT c.competencia as 'eje',hec.calificacion as 'calificacion'
-//                    FROM habilidadevaluacioncandidato hec
-//                    INNER JOIN competencia c ON hec.competencia = c.id
-//                    WHERE hec.evaluacioncandidato = :idevaluacioncompetencias
-//                    UNION
-//                    SELECT tm.nombre as 'eje',mec.calificacion as 'calificacion'
-//                    FROM meritoevaluacioncandidato mec
-//                    INNER JOIN merito m ON mec.merito = m.id
-//                    INNER JOIN tipomerito tm ON tm.id =  m.tipomerito
-//                    WHERE mec.evaluacioncandidato = :idevaluacioncompetencias";
             $command = $connection->createCommand($sql);
             $command->bindParam(":idevaluacionpersonas", $idevaluacionpersonas, PDO::PARAM_INT);
             $command->bindParam(":idevaluacioncompetencias", $idevaluacioncompetencias, PDO::PARAM_INT);            
@@ -211,24 +211,24 @@ class Evaluacioncompetencias extends CActiveRecord
                     FROM meritoevaluacioncandidato mec
                     INNER JOIN merito m ON mec.merito = m.id
                     INNER JOIN tipomerito tm ON tm.id =  m.tipomerito
+                    WHERE mec.evaluacioncandidato = :idevaluacioncompetencias
+                    UNION
+                    SELECT c.competencia as 'eje', pc.ponderacion as 'calificacion'
+                    FROM habilidadevaluacioncandidato hec
+                    INNER JOIN evaluacioncompetencias ec ON hec.evaluacioncandidato = ec.id
+                    INNER JOIN competencia c ON hec.competencia = c.id
+                    INNER JOIN puestocompetencia pc ON c.id = pc.competencia
+                    INNER JOIN colaborador co ON ec.evaluado = co.id
+                    INNER JOIN unidadnegociopuesto up ON co.puesto = up.puesto
+                    INNER JOIN puesto p ON up.puesto = p.id
+                    WHERE pc.puesto = p.id
+                    AND hec.evaluacioncandidato = :idevaluacioncompetencias
+                    UNION
+                    SELECT tm.nombre as 'eje', m.ponderacion as 'calificacion'
+                    FROM meritoevaluacioncandidato mec
+                    INNER JOIN merito m ON mec.merito = m.id
+                    INNER JOIN tipomerito tm ON tm.id =  m.tipomerito
                     WHERE mec.evaluacioncandidato = :idevaluacioncompetencias";
-//                    UNION
-//                    SELECT c.competencia as 'eje', pc.ponderacion as 'calificacion'
-//                    FROM habilidadevaluacioncandidato hec
-//                    INNER JOIN evaluacioncompetencias ec ON hec.evaluacioncandidato = ec.id
-//                    INNER JOIN competencia c ON hec.competencia = c.id
-//                    INNER JOIN puestocompetencia pc ON c.id = pc.competencia
-//                    INNER JOIN colaborador co ON ec.evaluado = co.id
-//                    INNER JOIN unidadnegociopuesto up ON co.puesto = up.puesto
-//                    INNER JOIN puesto p ON up.puesto = p.id
-//                    WHERE pc.puesto = p.id
-//                    AND hec.evaluacioncandidato = :idevaluacioncompetencias
-//                    UNION
-//                    SELECT tm.nombre as 'eje', m.ponderacion as 'calificacion'
-//                    FROM meritoevaluacioncandidato mec
-//                    INNER JOIN merito m ON mec.merito = m.id
-//                    INNER JOIN tipomerito tm ON tm.id =  m.tipomerito
-//                    WHERE mec.evaluacioncandidato = :idevaluacioncompetencias";
             }
             $command = $connection->createCommand($sql);
             $command->bindParam(":idevaluacionpersonas", $idevaluacionpersonas, PDO::PARAM_INT);
