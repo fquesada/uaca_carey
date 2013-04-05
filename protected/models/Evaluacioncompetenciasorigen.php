@@ -1,22 +1,19 @@
 <?php
 
 /**
- * This is the model class for table "origenevaluacion".
+ * This is the model class for table "evaluacioncompetenciasorigen".
  *
- * The followings are the available columns in table 'origenevaluacion':
- * @property integer $id
- * @property string $nombre
- * @property integer $estado
- *
- * The followings are the available model relations:
- * @property Evaluacioncompetencias[] $evaluacioncompetencias
+ * The followings are the available columns in table 'evaluacioncompetenciasorigen':
+ * @property integer $evaluacioncompetencias
+ * @property integer $origenevaluacion
+ * 
  */
-class Origenevaluacion extends CActiveRecord
+class Evaluacioncompetenciasorigen extends CActiveRecord
 {
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
-	 * @return Origenevaluacion the static model class
+	 * @return Evaluacioncompetenciasorigen the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
@@ -28,7 +25,7 @@ class Origenevaluacion extends CActiveRecord
 	 */
 	public function tableName()
 	{
-		return 'origenevaluacion';
+		return 'evaluacioncompetenciasorigen';
 	}
 
 	/**
@@ -39,12 +36,11 @@ class Origenevaluacion extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('nombre', 'required'),
-			array('estado', 'numerical', 'integerOnly'=>true),
-			array('nombre', 'length', 'max'=>45),
+			array('evaluacioncompetencias, origenevaluacion', 'required'),
+			array('evaluacioncompetencias, origenevaluacion', 'numerical', 'integerOnly'=>true),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, nombre, estado', 'safe', 'on'=>'search'),
+			array('evaluacioncompetencias, origenevaluacion', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -56,7 +52,7 @@ class Origenevaluacion extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'evaluacioncompetencias' => array(self::MANY_MANY, 'Evaluacioncompetencias', 'evaluacioncompetenciasorigen(origenevaluacion, evaluacioncompetencias)'),
+                    
 		);
 	}
 
@@ -66,9 +62,8 @@ class Origenevaluacion extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'id' => 'ID',
-			'nombre' => 'Nombre',
-			'estado' => 'Estado',
+			'evaluacioncompetencias' => 'Evaluacioncompetencias',
+			'origenevaluacion' => 'Origenevaluacion',
 		);
 	}
 
@@ -83,9 +78,8 @@ class Origenevaluacion extends CActiveRecord
 
 		$criteria=new CDbCriteria;
 
-		$criteria->compare('id',$this->id);
-		$criteria->compare('nombre',$this->nombre,true);
-		$criteria->compare('estado',$this->estado);
+		$criteria->compare('evaluacioncompetencias',$this->evaluacioncompetencias);
+		$criteria->compare('origenevaluacion',$this->origenevaluacion);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

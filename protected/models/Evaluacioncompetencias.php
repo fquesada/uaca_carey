@@ -26,6 +26,7 @@
  * @property Habilidadevaluacioncandidato[] $_habilidadesevaluacioncandidato
  * @property Habilidadnoequivalente[] $_habilidadesnoequivalente
  * @property Meritoevaluacioncandidato[] $_meritosevaluacioncandidato
+ * @property Origenevaluacion[] $_origenesevaluacion
  */
 class Evaluacioncompetencias extends CActiveRecord
 {
@@ -81,6 +82,7 @@ class Evaluacioncompetencias extends CActiveRecord
 			'_habilidadesevaluacioncandidato' => array(self::HAS_MANY, 'Habilidadevaluacioncandidato', 'evaluacioncandidato'),
 			'_habilidadesnoequivalente' => array(self::HAS_MANY, 'Habilidadnoequivalente', 'evaluacioncandidato'),
 			'_meritosevaluacioncandidato' => array(self::HAS_MANY, 'Meritoevaluacioncandidato', 'evaluacioncandidato'),
+                        '_origenesevaluacion' => array(self::MANY_MANY, 'Origenevaluacion', 'evaluacioncompetenciasorigen(evaluacioncompetencias, origenevaluacion)'),
 		);
 	}
 
