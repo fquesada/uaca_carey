@@ -50,7 +50,7 @@ class SiteController extends Controller
                 }
                 else 
                 {
-                    $this->redirect('index.php/site/login');
+                    $this->redirect('http://localhost/uaca_carey/index.php/site/logout');
                 }
 	}
 

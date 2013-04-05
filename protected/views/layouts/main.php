@@ -26,12 +26,23 @@
 
 	<div id="header">
 		<div id="logo"><?php echo CHtml::encode(Yii::app()->name); ?></div>
-                <div id="login"><?php $this->widget('zii.widgets.CMenu',array(
+                <div id="opciones">
+                    <div class="acciones">
+                        <a href='http://localhost/uaca_carey/index.php/site/administracion'><img title="Administración" src=<?php echo Yii::app()->baseUrl."/images/tools.png" ?>></a>
+                    </div>
+                    <div class="acciones">
+                        <a href='http://localhost/uaca_carey/index.php'><img title="Inicio" src=<?php echo Yii::app()->baseUrl."/images/home.png" ?>></a>
+                    </div>
+                    <div class="acciones">
+                        <a href='http://localhost/uaca_carey/index.php/site/logout'><img title="Salir" src=<?php echo Yii::app()->baseUrl."/images/logout.png" ?>></a>
+                    </div>
+                    <div id="bienvenida"><?php $this->widget('zii.widgets.CMenu',array(
 			'items'=>array(
-				array('label'=>'Log In', 'url'=>array('/site/login'), 'visible'=>Yii::app()->user->isGuest),
-				array('label'=>'Logout ('.Yii::app()->user->name.')', 'url'=>array('/site/logout'), 'visible'=>!Yii::app()->user->isGuest),
+                                array('label'=>Yii::app()->user->name.'', 'visible'=>!Yii::app()->user->isGuest),
 			),
-		)); ?></div>
+		)); ?>
+                </div>
+                </div>
 	</div><!-- header -->
 
 	<?php if(isset($this->breadcrumbs)):?>
