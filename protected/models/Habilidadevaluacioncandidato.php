@@ -74,7 +74,7 @@ class Habilidadevaluacioncandidato extends CActiveRecord
 			'id' => 'ID',
 			'competencia' => 'Competencia',
 			'evaluacioncandidato' => 'Evaluacioncandidato',
-			'origendescripcion' => 'Origendescripcion',
+			'origendescripcion' => 'Descripción de variable en el método',
 			'calificacion' => 'Calificacion',
 		);
 	}
