@@ -206,12 +206,15 @@ class Evaluacioncompetencias extends CActiveRecord
                     FROM Habilidadespecial he
                     INNER JOIN evaluacionpersonas e ON he.evaluacionpersonas = e.id
                     WHERE he.evaluacionpersonas = :idevaluacionpersonas
-                   UNION
-                    SELECT tm.nombre as 'eje',mec.calificacion as 'calificacion'
-                    FROM meritoevaluacioncandidato mec
-                    INNER JOIN merito m ON mec.merito = m.id
-                    INNER JOIN tipomerito tm ON tm.id =  m.tipomerito
-                    WHERE mec.evaluacioncandidato = :idevaluacioncompetencias
+                    UNION
+                    SELECT tm.nombre as 'eje', m.ponderacion as 'calificacion'
+                    FROM evaluacioncompetencias ec                     
+                    INNER JOIN colaborador co ON ec.evaluado = co.id
+                    INNER JOIN unidadnegociopuesto up ON co.puesto = up.puesto
+                    INNER JOIN puesto p ON up.puesto = p.id
+                    INNER JOIN merito m ON m.puesto = p.id
+                    INNER JOIN tipomerito tm ON tm.id =  m.tipomerito                    
+                    AND ec.id = :idevaluacioncompetencias
                     UNION
                     SELECT c.competencia as 'eje', pc.ponderacion as 'calificacion'
                     FROM habilidadevaluacioncandidato hec
@@ -222,13 +225,7 @@ class Evaluacioncompetencias extends CActiveRecord
                     INNER JOIN unidadnegociopuesto up ON co.puesto = up.puesto
                     INNER JOIN puesto p ON up.puesto = p.id
                     WHERE pc.puesto = p.id
-                    AND hec.evaluacioncandidato = :idevaluacioncompetencias
-                    UNION
-                    SELECT tm.nombre as 'eje', m.ponderacion as 'calificacion'
-                    FROM meritoevaluacioncandidato mec
-                    INNER JOIN merito m ON mec.merito = m.id
-                    INNER JOIN tipomerito tm ON tm.id =  m.tipomerito
-                    WHERE mec.evaluacioncandidato = :idevaluacioncompetencias";
+                    AND hec.evaluacioncandidato = :idevaluacioncompetencias";                    
             }
             $command = $connection->createCommand($sql);
             $command->bindParam(":idevaluacionpersonas", $idevaluacionpersonas, PDO::PARAM_INT);

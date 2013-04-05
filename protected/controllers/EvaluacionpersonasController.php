@@ -402,11 +402,16 @@ class EvaluacionpersonasController extends Controller
         }
         
         public function actionReporteEvaluacionCompetencias(){    
-                $idevaluacioncompetencias = $_GET['idevaluacioncompetencias'];                
-                $evaluacioncompetencias = Evaluacioncompetencias::model()->findByPk($idevaluacioncompetencias);                
+                $idevaluacioncompetencias = $_GET['idevaluacioncompetencias'];               
+                $evaluacioncompetencias = Evaluacioncompetencias::model()->findByPk($idevaluacioncompetencias);   
+                $idevaluacionpersonas = $evaluacioncompetencias->evaluacionpersonas;
+                $datarelativo = $evaluacioncompetencias->obtenerGraficoSpiderRelativo($idevaluacioncompetencias, $idevaluacionpersonas);            
+                $datacalificado = $evaluacioncompetencias->obtenerGraficoSpiderCalificado($idevaluacioncompetencias, $idevaluacionpersonas);
             
                 $this->render('reporteevaluacioncompetencias',array(
-                        'evaluacioncompetencias'=>$evaluacioncompetencias,			
+                        'evaluacioncompetencias'=>$evaluacioncompetencias,
+                        'relativo'=>$datarelativo,
+                        'calificado'=>$datacalificado
 		)); 
         }
         
@@ -415,23 +420,44 @@ class EvaluacionpersonasController extends Controller
             $idevaluacionpersonas = $_POST['idevaluacionpersonas'];           
             $idevaluacioncompetencias = $_POST['idevaluacioncompetencias'];
            
-            $evaluacioncompetencias = Evaluacioncompetencias::model()->findByPk($idevaluacioncompetencias);                
+            $evaluacioncompetencias = Evaluacioncompetencias::model()->findByPk($idevaluacioncompetencias);                           
+            $datarelativo = $evaluacioncompetencias->obtenerGraficoSpiderRelativo($idevaluacioncompetencias, $idevaluacionpersonas);            
             $datacalificado = $evaluacioncompetencias->obtenerGraficoSpiderCalificado($idevaluacioncompetencias, $idevaluacionpersonas);
-            $datarelativo = $evaluacioncompetencias->obtenerGraficoSpiderRelativo($idevaluacioncompetencias, $idevaluacionpersonas);
-                             
+            
+            //Relativo e Ideal                        
+            $barlabelsrelativo = array();
+            $barserierelativo = array();
+            $barlabelscomparacioncompetencias= array();
+            $barserieideal = array(); 
+             for ($index = 0; $index < count($datarelativo); $index++) {                 
+                 //Grafico Barras -> Valoracion Relativa -> Relativo
+                 array_push($barlabelsrelativo,  [$index, $datarelativo[$index]["eje"]]);    
+                 array_push($barserierelativo,  [CommonFunctions::stringtonumber($datarelativo[$index]["calificacion"]), $index]);
+                 //Grafico Barras -> Comparacion Competencias -> Ideal
+                 array_push($barlabelscomparacioncompetencias,  [$index, "Ideal - ".$datarelativo[$index]["eje"]]);
+                 array_push($barlabelscomparacioncompetencias,  [$index+0.5, "Evaluacion - ".$datarelativo[$index]["eje"]]);  
+                 array_push($barserieideal,  [CommonFunctions::stringtonumber(CommonFunctions::ponderaciontoideal($datarelativo[$index]["calificacion"])), $index]);
+             }
+          
+            //Calificado          
+            $barseriecalificado = array();
+            for ($index = 0; $index < count($datacalificado); $index++) {      
+                 //Grafico Barras -> Comparacion Competencias -> Calificado                   
+                 array_push($barseriecalificado,  [CommonFunctions::stringtonumber($datacalificado[$index]["calificacion"]), $index+0.5]);
+            }
+            
+            /*Logica de grafico Radar - Cobertura de Requisitos*/
             //Logica para obtener los labels
             $labels = array();
             for ($index = 0; $index < count($datacalificado); $index++) {
                     $labels["labels"][$index] = $datacalificado[$index]["eje"];
-            }
-            
+            }            
            //Logica para Ideal          
            $serieideal = array();
            $serieideal["ideal"]["label"] = "Candidato Ideal";
            for ($index = 0; $index < count($datarelativo); $index++) {
                     $serieideal["ideal"]["data"][$index] =  [CommonFunctions::stringtonumber($index),CommonFunctions::stringtonumber(CommonFunctions::ponderaciontoideal($datarelativo[$index]["calificacion"]))];   
-           }
-            
+           }            
            //Logica para evaluacion obtenida
            $serievaluacion = array();
            $serievaluacion["evaluacion"]["label"] = "Resultado Evaluacion";
@@ -439,8 +465,8 @@ class EvaluacionpersonasController extends Controller
                    $serievaluacion["evaluacion"]["data"][$index] =  [CommonFunctions::stringtonumber($index),CommonFunctions::stringtonumber($datacalificado[$index]["calificacion"])];                 
            }            
         
-           $data = array($labels,$serieideal,$serievaluacion);          
-           
+           $data = array($labels,$serieideal,$serievaluacion,$barlabelsrelativo, $barserierelativo, $barlabelscomparacioncompetencias, $barserieideal, $barseriecalificado);          
+         
            echo CJSON::encode($data);                        
            Yii::app()->end();                
            

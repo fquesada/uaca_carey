@@ -8,4 +8,9 @@ Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/flotr2/flo
 Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/reporte_evaluacioncompetencias.js');
 ?>
 
+
+<div id="contentValoracionRelativa" style="width:800px;height:400px;"></div>
+
+<div id="contentComparacionCompetencias" style="width:800px;height:400px;"></div>
+
 <div id="contentCoberturaRequisitos" style="width:800px;height:400px;"></div>
