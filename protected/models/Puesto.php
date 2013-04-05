@@ -117,6 +117,8 @@ class Puesto extends CActiveRecord
                 
                 //Muestra los puestos activos unicamente
                 $criteria->addcolumncondition(array('estado'=>'1'));
+                
+                $criteria->order = 'nombre';
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

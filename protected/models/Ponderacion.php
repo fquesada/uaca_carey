@@ -39,6 +39,7 @@ class Ponderacion extends CActiveRecord
 		return array(
 			array('valor, descripcion', 'required'),
 			array('valor, estado', 'numerical', 'integerOnly'=>true),
+                        array('descripcion', 'length', 'max'=>100),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
 			array('id, valor, estado, descripcion', 'safe', 'on'=>'search'),

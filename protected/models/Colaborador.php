@@ -52,9 +52,9 @@ class Colaborador extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('cedula, nombre, apellido1, apellido2, unidadnegocio, puesto', 'required'),
-			array('cedula, estado, unidadnegocio, puesto', 'numerical', 'integerOnly'=>true),
+			array('cedula, estado, unidadnegocio, puesto', 'numerical', 'integerOnly'=>true, ),
 			array('nombre, apellido1, apellido2', 'length', 'max'=>45),
-			// The following rule is used by search().
+                        // The following rule is used by search().
 			// Please remove those attributes that should not be searched.
 			array('id, cedula, nombre, apellido1, apellido2, estado, unidadnegocio, puesto', 'safe', 'on'=>'search'),
 		);
@@ -137,9 +137,11 @@ class Colaborador extends CActiveRecord
 		$criteria->compare('puesto',$this->puesto);
                 
                 $criteria->addColumnCondition(array('estado'=>'1'));
+                
+                $criteria->order = 'nombre';
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
-		));
+                        ));
 	}
 }

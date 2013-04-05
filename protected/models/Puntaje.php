@@ -36,8 +36,9 @@ class Puntaje extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('valor, estado', 'required'),
-			array('valor, estado', 'numerical', 'integerOnly'=>true),			
+			array('valor, estado, descripcion', 'required'),
+			array('valor, estado', 'numerical', 'integerOnly'=>true),
+                        array('descripcion', 'length', 'max'=>100),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
 			array('id, valor, estado', 'safe', 'on'=>'search'),
@@ -64,6 +65,7 @@ class Puntaje extends CActiveRecord
 			'id' => 'ID',
 			'valor' => 'Valor',			
 			'estado' => 'Estado',
+                        'descripcion'=> 'Descripción'
 		);
 	}
 
@@ -81,8 +83,11 @@ class Puntaje extends CActiveRecord
 		$criteria->compare('id',$this->id);
 		$criteria->compare('valor',$this->valor);		
 		$criteria->compare('estado',$this->estado);
+                $criteria->compare('descripcion',$this->descripcion);
                 
                 $criteria->addColumnCondition(array('estado'=>'1'));
+                
+                $criteria->order = 'valor';
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

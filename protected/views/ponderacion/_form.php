@@ -12,7 +12,7 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->baseUrl . '/css/sexybutton
 
 <?php $form=$this->beginWidget('CActiveForm', array(
 	'id'=>'ponderacion-form',
-	'enableAjaxValidation'=>false,
+	'enableAjaxValidation'=>true,
 )); ?>
 
 	<p class="note">Campos con <span class="required">*</span> son requeridos.</p>
@@ -23,6 +23,12 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->baseUrl . '/css/sexybutton
 		<?php echo $form->labelEx($model,'valor'); ?>
 		<?php echo $form->textField($model,'valor'); ?>
 		<?php echo $form->error($model,'valor'); ?>
+	</div>
+        
+	<div class="row">
+		<?php echo $form->labelEx($model,'descripcion'); ?>
+		<?php echo $form->textField($model,'descripcion'); ?>
+		<?php echo $form->error($model,'descripcion'); ?>
 	</div>
 
 	<div class="row buttons">

@@ -102,6 +102,8 @@ class Competencia extends CActiveRecord
 		$criteria->compare('estado',$this->estado);
                 
                 $criteria->addColumnCondition(array('estado'=>'1'));
+                
+                $criteria->order = 'competencia';
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -143,7 +145,8 @@ class Competencia extends CActiveRecord
                 ON (puesto.id = puestocompetencia.puesto)
                 INNER JOIN competencia
                 ON (puestocompetencia.competencia = competencia.id)
-                WHERE puesto = :idpuesto)";
+                WHERE puesto = :idpuesto)
+                ORDER BY competencia.competencia";
             $command = $connection->createCommand($sql);
             $command->bindParam(":idpuesto", $id, PDO::PARAM_INT);
             
@@ -185,6 +188,8 @@ class Competencia extends CActiveRecord
             $competencias = Puestocompetencia::model()->findAllByAttributes(array('puesto'=>$id));
             $competenciasasociadas = $this->obtenerArrayColumna($competencias, 'competencia');
             $criteria->addInCondition('id', $competenciasasociadas);
+            
+            $criteria->order = 'competencia';
             
             return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

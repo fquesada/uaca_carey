@@ -39,13 +39,14 @@
     ?>
     
     <p></br> </br> </br> </p>
-     <h1>Puestos disponibles</h1>
+     <h1>Paso 1: Puestos disponibles</h1>    
+     <h5>Seleccione el o los puestos que desea agregar a la unidad de negocio y presione el botón "Asociar"</h5>
      
-     <h5>Seleccione los puestos que desea agregar a la unidad de negocio y presione el botón "Asociar"</h5>
  <?php $this->widget('zii.widgets.grid.CGridView', array(
 	'id'=>'puestoexistente-grid',
         'dataProvider'=>$puesto->addPuesto($model->id),
 	'filter'=>$puesto,
+        'template'=>"{pager}\n{items}\n{pager}\n{summary}",
 	'columns'=>array(
                 array(
                     'id' => 'puestoselect',
@@ -64,7 +65,8 @@
      <?php echo CHtml::endForm()?>
      
          <p></br> </br> </br> </p>
-     <h1>Puestos asociados</h1>
+     <h1>Paso 2: Puestos asociados</h1>
+     <h5>Verifique que el o los puestos hayan sido asociados correctamente</h5>
      
      
     <?php 
@@ -74,10 +76,20 @@
     <?php $this->widget('zii.widgets.grid.CGridView', array(
 	'id'=>'puestoasociado-grid',
         'dataProvider'=>$unpuesto->search($model->id),
-	'columns'=>array(
-		'CodigoPuesto',
-                'NombrePuesto',
-		'DescripcionPuesto',              
+	'template'=>"{pager}\n{items}\n{pager}\n{summary}",
+        'columns'=>array(
+                    array(
+                        'name'=>'CodigoPuesto',
+                        'header'=>'Código'
+                    ),
+                    array(
+                        'name'=>'NombrePuesto',
+                        'header'=>'Nombre'
+                    ),
+                    array(
+                        'name'=>'DescripcionPuesto',
+                        'header'=>'Descripción'
+                    ),
                     array(
                             'class'=>'CButtonColumn',
                             'htmlOptions'=>array('width'=>'20'),
@@ -89,6 +101,7 @@
                             )
                     ),
 	),
+        'afterAjaxUpdate'=>'js:function(id,data){$.fn.yiiGridView.update("puestoexistente-grid");}'
     )); ?>
 
      <?php if(Yii::app()->user->hasFlash('success')):?>

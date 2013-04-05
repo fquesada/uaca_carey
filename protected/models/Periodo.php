@@ -90,6 +90,7 @@ class Periodo extends CActiveRecord
 		$criteria->compare('estado',$this->estado);
                 
                 $criteria->addColumnCondition(array('estado'=>'1'));
+               
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

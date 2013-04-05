@@ -104,27 +104,7 @@ class Puntualizacion extends CActiveRecord
 	 * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
 	 */
 	public function addpuntualizacion($id)
-	{
-		// Warning: Please modify the following code to remove attributes that
-		// should not be searched.
-
-//		$criteria=new CDbCriteria;
-//
-//		$criteria->compare('id',$this->id);
-//		$criteria->compare('puntualizacion',$this->puntualizacion,true);
-//		$criteria->compare('indicadorpuntualizacion',$this->indicadorpuntualizacion,true);
-//		$criteria->compare('estado',$this->estado);
-//                
-//                $criteria->addColumnCondition(array('estado'=>'1'));
-//            
-//                $puntualizaciones = PuestoPuntualizacion::model()->findAllByAttributes(array('puesto'=>$idpuesto));
-//                $puntualizacionessasociadas = $this->obtenerArrayColumna($puntualizaciones, 'puntualizacion');
-//                $criteria->addNotInCondition('id', $puntualizacionessasociadas);
-//
-//		return new CActiveDataProvider($this, array(
-//			'criteria'=>$criteria,
-//            		));
-                      
+	{                  
             $connection = Yii::app()->db;            
             $sql = "SELECT puntualizacion.id, puntualizacion.puntualizacion, puntualizacion.indicadorpuntualizacion
                 FROM puntualizacion

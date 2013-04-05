@@ -21,27 +21,22 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->baseUrl . '/css/sexybutton
 
 	<div class="row">
 		<?php echo $form->labelEx($model,'nombre'); ?>
-		<?php echo $form->textField($model,'nombre',array('size'=>45,'maxlength'=>45)); ?>
+		<?php echo $form->textField($model,'nombre',array('size'=>60,'maxlength'=>90)); ?>
 		<?php echo $form->error($model,'nombre'); ?>
 	</div>
 
 	<div class="row">
 		<?php echo $form->labelEx($model,'descripcion'); ?>
-		<?php echo $form->textField($model,'descripcion',array('size'=>60,'maxlength'=>200)); ?>
+		<?php echo $form->textArea($model,'descripcion',array('style'=>'width: 375px; height: 95px;')); ?>
 		<?php echo $form->error($model,'descripcion'); ?>
 	</div>
 
 	<div class="row">
 		<?php echo $form->labelEx($model,'codigo'); ?>
-		<?php echo $form->textField($model,'codigo',array('size'=>45,'maxlength'=>45)); ?>
+		<?php echo $form->textField($model,'codigo',array('size'=>60,'maxlength'=>45)); ?>
 		<?php echo $form->error($model,'codigo'); ?>
 	</div>
 
-<!--	<div class="row">
-		<?php echo $form->labelEx($model,'estado'); ?>
-		<?php echo $form->textField($model,'estado'); ?>
-		<?php echo $form->error($model,'estado'); ?>
-	</div>-->
 
 	<div class="row buttons">
                 <?php echo CHtml::submitButton($model->isNewRecord ? 'Crear' : 'Actualizar',array('class'=>'sexybutton sexysimple sexylarge')); ?>

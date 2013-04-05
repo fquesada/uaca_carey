@@ -107,6 +107,9 @@ class Puestopuntualizacion extends CActiveRecord
             $puntualizacionesvalidas = $this->obtenerArrayColumna($puntualizaciones, 'id');
             
             $criteria->addInCondition('puntualizacion', $puntualizacionesvalidas);
+            
+            $criteria->order = 'puntualizacion';
+            
 
             return new CActiveDataProvider($this, array(
                     'criteria'=>$criteria,

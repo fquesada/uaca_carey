@@ -24,6 +24,7 @@ Puede ingresar opcionalmente un operador comparativo (<b>&lt;</b>, <b>&lt;=</b>,
         'template'=>"{pager}\n{items}\n{pager}\n{summary}",
 	'columns'=>array(
 		'valor',
+                'descripcion',
 		array(
 			'class'=>'CButtonColumn',
                         'template'=>'{update}{delete}',

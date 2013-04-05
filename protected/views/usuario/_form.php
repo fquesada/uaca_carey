@@ -22,7 +22,7 @@ return $( "<li></li>" )
 
 <?php $form=$this->beginWidget('CActiveForm', array(
 	'id'=>'usuario-form',
-	'enableAjaxValidation'=>false,
+	'enableAjaxValidation'=>true,
 )); ?>
 
 	<p class="note">Campos con <span class="required">*</span> son requeridos.</p>

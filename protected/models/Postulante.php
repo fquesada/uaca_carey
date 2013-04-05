@@ -93,6 +93,8 @@ class Postulante extends CActiveRecord
 		$criteria->compare('estado',$this->estado);
                 
                 $criteria->addColumnCondition(array('estado'=>'1'));
+                
+                $criteria->order = 'nombre';
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

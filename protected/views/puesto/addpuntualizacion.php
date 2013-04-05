@@ -12,14 +12,6 @@
     //JS
     Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/messi.min.js');
 ?>
-<?php
-//    Yii::app()->clientScript->registerScript('actualizar', "
-//    $('.competenciaasociado-grid').update(function(){
-//            $.fn.yiiGridView.update('competenciaasociado-grid');
-//            return false;
-//    });
-//    ");
-//?>
 
     <?php
     $this->breadcrumbs=array(

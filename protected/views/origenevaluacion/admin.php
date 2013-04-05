@@ -22,7 +22,8 @@ Puede ingresar opcionalmente un operador comparativo (<b>&lt;</b>, <b>&lt;=</b>,
 <?php $this->widget('zii.widgets.grid.CGridView', array(
 	'id'=>'origenevaluacion-grid',
 	'dataProvider'=>$model->search(),
-        'template'=>"{pager}\n{items}\n{pager}\n{summary}",
+        'filter'=>$model,
+        'template'=>"{pager}{items}{pager}{summary}",
 	'columns'=>array(
 		'nombre',
 		array(

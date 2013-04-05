@@ -12,6 +12,6 @@ $this->menu=array(
 );
 ?>
 
-<h1>Crear Ponderacion</h1>
+<h1>Crear Ponderación</h1>
 
 <?php echo $this->renderPartial('_form', array('model'=>$model)); ?>

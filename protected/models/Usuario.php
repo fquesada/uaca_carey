@@ -61,7 +61,7 @@ class Usuario extends CActiveRecord
                                 // The following rule is used by search().
                                 // Please remove those attributes that should not be searched.
                                 array('id, login, password, fechacreacion, estado, empresa', 'safe', 'on'=>'search'),
-                                array('password', 'compare', 'compareAttribute' => 'confirmarPassword', 'on'=>'create', 'message'=>'Las contraseñas no son iguales, introduzcalas de nuevo'),
+                                array('confirmarPassword', 'compare', 'compareAttribute' => 'password', 'on'=>'create', 'message'=>'Las contraseñas no son iguales, introduzcalas de nuevo'),
                                 array('password_nueva', 'compare', 'compareAttribute' => 'confirmarPassword', 'on'=>'CambiarPass', 'message'=>'Las contraseñas no son iguales, introduzcalas de nuevo'),
                 );
     }

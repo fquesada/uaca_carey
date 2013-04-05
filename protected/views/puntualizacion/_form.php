@@ -21,7 +21,7 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->baseUrl . '/css/sexybutton
 
 	<div class="row">
 		<?php echo $form->labelEx($model,'puntualizacion'); ?>
-		<?php echo $form->textArea($model,'puntualizacion', array('width'=>386, 'height'=>166)); ?>
+		<?php echo $form->textArea($model,'puntualizacion', array('style'=> 'width:555px; height:166px;')); ?>
 		<?php echo $form->error($model,'puntualizacion'); ?>
 	</div>
 
@@ -31,11 +31,6 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->baseUrl . '/css/sexybutton
 		<?php echo $form->error($model,'indicadorpuntualizacion'); ?>
 	</div>
 
-<!--	<div class="row">
-		<?php echo $form->labelEx($model,'estado'); ?>
-		<?php echo $form->textField($model,'estado'); ?>
-		<?php echo $form->error($model,'estado'); ?>
-	</div>-->
 
 	<div class="row buttons">
 		<?php echo CHtml::submitButton($model->isNewRecord ? 'Crear' : 'Actualizar', array('class'=>'sexybutton sexysimple sexylarge')); ?>

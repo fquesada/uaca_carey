@@ -22,6 +22,7 @@ Puede ingresar opcionalmente un operador comparativo (<b>&lt;</b>, <b>&lt;=</b>,
 <?php $this->widget('zii.widgets.grid.CGridView', array(
 	'id'=>'competencia-grid',
 	'dataProvider'=>$model->search(),
+        'filter'=>$model,
         'template' => "{pager}\n{items}\n{pager}\n{summary}",
 	'columns'=>array(
 		'competencia',

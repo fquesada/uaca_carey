@@ -4,11 +4,10 @@
 
 $this->breadcrumbs=array(
 	'Gestionar'=>array('admin'),
-	$model->id,
+	'Ver',
 );
 
 $this->menu=array(
-	//array('label'=>'List Unidadnegocio', 'url'=>array('index')),
 	array('label'=>'Crear Unidad de Negocio', 'url'=>array('create')),
 	array('label'=>'Actualizar Unidad de Negocio', 'url'=>array('update', 'id'=>$model->id)),
 	array('label'=>'Eliminar Unidad de Negocio', 'url'=>'#', 'linkOptions'=>array('submit'=>array('delete','id'=>$model->id),'confirm'=>'Seguro que desea borrar este elemento?')),
@@ -16,15 +15,12 @@ $this->menu=array(
 );
 ?>
 
-<h1>Ver Unidad de Negocio #<?php echo $model->id; ?></h1>
+<h1>Ver Unidad de Negocio</h1>
 
 <?php $this->widget('zii.widgets.CDetailView', array(
 	'data'=>$model,
 	'attributes'=>array(
-		//'id',
 		'nombre',
 		'descripcion',
-		//'empresa',
-		//'estado',
 	),
 )); ?>

@@ -4,7 +4,6 @@
 
 $this->breadcrumbs=array(
 	'Gestionar'=>array('admin'),
-	$model->id=>array('view','id'=>$model->id),
 	'Actualizar',
 );
 
@@ -15,6 +14,6 @@ $this->menu=array(
 );
 ?>
 
-<h1>Actualizar Origen de evaluación <?php echo $model->id; ?></h1>
+<h1>Actualizar Origen de evaluación</h1>
 
 <?php echo $this->renderPartial('_form', array('model'=>$model)); ?>
