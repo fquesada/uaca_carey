@@ -33,7 +33,7 @@ new Ajax.Request('DataReporteEvaluacionCompetencias', {
       grid:{outlineWidth : 2, horizontalLines : false, verticalLines : true, labelMargin : 5},
       bars:{show : true, horizontal : true, shadowSize : 0, barWidth : 0.9, fillOpacity: 1},     
       xaxis:{min : 0, autoscaleMargin : 4, title: "Ponderacion"},
-      yaxis:{ticks : barlabelsrelativo, title : "Meritos y Habilidades"}
+      yaxis:{ticks : barlabelsrelativo}
     });
     
     //Grafico de Comparacion de Competencias
@@ -43,7 +43,7 @@ new Ajax.Request('DataReporteEvaluacionCompetencias', {
       grid:{outlineWidth : 2, horizontalLines : false, verticalLines : true, labelMargin : 5},
       bars:{show : true, horizontal : true, shadowSize : 0, barWidth : 0.4, fillOpacity: 1},     
       xaxis:{min : 0, autoscaleMargin : 4, title: "Calificacion"},
-      yaxis:{ticks : barlabelsideal, title : "Meritos y Habilidades"}      
+      yaxis:{ticks : barlabelsideal}      
     });
     
     //Grafico de Cobertura de Requisitos    
@@ -53,7 +53,7 @@ new Ajax.Request('DataReporteEvaluacionCompetencias', {
         grid  : { circular : true, minorHorizontalLines : true}, 
         yaxis : { min : 0},     
         xaxis : { ticks : ticks},
-        legend : { position: "ne"}
+        legend : { position: "nw"}
     });
     
   },//onSuccess

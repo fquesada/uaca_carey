@@ -165,13 +165,7 @@ class Evaluacioncompetencias extends CActiveRecord
         public function obtenerGraficoSpiderCalificado($idevaluacioncompetencias,$idevaluacionpersonas){
             
             $connection=Yii::app()->db;
-            $sql = "SELECT h.nombre as 'eje',he.calificacion as 'calificacion'
-                    FROM Habilidadespecialevaluada he
-                    INNER JOIN Habilidadespecial h ON he.evaluacionpersonas = h.evaluacionpersonas
-                    AND he.habilidadespecial = h.id
-                    WHERE he.evaluacionpersonas = :idevaluacionpersonas AND he.evaluacioncompetencias = :idevaluacioncompetencias
-                                        UNION
-                    SELECT tm.nombre as 'eje',mec.calificacion as 'calificacion'
+            $sql = "SELECT tm.nombre as 'eje',mec.calificacion as 'calificacion'
                     FROM meritoevaluacioncandidato mec
                     INNER JOIN merito m ON mec.merito = m.id
                     INNER JOIN tipomerito tm ON tm.id =  m.tipomerito
@@ -182,11 +176,11 @@ class Evaluacioncompetencias extends CActiveRecord
                     INNER JOIN competencia c ON hec.competencia = c.id
                     WHERE hec.evaluacioncandidato = :idevaluacioncompetencias
                     UNION
-                    SELECT tm.nombre as 'eje',mec.calificacion as 'calificacion'
-                    FROM meritoevaluacioncandidato mec
-                    INNER JOIN merito m ON mec.merito = m.id
-                    INNER JOIN tipomerito tm ON tm.id =  m.tipomerito
-                    WHERE mec.evaluacioncandidato = :idevaluacioncompetencias";
+                    SELECT h.nombre as 'eje',he.calificacion as 'calificacion'
+                    FROM Habilidadespecialevaluada he
+                    INNER JOIN Habilidadespecial h ON he.evaluacionpersonas = h.evaluacionpersonas
+                    AND he.habilidadespecial = h.id
+                    WHERE he.evaluacionpersonas = :idevaluacionpersonas AND he.evaluacioncompetencias = :idevaluacioncompetencias";
             $command = $connection->createCommand($sql);
             $command->bindParam(":idevaluacionpersonas", $idevaluacionpersonas, PDO::PARAM_INT);
             $command->bindParam(":idevaluacioncompetencias", $idevaluacioncompetencias, PDO::PARAM_INT);            
@@ -202,12 +196,7 @@ class Evaluacioncompetencias extends CActiveRecord
             
             $connection=Yii::app()->db;
             if($this->tipo==1){          
-            $sql = "SELECT he.nombre as 'eje',he.ponderacion as 'calificacion'
-                    FROM Habilidadespecial he
-                    INNER JOIN evaluacionpersonas e ON he.evaluacionpersonas = e.id
-                    WHERE he.evaluacionpersonas = :idevaluacionpersonas
-                    UNION
-                    SELECT tm.nombre as 'eje', m.ponderacion as 'calificacion'
+            $sql = "SELECT tm.nombre as 'eje', m.ponderacion as 'calificacion'
                     FROM evaluacioncompetencias ec                     
                     INNER JOIN colaborador co ON ec.evaluado = co.id
                     INNER JOIN unidadnegociopuesto up ON co.puesto = up.puesto
@@ -225,7 +214,12 @@ class Evaluacioncompetencias extends CActiveRecord
                     INNER JOIN unidadnegociopuesto up ON co.puesto = up.puesto
                     INNER JOIN puesto p ON up.puesto = p.id
                     WHERE pc.puesto = p.id
-                    AND hec.evaluacioncandidato = :idevaluacioncompetencias";                    
+                    AND hec.evaluacioncandidato = :idevaluacioncompetencias
+                    UNION
+                    SELECT he.nombre as 'eje',he.ponderacion as 'calificacion'
+                    FROM Habilidadespecial he
+                    INNER JOIN evaluacionpersonas e ON he.evaluacionpersonas = e.id
+                    WHERE he.evaluacionpersonas = :idevaluacionpersonas";                    
             }
             $command = $connection->createCommand($sql);
             $command->bindParam(":idevaluacionpersonas", $idevaluacionpersonas, PDO::PARAM_INT);
