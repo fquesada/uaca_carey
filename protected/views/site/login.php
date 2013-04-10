@@ -9,6 +9,8 @@ $this->pageTitle=Yii::app()->name . ' - Inicio sesión';
 
 <div class="LoginIncio">
 
+<h1>Iniciar sesión</h1>
+
 <div class="form">
 <?php $form=$this->beginWidget('CActiveForm', array(
 	'id'=>'login-form',
