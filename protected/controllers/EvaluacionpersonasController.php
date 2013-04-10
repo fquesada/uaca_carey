@@ -402,6 +402,8 @@ class EvaluacionpersonasController extends Controller
         }
         
         public function actionReporteEvaluacionCompetencias(){    
+                
+                $this->layout = 'main';
                 $idevaluacioncompetencias = $_GET['idevaluacioncompetencias'];               
                 $evaluacioncompetencias = Evaluacioncompetencias::model()->findByPk($idevaluacioncompetencias);   
                 $idevaluacionpersonas = $evaluacioncompetencias->evaluacionpersonas;
@@ -434,8 +436,8 @@ class EvaluacionpersonasController extends Controller
                  array_push($barlabelsrelativo,  [$index, $datarelativo[$index]["eje"]]);    
                  array_push($barserierelativo,  [CommonFunctions::stringtonumber($datarelativo[$index]["calificacion"]), $index]);
                  //Grafico Barras -> Comparacion Competencias -> Ideal
-                 array_push($barlabelscomparacioncompetencias,  [$index, "Ideal - ".$datarelativo[$index]["eje"]]);
-                 array_push($barlabelscomparacioncompetencias,  [$index+0.5, "Evaluacion - ".$datarelativo[$index]["eje"]]);  
+                 array_push($barlabelscomparacioncompetencias,  [$index, $datarelativo[$index]["eje"]]);
+                 array_push($barlabelscomparacioncompetencias,  [$index+0.5, $datarelativo[$index]["eje"]]);  
                  array_push($barserieideal,  [CommonFunctions::stringtonumber(CommonFunctions::ponderaciontoideal($datarelativo[$index]["calificacion"])), $index]);
              }
           

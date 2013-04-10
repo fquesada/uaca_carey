@@ -79,7 +79,7 @@ class Competencia extends CActiveRecord
 			'id' => 'ID',
 			'competencia' => 'Competencia',
 			'descripcion' => 'Descripción',
-			'pregunta' => 'Pregunta',
+			'pregunta' => 'ECE',
 			'estado' => 'Estado',
 		);
 	}

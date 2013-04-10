@@ -80,7 +80,7 @@ $this->breadcrumbs=array(
                                 
                             ),
                             'habilidades'=>array(
-                                'label'=>'Ver Habilidades Especiales',
+                                'label'=>'Ver Evaluaciones Especiales',
                                 'imageUrl'=>Yii::app()->request->baseUrl.'/images/icons/silk/award_star_gold_3.png',
                                 'url'=>'Yii::app()->createUrl("evaluacionpersonas/habilidadesespeciales", array("id"=>$data["id"]))',                               
                                 'options'=>array(  
@@ -109,7 +109,7 @@ $this->breadcrumbs=array(
 $this->beginWidget('zii.widgets.jui.CJuiDialog', array( 
 'id'=>'dlghabilidadesespeciales',
 'options'=>array(
-    'title'=>'Habilidades especiales',
+    'title'=>'Evaluaciones especiales',
     'autoOpen'=>false, //important!
     'modal'=>true,
     'width'=>'auto',

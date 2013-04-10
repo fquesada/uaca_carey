@@ -3,9 +3,9 @@
 }
 
 .contenreporte{ 
-    width: auto;
+    width: 900px;
     height: auto;
-    margin: 20px 0px 20px 0px;
+    margin: 20px 0px 20px 20px;
     border:2px solid;
     border-radius:25px;
     text-align: center;
