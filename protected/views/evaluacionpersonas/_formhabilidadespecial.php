@@ -1,6 +1,6 @@
 <div>
                     
-<button  id="btndialoghabilidadespecial" type="button" class="sexybutton sexysimple"><span class="add">Agregar habilidad especial</span></button>
+<button  id="btndialoghabilidadespecial" type="button" class="sexybutton sexysimple"><span class="add">Agregar evaluación especial</span></button>
 <label>(Máximo 5 habilidades)</label>
 </div>
 
@@ -11,7 +11,7 @@
 $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
     'id'=>'dialogHabilidades',
     'options'=>array(
-        'title'=>'Crear Habilidad Especial',
+        'title'=>'Crear Evaluación Especial',
         'autoOpen'=>false,
         'modal'=>true,
         'width'=>375,
@@ -28,7 +28,7 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
     <p>Campos con * son obligatorios.</p>   
         
     <div class="row">
-            <?php echo CHtml::label('Habilidad Especial *', 'txtnombrehabilidad');?>
+            <?php echo CHtml::label('Evaluación Especial *', 'txtnombrehabilidad');?>
             <?php echo CHtml::textField('txtnombrehabilidad','', array('id'=>'txtnombrehabilidad','maxlength' => '45'));?>        
             <div id="txtnombrehabilidaderror" class="errorevaluacionpersona">Debe ingresar una habilidad.</div>
     </div> 
@@ -48,7 +48,7 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
     </div>  
         
     <div class="row buttons">                    
-        <button  id="btncrearhabilidad" type="button" class="sexybutton sexysimple"><span class="accept">Agregar habilidad especial</span></button>
+        <button  id="btncrearhabilidad" type="button" class="sexybutton sexysimple"><span class="accept">Agregar evaluación especial</span></button>
     </div>
            
     </div>
@@ -63,7 +63,7 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
 <table border="1" id="tblhabilidades">
   <thead>
     <tr>
-      <th>Habilidad Especial</th>      
+      <th>Evaluación Especial</th>      
       <th>Descripción</th> 
       <th>Ponderación</th>
       <th></th> 

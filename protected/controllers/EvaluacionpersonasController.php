@@ -402,6 +402,8 @@ class EvaluacionpersonasController extends Controller
         }
         
         public function actionReporteEvaluacionCompetencias(){    
+                
+                $this->layout = 'main';
                 $idevaluacioncompetencias = $_GET['idevaluacioncompetencias'];               
                 $evaluacioncompetencias = Evaluacioncompetencias::model()->findByPk($idevaluacioncompetencias);   
                 $idevaluacionpersonas = $evaluacioncompetencias->evaluacionpersonas;

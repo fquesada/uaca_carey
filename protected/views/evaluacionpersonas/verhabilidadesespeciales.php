@@ -11,7 +11,7 @@
 <table border="1" id="tblhabilidades">
   <thead>
     <tr>
-      <th>Habilidad Especial</th>      
+      <th>Evaluación Especial</th>      
       <th>Descripción</th> 
       <th>Ponderación</th>      
     </tr>
