@@ -12,9 +12,9 @@ $this->pageTitle=Yii::app()->name;
        </div>
        <div id="ContenidoR">
            <br>
-           <a href="#" class="boton">Link1</a>
-           <a href="#" class="boton">Link2</a>
-           <a href="#" class="boton">Link3</a>
+           <a href="#" class="boton">Función 1</a>
+           <a href="#" class="boton">Función 2</a>
+           <a href="#" class="boton">Función 3</a>
        </div>
    </div>
     <div id="Competencias">
@@ -23,9 +23,9 @@ $this->pageTitle=Yii::app()->name;
        </div>
        <div id="ContenidoC">
            <br>
-           <a href="evaluacionpersonas/crear" class="boton">Nueva evaluación</a>
            <a href="evaluacionpersonas/admin" class="boton">Gestión de evaluaciones</a>
-           <a href="#" class="boton">Link3</a>
+           <a href="evaluacionpersonas/crear" class="boton">Nueva evaluación</a>
+           <a href="#" class="boton">Función 3</a>
        </div>
    </div>
      <div id="Desmpeño">
@@ -34,9 +34,9 @@ $this->pageTitle=Yii::app()->name;
        </div>
        <div id="ContenidoD">
            <br>
-           <a href="#" class="boton">Link1</a>
-           <a href="#" class="boton">Link2</a>
-           <a href="#" class="boton">Link3</a>
+           <a href="#" class="boton">Función 1</a>
+           <a href="#" class="boton">Función 2</a>
+           <a href="#" class="boton">Función 3</a>
        </div>
    </div>
 </div>
