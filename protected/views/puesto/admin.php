@@ -18,7 +18,7 @@ $this->menu=array(
 	'id'=>'puesto-grid',
 	'dataProvider'=>$model->search(),
         'filter'=>$model,
-	'template'=>"{summary}{pager}<br/>{items}{pager}",
+	'template'=>"{pager}<br/>{items}{pager}{summary}",
 	'columns'=>array(
 		'nombre',
 		'descripcion',
