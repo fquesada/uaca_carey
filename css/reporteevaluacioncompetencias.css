@@ -1,0 +1,28 @@
+#promedioponderado{
+    text-align: center;
+}
+
+.contenreporte{ 
+    width: auto;
+    height: auto;
+    margin: 20px 0px 20px 0px;
+    border:2px solid;
+    border-radius:25px;
+    text-align: center;
+}
+
+#contentValoracionRelativa{
+    width: 600px;
+    height: 300px;    
+}
+
+#contentCoberturaRequisitos{
+    width: 600px;
+    height: 300px; 
+    margin-bottom: 20px;
+}
+
+#contentComparacionCompetencias{
+    width: 600px;
+    height: 300px;   
+}

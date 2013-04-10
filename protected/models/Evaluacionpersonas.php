@@ -52,7 +52,7 @@ class Evaluacionpersonas extends CActiveRecord
 			array('descripcion', 'length', 'max'=>90),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, fecha, creador, estado, puesto, descripcion', 'safe', 'on'=>'search'),
+			array('id, fecha, creador, estado, puesto, descripcionh', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -88,26 +88,36 @@ class Evaluacionpersonas extends CActiveRecord
 		);
 	}
 
-	/**
-	 * Retrieves a list of models based on the current search/filter conditions.
-	 * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
-	 */
-	public function search()
-	{
-		// Warning: Please modify the following code to remove attributes that
-		// should not be searched.
+       public function search(){
+            $connection=Yii::app()->db;
+            $sql=   "SELECT evaluacionpersonas.id, evaluacionpersonas.descripcion, DATE_FORMAT(evaluacionpersonas.fecha, '%d-%m-%Y') AS fecha,
+                    CONCAT(colaborador.nombre,' ',colaborador.apellido1,' ',colaborador.apellido2) AS creador,
+                    puesto.nombre AS puesto, (CASE WHEN evaluacionpersonas.estado = 1 THEN 'En proceso' ELSE 'Finalizado' END) as estado                   
+                    FROM evaluacionpersonas
+                    INNER JOIN colaborador
+                    ON (evaluacionpersonas.creador = colaborador.id)
+                    INNER JOIN puesto
+                    ON (evaluacionpersonas.puesto = puesto.id)"; 
+            $command=$connection->createCommand($sql);
+            $models = $command->queryAll();
 
-		$criteria=new CDbCriteria;
+            $dataProvider = new CArrayDataProvider($models,array(
+            'keyField'=>'id',
+            'id'=>'evaluacionpersonasgrid',
+            'sort'=>array(
+                'attributes'=>array(
+                    'descripcion',
+                    'fecha',
+                    'creador',
+                    'puesto',                       
+                    'estado',
+                    ),
+                ),
+                'pagination'=>array(
+                    'pageSize'=>10,
+                ),
+            ));
 
-		$criteria->compare('id',$this->id);
-		$criteria->compare('fecha',$this->fecha,true);
-		$criteria->compare('creador',$this->creador);
-		$criteria->compare('estado',$this->estado);
-		$criteria->compare('puesto',$this->puesto);
-		$criteria->compare('descripcion',$this->descripcion,true);
-
-		return new CActiveDataProvider($this, array(
-			'criteria'=>$criteria,
-		));
-	}
+            return $dataProvider;
+        }
 }
