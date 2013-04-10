@@ -14,16 +14,11 @@ $this->menu=array(
 
 <h1>Gestionar Puesto</h1>
 
-<p>
-Puede ingresar opcionalmente un operador comparativo (<b>&lt;</b>, <b>&lt;=</b>, <b>&gt;</b>, <b>&gt;=</b>, <b>&lt;&gt;</b>,
- <b>=</b>) al inicio de cada valor de búsqueda para especificar cómo se debe realizar la comparación.
-</p>
-
 <?php $this->widget('zii.widgets.grid.CGridView', array(
 	'id'=>'puesto-grid',
 	'dataProvider'=>$model->search(),
         'filter'=>$model,
-	'template'=>"{pager}\n{items}\n{pager}\n{summary}",
+	'template'=>"{summary}{pager}<br/>{items}{pager}",
 	'columns'=>array(
 		'nombre',
 		'descripcion',
@@ -31,7 +26,7 @@ Puede ingresar opcionalmente un operador comparativo (<b>&lt;</b>, <b>&lt;=</b>,
 		array(
 			'class'=>'CButtonColumn',
                         'htmlOptions'=>array('width'=>'90'),
-                        'template'=>'{view}{update}{delete}{addcompetence}{addpuntualizacion}',
+                        'template'=>'{view}{update}{addcompetence}{addpuntualizacion}',
                         'buttons'=>array(
                             'addcompetence'=>array(
                                 'label'=>'Agregar competencias',
