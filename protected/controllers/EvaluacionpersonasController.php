@@ -462,7 +462,7 @@ class EvaluacionpersonasController extends Controller
            }            
            //Logica para evaluacion obtenida
            $serievaluacion = array();
-           $serievaluacion["evaluacion"]["label"] = "Resultado Evaluacion";
+           $serievaluacion["evaluacion"]["label"] = "Resultado Evaluación";
            for ($index = 0; $index < count($datacalificado); $index++) {
                    $serievaluacion["evaluacion"]["data"][$index] =  [CommonFunctions::stringtonumber($index),CommonFunctions::stringtonumber($datacalificado[$index]["calificacion"])];                 
            }            

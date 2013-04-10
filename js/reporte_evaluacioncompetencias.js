@@ -29,26 +29,26 @@ new Ajax.Request('DataReporteEvaluacionCompetencias', {
     Flotr.draw($('contentValoracionRelativa'),[barserierelativo],
     {
       colors: ['#cb4b4b'],
-      title: "Valoracion Relativa",
+      title: "Valoración Relativa",
       grid:{outlineWidth : 2, horizontalLines : false, verticalLines : true, labelMargin : 5},
       bars:{show : true, horizontal : true, shadowSize : 0, barWidth : 0.9, fillOpacity: 1},     
-      xaxis:{min : 0, autoscaleMargin : 4, title: "Ponderacion"},
+      xaxis:{min : 0, autoscaleMargin : 4, title: "Ponderación"},
       yaxis:{ticks : barlabelsrelativo}
     });
     
     //Grafico de Comparacion de Competencias
     Flotr.draw($('contentComparacionCompetencias'),[barserieideal,barseriecalificado],
     {
-      title: "Comparacion de Competencias",
+      title: "Comparación de Competencias",
       grid:{outlineWidth : 2, horizontalLines : false, verticalLines : true, labelMargin : 5},
       bars:{show : true, horizontal : true, shadowSize : 0, barWidth : 0.4, fillOpacity: 1},     
-      xaxis:{min : 0, autoscaleMargin : 4, title: "Calificacion"},
+      xaxis:{min : 0, autoscaleMargin : 4, title: "Calificación"},
       yaxis:{ticks : barlabelsideal}      
     });
     
     //Grafico de Cobertura de Requisitos    
     Flotr.draw($('contentCoberturaRequisitos'), [ s1, s2 ], {        
-        title: "Analisis de Cobertura de Requisitos",
+        title: "Análisis de Cobertura de Requisitos",
         radar : { show : true}, 
         grid  : { circular : true, minorHorizontalLines : true}, 
         yaxis : { min : 0},     

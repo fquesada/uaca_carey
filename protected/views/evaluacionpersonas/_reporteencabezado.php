@@ -1,8 +1,8 @@
 <div id="reporteencabezado">
 
     <div id="tituloreporte" style="text-align: center">
-        <h3>Modelo de Gestion por Competencias</h3>
-        <h4>Modelo ampliado por evaluacion de competencias</h4>
+        <h3>Modelo de Gestión por Competencias</h3>
+        <h4>Modelo ampliado por evaluación de competencias</h4>
     </div>
     <div id="dividcompetenciapersonas" style="display: none">
     <?php
@@ -22,13 +22,13 @@
                     <tr>
                         <td>Nombre:</td>
                         <td><?php echo $evaluacioncompetencias->_evaluado->nombrecompleto;  ?></td>
-                        <td>Cedula:</td>
+                        <td>Cédula:</td>
                         <td><?php echo $evaluacioncompetencias->_evaluado->cedula;  ?></td>
                     </tr>            
                     <tr>
                         <td>Evaluador:</td>
                         <td><?php echo $evaluacioncompetencias->_evaluador->nombrecompleto; ?></td>
-                        <td>Fecha evaluacion:</td>
+                        <td>Fecha evaluación:</td>
                         <td><?php echo $this->gridmysqltophpdate($evaluacioncompetencias->fechaevaluacion); ?></td>
                     </tr>            
                 </tbody>
