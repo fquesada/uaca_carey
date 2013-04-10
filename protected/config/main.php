@@ -7,7 +7,7 @@
 // CWebApplication properties can be configured here.
 return array(
 	'basePath'=>dirname(__FILE__).DIRECTORY_SEPARATOR.'..',
-	'name'=>'UACA',
+	'name'=>'Gestión por Competencias',
 
 	// preloading 'log' component
 	'preload'=>array('log'),
@@ -20,6 +20,7 @@ return array(
 		'application.components.*',
                 'application.modules.rights.*', 
 		'application.modules.rights.components.*',
+                'application.components.jpgraph.*',
 	),
 
 	'modules'=>array(
@@ -32,7 +33,8 @@ return array(
 			'ipFilters'=>array('127.0.0.1','::1'),
 		),
             
-                'rights'=>array( 'superuserName'=>'Admin',                    
+                'rights'=>array( 
+                    'superuserName'=>'admin',                    
                     'authenticatedName'=>'Authenticated',
                     'userClass' => 'Usuario',
                     'userIdColumn'=>'id',
@@ -40,7 +42,8 @@ return array(
                     
                     'install'=>false),
 	),
-
+        
+        'homeUrl'=>array('site/login'),
 	// application components
 	'components'=>array(
 		'user'=>array(

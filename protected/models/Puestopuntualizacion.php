@@ -60,27 +60,74 @@ class Puestopuntualizacion extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'puntualizacion' => 'Puntualizacion',
+			'puntualizacion' => 'Puntualización',
 			'puesto' => 'Puesto',
+                        'NombrePunt'=>'Puntualización',
+                        'IndicadorPunt'=>'Indicador'
 		);
 	}
 
-	/**
-	 * Retrieves a list of models based on the current search/filter conditions.
-	 * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
-	 */
-	public function search()
-	{
-		// Warning: Please modify the following code to remove attributes that
-		// should not be searched.
+        public function getNombrePunt(){
 
-		$criteria=new CDbCriteria;
+            $puntualizacion = puntualizacion::model()->findAllByAttributes(array('id'=>$this->puntualizacion));
+            foreach ($puntualizacion as $pun){
+                $resultado = $pun->puntualizacion;
+            }
+            return $resultado;
+            
+        }
+        
+        public function getIndicadorPunt(){
 
-		$criteria->compare('puntualizacion',$this->puntualizacion);
-		$criteria->compare('puesto',$this->puesto);
+            $puntualizacion = puntualizacion::model()->findAllByAttributes(array('id'=>$this->puntualizacion));
+            foreach ($puntualizacion as $pun){
+                $resultado = $pun->indicadorpuntualizacion;
+            }
+            return $resultado;
 
-		return new CActiveDataProvider($this, array(
-			'criteria'=>$criteria,
-		));
-	}
+        }
+
+    /**
+* Retrieves a list of models based on the current search/filter conditions.
+* @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
+*/
+    public function search($idpuesto)
+    {
+            // Warning: Please modify the following code to remove attributes that
+            // should not be searched.
+
+            $criteria=new CDbCriteria;
+
+            $criteria->compare('puntualizacion',$this->puntualizacion);
+            $criteria->compare('puesto',$this->puesto);
+            
+            $criteria->addColumnCondition(array('puesto'=>$idpuesto));
+            
+            $puntualizaciones = Puntualizacion::model()->findAllByAttributes(array('estado'=>'1'));
+            $puntualizacionesvalidas = $this->obtenerArrayColumna($puntualizaciones, 'id');
+            
+            $criteria->addInCondition('puntualizacion', $puntualizacionesvalidas);
+            
+            $criteria->order = 'puntualizacion';
+            
+
+            return new CActiveDataProvider($this, array(
+                    'criteria'=>$criteria,
+            ));
+    }
+    
+        /**
+         * Returns an array with the values of the column needed.
+         * @param array $unidades the array with the objects that have the column needed
+         * @param string $columna  the name of the column that must be obtain
+         */
+
+           public function obtenerArrayColumna($unidades, $columna)
+        {
+            $idUnidades = array();
+            foreach ($unidades as $un) {
+                $idUnidades[] = $un->$columna;
+            }
+            return $idUnidades;
+        }
 }

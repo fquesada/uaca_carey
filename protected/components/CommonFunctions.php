@@ -42,4 +42,19 @@ class CommonFunctions {
         else
             return (int) $stringnumber;
     }
+    
+    public static function ponderaciontoideal($ponderacion){        
+            if($ponderacion == 7 || $ponderacion == 6)
+                return 5;
+            else if($ponderacion == 5)
+                return 4;
+            else if($ponderacion == 4)
+                return 3;
+            else if($ponderacion == 3 || $ponderacion == 2)
+                return 2;
+            else if($ponderacion == 1)
+                return 1;
+            else
+                return 0;                
+    }
 }

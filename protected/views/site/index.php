@@ -4,17 +4,40 @@
 $this->pageTitle=Yii::app()->name;
 ?>
 
-<h1>Welcome to <i><?php echo CHtml::encode(Yii::app()->name); ?></i></h1>
-
-<p>Congratulations! You have successfully created your Yii application.</p>
-
-<p>You may change the content of this page by modifying the following two files:</p>
-<ul>
-	<li>View file: <code><?php echo __FILE__; ?></code></li>
-	<li>Layout file: <code><?php echo $this->getLayoutFile('main'); ?></code></li>
-</ul>
-
-<p>For more details on how to further develop this application, please read
-the <a href="http://www.yiiframework.com/doc/">documentation</a>.
-Feel free to ask in the <a href="http://www.yiiframework.com/forum/">forum</a>,
-should you have any questions.</p>
+<body>
+<div class="MenuInicial">
+    <div id="Reclutamiento">
+       <div id="TituloR">
+           <h1 align="center">Reclutamiento y Selección</h1>
+       </div>
+       <div id="ContenidoR">
+           <br>
+           <a href="#" class="boton">Función 1</a>
+           <a href="#" class="boton">Función 2</a>
+           <a href="#" class="boton">Función 3</a>
+       </div>
+   </div>
+    <div id="Competencias">
+       <div id="TituloC">
+           <h1 align="center">Evaluación de Competencias</h1>
+       </div>
+       <div id="ContenidoC">
+           <br>
+           <a href="evaluacionpersonas/admin" class="boton">Gestión de evaluaciones</a>
+           <a href="evaluacionpersonas/crear" class="boton">Nueva evaluación</a>
+           <a href="#" class="boton">Función 3</a>
+       </div>
+   </div>
+     <div id="Desmpeño">
+       <div id="TituloD">
+           <h1 align="center">Evaluación de Desempeño</h1>
+       </div>
+       <div id="ContenidoD">
+           <br>
+           <a href="#" class="boton">Función 1</a>
+           <a href="#" class="boton">Función 2</a>
+           <a href="#" class="boton">Función 3</a>
+       </div>
+   </div>
+</div>
+</body>

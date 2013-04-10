@@ -40,6 +40,7 @@ class Origenevaluacion extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('nombre', 'required'),
+                        array('nombre', 'unique', 'className' => 'Origenevaluacion','caseSensitive'=>'true'),
 			array('estado', 'numerical', 'integerOnly'=>true),
 			array('nombre', 'length', 'max'=>45),
 			// The following rule is used by search().
@@ -86,9 +87,12 @@ class Origenevaluacion extends CActiveRecord
 		$criteria->compare('id',$this->id);
 		$criteria->compare('nombre',$this->nombre,true);
 		$criteria->compare('estado',$this->estado);
+                
+                $criteria->order = 'nombre';
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
+                        'Pagination'=>array('pageSize'=>'10'),
 		));
 	}
 }

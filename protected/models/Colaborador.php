@@ -25,6 +25,7 @@
  */
 class Colaborador extends CActiveRecord
 {
+        private $_nombrecompleto;
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
@@ -52,9 +53,9 @@ class Colaborador extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('cedula, nombre, apellido1, apellido2, unidadnegocio, puesto', 'required'),
-			array('cedula, estado, unidadnegocio, puesto', 'numerical', 'integerOnly'=>true),
+			array('cedula, estado, unidadnegocio, puesto', 'numerical', 'integerOnly'=>true, ),
 			array('nombre, apellido1, apellido2', 'length', 'max'=>45),
-			// The following rule is used by search().
+                        // The following rule is used by search().
 			// Please remove those attributes that should not be searched.
 			array('id, cedula, nombre, apellido1, apellido2, estado, unidadnegocio, puesto', 'safe', 'on'=>'search'),
 		);
@@ -86,17 +87,45 @@ class Colaborador extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'cedula' => 'Cedula',
+			'cedula' => 'Cédula',
 			'nombre' => 'Nombre',
-			'apellido1' => 'Apellido1',
-			'apellido2' => 'Apellido2',
+			'apellido1' => 'Primer Apellido',
+			'apellido2' => 'Segundo Apellido',
 			'estado' => 'Estado',
-			'unidadnegocio' => 'Unidadnegocio',
+			'unidadnegocio' => 'Unidad de Negocio',
 			'puesto' => 'Puesto',
+                        'NombreUnidadNegocio'=>'Unidad de Negocio',
+                        'NombrePuesto'=>'Puesto',
 		);
 	}
+        
+        Public function getNombreUnidadNegocio(){
+            $unidadsel = Unidadnegocio::model()->findAllByAttributes(array('id'=>$this->unidadnegocio));
+            foreach ($unidadsel as $unidadnegocio){
+                $resultado = $unidadnegocio->nombre;
+            }
+            return $resultado;
+        }
 
-	/**
+        Public function getNombrePuesto(){
+            $puestosel = Puesto::model()->findAllByAttributes(array('id'=>$this->puesto));
+            foreach ($puestosel as $puesto){
+                $resultado = $puesto->nombre;
+            }
+            return $resultado;
+        }
+        
+        public function getnombrecompleto(){            
+            if(isset($this->_nombrecompleto)) {
+                return $this->_nombrecompleto;
+            }            
+            $this->_nombrecompleto = $this->nombre." ".$this->apellido1." ".$this->apellido2;
+            return $this->_nombrecompleto;            
+        }
+        
+        
+
+        /**
 	 * Retrieves a list of models based on the current search/filter conditions.
 	 * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
 	 */
@@ -115,9 +144,13 @@ class Colaborador extends CActiveRecord
 		$criteria->compare('estado',$this->estado);
 		$criteria->compare('unidadnegocio',$this->unidadnegocio);
 		$criteria->compare('puesto',$this->puesto);
+                
+                $criteria->addColumnCondition(array('estado'=>'1'));
+                
+                $criteria->order = 'nombre';
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
-		));
+                        ));
 	}
 }

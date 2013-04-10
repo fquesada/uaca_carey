@@ -13,6 +13,7 @@
  */
 class Postulante extends CActiveRecord
 {
+        private $_nombrecompleto;
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
@@ -66,10 +67,10 @@ class Postulante extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'cedula' => 'Cedula',
+			'cedula' => 'Cédula',
 			'nombre' => 'Nombre',
-			'apellido1' => 'Apellido1',
-			'apellido2' => 'Apellido2',
+			'apellido1' => 'Primer Apellido',
+			'apellido2' => 'Segundo Apellido',
 			'estado' => 'Estado',
 		);
 	}
@@ -91,9 +92,21 @@ class Postulante extends CActiveRecord
 		$criteria->compare('apellido1',$this->apellido1,true);
 		$criteria->compare('apellido2',$this->apellido2,true);
 		$criteria->compare('estado',$this->estado);
+                
+                $criteria->addColumnCondition(array('estado'=>'1'));
+                
+                $criteria->order = 'nombre';
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
 		));
 	}
+        
+           public function getnombrecompleto(){            
+            if(isset($this->_nombrecompleto)) {
+                return $this->_nombrecompleto;
+            }            
+            $this->_nombrecompleto = $this->nombre." ".$this->apellido1." ".$this->apellido2;
+            return $this->_nombrecompleto;            
+        }
 }
