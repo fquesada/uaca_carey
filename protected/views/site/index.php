@@ -23,8 +23,8 @@ $this->pageTitle=Yii::app()->name;
        </div>
        <div id="ContenidoC">
            <br>
-           <a href="evaluacionpersonas/admin" class="boton">Gestión de evaluaciones</a>
-           <a href="evaluacionpersonas/crear" class="boton">Nueva evaluación</a>
+           <?php echo CHtml::link('Gestión de evaluaciones',array('evaluacionpersonas/admin'), array("class"=>"boton")); ?>
+           <?php echo CHtml::link('Nueva evaluación',array('evaluacionpersonas/crear'), array("class"=>"boton")); ?>
            <a href="#" class="boton">Función 3</a>
        </div>
    </div>
