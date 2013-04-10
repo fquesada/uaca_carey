@@ -32,7 +32,7 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->baseUrl.'/css/reporteevalu
         <thead>
         <th>Competencia</th>
         <th>Valor Relativo</th>
-        <th>Calificacion</th>
+        <th>Calificación</th>
         </thead>
         <tbody>
             <?php
