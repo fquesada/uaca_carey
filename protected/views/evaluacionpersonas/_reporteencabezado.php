@@ -21,9 +21,9 @@
                     </tr>
                     <tr>
                         <td>Nombre:</td>
-                        <td></td>
+                        <td><?php echo $evaluacioncompetencias->_evaluado->nombrecompleto;  ?></td>
                         <td>Cedula:</td>
-                        <td></td>
+                        <td><?php echo $evaluacioncompetencias->_evaluado->cedula;  ?></td>
                     </tr>            
                     <tr>
                         <td>Evaluador:</td>
@@ -31,13 +31,6 @@
                         <td>Fecha evaluacion:</td>
                         <td><?php echo $this->gridmysqltophpdate($evaluacioncompetencias->fechaevaluacion); ?></td>
                     </tr>            
-                    <tr>
-                        <td>Origen evaluacion</td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-
                 </tbody>
             </table>        
         </div>
