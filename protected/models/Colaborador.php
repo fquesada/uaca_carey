@@ -10,14 +10,18 @@
  * @property string $apellido1
  * @property string $apellido2
  * @property integer $estado
- * 
+ * @property integer $unidadnegocio
+ * @property integer $puesto
+ *
  * The followings are the available model relations:
+ * @property Unidadnegociopuesto $_unidadnegocio
+ * @property Unidadnegociopuesto $_puesto
  * @property Usuario[] $_usuarios
  * @property Evaluacioncompetencias[] $_evaluadoresevaluacioncompetencias
  * @property Evaluaciondesempeno[] $_colaboradoresevaluaciondesempeno
  * @property Evaluaciondesempeno[] $_evaluadoresevaluaciondesempeno
  * @property Evaluacionpersonas[] $_creadoresevaluacionpersonas
- * @property Historicopuesto[] $_historicopuestos
+ * @property Historicopuesto[] $_colaboradoreshistoricopuesto
  */
 class Colaborador extends CActiveRecord
 {
@@ -47,12 +51,12 @@ class Colaborador extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('cedula, nombre, apellido1, apellido2', 'required'),
-			array('cedula, estado', 'numerical', 'integerOnly'=>true),
+			array('cedula, nombre, apellido1, apellido2, unidadnegocio, puesto', 'required'),
+			array('cedula, estado, unidadnegocio, puesto', 'numerical', 'integerOnly'=>true),
 			array('nombre, apellido1, apellido2', 'length', 'max'=>45),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, cedula, nombre, apellido1, apellido2, estado', 'safe', 'on'=>'search'),
+			array('id, cedula, nombre, apellido1, apellido2, estado, unidadnegocio, puesto', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -64,13 +68,14 @@ class Colaborador extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			
+			'_unidadnegocio' => array(self::BELONGS_TO, 'Unidadnegociopuesto', 'unidadnegocio'),
+			'_puesto' => array(self::BELONGS_TO, 'Unidadnegociopuesto', 'puesto'),
 			'_usuarios' => array(self::MANY_MANY, 'Usuario', 'colaboradorusuario(colaborador, usuario)'),
 			'_evaluadoresevaluacioncompetencias' => array(self::HAS_MANY, 'Evaluacioncompetencias', 'evaluador'),
 			'_colaboradoresevaluaciondesempeno' => array(self::HAS_MANY, 'Evaluaciondesempeno', 'colaborador'),
 			'_evaluadoresevaluaciondesempeno' => array(self::HAS_MANY, 'Evaluaciondesempeno', 'evaluador'),
 			'_creadoresevaluacionpersonas' => array(self::HAS_MANY, 'Evaluacionpersonas', 'creador'),
-			'_historicopuestos' => array(self::HAS_MANY, 'Historicopuesto', 'colaborador'),
+			'_colaboradoreshistoricopuesto' => array(self::HAS_MANY, 'Historicopuesto', 'colaborador'),
 		);
 	}
 
@@ -86,6 +91,8 @@ class Colaborador extends CActiveRecord
 			'apellido1' => 'Apellido1',
 			'apellido2' => 'Apellido2',
 			'estado' => 'Estado',
+			'unidadnegocio' => 'Unidadnegocio',
+			'puesto' => 'Puesto',
 		);
 	}
 
@@ -106,6 +113,8 @@ class Colaborador extends CActiveRecord
 		$criteria->compare('apellido1',$this->apellido1,true);
 		$criteria->compare('apellido2',$this->apellido2,true);
 		$criteria->compare('estado',$this->estado);
+		$criteria->compare('unidadnegocio',$this->unidadnegocio);
+		$criteria->compare('puesto',$this->puesto);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

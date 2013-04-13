@@ -9,7 +9,6 @@
  * @property integer $evaluacionpersonas
  * @property integer $calificacion
  * @property integer $evaluacioncompetencias
- * @property string $comentario
  *
  * The followings are the available model relations:
  * @property Habilidadespecial $_habilidadespecial
@@ -46,7 +45,6 @@ class Habilidadespecialevaluada extends CActiveRecord
 		return array(
 			array('habilidadespecial, evaluacionpersonas, calificacion, evaluacioncompetencias', 'required'),
 			array('habilidadespecial, evaluacionpersonas, calificacion, evaluacioncompetencias', 'numerical', 'integerOnly'=>true),
-                        array('comentario', 'length', 'max'=>100),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
 			array('id, habilidadespecial, evaluacionpersonas, calificacion, evaluacioncompetencias', 'safe', 'on'=>'search'),
@@ -78,7 +76,6 @@ class Habilidadespecialevaluada extends CActiveRecord
 			'evaluacionpersonas' => 'Evaluacionpersonas',
 			'calificacion' => 'Calificacion',
 			'evaluacioncompetencias' => 'Evaluacioncompetencias',
-                        'comentario' => 'Comentario',
 		);
 	}
 
@@ -98,7 +95,6 @@ class Habilidadespecialevaluada extends CActiveRecord
 		$criteria->compare('evaluacionpersonas',$this->evaluacionpersonas);
 		$criteria->compare('calificacion',$this->calificacion);
 		$criteria->compare('evaluacioncompetencias',$this->evaluacioncompetencias);
-                $criteria->compare('comentario',$this->comentario,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

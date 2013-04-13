@@ -9,8 +9,7 @@
  * @property integer $evaluacioncandidato
  * @property string $origendescripcion
  * @property integer $calificacion
- * @property integer $ponderacion
- * @property string $comentario
+ * @property integer $origen
  *
  * The followings are the available model relations:
  * @property Competencia $_competencia
@@ -44,13 +43,12 @@ class Habilidadevaluacioncandidato extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('competencia, evaluacioncandidato, origendescripcion, calificacion, ponderacion', 'required'),
-			array('competencia, evaluacioncandidato, calificacion, ponderacion', 'numerical', 'integerOnly'=>true),
+			array('competencia, evaluacioncandidato, origendescripcion, calificacion', 'required'),
+			array('competencia, evaluacioncandidato, calificacion', 'numerical', 'integerOnly'=>true),
 			array('origendescripcion', 'length', 'max'=>250),
-                        array('comentario', 'length', 'max'=>100),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, competencia, evaluacioncandidato, origendescripcion, calificacion, ponderacion, comentario', 'safe', 'on'=>'search'),
+			array('id, competencia, evaluacioncandidato, origendescripcion, calificacion', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -78,8 +76,6 @@ class Habilidadevaluacioncandidato extends CActiveRecord
 			'evaluacioncandidato' => 'Evaluacioncandidato',
 			'origendescripcion' => 'Descripción de variable en el método',
 			'calificacion' => 'Calificacion',
-                    	'ponderacion' => 'Ponderacion',
-			'comentario' => 'Comentario',
 		);
 	}
 
@@ -99,8 +95,6 @@ class Habilidadevaluacioncandidato extends CActiveRecord
 		$criteria->compare('evaluacioncandidato',$this->evaluacioncandidato);
 		$criteria->compare('origendescripcion',$this->origendescripcion,true);
 		$criteria->compare('calificacion',$this->calificacion);
-                $criteria->compare('ponderacion',$this->ponderacion);
-		$criteria->compare('comentario',$this->comentario,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

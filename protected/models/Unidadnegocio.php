@@ -11,10 +11,8 @@
  * @property integer $estado
  *
  * The followings are the available model relations:
- * @property Historicopuesto[] $_historicopuestos
  * @property Empresa $_empresa
  * @property Puesto[] $_puestos
- * @property Vacante[] $_vacantes
  */
 class Unidadnegocio extends CActiveRecord
 {
@@ -62,10 +60,8 @@ class Unidadnegocio extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-                        '_historicopuestos' => array(self::HAS_MANY, 'Historicopuesto', 'unidadnegocio'),
 			'_empresa' => array(self::BELONGS_TO, 'Empresa', 'empresa'),
 			'_puestos' => array(self::MANY_MANY, 'Puesto', 'unidadnegociopuesto(unidadnegocio, puesto)'),
-                    '_vacantes' => array(self::HAS_MANY, 'Vacante', 'unidadnegocio'),
 		);
 	}
 
