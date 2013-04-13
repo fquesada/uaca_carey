@@ -10,9 +10,12 @@
  * @property string $fechacreacion
  * @property integer $estado
  * @property integer $empresa
+ * @property integer $estadopassword
  *
  * The followings are the available model relations:
  * @property Colaborador[] $_colaboradores
+ * @property Historialcontrasenas[] $historialcontrasenas
+ * @property Historialcontrasenas[] $historialcontrasenaseditor
  * @property Empresa $_empresa
  */
 class Usuario extends CActiveRecord
@@ -66,6 +69,8 @@ class Usuario extends CActiveRecord
 		return array(
 			'_colaboradores' => array(self::MANY_MANY, 'Colaborador', 'colaboradorusuario(usuario, colaborador)'),
 			'_empresa' => array(self::BELONGS_TO, 'Empresa', 'empresa'),
+                        '_historialcontrasenaseditor' => array(self::HAS_MANY, 'Historialcontrasenas', 'usuarioeditor'),
+                        '_historialcontrasenas' => array(self::HAS_MANY, 'Historialcontrasenas', 'usuario'),
 		);
 	}
 
@@ -81,6 +86,7 @@ class Usuario extends CActiveRecord
 			'fechacreacion' => 'Fechacreacion',
 			'estado' => 'Estado',
 			'empresa' => 'Empresa',
+                    'estadopassword' => 'Estadopassword',
 		);
 	}
 
@@ -101,6 +107,7 @@ class Usuario extends CActiveRecord
 		$criteria->compare('fechacreacion',$this->fechacreacion,true);
 		$criteria->compare('estado',$this->estado);
 		$criteria->compare('empresa',$this->empresa);
+                $criteria->compare('estadopassword',$this->estadopassword);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

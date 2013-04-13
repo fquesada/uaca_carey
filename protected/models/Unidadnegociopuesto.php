@@ -7,11 +7,6 @@
  * @property integer $unidadnegocio
  * @property integer $puesto
  *
- * The followings are the available model relations:
- * @property Colaborador[] $_unidadesnegociocolaborador
- * @property Colaborador[] $_puestoscolaborador
- * @property Historicopuesto[] $_unidadesnegociohistoricopuesto
- * @property Historicopuesto[] $_puestoshistoricopuesto
  */
 class Unidadnegociopuesto extends CActiveRecord
 {
@@ -57,10 +52,7 @@ class Unidadnegociopuesto extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'_unidadesnegociocolaborador' => array(self::HAS_MANY, 'Colaborador', 'unidadnegocio'),
-			'_puestoscolaborador' => array(self::HAS_MANY, 'Colaborador', 'puesto'),
-			'_unidadesnegociohistoricopuesto' => array(self::HAS_MANY, 'Historicopuesto', 'unidadnegocio'),
-			'_puestoshistoricopuesto' => array(self::HAS_MANY, 'Historicopuesto', 'puesto'),
+			
 		);
 	}
 

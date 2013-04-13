@@ -7,8 +7,10 @@
  * @property integer $id
  * @property string $fechadesignacion
  * @property integer $colaborador
+ * @property integer $puestoactual
  * @property integer $unidadnegocio
  * @property integer $puesto
+ * 
  *
  * The followings are the available model relations:
  * @property Unidadnegociopuesto $_unidadnegocio
@@ -43,11 +45,11 @@ class Historicopuesto extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('fechadesignacion, colaborador, unidadnegocio, puesto', 'required'),
-			array('colaborador, unidadnegocio, puesto', 'numerical', 'integerOnly'=>true),
+			array('fechadesignacion, colaborador, puestoactual, unidadnegocio, puesto', 'required'),
+			array('colaborador, puestoactual, unidadnegocio, puesto', 'numerical', 'integerOnly'=>true),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, fechadesignacion, colaborador, unidadnegocio, puesto', 'safe', 'on'=>'search'),
+			array('id, fechadesignacion, colaborador, puestoactual, unidadnegocio, puesto', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -74,6 +76,7 @@ class Historicopuesto extends CActiveRecord
 			'id' => 'ID',
 			'fechadesignacion' => 'Fechadesignacion',
 			'colaborador' => 'Colaborador',
+                        'puestoactual' => 'Puestoactual',
 			'unidadnegocio' => 'Unidadnegocio',
 			'puesto' => 'Puesto',
 		);
@@ -93,6 +96,7 @@ class Historicopuesto extends CActiveRecord
 		$criteria->compare('id',$this->id);
 		$criteria->compare('fechadesignacion',$this->fechadesignacion,true);
 		$criteria->compare('colaborador',$this->colaborador);
+                $criteria->compare('puestoactual',$this->puestoactual);
 		$criteria->compare('unidadnegocio',$this->unidadnegocio);
 		$criteria->compare('puesto',$this->puesto);
 

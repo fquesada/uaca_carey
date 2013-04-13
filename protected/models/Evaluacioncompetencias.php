@@ -7,7 +7,6 @@
  * @property integer $id
  * @property integer $evaluacionpersonas
  * @property string $fechaevaluacion
- * @property integer $frecuencia
  * @property integer $puestopotencial1
  * @property integer $puestopotencial2
  * @property integer $puestopotencial3
@@ -15,6 +14,7 @@
  * @property integer $tipo
  * @property integer $evaluador
  * @property integer $evaluado
+ * @property string $comentario
  *
  * The followings are the available model relations:
  * @property Puesto $_puestopotencial1
@@ -57,11 +57,12 @@ class Evaluacioncompetencias extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('evaluacionpersonas, fechaevaluacion', 'required'),
-			array('evaluacionpersonas, frecuencia, puestopotencial1, puestopotencial2, puestopotencial3, tipo, evaluador, evaluado', 'numerical', 'integerOnly'=>true),
+			array('evaluacionpersonas, puestopotencial1, puestopotencial2, puestopotencial3, tipo, evaluador, evaluado', 'numerical', 'integerOnly'=>true),
 			array('promedioponderado', 'numerical'),
+                        array('comentario', 'length', 'max'=>800),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, evaluacionpersonas, fechaevaluacion, frecuencia, puestopotencial1, puestopotencial2, puestopotencial3, promedioponderado, tipo, evaluador, evaluado', 'safe', 'on'=>'search'),
+			array('id, evaluacionpersonas, fechaevaluacion, puestopotencial1, puestopotencial2, puestopotencial3, promedioponderado, tipo, evaluador, evaluado', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -95,7 +96,6 @@ class Evaluacioncompetencias extends CActiveRecord
 			'id' => 'ID',
 			'evaluacionpersonas' => 'Evaluacionpersonas',
 			'fechaevaluacion' => 'Fechaevaluacion',
-			'frecuencia' => 'Frecuencia',
 			'puestopotencial1' => 'Puestopotencial1',
 			'puestopotencial2' => 'Puestopotencial2',
 			'puestopotencial3' => 'Puestopotencial3',
@@ -103,6 +103,7 @@ class Evaluacioncompetencias extends CActiveRecord
 			'tipo' => 'Tipo',
 			'evaluador' => 'Evaluador',
 			'evaluado' => 'Evaluado',
+                    'comentario' => 'Comentario',
 		);
 	}
 
@@ -120,7 +121,6 @@ class Evaluacioncompetencias extends CActiveRecord
 		$criteria->compare('id',$this->id);
 		$criteria->compare('evaluacionpersonas',$this->evaluacionpersonas);
 		$criteria->compare('fechaevaluacion',$this->fechaevaluacion,true);
-		$criteria->compare('frecuencia',$this->frecuencia);
 		$criteria->compare('puestopotencial1',$this->puestopotencial1);
 		$criteria->compare('puestopotencial2',$this->puestopotencial2);
 		$criteria->compare('puestopotencial3',$this->puestopotencial3);
@@ -128,6 +128,7 @@ class Evaluacioncompetencias extends CActiveRecord
 		$criteria->compare('tipo',$this->tipo);
 		$criteria->compare('evaluador',$this->evaluador);
 		$criteria->compare('evaluado',$this->evaluado);
+                $criteria->compare('comentario',$this->comentario,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
