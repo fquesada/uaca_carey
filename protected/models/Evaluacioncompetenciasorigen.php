@@ -1,21 +1,19 @@
 <?php
 
 /**
- * This is the model class for table "ponderacion".
+ * This is the model class for table "evaluacioncompetenciasorigen".
  *
- * The followings are the available columns in table 'ponderacion':
- * @property integer $id
- * @property integer $valor
- * @property integer $estado
- * @property string $descripcion
-
+ * The followings are the available columns in table 'evaluacioncompetenciasorigen':
+ * @property integer $evaluacioncompetencias
+ * @property integer $origenevaluacion
+ * 
  */
-class Ponderacion extends CActiveRecord
+class Evaluacioncompetenciasorigen extends CActiveRecord
 {
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
-	 * @return Ponderacion the static model class
+	 * @return Evaluacioncompetenciasorigen the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
@@ -27,7 +25,7 @@ class Ponderacion extends CActiveRecord
 	 */
 	public function tableName()
 	{
-		return 'ponderacion';
+		return 'evaluacioncompetenciasorigen';
 	}
 
 	/**
@@ -38,12 +36,11 @@ class Ponderacion extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('valor, descripcion', 'required'),
-			array('valor, estado', 'numerical', 'integerOnly'=>true),
-                        array('descripcion', 'length', 'max'=>100),
+			array('evaluacioncompetencias, origenevaluacion', 'required'),
+			array('evaluacioncompetencias, origenevaluacion', 'numerical', 'integerOnly'=>true),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, valor, estado, descripcion', 'safe', 'on'=>'search'),
+			array('evaluacioncompetencias, origenevaluacion', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -55,6 +52,7 @@ class Ponderacion extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+                    
 		);
 	}
 
@@ -64,10 +62,8 @@ class Ponderacion extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'id' => 'ID',
-			'valor' => 'Valor',
-			'estado' => 'Estado',
-                        'descripcion'=>'Descripción'
+			'evaluacioncompetencias' => 'Evaluacioncompetencias',
+			'origenevaluacion' => 'Origenevaluacion',
 		);
 	}
 
@@ -82,11 +78,8 @@ class Ponderacion extends CActiveRecord
 
 		$criteria=new CDbCriteria;
 
-		$criteria->compare('id',$this->id);
-		$criteria->compare('valor',$this->valor);
-		$criteria->compare('estado',$this->estado);
-                $criteria->compare('descripcion',  $this->descripcion, true);
-                $criteria->addColumnCondition(array('estado'=>'1'));
+		$criteria->compare('evaluacioncompetencias',$this->evaluacioncompetencias);
+		$criteria->compare('origenevaluacion',$this->origenevaluacion);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

@@ -7,7 +7,9 @@
  * @property integer $id
  * @property integer $valor
  * @property integer $estado
+ * @property string $descripcion
  */
+
 class Puntaje extends CActiveRecord
 {
 	/**
@@ -41,7 +43,7 @@ class Puntaje extends CActiveRecord
                         array('descripcion', 'length', 'max'=>100),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, valor, estado', 'safe', 'on'=>'search'),
+			array('id, valor, estado, descripcion', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -83,10 +85,8 @@ class Puntaje extends CActiveRecord
 		$criteria->compare('id',$this->id);
 		$criteria->compare('valor',$this->valor);		
 		$criteria->compare('estado',$this->estado);
-                $criteria->compare('descripcion',$this->descripcion);
-                
-                $criteria->addColumnCondition(array('estado'=>'1'));
-                
+                $criteria->compare('descripcion',$this->descripcion, true);
+                $criteria->addColumnCondition(array('estado'=>'1'));                
                 $criteria->order = 'valor';
 
 		return new CActiveDataProvider($this, array(
@@ -94,3 +94,4 @@ class Puntaje extends CActiveRecord
 		));
 	}
 }
+

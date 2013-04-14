@@ -9,12 +9,12 @@
  * @property integer $evaluacioncandidato
  * @property string $origendescripcion
  * @property integer $calificacion
- * @property integer $origen
+ * @property integer $ponderacion
+ * @property string $comentario
  *
  * The followings are the available model relations:
  * @property Competencia $_competencia
  * @property Evaluacioncompetencias $_evaluacioncandidato
- * @property Origenevaluacion $_origen
  */
 class Habilidadevaluacioncandidato extends CActiveRecord
 {
@@ -44,12 +44,13 @@ class Habilidadevaluacioncandidato extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('competencia, evaluacioncandidato, origendescripcion, calificacion, origen', 'required'),
-			array('competencia, evaluacioncandidato, calificacion, origen', 'numerical', 'integerOnly'=>true),
+			array('competencia, evaluacioncandidato, origendescripcion, calificacion, ponderacion, comentario', 'required'),
+			array('competencia, evaluacioncandidato, calificacion', 'numerical', 'integerOnly'=>true),
 			array('origendescripcion', 'length', 'max'=>250),
+                        array('comentario', 'length', 'max'=>100),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, competencia, evaluacioncandidato, origendescripcion, calificacion, origen', 'safe', 'on'=>'search'),
+			array('id, competencia, evaluacioncandidato, origendescripcion, calificacion, ponderacion, comentario', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -62,8 +63,7 @@ class Habilidadevaluacioncandidato extends CActiveRecord
 		// class name for the relations automatically generated below.
 		return array(
 			'_competencia' => array(self::BELONGS_TO, 'Competencia', 'competencia'),
-			'_evaluacioncandidato' => array(self::BELONGS_TO, 'Evaluacioncompetencias', 'evaluacioncandidato'),
-			'_origen' => array(self::BELONGS_TO, 'Origenevaluacion', 'origen'),
+			'_evaluacioncandidato' => array(self::BELONGS_TO, 'Evaluacioncompetencias', 'evaluacioncandidato'),			
 		);
 	}
 
@@ -76,9 +76,10 @@ class Habilidadevaluacioncandidato extends CActiveRecord
 			'id' => 'ID',
 			'competencia' => 'Competencia',
 			'evaluacioncandidato' => 'Evaluacioncandidato',
-			'origendescripcion' => 'Origendescripcion',
+			'origendescripcion' => 'Descripción de variable en el método',
 			'calificacion' => 'Calificacion',
-			'origen' => 'Origen',
+                        'ponderacion' => 'Ponderacion',
+			'comentario' => 'Comentario',
 		);
 	}
 
@@ -98,7 +99,8 @@ class Habilidadevaluacioncandidato extends CActiveRecord
 		$criteria->compare('evaluacioncandidato',$this->evaluacioncandidato);
 		$criteria->compare('origendescripcion',$this->origendescripcion,true);
 		$criteria->compare('calificacion',$this->calificacion);
-		$criteria->compare('origen',$this->origen);
+                $criteria->compare('ponderacion',$this->ponderacion);
+		$criteria->compare('comentario',$this->comentario,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

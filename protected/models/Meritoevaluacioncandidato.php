@@ -8,6 +8,8 @@
  * @property integer $evaluacioncandidato
  * @property integer $merito
  * @property integer $calificacion
+ * @property integer $ponderacion
+ * @property string $comentario
  *
  * The followings are the available model relations:
  * @property Evaluacioncompetencias $_evaluacioncandidato
@@ -41,11 +43,12 @@ class Meritoevaluacioncandidato extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('evaluacioncandidato, merito, calificacion', 'required'),
-			array('evaluacioncandidato, merito, calificacion', 'numerical', 'integerOnly'=>true),
+			array('evaluacioncandidato, merito, calificacion, ponderacion', 'required'),
+			array('evaluacioncandidato, merito, calificacion, ponderacion', 'numerical', 'integerOnly'=>true),
+                        array('comentario', 'length', 'max'=>100),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, evaluacioncandidato, merito, calificacion', 'safe', 'on'=>'search'),
+			array('id, evaluacioncandidato, merito, calificacion, ponderacion, comentario', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -72,6 +75,9 @@ class Meritoevaluacioncandidato extends CActiveRecord
 			'evaluacioncandidato' => 'Evaluacioncandidato',
 			'merito' => 'Merito',
 			'calificacion' => 'Calificacion',
+                        'ponderacion' => 'Ponderacion',
+			'comentario' => 'Comentario',
+                    
 		);
 	}
 
@@ -90,6 +96,8 @@ class Meritoevaluacioncandidato extends CActiveRecord
 		$criteria->compare('evaluacioncandidato',$this->evaluacioncandidato);
 		$criteria->compare('merito',$this->merito);
 		$criteria->compare('calificacion',$this->calificacion);
+                $criteria->compare('ponderacion',$this->ponderacion);
+		$criteria->compare('comentario',$this->comentario,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

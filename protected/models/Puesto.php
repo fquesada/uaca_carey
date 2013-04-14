@@ -14,10 +14,12 @@
  * @property Evaluacioncompetencias[] $_puestospotencial1evaluacioncompetencia
  * @property Evaluacioncompetencias[] $_puestospotencial2evaluacioncompetencia
  * @property Evaluacioncompetencias[] $_puestospotencial3evaluacioncompetencia
+ * @property Evaluacionpersonas[] $_evaluacionpersonas
  * @property Evaluaciondesempeno[] $_puestosevaluaciondesempeno
  * @property Habilidadnoequivalente[] $_puestospotencial1habilidadnoequivalente
  * @property Habilidadnoequivalente[] $_puestospotencial2habilidadnoequivalente
  * @property Habilidadnoequivalente[] $_puestospotencial3habilidadnoequivalente
+ * @property Historicopuesto[] $_historicopuestos
  * @property Merito[] $_meritos
  * @property Competencia[] $_competencias
  * @property Puntualizacion[] $_puntualizaciones
@@ -74,10 +76,12 @@ class Puesto extends CActiveRecord
 			'_puestospotencial2evaluacioncompetencia' => array(self::HAS_MANY, 'Evaluacioncompetencias', 'puestopotencial2'),
 			'_puestospotencial3evaluacioncompetencia' => array(self::HAS_MANY, 'Evaluacioncompetencias', 'puestopotencial3'),
 			'_puestosevaluaciondesempeno' => array(self::HAS_MANY, 'Evaluaciondesempeno', 'puesto'),
+                        '_evaluacionpersonas' => array(self::HAS_MANY, 'Evaluacionpersonas', 'puesto'),
 			'_puestospotencial1habilidadnoequivalente' => array(self::HAS_MANY, 'Habilidadnoequivalente', 'puestopotencial1'),
 			'_puestospotencial2habilidadnoequivalente' => array(self::HAS_MANY, 'Habilidadnoequivalente', 'puestopotencial2'),
 			'_puestospotencial3habilidadnoequivalente' => array(self::HAS_MANY, 'Habilidadnoequivalente', 'puestopotencial3'),
 			'_meritos' => array(self::HAS_MANY, 'Merito', 'puesto'),
+                        '_historicopuestos' => array(self::HAS_MANY, 'Historicopuesto', 'puesto'),
 			'_competencias' => array(self::MANY_MANY, 'Competencia', 'puestocompetencia(puesto, competencia)'),
 			'_puntualizaciones' => array(self::MANY_MANY, 'Puntualizacion', 'puestopuntualizacion(puesto, puntualizacion)'),
 			'_unidadesnegocio' => array(self::MANY_MANY, 'Unidadnegocio', 'unidadnegociopuesto(puesto, unidadnegocio)'),
@@ -92,8 +96,8 @@ class Puesto extends CActiveRecord
 		return array(
 			'id' => 'ID',
 			'nombre' => 'Nombre',
-			'descripcion' => 'Descripción',
-			'codigo' => 'Código',
+			'descripcion' => 'Descripcion',
+			'codigo' => 'Codigo',
 			'estado' => 'Estado',
 		);
 	}
@@ -112,12 +116,10 @@ class Puesto extends CActiveRecord
 		$criteria->compare('id',$this->id);
 		$criteria->compare('nombre',$this->nombre,true);
 		$criteria->compare('descripcion',$this->descripcion,true);
-		$criteria->compare('codigo',$this->codigo,true);		
+		$criteria->compare('codigo',$this->codigo,true);
 		$criteria->compare('estado',$this->estado);
-                
                 //Muestra los puestos activos unicamente
                 $criteria->addcolumncondition(array('estado'=>'1'));
-                
                 $criteria->order = 'nombre';
 
 		return new CActiveDataProvider($this, array(
@@ -154,7 +156,7 @@ class Puesto extends CActiveRecord
          * @param string $columna  the name of the column that must be obtain
          */
 
-           public function obtenerArrayColumna($unidades, $columna)
+        public function obtenerArrayColumna($unidades, $columna)
         {
             $idUnidades = array();
             foreach ($unidades as $un) {
@@ -163,3 +165,4 @@ class Puesto extends CActiveRecord
             return $idUnidades;
         }
 }
+

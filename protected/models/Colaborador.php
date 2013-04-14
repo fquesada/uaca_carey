@@ -10,12 +10,8 @@
  * @property string $apellido1
  * @property string $apellido2
  * @property integer $estado
- * @property integer $unidadnegocio
- * @property integer $puesto
  *
  * The followings are the available model relations:
- * @property Unidadnegociopuesto $_unidadnegocio
- * @property Unidadnegociopuesto $_puesto
  * @property Usuario[] $_usuarios
  * @property Evaluacioncompetencias[] $_evaluadoresevaluacioncompetencias
  * @property Evaluaciondesempeno[] $_colaboradoresevaluaciondesempeno
@@ -25,6 +21,7 @@
  */
 class Colaborador extends CActiveRecord
 {
+    
         private $_nombrecompleto;
 	/**
 	 * Returns the static model of the specified AR class.
@@ -52,12 +49,12 @@ class Colaborador extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('cedula, nombre, apellido1, apellido2, unidadnegocio, puesto', 'required'),
-			array('cedula, estado, unidadnegocio, puesto', 'numerical', 'integerOnly'=>true, ),
+			array('cedula, nombre, apellido1, apellido2', 'required'),
+			array('cedula, estado', 'numerical', 'integerOnly'=>true),
 			array('nombre, apellido1, apellido2', 'length', 'max'=>45),
-                        // The following rule is used by search().
+			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, cedula, nombre, apellido1, apellido2, estado, unidadnegocio, puesto', 'safe', 'on'=>'search'),
+			array('id, cedula, nombre, apellido1, apellido2, estado', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -68,9 +65,7 @@ class Colaborador extends CActiveRecord
 	{
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
-		return array(
-			'_unidadnegocio' => array(self::BELONGS_TO, 'Unidadnegociopuesto', 'unidadnegocio'),
-			'_puesto' => array(self::BELONGS_TO, 'Unidadnegociopuesto', 'puesto'),
+		return array(			
 			'_usuarios' => array(self::MANY_MANY, 'Usuario', 'colaboradorusuario(colaborador, usuario)'),
 			'_evaluadoresevaluacioncompetencias' => array(self::HAS_MANY, 'Evaluacioncompetencias', 'evaluador'),
 			'_colaboradoresevaluaciondesempeno' => array(self::HAS_MANY, 'Evaluaciondesempeno', 'colaborador'),
@@ -87,45 +82,15 @@ class Colaborador extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'cedula' => 'Cédula',
+			'cedula' => 'Cedula',
 			'nombre' => 'Nombre',
 			'apellido1' => 'Primer Apellido',
 			'apellido2' => 'Segundo Apellido',
-			'estado' => 'Estado',
-			'unidadnegocio' => 'Unidad de Negocio',
-			'puesto' => 'Puesto',
-                        'NombreUnidadNegocio'=>'Unidad de Negocio',
-                        'NombrePuesto'=>'Puesto',
+			'estado' => 'Estado',			
 		);
 	}
-        
-        Public function getNombreUnidadNegocio(){
-            $unidadsel = Unidadnegocio::model()->findAllByAttributes(array('id'=>$this->unidadnegocio));
-            foreach ($unidadsel as $unidadnegocio){
-                $resultado = $unidadnegocio->nombre;
-            }
-            return $resultado;
-        }
 
-        Public function getNombrePuesto(){
-            $puestosel = Puesto::model()->findAllByAttributes(array('id'=>$this->puesto));
-            foreach ($puestosel as $puesto){
-                $resultado = $puesto->nombre;
-            }
-            return $resultado;
-        }
-        
-        public function getnombrecompleto(){            
-            if(isset($this->_nombrecompleto)) {
-                return $this->_nombrecompleto;
-            }            
-            $this->_nombrecompleto = $this->nombre." ".$this->apellido1." ".$this->apellido2;
-            return $this->_nombrecompleto;            
-        }
-        
-        
-
-        /**
+	/**
 	 * Retrieves a list of models based on the current search/filter conditions.
 	 * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
 	 */
@@ -141,16 +106,37 @@ class Colaborador extends CActiveRecord
 		$criteria->compare('nombre',$this->nombre,true);
 		$criteria->compare('apellido1',$this->apellido1,true);
 		$criteria->compare('apellido2',$this->apellido2,true);
-		$criteria->compare('estado',$this->estado);
-		$criteria->compare('unidadnegocio',$this->unidadnegocio);
-		$criteria->compare('puesto',$this->puesto);
-                
-                $criteria->addColumnCondition(array('estado'=>'1'));
-                
-                $criteria->order = 'nombre';
+		$criteria->compare('estado',$this->estado);		
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
-                        ));
+		));
 	}
+        
+        //Posiblemente esta funcion ya no sirva
+        public function getNombreUnidadNegocio(){
+            $unidadsel = Unidadnegocio::model()->findAllByAttributes(array('id'=>$this->unidadnegocio));
+            foreach ($unidadsel as $unidadnegocio){
+                $resultado = $unidadnegocio->nombre;
+            }
+            return $resultado;
+        }
+        
+        //Posiblemente esta funcion ya no sirva
+        public function getNombrePuesto(){
+            $puestosel = Puesto::model()->findAllByAttributes(array('id'=>$this->puesto));
+            foreach ($puestosel as $puesto){
+                $resultado = $puesto->nombre;
+            }
+            return $resultado;
+        }
+        
+        public function getnombrecompleto(){            
+            if(isset($this->_nombrecompleto)) {
+                return $this->_nombrecompleto;
+            }            
+            $this->_nombrecompleto = $this->nombre." ".$this->apellido1." ".$this->apellido2;
+            return $this->_nombrecompleto;            
+        }
 }
+
