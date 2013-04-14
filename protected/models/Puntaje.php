@@ -7,7 +7,9 @@
  * @property integer $id
  * @property integer $valor
  * @property integer $estado
+ * @property varchar $descripcion
  */
+
 class Puntaje extends CActiveRecord
 {
 	/**
