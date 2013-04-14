@@ -7,7 +7,7 @@
  * @property integer $id
  * @property integer $valor
  * @property integer $estado
- * @property integer $descripcion
+ * @property string $descripcion
 
  */
 class Ponderacion extends CActiveRecord
@@ -40,6 +40,7 @@ class Ponderacion extends CActiveRecord
 		return array(
 			array('valor, descripcion', 'required'),
 			array('valor, estado', 'numerical', 'integerOnly'=>true),
+                        array('descripcion', 'length', 'max'=>100),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
 			array('id, valor, estado, descripcion', 'safe', 'on'=>'search'),
@@ -84,7 +85,7 @@ class Ponderacion extends CActiveRecord
 		$criteria->compare('id',$this->id);
 		$criteria->compare('valor',$this->valor);
 		$criteria->compare('estado',$this->estado);
-                $criteria->compare('descripcion',  $this->descripcion);
+                $criteria->compare('descripcion',  $this->descripcion, true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

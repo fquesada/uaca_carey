@@ -7,7 +7,7 @@
  * @property integer $id
  * @property integer $valor
  * @property integer $estado
- * @property varchar $descripcion
+ * @property string $descripcion
  */
 
 class Puntaje extends CActiveRecord
@@ -85,7 +85,7 @@ class Puntaje extends CActiveRecord
 		$criteria->compare('id',$this->id);
 		$criteria->compare('valor',$this->valor);		
 		$criteria->compare('estado',$this->estado);
-                $criteria->compare('descripcion',$this->descripcion);
+                $criteria->compare('descripcion',$this->descripcion, true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
