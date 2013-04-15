@@ -87,9 +87,12 @@ class Ponderacion extends CActiveRecord
 		$criteria->compare('estado',$this->estado);
                 $criteria->compare('descripcion',  $this->descripcion, true);
                 $criteria->addColumnCondition(array('estado'=>'1'));
+                
+                $criteria->order = 'valor';
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
+                        'keyAttribute'=>  $this->valor,
 		));
 	}
 }

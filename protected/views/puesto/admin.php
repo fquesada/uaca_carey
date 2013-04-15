@@ -26,7 +26,7 @@ $this->menu=array(
 		array(
 			'class'=>'CButtonColumn',
                         'htmlOptions'=>array('width'=>'90'),
-                        'template'=>'{view}{update}{addcompetence}{addpuntualizacion}',
+                        'template'=>'{view}{update}{delete}{addcompetence}{addpuntualizacion}',
                         'buttons'=>array(
                             'addcompetence'=>array(
                                 'label'=>'Agregar competencias',

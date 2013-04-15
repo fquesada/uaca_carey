@@ -199,9 +199,13 @@ class PuestoController extends Controller
                 
                 $ponderacion = $_POST['peso'];
                 
+                
                 foreach($ponderacion as $peso){
-                    $puestocomp->ponderacion = $peso;
+                    $pond = Ponderacion::model()->findByPk($peso);
+                    $puestocomp->ponderacion = $pond->valor;
                 }
+                
+                
 
                 if($puestocomp->save()){
                     Yii::app()->user->setFlash('success','Se agrego correctamente la competencia al puesto.');
