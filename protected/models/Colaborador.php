@@ -82,7 +82,7 @@ class Colaborador extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'cedula' => 'Cedula',
+			'cedula' => 'Cédula',
 			'nombre' => 'Nombre',
 			'apellido1' => 'Primer Apellido',
 			'apellido2' => 'Segundo Apellido',
@@ -123,20 +123,20 @@ class Colaborador extends CActiveRecord
         }
         
         //Posiblemente esta funcion ya no sirva
-        public function getNombrePuesto(){
-            $puestosel = Puesto::model()->findAllByAttributes(array('id'=>$this->puesto));
-            foreach ($puestosel as $puesto){
-                $resultado = $puesto->nombre;
-            }
-            return $resultado;
-        }
-        
-        public function getnombrecompleto(){            
-            if(isset($this->_nombrecompleto)) {
-                return $this->_nombrecompleto;
-            }            
-            $this->_nombrecompleto = $this->nombre." ".$this->apellido1." ".$this->apellido2;
-            return $this->_nombrecompleto;            
-        }
+//        public function getNombrePuesto(){
+//            $puestosel = Puesto::model()->findAllByAttributes(array('id'=>$this->puesto));
+//            foreach ($puestosel as $puesto){
+//                $resultado = $puesto->nombre;
+//            }
+//            return $resultado;
+//        }
+//        
+//        public function getnombrecompleto(){            
+//            if(isset($this->_nombrecompleto)) {
+//                return $this->_nombrecompleto;
+//            }            
+//            $this->_nombrecompleto = $this->nombre." ".$this->apellido1." ".$this->apellido2;
+//            return $this->_nombrecompleto;            
+//        }
 }
 

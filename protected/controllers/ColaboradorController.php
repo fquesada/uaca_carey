@@ -69,6 +69,7 @@ class ColaboradorController extends Controller
 
 		if(isset($_POST['Colaborador']))
 		{
+                    $transaction = Yii::app()->db->beginTransaction();
 			$model->attributes=$_POST['Colaborador'];
 			if($model->save())
 				$this->redirect(array('view','id'=>$model->id));
