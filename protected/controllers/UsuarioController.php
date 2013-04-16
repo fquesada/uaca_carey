@@ -206,14 +206,17 @@ class UsuarioController extends Controller
 	 */
 	public function actionAdmin()
 	{
-		$model=new Usuario('search');
-		$model->unsetAttributes();  // clear any default values
-		if(isset($_GET['Usuario']))
-			$model->attributes=$_GET['Usuario'];
+		$model= Usuario::model()->search(); 
+                $filtersForm=new FiltersForm;
 
-		$this->render('admin',array(
-			'model'=>$model,
-		));
+                if (isset($_GET['FiltersForm']))
+                    $filtersForm->filters=$_GET['FiltersForm'];                
+
+                $this->layout='column1';
+                $this->render('admin',array(
+                    'model' => $filtersForm->filter($model),
+                    'filtersForm' => $filtersForm,
+            ));
 	}
 
 	/**
@@ -240,7 +243,7 @@ class UsuarioController extends Controller
                 $dataReader = Yii::app()->db->createCommand(
                         'SELECT c.cedula,c.nombre,c.apellido1,c.apellido2, c.id '.
                         'FROM colaborador c '.
-                        'WHERE CONCAT_WS(" ", c.nombre, c.apellido1, c.apellido2 ) like "%'.$keyword.'%" AND c.estado = 1;'
+                        'WHERE c.id NOT IN (SELECT cu.colaborador FROM colaboradorusuario cu) AND CONCAT_WS(" ", c.nombre, c.apellido1, c.apellido2 ) like "%'.$keyword.'%" AND c.estado = 1;'
                         )->query();                               
 
                 $return_array = array();
@@ -266,7 +269,7 @@ class UsuarioController extends Controller
                 echo CJSON::encode($return_array);
             }
         }
-
+        
 	/**
 	 * Performs the AJAX validation.
 	 * @param CModel the model to be validated

@@ -20,14 +20,22 @@ Puede ingresar opcionalmente un operador comparativo (<b>&lt;</b>, <b>&lt;=</b>,
 </p>
 
 <?php $this->widget('zii.widgets.grid.CGridView', array(
-	'id'=>'usuario-grid',
-	'dataProvider'=>$model->search(),
+	'id'=>'usuarios-grid',
+	'dataProvider'=>$model,
 	'template'=>"{pager}\n{items}\n{pager}\n{summary}",
+        'filter'=>$filtersForm, 
 	'columns'=>array(
-		'login',
-		'fechacreacion',
+                array(
+                         'header'=>'id',
+                         'name'=>'usuario',
+                         'visible'=>false,
+                     ),
+                array(
+                    'header'=>'Colaborador',
+                    'name'=>'colaborador',                     
+                ),            
 		array(
 			'class'=>'CButtonColumn',
-		),
-	),
+                        ),
+            ),
 )); ?>

@@ -56,6 +56,7 @@ class Usuario extends CActiveRecord
 		// will receive user inputs.
 		return array(
 				array('login, password, confirmarPassword', 'required','on'=>'create'),
+                                array('login', 'unique'),
                                 array('login, empresa', 'required', 'on'=>'update'),
                                 array('password_actual, password_nueva, confirmarPassword', 'required', 'on'=>'CambiarPass'),
                                 array('estado, empresa, estadopassword', 'numerical', 'integerOnly'=>true),
@@ -82,6 +83,7 @@ class Usuario extends CActiveRecord
 			'_historialcontrasenaseditor' => array(self::HAS_MANY, 'Historialcontrasenas', 'usuarioeditor'),
 			'_colaboradores' => array(self::MANY_MANY, 'Colaborador', 'colaboradorusuario(usuario, colaborador)'),
 			'_empresa' => array(self::BELONGS_TO, 'Empresa', 'empresa'),
+                        '_usuario' => array(self::HAS_ONE,'colaboradorusuario','usuario'),
 		);
 	}
 
@@ -98,6 +100,7 @@ class Usuario extends CActiveRecord
 			'estado' => 'Estado',
 			'empresa' => 'Empresa',
                         'estadopassword' => 'Estadopassword',
+                        
 		);
 	}
 
@@ -107,22 +110,30 @@ class Usuario extends CActiveRecord
 	 */
 	public function search()
 	{
-		// Warning: Please modify the following code to remove attributes that
-		// should not be searched.
+            $connection=Yii::app()->db;
+            $sql=   "SELECT colaboradorusuario.usuario,
+                    CONCAT(colaborador.nombre,' ',colaborador.apellido1,' ',colaborador.apellido2) AS colaborador                
+                    FROM colaboradorusuario
+                    INNER JOIN colaborador
+                    ON (colaboradorusuario.colaborador = colaborador.id)"; 
+            
+            $command=$connection->createCommand($sql);
+            $models = $command->queryAll();
 
-		$criteria=new CDbCriteria;
+            $dataProvider = new CArrayDataProvider($models,array(
+            'keyField'=>'id',
+            'id'=>'usuariosgrid',
+            'sort'=>array(
+                'attributes'=>array(
+                    'colaborador',
+                    ),
+                ),
+                'pagination'=>array(
+                    'pageSize'=>10,
+                ),
+            ));
 
-		$criteria->compare('id',$this->id);
-		$criteria->compare('login',$this->login,true);
-		$criteria->compare('password',$this->password,true);
-		$criteria->compare('fechacreacion',$this->fechacreacion,true);
-		$criteria->compare('estado',$this->estado);
-		$criteria->compare('empresa',$this->empresa);
-                $criteria->compare('estadopassword',$this->estadopassword);
-
-		return new CActiveDataProvider($this, array(
-			'criteria'=>$criteria,
-		));
+            return $dataProvider;
 	}
         
         public function getsalt(){            
