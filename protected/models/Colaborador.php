@@ -51,6 +51,7 @@ class Colaborador extends CActiveRecord
 		return array(
 			array('cedula, nombre, apellido1, apellido2', 'required'),
 			array('cedula, estado', 'numerical', 'integerOnly'=>true),
+                        array('cedula', 'unique'),
 			array('nombre, apellido1, apellido2', 'length', 'max'=>45),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
@@ -114,14 +115,14 @@ class Colaborador extends CActiveRecord
 	}
         
         //Posiblemente esta funcion ya no sirva
-        public function getNombreUnidadNegocio(){
-            $unidadsel = Unidadnegocio::model()->findAllByAttributes(array('id'=>$this->unidadnegocio));
-            foreach ($unidadsel as $unidadnegocio){
-                $resultado = $unidadnegocio->nombre;
-            }
-            return $resultado;
-        }
-        
+//        public function getNombreUnidadNegocio(){
+//            $unidadsel = Unidadnegocio::model()->findAllByAttributes(array('id'=>$this->unidadnegocio));
+//            foreach ($unidadsel as $unidadnegocio){
+//                $resultado = $unidadnegocio->nombre;
+//            }
+//            return $resultado;
+//        }
+//        
         //Posiblemente esta funcion ya no sirva
 //        public function getNombrePuesto(){
 //            $puestosel = Puesto::model()->findAllByAttributes(array('id'=>$this->puesto));
@@ -131,12 +132,12 @@ class Colaborador extends CActiveRecord
 //            return $resultado;
 //        }
 //        
-//        public function getnombrecompleto(){            
-//            if(isset($this->_nombrecompleto)) {
-//                return $this->_nombrecompleto;
-//            }            
-//            $this->_nombrecompleto = $this->nombre." ".$this->apellido1." ".$this->apellido2;
-//            return $this->_nombrecompleto;            
-//        }
+        public function getnombrecompleto(){            
+            if(isset($this->_nombrecompleto)) {
+                return $this->_nombrecompleto;
+            }            
+            $this->_nombrecompleto = $this->nombre." ".$this->apellido1." ".$this->apellido2;
+            return $this->_nombrecompleto;            
+        }
 }
 

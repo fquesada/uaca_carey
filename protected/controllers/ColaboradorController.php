@@ -62,21 +62,52 @@ class ColaboradorController extends Controller
 	 */
 	public function actionCreate()
 	{
-		$model=new Colaborador;
+		$model= new Colaborador;
+                $historial = new Historicopuesto;
 
 		// Uncomment the following line if AJAX validation is needed
 		$this->performAjaxValidation($model);
+                $this->performAjaxValidation($historial);
 
-		if(isset($_POST['Colaborador']))
+		if(isset($_POST['Colaborador']) && ($_POST['Historicopuesto']))
 		{
-                    $transaction = Yii::app()->db->beginTransaction();
+                        $transaction = Yii::app()->db->beginTransaction();
 			$model->attributes=$_POST['Colaborador'];
-			if($model->save())
-				$this->redirect(array('view','id'=>$model->id));
+			
+                        $resultado = $model->save();
+                        
+                        if ($resultado){
+                            $historial->fechadesignacion = CommonFunctions::datenow();
+                            $historial->colaborador = $model->id;
+                            $historial->puestoactual = '1';
+                            $historial->unidadnegocio = $_POST['Historicopuesto']['unidadnegocio'];
+                            $historial->puesto = $_POST['Historicopuesto']['puesto'];
+                            
+                            $resultado = $historial->save();
+                            
+                            if($resultado){
+                                $transaction->commit();
+                                Yii::app()->user->setflash('success','Se creó exitosamente el colaborador');
+                                $this->redirect(array('view','id'=>$model->id));
+                                //$this->render('admin',array('model'=>$model,));
+                            }
+                            else{
+                                $transaction->rollback();
+                                Yii::app()->user->setflash('error','Hubo un error al crear el colaborador');
+                                
+                            }
+                                
+                        }
+                        else{
+                            $transaction->rollBack();                  
+                            Yii::app()->user->setflash('error','Hubo un error al crear el colaborador');
+                            
+                        }                  
 		}
 
 		$this->render('create',array(
 			'model'=>$model,
+                        'historial'=>$historial,
 		));
 	}
 
@@ -152,7 +183,7 @@ class ColaboradorController extends Controller
 			'model'=>$model,
 		));
 	}
-        
+        // Me parece que se puede eliminar - REVISAR
         public function actionGetPuestos()
         {
             echo CHtml::tag('option',

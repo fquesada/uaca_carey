@@ -86,9 +86,10 @@ return $( "<li></li>" )
             <?php echo $form->hiddenField($model,'colaborador',array('id'=>'pk')); ?>
          </div>
         
-	<div class="row buttons">
-		<?php echo CHtml::submitButton($model->isNewRecord ? 'Crear' : 'Actualizar', array('class'=>'sexybutton sexysimple sexylarge')); ?>
+        <div class="row buttons">
+		<?php echo CHtml::submitButton($model->isNewRecord ? 'Crear' : 'Actualizar', array('class'=>'sexybutton sexysimple sexylarge'));?>
 	</div>
+        
 
 <?php $this->endWidget(); ?>
 

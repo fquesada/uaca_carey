@@ -11,6 +11,37 @@ class HistoricopuestoController extends Controller
 	{
 		$this->render('update');
 	}
+        
+        public function actionGetPuestos()
+        {
+            echo CHtml::tag('option',
+                            array('value'=>'empty'),CHtml::encode('Selecione un puesto'),true);//Para que siempre aparezca al inicio
+            
+            if(isset($_POST['Historicopuesto']['unidadnegocio']))
+            {
+                $unidadnegocio = $_POST['Historicopuesto']['unidadnegocio'];
+                
+                $dataReader = Yii::app()->db->createCommand(
+                        'SELECT p.id, p.nombre '.
+                        'FROM puesto p '.
+                        'JOIN unidadnegociopuesto up ON up.puesto = p.id '.
+                        'JOIN unidadnegocio u ON up.unidadnegocio = u.id '.
+                        'WHERE unidadnegocio = '.$unidadnegocio.' AND p.estado = 1;'
+                        )->query();
+                
+                $data=CHtml::listData($dataReader,'id','nombre');
+                
+                foreach($data as $value=>$nombre) {
+                            echo CHtml::tag('option',
+                            array('value'=>$value),CHtml::encode($nombre),true);
+                    }
+            }
+            else
+            {
+                echo CHtml::tag('option',
+                            array('value'=>'0'),CHtml::encode('No existen puestos en esa unidad.'),true);
+            }
+        }
 
 	// Uncomment the following methods and override them if needed
 	/*

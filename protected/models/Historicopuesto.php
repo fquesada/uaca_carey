@@ -45,7 +45,8 @@ class Historicopuesto extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('fechadesignacion, colaborador, puestoactual, unidadnegocio, puesto', 'required'),
-			array('colaborador, puestoactual, unidadnegocio, puesto', 'numerical', 'integerOnly'=>true),
+			array('colaborador, puestoactual, unidadnegocio', 'numerical', 'integerOnly'=>true),
+                        array('puesto', 'numerical', 'message'=>'Puesto no puede ser nulo.'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
 			array('id, fechadesignacion, colaborador, puestoactual, unidadnegocio, puesto', 'safe', 'on'=>'search'),
