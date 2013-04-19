@@ -111,7 +111,7 @@ class Usuario extends CActiveRecord
 	public function search()
 	{
             $connection=Yii::app()->db;
-            $sql=   "SELECT colaboradorusuario.usuario,
+            $sql= "SELECT colaboradorusuario.usuario,
                     CONCAT(colaborador.nombre,' ',colaborador.apellido1,' ',colaborador.apellido2) AS colaborador                
                     FROM colaboradorusuario
                     INNER JOIN colaborador
@@ -121,7 +121,7 @@ class Usuario extends CActiveRecord
             $models = $command->queryAll();
 
             $dataProvider = new CArrayDataProvider($models,array(
-            'keyField'=>'id',
+            'keyField'=>'usuario',
             'id'=>'usuariosgrid',
             'sort'=>array(
                 'attributes'=>array(

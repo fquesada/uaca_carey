@@ -25,15 +25,15 @@ Puede ingresar opcionalmente un operador comparativo (<b>&lt;</b>, <b>&lt;=</b>,
 	'template'=>"{pager}\n{items}\n{pager}\n{summary}",
         'filter'=>$filtersForm, 
 	'columns'=>array(
-                array(
-                         'header'=>'id',
-                         'name'=>'usuario',
-                         'visible'=>false,
-                     ),
-                array(
-                    'header'=>'Colaborador',
-                    'name'=>'colaborador',                     
-                ),            
+//                array(
+//                         'header'=>'usuario',
+//                         'name'=>'usuario',
+//                         'visible'=>false,
+//                     ),
+//                array(
+//                    'header'=>'Colaborador',
+//                    'name'=>'colaborador',                     
+//                ),            
 		array(
 			'class'=>'CButtonColumn',
                         ),
