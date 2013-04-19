@@ -88,20 +88,14 @@ class ColaboradorController extends Controller
                             if($resultado){
                                 $transaction->commit();
                                 Yii::app()->user->setflash('success','Se creó exitosamente el colaborador');
-                                $this->redirect(array('view','id'=>$model->id));
-                                //$this->render('admin',array('model'=>$model,));
+                                $this->redirect('admin',array('model'=>$model,));
                             }
                             else{
-                                $transaction->rollback();
-                                Yii::app()->user->setflash('error','Hubo un error al crear el colaborador');
-                                
-                            }
-                                
+                                $transaction->rollback();                                                               
+                            }                                
                         }
                         else{
-                            $transaction->rollBack();                  
-                            Yii::app()->user->setflash('error','Hubo un error al crear el colaborador');
-                            
+                            $transaction->rollBack();                                                                         
                         }                  
 		}
 

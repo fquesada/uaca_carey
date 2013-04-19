@@ -17,15 +17,3 @@ $this->menu=array(
 
 
 <?php echo $this->renderPartial('_form', array('model'=>$model, 'historial'=>$historial )); ?>
-
-
-          <?php if(Yii::app()->user->hasFlash('error')):?>
-     <script type="text/javascript">
-          new Messi('<?php echo Yii::app()->user->getFlash('error'); ?>',
-            { title: 'Error',
-                titleClass: 'error',
-                autoclose: '3000',
-                modal:true
-            });
-     </script>
-     <?php endif;?>

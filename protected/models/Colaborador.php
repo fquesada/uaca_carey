@@ -107,7 +107,9 @@ class Colaborador extends CActiveRecord
 		$criteria->compare('nombre',$this->nombre,true);
 		$criteria->compare('apellido1',$this->apellido1,true);
 		$criteria->compare('apellido2',$this->apellido2,true);
-		$criteria->compare('estado',$this->estado);		
+		$criteria->compare('estado',$this->estado);
+                
+                $criteria->addColumnCondition(array('estado'=>'1'));
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

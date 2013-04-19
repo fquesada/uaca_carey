@@ -1,6 +1,7 @@
 <?php
 /* @var $this ColaboradorController */
 /* @var $model Colaborador */
+/* @var $historial Historicopuesto */
 /* @var $form CActiveForm */
 ?>
 
@@ -21,7 +22,9 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->baseUrl . '/css/sexybutton
 	<?php echo $form->errorSummary($model); ?>
         <?php echo $form->errorSummary($historial); ?>
 
-	<div class="row">
+        <fieldset>
+            <legend>Información del colaborador</legend>
+        <div class="row">
 		<?php echo $form->labelEx($model,'cedula'); ?>
 		<?php echo $form->textField($model,'cedula'); ?>
 		<?php echo $form->error($model,'cedula'); ?>
@@ -29,22 +32,28 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->baseUrl . '/css/sexybutton
 
 	<div class="row">
 		<?php echo $form->labelEx($model,'nombre'); ?>
-		<?php echo $form->textField($model,'nombre',array('size'=>20,'maxlength'=>45)); ?>
+		<?php echo $form->textField($model,'nombre',array('size'=>35,'maxlength'=>45)); ?>
 		<?php echo $form->error($model,'nombre'); ?>
 	</div>
 
 	<div class="row">
 		<?php echo $form->labelEx($model,'apellido1'); ?>
-		<?php echo $form->textField($model,'apellido1',array('size'=>20,'maxlength'=>45)); ?>
+		<?php echo $form->textField($model,'apellido1',array('size'=>35,'maxlength'=>45)); ?>
 		<?php echo $form->error($model,'apellido1'); ?>
 	</div>
 
 	<div class="row">
 		<?php echo $form->labelEx($model,'apellido2'); ?>
-		<?php echo $form->textField($model,'apellido2',array('size'=>20,'maxlength'=>45)); ?>
+		<?php echo $form->textField($model,'apellido2',array('size'=>35,'maxlength'=>45)); ?>
 		<?php echo $form->error($model,'apellido2'); ?>
 	</div>
+            
+        </fieldset>
         
+       <?php $historial->unidadnegocio = NULL ?>
+        
+        <fieldset>
+            <legend>Información del puesto</legend>
        <div class="row">
 		<?php echo $form->labelEx($historial,'unidadnegocio'); ?>
 		<?php echo $form->dropDownList($historial,'unidadnegocio', CHtml::listData(UnidadNegocio::model()->findAllByAttributes(array('estado' => '1')),'id','nombre'),array('empty' => 'Seleccione una unidad de negocio',
@@ -63,7 +72,8 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->baseUrl . '/css/sexybutton
 		<?php echo $form->dropDownList($historial,'puesto',CHtml::listData(Puesto::model()->findAllByAttributes(array('estado' => '1')),'id','nombre'),array('empty'=>'Seleccione un puesto')) ?>
                 <?php echo $form->error($historial,'puesto'); ?>
         </div>
-        
+        </fieldset>
+            
         <div class="row buttons">
                 <?php echo CHtml::submitButton('Crear',array('class'=>'sexybutton sexysimple sexylarge'));?>
 	</div>
