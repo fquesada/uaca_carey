@@ -5,10 +5,19 @@ $this->breadcrumbs=array(
 	'Entrevista',
 );
 ?>
+
+<?php if(Yii::app()->user->hasFlash('entrevista')): ?>
+ 
+<div class="flash-error">
+    <?php echo Yii::app()->user->getFlash('entrevista'); ?>
+</div>
+ 
+<?php endif; ?>
+
 <h1>Entrevista</h1>
 
 <div class="form">
-<?php echo CHtml::beginForm('entrevista/excel','post'); ?>
+<?php echo CHtml::beginForm('excel','post'); ?>
      
  
     <div class="row">
