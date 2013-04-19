@@ -32,7 +32,7 @@ class UsuarioController extends Controller
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('create','update','CambiarPass','AutoCompleteColaborador'),
+				'actions'=>array('create','update','CambiarPass','AutoCompleteColaborador','RestablecerPass'),
 				'users'=>array('@'),
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -176,12 +176,35 @@ class UsuarioController extends Controller
                         if (crypt($password_actual, $model->getsalt()) === $model->password)
                             {
                                $model->password = (crypt($password_nueva, $model->getsalt()));
+                               $model->estadopassword = 1;
                             }
 
                        if ($model->save())
                        $this->redirect(array('view','id'=>$model->id));
                     }
                 $this->render('CambiarPass',array(
+                       'model'=>$model,
+               ));
+              }
+              
+        public function actionRestablecerPass($id)
+        {
+                 $model=$this->loadModel($id);
+                 $model->scenario = 'RestablecerPass';
+                 
+                 if(isset($_POST['Usuario']))
+                    {
+                       $model->attributes=$_POST['Usuario'];
+
+                       $password_nueva = ($model->password_nueva);
+
+                       $model->password = (crypt($password_nueva, $model->getsalt()));
+                       $model->estadopassword = 0;
+                            
+                       if ($model->save())
+                       $this->redirect(array('view','id'=>$model->id));
+                    }
+                $this->render('RestablecerPass',array(
                        'model'=>$model,
                ));
               }
@@ -212,7 +235,7 @@ class UsuarioController extends Controller
                 if (isset($_GET['FiltersForm']))
                     $filtersForm->filters=$_GET['FiltersForm'];                
 
-                $this->layout='column1';
+                //$this->layout='column1';
                 $this->render('admin',array(
                     'model' => $filtersForm->filter($model),
                     'filtersForm' => $filtersForm,

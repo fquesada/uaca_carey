@@ -59,6 +59,7 @@ class Usuario extends CActiveRecord
                                 array('login', 'unique'),
                                 array('login, empresa', 'required', 'on'=>'update'),
                                 array('password_actual, password_nueva, confirmarPassword', 'required', 'on'=>'CambiarPass'),
+                                array('password_nueva, confirmarPassword', 'required', 'on'=>'RestablecerPass'),
                                 array('estado, empresa, estadopassword', 'numerical', 'integerOnly'=>true),
                                 array('login', 'length', 'max'=>45),
                                 array('password', 'length', 'max'=>100),
@@ -67,6 +68,7 @@ class Usuario extends CActiveRecord
                                 array('id, login, password, fechacreacion, estado, empresa', 'safe', 'on'=>'search'),
                                 array('confirmarPassword', 'compare', 'compareAttribute' => 'password', 'on'=>'create', 'message'=>'Las contraseñas no son iguales, introduzcalas de nuevo'),
                                 array('password_nueva', 'compare', 'compareAttribute' => 'confirmarPassword', 'on'=>'CambiarPass', 'message'=>'Las contraseñas no son iguales, introduzcalas de nuevo'),
+                                array('password_nueva', 'compare', 'compareAttribute' => 'confirmarPassword', 'on'=>'RestablecerPass', 'message'=>'Las contraseñas no son iguales, introduzcalas de nuevo'),
                 );
         }
 
@@ -111,11 +113,13 @@ class Usuario extends CActiveRecord
 	public function search()
 	{
             $connection=Yii::app()->db;
-            $sql= "SELECT colaboradorusuario.usuario,
-                    CONCAT(colaborador.nombre,' ',colaborador.apellido1,' ',colaborador.apellido2) AS colaborador                
+            $sql= "SELECT colaboradorusuario.usuario, 
+                    CONCAT(colaborador.nombre,' ',colaborador.apellido1,' ',colaborador.apellido2) AS colaborador,   usuario.login as login      
                     FROM colaboradorusuario
                     INNER JOIN colaborador
-                    ON (colaboradorusuario.colaborador = colaborador.id)"; 
+                    ON (colaboradorusuario.colaborador = colaborador.id)
+                    INNER JOIN usuario
+                    ON (colaboradorusuario.usuario = usuario.id)"; 
             
             $command=$connection->createCommand($sql);
             $models = $command->queryAll();
@@ -126,6 +130,7 @@ class Usuario extends CActiveRecord
             'sort'=>array(
                 'attributes'=>array(
                     'colaborador',
+                    'login'
                     ),
                 ),
                 'pagination'=>array(

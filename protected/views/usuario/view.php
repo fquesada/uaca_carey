@@ -8,9 +8,6 @@ $this->breadcrumbs=array(
 );
 
 $this->menu=array(
-	array('label'=>'Crear Usuario', 'url'=>array('create')),
-	array('label'=>'Actualizar Usuario', 'url'=>array('update', 'id'=>$model->id)),
-	array('label'=>'Eliminar Usuario', 'url'=>'#', 'linkOptions'=>array('submit'=>array('delete','id'=>$model->id),'confirm'=>'Seguro que desea borrar este elemento?')),
 	array('label'=>'Gestionar Usuario', 'url'=>array('admin')),
 );
 ?>
