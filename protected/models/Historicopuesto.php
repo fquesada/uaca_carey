@@ -79,10 +79,35 @@ class Historicopuesto extends CActiveRecord
                         'puestoactual' => 'Puestoactual',
 			'unidadnegocio' => 'Unidad de Negocio',
 			'puesto' => 'Puesto',
+                        'nombreunidadnegocio' => 'Unidad de Negocio',
+                        'nombrepuesto' => 'Puesto',
 		);
 	}
+        
+        public function getNombreunidadnegocio (){
+            $unidadnegocio = Unidadnegocio::model()->findByPk($this->unidadnegocio);
+            $resultado = $unidadnegocio->nombre;
+            
+            return $resultado;          
+        }
+        
+        public function getNombrepuesto (){
+            $puesto = Puesto::model()->findByPk($this->puesto);
+            $resultado = $puesto->nombre;
 
-	/**
+            return $resultado;
+        }
+        
+        //Todavia no se ha usado en nada
+        public function getNombrecolaborador (){
+            $colaborador = Colaborador::model()->findByAttributes(array('id'=>$this->colaborador));
+            foreach ($colaborador as $persona){
+                $resultado = $persona->nombre;
+            }
+            return $resultado;
+        }
+
+        /**
 	 * Retrieves a list of models based on the current search/filter conditions.
 	 * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
 	 */
