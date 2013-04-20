@@ -88,7 +88,7 @@ class ColaboradorController extends Controller
                             if($resultado){
                                 $transaction->commit();
                                 Yii::app()->user->setflash('success','Se creó exitosamente el colaborador');
-                                $this->redirect('admin',array('model'=>$model,));
+                                $this->redirect(array('admin'));
                             }
                             else{
                                 $transaction->rollback();                                                               
@@ -120,9 +120,12 @@ class ColaboradorController extends Controller
 		if(isset($_POST['Colaborador']))
 		{
 			$model->attributes=$_POST['Colaborador'];
-			if($model->save())
-				$this->redirect(array('view','id'=>$model->id));
-		}
+			if($model->save()){
+                            Yii::app()->user->setflash('success','Se actualizó el colaborador '.$model->nombre.' correctamente');
+                            $this->redirect(array('admin'));
+                        }
+                                
+                }
 
 		$this->render('update',array(
 			'model'=>$model,

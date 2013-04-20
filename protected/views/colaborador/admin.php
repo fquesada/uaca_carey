@@ -29,12 +29,42 @@ Puede ingresar opcionalmente un operador comparativo (<b>&lt;</b>, <b>&lt;=</b>,
 		'nombre',
 		'apellido1',
 		'apellido2',
-		array(
+                 array(
 			'class'=>'CButtonColumn',
-                        'template'=>'{update}{delete}',
+                        'template'=>'{update}{delete}{puesto}',
+                        'buttons'=>array(
+                            'puesto'=>array(
+                                'label'=>'Ver puesto',
+                                'imageUrl'=>Yii::app()->request->baseUrl.'/images/icons/silk/table_gear.png',
+                                'url'=> 'Yii::app()->createUrl("historicopuesto/view", array("id"=>$data->id))',
+                                'options'=>array(
+                                    'ajax'=> array (
+                                        'type'=>'POST',
+                                        'url'=>"js:$(this).attr('href')",
+                                        'update'=>'#div_verpuesto',
+                                    ),
+                                ),
+                            ),
 		),
 	),
-)); ?>
+))); ?>
+
+    <?php
+    $this->beginWidget('zii.widgets.jui.CJuiDialog', array(
+        'id'=>'dialogPuestodecolaborador',
+        'options'=>array(
+            'title'=>'Puesto Actual',
+            'autoOpen'=>false,
+            'modal'=>false,
+            'width'=>500,
+            'height'=>200,
+        ),        
+    ));
+    ?>
+
+    <div id="div_verpuesto"></div>
+    
+    <?php $this->endWidget();?>
 
 
 <?php if(Yii::app()->user->hasFlash('success')):?>
@@ -46,4 +76,4 @@ Puede ingresar opcionalmente un operador comparativo (<b>&lt;</b>, <b>&lt;=</b>,
                 modal:true
             });
      </script>
-     <?php endif;?>
+<?php endif;?>

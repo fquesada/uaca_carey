@@ -74,10 +74,10 @@ class Historicopuesto extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'fechadesignacion' => 'Fechadesignacion',
+			'fechadesignacion' => 'Inicio de labores',
 			'colaborador' => 'Colaborador',
                         'puestoactual' => 'Puestoactual',
-			'unidadnegocio' => 'Unidadnegocio',
+			'unidadnegocio' => 'Unidad de Negocio',
 			'puesto' => 'Puesto',
 		);
 	}
@@ -99,6 +99,7 @@ class Historicopuesto extends CActiveRecord
                 $criteria->compare('puestoactual',$this->puestoactual);
 		$criteria->compare('unidadnegocio',$this->unidadnegocio);
 		$criteria->compare('puesto',$this->puesto);
+               
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
