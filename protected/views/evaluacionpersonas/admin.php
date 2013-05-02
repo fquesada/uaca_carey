@@ -36,17 +36,9 @@ $this->breadcrumbs=array(
                     'name'=>'puesto',                     
                 ),
                 array(
-                    'header'=>'Creador',
-                    'name'=>'creador',                     
-                ),
-                array(
                     'header'=>'Fecha creación',
                     'name'=>'fecha',                     
                 ),
-//                array(
-//                    'header'=>'Estado',
-//                    'name'=>'estado',                     
-//                ),
                 array(
 			'class'=>'CButtonColumn',
                         'htmlOptions'=>array('width'=>'90'),

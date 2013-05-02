@@ -108,27 +108,19 @@ class EvaluacionpersonasController extends Controller
         
         public function actionAutocompleteEvaluado()
         {
-            if (isset($_GET['term'])) {
+            if (isset($_GET['term']) && isset($_GET['puesto'])) {
 
                 $keyword=$_GET['term'];
                 // escape % and _ characters
                 $keyword=strtr($keyword, array('%'=>'\%', '_'=>'\_'));
-                               
-                $dataReader = Yii::app()->db->createCommand(
-                        'SELECT c.cedula,c.nombre,c.apellido1,c.apellido2, c.id '.
-                        'FROM colaborador c '.                        
-                        'WHERE CONCAT_WS(" ", c.nombre, c.apellido1, c.apellido2 ) like "%'.$keyword.'%" AND c.estado = 1;'
-                        )->query(); 
                 
-                $dataReaderPos = Yii::app()->db->createCommand(
-                        'SELECT c.cedula,c.nombre,c.apellido1,c.apellido2, c.id '.
-                        'FROM postulante c '.                        
-                        'WHERE CONCAT_WS(" ", c.nombre, c.apellido1, c.apellido2 ) like "%'.$keyword.'%" AND c.estado = 1;'
-                        )->query(); 
-                                
-
+                $idpuesto = CommonFunctions::stringtonumber($_GET['puesto']);
+                               
+                $colaborador = new Colaborador();
+                $data = $colaborador->obtenercolaboradoresporpuesto($keyword, $idpuesto);
+                
                 $return_array = array();
-                if($dataReader->count() == 0)
+                if(!$data)
                 {
                     $return_array[] = array(
                     'label'=>'No hay resultados.',
@@ -136,7 +128,7 @@ class EvaluacionpersonasController extends Controller
                     );
                 }
                 else{ 
-                    foreach($dataReader as $row){ 
+                    foreach($data as $row){ 
                         $nombrecompleto = $row['nombre'].' '.$row['apellido1'].' '.$row['apellido2'];
                         $return_array[] = array(
                         'label'=>'<div style="font-size:x-small">Cédula: '.$row['cedula'].'</div>'.'<div>'.$nombrecompleto.'</div>',
@@ -145,19 +137,9 @@ class EvaluacionpersonasController extends Controller
                          'cedula'=>$row['cedula'],                        
                             'tipo'=>1,                        
                         );
-                    }
-                    foreach($dataReaderPos as $row){ 
-                        $nombrecompleto = $row['nombre'].' '.$row['apellido1'].' '.$row['apellido2'];
-                        $return_array[] = array(
-                        'label'=>'<div style="font-size:x-small">Cédula: '.$row['cedula'].'</div>'.'<div>'.$nombrecompleto.'</div>',
-                        'value'=>$nombrecompleto, 
-                        'id'=>$row['id'],
-                         'cedula'=>$row['cedula'],                        
-                            'tipo'=>0,                        
-                        );
-                    }
+                    }                
                 }
-                echo CJSON::encode($return_array);
+                echo CJSON::encode($return_array);            
             }
         }
         
@@ -329,7 +311,11 @@ class EvaluacionpersonasController extends Controller
 	 */
 	public function actionAdmin()
 	{
-            $model = Evaluacionpersonas::model()->search();                
+            
+            $usuario = Usuario::model()->findByPk(Yii::app()->user->id);              
+            $colaborador = $usuario->getcolaborador();
+  
+            $model = Evaluacionpersonas::model()->obtenerevaluacionpersonasporevaluador($colaborador->id);
             $filtersForm=new FiltersForm;
 
             if (isset($_GET['FiltersForm']))

@@ -33,13 +33,18 @@ $this->menu=array(
 
 <?php $this->widget('zii.widgets.CDetailView', array(
 	'data'=>$model,
-	'attributes'=>array(
+	'attributes'=>array(             
                 array('label' => 'Nombre proceso', 'name' => 'descripcion'),                
-                array('label' => 'Puesto', 'name' => '_puesto.nombre'),		
+                array('label' => 'Puesto', 'name' => '_puesto.nombre'),	                	
                 array('label' => 'Fecha', 'name' => 'fecha', 'value' => $this->gridmysqltophpdate($model->fecha)),
                                 
-	),
+	)
+       
 )); ?>
+
+<?php
+echo CHtml::hiddenField('idpuesto', $model->_puesto->id, array('id'=>'idpuesto'));
+?>
 
 <br/>
 <div class="form">
@@ -52,11 +57,57 @@ $this->menu=array(
         <?php  echo CHtml::label('Nombre:', 'colaborador');?>
                 
         <?php
+//            $this->widget('zii.widgets.jui.CJuiAutoComplete', array(
+//            'attribute'=>'colaborador',
+//            'name'=>'colaborador', 
+//            'id'=>'colaborador',
+//            'source'=>$this->createUrl('evaluacionpersonas/AutocompleteEvaluado'),
+//            // additional javascript options for the autocomplete plugin
+//            'options'=>array(
+//                 'showAnim'=>'fold',
+//                'minLength'=>'2',
+//                'select'=>"js: function(event, ui) {
+//                    
+//                if(ui.item['value']!='')
+//                {
+//                    $('#colaborador').attr('disabled', 'true');	                    
+//                    $('#cedula').text(ui.item['cedula']);                                                              
+//                    $('#id').val(ui.item['id']);                              
+//                    $('#tipo').val(ui.item['tipo']);  
+//                    $('#btnagregarpersona').removeAttr('disabled'); 
+//                    $('#imgborrar').show();
+//                 }
+//                    
+//                }",                
+//                 ),
+//              'htmlOptions'=>array('size'=>'30'),
+//            ));
+        
             $this->widget('zii.widgets.jui.CJuiAutoComplete', array(
             'attribute'=>'colaborador',
             'name'=>'colaborador', 
             'id'=>'colaborador',
-            'source'=>$this->createUrl('evaluacionpersonas/AutocompleteEvaluado'),
+            'source'=>'js: function(request, response) {
+                       $.ajax({
+                           url: "'.$this->createUrl('evaluacionpersonas/AutocompleteEvaluado').'",
+                           dataType: "json",
+                           data: {
+                               term: request.term,
+                               puesto: $("#idpuesto").val()
+                           },
+                           success: function(data) {
+                            response($.map(data, function(item) {
+                               return {
+                                   label: item.label,
+                                   value: item.value,
+                                   id: item.id,
+                                   cedula: item.cedula,
+                                   tipo: item.tipo 
+                               }
+                            }));
+                         }      
+                       })
+            }',
             // additional javascript options for the autocomplete plugin
             'options'=>array(
                  'showAnim'=>'fold',

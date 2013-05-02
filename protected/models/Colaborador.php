@@ -138,5 +138,31 @@ class Colaborador extends CActiveRecord
             $this->_nombrecompleto = $this->nombre." ".$this->apellido1." ".$this->apellido2;
             return $this->_nombrecompleto;            
         }
+        
+        /*
+        * @param $terminobuscar es el keyword para buscar en el like del nombre
+        * @param $idpuesto id del puesto
+        * @return $array con cedula, nombre, apellido1, apellido2, idcolaborador. Si el array es vacio retorna false.
+        */
+        public function obtenercolaboradoresporpuesto($terminobuscar, $idpuesto){
+            $connection=Yii::app()->db;
+            $sql=   'SELECT c.cedula,c.nombre,c.apellido1,c.apellido2, c.id
+                    FROM colaborador c   
+                    INNER JOIN historicopuesto hp ON c.id = hp.colaborador
+                    WHERE CONCAT_WS(" ", c.nombre, c.apellido1, c.apellido2 ) like :terminobuscar
+                    AND c.estado = 1
+                    AND hp.puestoactual = 1
+                    AND hp.puesto = :idpuesto;'; 
+            $command=$connection->createCommand($sql);
+            $terminobuscar = '%'.$terminobuscar.'%';//Para habilitar la busqueda por LIKE
+            $command->bindParam("terminobuscar", $terminobuscar, PDO::PARAM_STR);
+            $command->bindParam(":idpuesto", $idpuesto, PDO::PARAM_INT);
+            $models = $command->queryAll();
+          
+            if (empty($models))
+                return false;
+            else 
+                return $models;
+        }
 }
 

@@ -120,4 +120,35 @@ class Evaluacionpersonas extends CActiveRecord
 
             return $dataProvider;
         }
+        
+        public function obtenerevaluacionpersonasporevaluador($idcolaborador){
+            $connection=Yii::app()->db;
+            $sql=   "SELECT evaluacionpersonas.id, evaluacionpersonas.descripcion, DATE_FORMAT(evaluacionpersonas.fecha, '%d-%m-%Y') AS fecha,
+                    puesto.nombre AS puesto                  
+                    FROM evaluacionpersonas
+                    INNER JOIN colaborador
+                    ON (evaluacionpersonas.creador = colaborador.id and colaborador.id = :idcolaborador)
+                    INNER JOIN puesto
+                    ON (evaluacionpersonas.puesto = puesto.id)"; 
+            $command=$connection->createCommand($sql);
+            $command->bindParam(":idcolaborador", $idcolaborador, PDO::PARAM_INT);
+            $models = $command->queryAll();
+
+            $dataProvider = new CArrayDataProvider($models,array(
+            'keyField'=>'id',
+            'id'=>'evaluacionpersonasgrid',
+            'sort'=>array(
+                'attributes'=>array(
+                    'descripcion',
+                    'fecha',                    
+                    'puesto'                                          
+                    ),
+                ),
+                'pagination'=>array(
+                    'pageSize'=>10,
+                ),
+            ));
+
+            return $dataProvider;
+        }
 }
