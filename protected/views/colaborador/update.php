@@ -8,8 +8,10 @@ $this->breadcrumbs=array(
 );
 
 $this->menu=array(
-	array('label'=>'Crear Colaborador', 'url'=>array('create')),
+	array('label'=>'Cambiar de puesto', 'url'=>array('//historicopuesto/cambiarpuesto', 'id'=>$model->id)),
+        array('label'=>'Crear Colaborador', 'url'=>array('create')),
 	array('label'=>'Gestionar Colaborador', 'url'=>array('admin')),
+        
 );
 ?>
 

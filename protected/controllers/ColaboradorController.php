@@ -36,7 +36,7 @@ class ColaboradorController extends Controller
 				'users'=>array('@'),
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
-				'actions'=>array('admin','delete'),
+				'actions'=>array('admin','delete', 'cambiarpuesto'),
 				'users'=>array('admin'),
 			),
 			array('deny',  // deny all users
@@ -180,6 +180,8 @@ class ColaboradorController extends Controller
 			'model'=>$model,
 		));
 	}
+        
+
         // Me parece que se puede eliminar - REVISAR
         public function actionGetPuestos()
         {

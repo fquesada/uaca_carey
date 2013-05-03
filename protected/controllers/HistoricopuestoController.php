@@ -28,7 +28,7 @@ class HistoricopuestoController extends Controller
 	{
 		return array(
 			array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('index','view'),
+				'actions'=>array('index','view', 'GetPuestos'),
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
@@ -36,7 +36,7 @@ class HistoricopuestoController extends Controller
 				'users'=>array('@'),
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
-				'actions'=>array('admin','delete'),
+				'actions'=>array('admin','delete','cambiarpuesto'),
 				'users'=>array('admin'),
 			),
 			array('deny',  // deny all users
@@ -153,6 +153,52 @@ class HistoricopuestoController extends Controller
 			'model'=>$model,
 		));
 	}
+        
+        public function actionCambiarpuesto ($id)
+        {
+            $actual=$this->loadModel($id);
+            $model = new Historicopuesto;
+            
+            $this->performAjaxValidation($model);
+            
+            if (isset ($_POST['Historicopuesto'])){
+                
+                $transaction = Yii::app()->db->beginTransaction();
+		
+                $actual->puestoactual = '0';
+                $resultado = $actual->save();
+                        
+                if ($resultado){
+                    $model->fechadesignacion = CommonFunctions::datenow();
+                    $model->colaborador = $actual->id;
+                    $model->puestoactual = '1';
+                    $model->unidadnegocio = $_POST['Historicopuesto']['unidadnegocio'];
+                    $model->puesto = $_POST['Historicopuesto']['puesto'];
+
+                    $resultado = $model->save();
+
+                    if($resultado){
+                        $transaction->commit();
+                        Yii::app()->user->setflash('success','El colaborador fue cambiado de puesto exitosamente');
+                        $this->redirect(array('admin'));
+                    }
+                    else{
+                        $transaction->rollback();                                                               
+                    }                                
+                }
+                else{
+                    $transaction->rollBack();                                                                         
+                }                  
+            }
+            
+            $this->render('cambiarpuesto',array(
+			'actual'=>$actual,
+                        'model'=> $model,
+                        
+		));
+            
+            
+        }
 
 	/**
 	 * Returns the data model based on the primary key given in the GET variable.
