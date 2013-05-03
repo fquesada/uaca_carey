@@ -77,6 +77,7 @@ class UsuarioController extends Controller
                         $model->password = crypt($model->password, $model->getsalt());
                         $model->confirmarPassword = crypt($model->confirmarPassword, $model->getsalt());
                         $model->fechacreacion = CommonFunctions::datenow();
+                        $model->estadopassword = 0;
 
                         $resultado = $model->save();
                         $idusuario = $model->id;
@@ -176,6 +177,7 @@ class UsuarioController extends Controller
                         if (crypt($password_actual, $model->getsalt()) === $model->password)
                             {
                                $model->password = (crypt($password_nueva, $model->getsalt()));
+                               $model->estadopassword = 1;
                             }
 
                        if ($model->save())
@@ -266,8 +268,22 @@ class UsuarioController extends Controller
                 echo CJSON::encode($return_array);
             }
         }
+        
+        public function actionGetEstado(){
+            $usuario = (Yii::app()->user->name);
+            $modelo = Usuario::model()->findBySql('SELECT * FROM usuario u WHERE u.login = "'.$usuario.'" AND u.estado = 1;');
+            
+            if($modelo->estadopassword == 1)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+        }
 
-	/**
+        /**
 	 * Performs the AJAX validation.
 	 * @param CModel the model to be validated
 	 */

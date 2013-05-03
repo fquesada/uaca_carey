@@ -6,7 +6,20 @@
 
 <?php
 Yii::app()->clientScript->registerCssFile(Yii::app()->baseUrl . '/css/sexybuttons.css');
+Yii::app()->clientScript->registerCssFile(Yii::app()->baseUrl . '/css/messi.min.css');
+Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/messi.min.js');
 ?>
+
+ <?php if($this->actionGetEstado() == false):?>
+     <script type="text/javascript">
+            new Messi("Debe cambiar la contraseña",
+            { title: "Error",
+                titleClass: "info",
+                autoclose: "7000",
+                modal:true         
+            });
+     </script>
+     <?php endif;?>
 
 <div class="form">
 

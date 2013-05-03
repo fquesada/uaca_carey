@@ -25,14 +25,23 @@ class SiteController extends Controller
 	 * This is the default 'index' action that is invoked
 	 * when an action is not explicitly requested by users.
 	 */
-	
+        
         public function actionIndex()
 	{
+            $usuario = (Yii::app()->user->name);
+            $modelo = Usuario::model()->findBySql('SELECT * FROM usuario u WHERE u.login = "'.$usuario.'" AND u.estado = 1;');
 		// renders the view file 'protected/views/site/index.php'
 		// using the default layout 'protected/views/layouts/main.php'
 		if(!Yii::app()->user->isGuest)
                 {
+                    if ($modelo->estadopassword == 1)
+                    {
                     $this->render('index');
+                    }
+                    else 
+                    {
+                       $this->redirect('index.php/usuario/CambiarPass/'.$modelo->id); 
+                    }
                 }
                 else 
                 {
