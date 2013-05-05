@@ -167,21 +167,51 @@ class Evaluacioncompetencias extends CActiveRecord
                 return 'Pendiente';
         }
         
-        public function obtenerGraficoSpiderCalificado($idevaluacioncompetencias,$idevaluacionpersonas){
+//        public function obtenerGraficoSpiderCalificado($idevaluacioncompetencias,$idevaluacionpersonas){
+//            
+//            $connection=Yii::app()->db;
+//            $sql = "SELECT tm.nombre as 'eje',mec.calificacion as 'calificacion'
+//                    FROM meritoevaluacioncandidato mec
+//                    INNER JOIN merito m ON mec.merito = m.id
+//                    INNER JOIN tipomerito tm ON tm.id =  m.tipomerito
+//                    WHERE mec.evaluacioncandidato = :idevaluacioncompetencias
+//                    UNION
+//                    SELECT c.competencia as 'eje',hec.calificacion as 'calificacion'
+//                    FROM habilidadevaluacioncandidato hec
+//                    INNER JOIN competencia c ON hec.competencia = c.id
+//                    WHERE hec.evaluacioncandidato = :idevaluacioncompetencias
+//                    UNION
+//                    SELECT h.nombre as 'eje',he.calificacion as 'calificacion'
+//                    FROM Habilidadespecialevaluada he
+//                    INNER JOIN Habilidadespecial h ON he.evaluacionpersonas = h.evaluacionpersonas
+//                    AND he.habilidadespecial = h.id
+//                    WHERE he.evaluacionpersonas = :idevaluacionpersonas AND he.evaluacioncompetencias = :idevaluacioncompetencias";
+//            $command = $connection->createCommand($sql);
+//            $command->bindParam(":idevaluacionpersonas", $idevaluacionpersonas, PDO::PARAM_INT);
+//            $command->bindParam(":idevaluacioncompetencias", $idevaluacioncompetencias, PDO::PARAM_INT);            
+//            $dataspider = $command->queryAll();
+//            
+//            if(empty($dataspider))
+//                return false;
+//            else 
+//                return $dataspider;
+//        }
+        
+           public function obtenerdatosgraficospider($idevaluacioncompetencias,$idevaluacionpersonas){
             
             $connection=Yii::app()->db;
-            $sql = "SELECT tm.nombre as 'eje',mec.calificacion as 'calificacion'
+            $sql = "SELECT tm.nombre as 'eje',mec.calificacion as 'calificacion', mec.ponderacion as 'ponderacion'
                     FROM meritoevaluacioncandidato mec
                     INNER JOIN merito m ON mec.merito = m.id
                     INNER JOIN tipomerito tm ON tm.id =  m.tipomerito
                     WHERE mec.evaluacioncandidato = :idevaluacioncompetencias
                     UNION
-                    SELECT c.competencia as 'eje',hec.calificacion as 'calificacion'
+                    SELECT c.competencia as 'eje',hec.calificacion as 'calificacion', hec.ponderacion as 'ponderacion'
                     FROM habilidadevaluacioncandidato hec
                     INNER JOIN competencia c ON hec.competencia = c.id
                     WHERE hec.evaluacioncandidato = :idevaluacioncompetencias
                     UNION
-                    SELECT h.nombre as 'eje',he.calificacion as 'calificacion'
+                    SELECT h.nombre as 'eje',he.calificacion as 'calificacion', h.ponderacion as 'ponderacion'
                     FROM Habilidadespecialevaluada he
                     INNER JOIN Habilidadespecial h ON he.evaluacionpersonas = h.evaluacionpersonas
                     AND he.habilidadespecial = h.id
@@ -196,6 +226,9 @@ class Evaluacioncompetencias extends CActiveRecord
             else 
                 return $dataspider;
         }
+        
+        
+
         
         public function obtenerGraficoSpiderRelativo($idevaluacioncompetencias,$idevaluacionpersonas){
             

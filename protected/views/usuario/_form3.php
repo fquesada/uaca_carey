@@ -10,7 +10,7 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->baseUrl . '/css/messi.min.
 Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/messi.min.js');
 ?>
 
- <?php if($this->actionGetEstado() == false):?>
+ <?php if($this->GetEstado() == false):?>
      <script type="text/javascript">
             new Messi("Debe cambiar la contraseña",
             { title: "Error",
