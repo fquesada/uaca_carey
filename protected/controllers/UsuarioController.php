@@ -32,7 +32,7 @@ class UsuarioController extends Controller
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('create','update','CambiarPass','AutoCompleteColaborador'),
+				'actions'=>array('create','update','CambiarPass','AutoCompleteColaborador','ObtenerEstadoPassword'),
 				'users'=>array('@'),
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -269,7 +269,7 @@ class UsuarioController extends Controller
             }
         }
         
-        public function actionGetEstado(){
+        public function ObtenerEstadoPassword(){
             $usuario = (Yii::app()->user->name);
             $modelo = Usuario::model()->findBySql('SELECT * FROM usuario u WHERE u.login = "'.$usuario.'" AND u.estado = 1;');
             

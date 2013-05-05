@@ -5,12 +5,10 @@
 ?>
 
 <?php
-Yii::app()->clientScript->registerCssFile(Yii::app()->baseUrl . '/css/sexybuttons.css');
-Yii::app()->clientScript->registerCssFile(Yii::app()->baseUrl . '/css/messi.min.css');
-Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/messi.min.js');
+Yii::app()->clientScript->registerCoreScript('jquery');
 ?>
 
- <?php if($this->GetEstado() == false):?>
+ <?php if($this->ObtenerEstadoPassword() == false):?>
      <script type="text/javascript">
             new Messi("Debe cambiar la contraseña",
             { title: "Error",
