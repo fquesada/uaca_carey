@@ -40,7 +40,7 @@ class SiteController extends Controller
                     }
                     else 
                     {
-                       $this->redirect('index.php/usuario/CambiarPass/'.$modelo->id); 
+                    $this->redirect('index.php/usuario/CambiarPass/'.$modelo->id,array(false)); 
                     }
                 }
                 else 

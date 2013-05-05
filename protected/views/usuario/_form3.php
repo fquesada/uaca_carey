@@ -10,10 +10,10 @@ Yii::app()->clientScript->registerCoreScript('jquery');
 
  <?php if($this->ObtenerEstadoPassword() == false):?>
      <script type="text/javascript">
-            new Messi("Debe cambiar la contraseña",
-            { title: "Error",
+            new Messi("Debe cambiar la contraseña antes de utilizar el sistema",
+            { title: "Cambio inical de contraseña",
                 titleClass: "info",
-                autoclose: "7000",
+                buttons: [{id: 0, label: 'Close', val: 'X'}],
                 modal:true         
             });
      </script>
