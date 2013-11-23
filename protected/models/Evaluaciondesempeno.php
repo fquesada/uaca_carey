@@ -5,12 +5,10 @@
  *
  * The followings are the available columns in table 'evaluaciondesempeno':
  * @property integer $id
- * @property integer $evaluador
  * @property integer $colaborador
  * @property integer $puesto
  * @property string $fecharegistrocompromiso
  * @property string $fechaevaluacion
- * @property integer $periodo
  * @property string $comentariocompromisos
  * @property string $comentarioevaluacion
  * @property double $promediocompromisos
@@ -18,14 +16,16 @@
  * @property double $promedioevaluacion
  * @property string $fecharegistroevaluacion
  * @property integer $estadoevaluacion
+ * @property integer $links
+ * @property integer $procesoevaluacion
  *
  * The followings are the available model relations:
  * @property Compromiso[] $_compromisos
- * @property Evaluacioncompetencia[] $_evaluacionescompetencia
+ * @property Calificacioncompetencia[] $_calificacioncompetencias
  * @property Colaborador $_colaborador
- * @property Colaborador $_evaluador
- * @property Periodo $_periodo
+ * @property Links $_links
  * @property Puesto $_puesto
+ * @property Procesoevaluacion $_procesoevaluacion
  */
 class Evaluaciondesempeno extends CActiveRecord
 {
@@ -55,14 +55,14 @@ class Evaluaciondesempeno extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('evaluador, colaborador, puesto, fecharegistrocompromiso, fechaevaluacion, periodo', 'required'),
-			array('evaluador, colaborador, puesto, periodo, estadoevaluacion', 'numerical', 'integerOnly'=>true),
+			array('colaborador, puesto, fecharegistrocompromiso, fechaevaluacion, links, procesoevaluacion', 'required'),
+			array('colaborador, puesto, estadoevaluacion, links, procesoevaluacion', 'numerical', 'integerOnly'=>true),
 			array('promediocompromisos, promediocompetencias, promedioevaluacion', 'numerical'),
 			array('comentariocompromisos, comentarioevaluacion', 'length', 'max'=>800),
 			array('fecharegistroevaluacion', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, evaluador, colaborador, puesto, fecharegistrocompromiso, fechaevaluacion, periodo, comentariocompromisos, comentarioevaluacion, promediocompromisos, promediocompetencias, promedioevaluacion, fecharegistroevaluacion, estadoevaluacion', 'safe', 'on'=>'search'),
+			array('id, colaborador, puesto, fecharegistrocompromiso, fechaevaluacion, comentariocompromisos, comentarioevaluacion, promediocompromisos, promediocompetencias, promedioevaluacion, fecharegistroevaluacion, estadoevaluacion, links, procesoevaluacion', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -75,11 +75,11 @@ class Evaluaciondesempeno extends CActiveRecord
 		// class name for the relations automatically generated below.
 		return array(
 			'_compromisos' => array(self::HAS_MANY, 'Compromiso', 'evaluacion'),
-			'_evaluacionescompetencia' => array(self::HAS_MANY, 'Evaluacioncompetencia', 'evaluacion'),
-			'_colaborador' => array(self::BELONGS_TO, 'Colaborador', 'colaborador'),
-			'_evaluador' => array(self::BELONGS_TO, 'Colaborador', 'evaluador'),
-			'_periodo' => array(self::BELONGS_TO, 'Periodo', 'periodo'),
+			'_calificacioncompetencias' => array(self::HAS_MANY, 'Calificacioncompetencia', 'evaluacion'),
+			'_colaborador' => array(self::BELONGS_TO, 'Colaborador', 'colaborador'),			
 			'_puesto' => array(self::BELONGS_TO, 'Puesto', 'puesto'),
+                        '_links' => array(self::BELONGS_TO, 'Links', 'links'),
+                        '_procesoevaluacion' => array(self::BELONGS_TO, 'Procesoevaluacion', 'procesoevaluacion '),
 		);
 	}
 
@@ -89,13 +89,11 @@ class Evaluaciondesempeno extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'id' => 'ID',
-			'evaluador' => 'Evaluador',
+			'id' => 'ID',			
 			'colaborador' => 'Colaborador',
 			'puesto' => 'Puesto',
 			'fecharegistrocompromiso' => 'Fecharegistrocompromiso',
-			'fechaevaluacion' => 'Fechaevaluacion',
-			'periodo' => 'Periodo',
+			'fechaevaluacion' => 'Fechaevaluacion',			
 			'comentariocompromisos' => 'Comentariocompromisos',
 			'comentarioevaluacion' => 'Comentarioevaluacion',
 			'promediocompromisos' => 'Promediocompromisos',
@@ -103,6 +101,8 @@ class Evaluaciondesempeno extends CActiveRecord
 			'promedioevaluacion' => 'Promedioevaluacion',
 			'fecharegistroevaluacion' => 'Fecharegistroevaluacion',
 			'estadoevaluacion' => 'Estadoevaluacion',
+                        'links' => 'Links',
+			'procesoevaluacion' => 'Procesoevaluacion',
 		);
 	}
 
@@ -118,12 +118,10 @@ class Evaluaciondesempeno extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
-		$criteria->compare('evaluador',$this->evaluador);
 		$criteria->compare('colaborador',$this->colaborador);
 		$criteria->compare('puesto',$this->puesto);
 		$criteria->compare('fecharegistrocompromiso',$this->fecharegistrocompromiso,true);
 		$criteria->compare('fechaevaluacion',$this->fechaevaluacion,true);
-		$criteria->compare('periodo',$this->periodo);
 		$criteria->compare('comentariocompromisos',$this->comentariocompromisos,true);
 		$criteria->compare('comentarioevaluacion',$this->comentarioevaluacion,true);
 		$criteria->compare('promediocompromisos',$this->promediocompromisos);
@@ -131,6 +129,8 @@ class Evaluaciondesempeno extends CActiveRecord
 		$criteria->compare('promedioevaluacion',$this->promedioevaluacion);
 		$criteria->compare('fecharegistroevaluacion',$this->fecharegistroevaluacion,true);
 		$criteria->compare('estadoevaluacion',$this->estadoevaluacion);
+                $criteria->compare('links',$this->links);
+		$criteria->compare('procesoevaluacion',$this->procesoevaluacion);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

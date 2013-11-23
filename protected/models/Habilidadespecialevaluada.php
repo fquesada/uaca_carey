@@ -6,14 +6,14 @@
  * The followings are the available columns in table 'habilidadespecialevaluada':
  * @property integer $id
  * @property integer $habilidadespecial
- * @property integer $evaluacionpersonas
+ * @property integer $procesoevaluacion
  * @property integer $calificacion
  * @property integer $evaluacioncompetencias
- *  @property string $comentario
+ * @property string $comentario
  *
  * The followings are the available model relations:
  * @property Habilidadespecial $_habilidadespecial
- * @property Evaluacionpersonas $_evaluacionpersonas
+ * @property Procesoevaluacion $_procesoevaluacion
  * @property Evaluacioncompetencias $_evaluacioncompetencias
  */
 class Habilidadespecialevaluada extends CActiveRecord
@@ -44,12 +44,12 @@ class Habilidadespecialevaluada extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('habilidadespecial, evaluacionpersonas, calificacion, evaluacioncompetencias', 'required'),
-			array('habilidadespecial, evaluacionpersonas, calificacion, evaluacioncompetencias', 'numerical', 'integerOnly'=>true),
+			array('habilidadespecial, procesoevaluacion, calificacion, evaluacioncompetencias', 'required'),
+			array('habilidadespecial, procesoevaluacion, calificacion, evaluacioncompetencias', 'numerical', 'integerOnly'=>true),
                         array('comentario', 'length', 'max'=>100),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, habilidadespecial, evaluacionpersonas, calificacion, evaluacioncompetencias', 'safe', 'on'=>'search'),
+			array('id, habilidadespecial, procesoevaluacion, calificacion, evaluacioncompetencias', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -62,7 +62,7 @@ class Habilidadespecialevaluada extends CActiveRecord
 		// class name for the relations automatically generated below.
 		return array(
 			'_habilidadespecial' => array(self::BELONGS_TO, 'Habilidadespecial', 'habilidadespecial'),
-			'_evaluacionpersonas' => array(self::BELONGS_TO, 'Evaluacionpersonas', 'evaluacionpersonas'),
+			'_procesoevaluacion' => array(self::BELONGS_TO, 'Procesoevaluacion', 'procesoevaluacion'),
 			'_evaluacioncompetencias' => array(self::BELONGS_TO, 'Evaluacioncompetencias', 'evaluacioncompetencias'),
 		);
 	}
@@ -75,7 +75,7 @@ class Habilidadespecialevaluada extends CActiveRecord
 		return array(
 			'id' => 'ID',
 			'habilidadespecial' => 'Habilidadespecial',
-			'evaluacionpersonas' => 'Evaluacionpersonas',
+			'procesoevaluacion' => 'Procesoevaluacion',
 			'calificacion' => 'Calificacion',
 			'evaluacioncompetencias' => 'Evaluacioncompetencias',
                         'comentario' => 'Comentario',
@@ -95,7 +95,7 @@ class Habilidadespecialevaluada extends CActiveRecord
 
 		$criteria->compare('id',$this->id);
 		$criteria->compare('habilidadespecial',$this->habilidadespecial);
-		$criteria->compare('evaluacionpersonas',$this->evaluacionpersonas);
+		$criteria->compare('procesoevaluacion',$this->procesoevaluacion);
 		$criteria->compare('calificacion',$this->calificacion);
 		$criteria->compare('evaluacioncompetencias',$this->evaluacioncompetencias);
                 $criteria->compare('comentario',$this->comentario,true);

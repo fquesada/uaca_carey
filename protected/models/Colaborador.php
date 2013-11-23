@@ -10,14 +10,13 @@
  * @property string $apellido1
  * @property string $apellido2
  * @property integer $estado
+ * @property string $correo
  *
  * The followings are the available model relations:
- * @property Usuario[] $_usuarios
- * @property Evaluacioncompetencias[] $_evaluadoresevaluacioncompetencias
+ * @property Evaluacioncompetencias[] $_colaboradorevaluacioncompetencias
  * @property Evaluaciondesempeno[] $_colaboradoresevaluaciondesempeno
- * @property Evaluaciondesempeno[] $_evaluadoresevaluaciondesempeno
- * @property Evaluacionpersonas[] $_creadoresevaluacionpersonas
  * @property Historicopuesto[] $_colaboradoreshistoricopuesto
+ * @property Procesoevaluacion[] $_evaluadorprocesoevaluacion
  */
 class Colaborador extends CActiveRecord
 {
@@ -49,12 +48,13 @@ class Colaborador extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('cedula, nombre, apellido1, apellido2', 'required'),
+			array('cedula, nombre, apellido1, apellido2, correo', 'required'),
 			array('cedula, estado', 'numerical', 'integerOnly'=>true),
 			array('nombre, apellido1, apellido2', 'length', 'max'=>45),
+                        array('correo', 'length', 'max'=>90),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, cedula, nombre, apellido1, apellido2, estado', 'safe', 'on'=>'search'),
+			array('id, cedula, nombre, apellido1, apellido2, correo, estado', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -65,13 +65,11 @@ class Colaborador extends CActiveRecord
 	{
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
-		return array(			
-			'_usuarios' => array(self::MANY_MANY, 'Usuario', 'colaboradorusuario(colaborador, usuario)'),
-			'_evaluadoresevaluacioncompetencias' => array(self::HAS_MANY, 'Evaluacioncompetencias', 'evaluador'),
-			'_colaboradoresevaluaciondesempeno' => array(self::HAS_MANY, 'Evaluaciondesempeno', 'colaborador'),
-			'_evaluadoresevaluaciondesempeno' => array(self::HAS_MANY, 'Evaluaciondesempeno', 'evaluador'),
-			'_creadoresevaluacionpersonas' => array(self::HAS_MANY, 'Evaluacionpersonas', 'creador'),
+		return array(	
+                        '_colaboradorevaluacioncompetencias' => array(self::HAS_MANY, 'Evaluacioncompetencias', 'colaborador'),
+			'_colaboradoresevaluaciondesempeno' => array(self::HAS_MANY, 'Evaluaciondesempeno', 'colaborador'),		
 			'_colaboradoreshistoricopuesto' => array(self::HAS_MANY, 'Historicopuesto', 'colaborador'),
+                        '_evaluadorprocesoevaluacion' => array(self::HAS_MANY, 'Procesoevaluacion', 'evaluador'),
 		);
 	}
 
@@ -86,7 +84,8 @@ class Colaborador extends CActiveRecord
 			'nombre' => 'Nombre',
 			'apellido1' => 'Primer Apellido',
 			'apellido2' => 'Segundo Apellido',
-			'estado' => 'Estado',			
+			'estado' => 'Estado',	
+                        'correo' => 'Correo',
 		);
 	}
 
@@ -106,7 +105,8 @@ class Colaborador extends CActiveRecord
 		$criteria->compare('nombre',$this->nombre,true);
 		$criteria->compare('apellido1',$this->apellido1,true);
 		$criteria->compare('apellido2',$this->apellido2,true);
-		$criteria->compare('estado',$this->estado);		
+		$criteria->compare('estado',$this->estado);	
+                $criteria->compare('correo',$this->correo,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

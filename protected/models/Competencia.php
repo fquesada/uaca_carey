@@ -11,7 +11,7 @@
  * @property integer $estado
  *
  * The followings are the available model relations:
- * @property Evaluacioncompetencia[] $_evaluacionescompetencias
+ * @property Calificacioncompetencia[] $_calificacioncompetencias
  * @property Habilidadevaluacioncandidato[] $_habilidadesevaluacioncandidato
  * @property Habilidadnoequivalente[] $_habilidadesnoequivalente
  * @property Puesto[] $_puestos
@@ -63,7 +63,7 @@ class Competencia extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'_evaluacionescompetencias' => array(self::HAS_MANY, 'Evaluacioncompetencia', 'competencia'),
+			'_calificacioncompetencias' => array(self::HAS_MANY, 'Calificacioncompetencia', 'competencia'),
 			'_habilidadesevaluacioncandidato' => array(self::HAS_MANY, 'Habilidadevaluacioncandidato', 'competencia'),
 			'_habilidadesnoequivalente' => array(self::HAS_MANY, 'Habilidadnoequivalente', 'competencia'),
 			'_puestos' => array(self::MANY_MANY, 'Puesto', 'puestocompetencia(competencia, puesto)'),
