@@ -9,7 +9,7 @@
  * @property integer $estado
  *
  * The followings are the available model relations:
- * @property Evaluaciondesempeno[] $_evaluacionsdesempeno
+ * @property Procesoevaluacion[] $_procesoevaluacion
  * @property Vacante[] $_vacantes
  */
 class Periodo extends CActiveRecord
@@ -57,7 +57,7 @@ class Periodo extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'_evaluacionsdesempeno' => array(self::HAS_MANY, 'Evaluaciondesempeno', 'periodo'),
+			'_procesoevaluacion' => array(self::HAS_MANY, 'Procesoevaluacion', 'periodo'),
 			'_vacantes' => array(self::HAS_MANY, 'Vacante', 'periodo'),
 		);
 	}

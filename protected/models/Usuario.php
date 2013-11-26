@@ -14,8 +14,8 @@
  *
  * The followings are the available model relations:
  * @property Colaborador[] $_colaboradores
- * @property Historialcontrasenas[] $_historialcontrasenas
- * @property Historialcontrasenas[] $_historialcontrasenaseditor
+ * @property Historialcontrasenas[] $_historialcontrasenas //POSIBLEMENTE SE BORRA POR ELIMINACION DE HISTORIALCONTRASENAS
+ * @property Historialcontrasenas[] $_historialcontrasenaseditor //POSIBLEMENTE SE BORRA POR ELIMINACION DE HISTORIALCONTRASENAS
  * @property Empresa $_empresa
  */
 class Usuario extends CActiveRecord
