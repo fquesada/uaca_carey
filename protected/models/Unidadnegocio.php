@@ -6,15 +6,14 @@
  * The followings are the available columns in table 'unidadnegocio':
  * @property integer $id
  * @property string $nombre
- * @property string $descripcion
+ * @property string $codigo
  * @property integer $empresa
  * @property integer $estado
  *
  * The followings are the available model relations:
  * @property Historicopuesto[] $_historicopuestos
  * @property Empresa $_empresa
- * @property Puesto[] $_puestos
- * @property Vacante[] $_vacantes
+ * @property Puesto[] $_puestos 
  */
 class Unidadnegocio extends CActiveRecord
 {
@@ -46,11 +45,10 @@ class Unidadnegocio extends CActiveRecord
 		return array(
 			array('nombre', 'required'),
 			array('empresa, estado', 'numerical', 'integerOnly'=>true),
-			array('nombre', 'length', 'max'=>90),
-			array('descripcion', 'length', 'max'=>200),
+			array('nombre, codigo', 'length', 'max'=>90),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, nombre, descripcion, empresa, estado', 'safe', 'on'=>'search'),
+			array('id, nombre, codigo, empresa, estado', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -64,8 +62,7 @@ class Unidadnegocio extends CActiveRecord
 		return array(
                         '_historicopuestos' => array(self::HAS_MANY, 'Historicopuesto', 'unidadnegocio'),
 			'_empresa' => array(self::BELONGS_TO, 'Empresa', 'empresa'),
-			'_puestos' => array(self::MANY_MANY, 'Puesto', 'unidadnegociopuesto(unidadnegocio, puesto)'),
-                        '_vacantes' => array(self::HAS_MANY, 'Vacante', 'unidadnegocio'),
+			'_puestos' => array(self::MANY_MANY, 'Puesto', 'unidadnegociopuesto(unidadnegocio, puesto)'),                        
 		);
 	}
 
@@ -77,7 +74,7 @@ class Unidadnegocio extends CActiveRecord
 		return array(
 			'id' => 'ID',
 			'nombre' => 'Nombre',
-			'descripcion' => 'Descripción',
+			'codigo' => 'Codigo',
 			'empresa' => 'Empresa',
 			'estado' => 'Estado',
 		);
@@ -96,7 +93,7 @@ class Unidadnegocio extends CActiveRecord
 
 		$criteria->compare('id',$this->id);
 		$criteria->compare('nombre',$this->nombre,true);
-		$criteria->compare('descripcion',$this->descripcion,true);
+		$criteria->compare('codigo',$this->codigo,true);
 		$criteria->compare('empresa',$this->empresa);
 		$criteria->compare('estado',$this->estado);
                 

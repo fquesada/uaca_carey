@@ -8,13 +8,12 @@
  * @property integer $periodo
  * @property string $fechareclutamiento
  * @property string $fechaseleccion
- * @property integer $evaluacionpersonas
+ * @property integer $procesoevaluacion
  * @property integer $unidadnegocio
  *
  * The followings are the available model relations:
  * @property Periodo $_periodo
- * @property Evaluacionpersonas $_evaluacionpersonas
- * @property Unidadnegocio $_unidadnegocio
+ * @property Procesoevaluacion $_procesoevaluacion
  */
 class Vacante extends CActiveRecord
 {
@@ -44,12 +43,12 @@ class Vacante extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('periodo, unidadnegocio', 'required'),
-			array('periodo, evaluacionpersonas, unidadnegocio', 'numerical', 'integerOnly'=>true),
+			array('periodo', 'required'),
+			array('periodo, procesoevaluacion', 'numerical', 'integerOnly'=>true),
 			array('fechareclutamiento, fechaseleccion', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, periodo, fechareclutamiento, fechaseleccion, evaluacionpersonas, unidadnegocio', 'safe', 'on'=>'search'),
+			array('id, periodo, fechareclutamiento, fechaseleccion, procesoevaluacion', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -62,8 +61,7 @@ class Vacante extends CActiveRecord
 		// class name for the relations automatically generated below.
 		return array(
 			'_periodo' => array(self::BELONGS_TO, 'Periodo', 'periodo'),
-			'_evaluacionpersonas' => array(self::BELONGS_TO, 'Evaluacionpersonas', 'evaluacionpersonas'),
-			'_unidadnegocio0' => array(self::BELONGS_TO, 'Unidadnegocio', 'unidadnegocio'),
+			'_procesoevaluacion' => array(self::BELONGS_TO, 'Procesoevaluacion', 'procesoevaluacion'),
 		);
 	}
 
@@ -77,8 +75,7 @@ class Vacante extends CActiveRecord
 			'periodo' => 'Periodo',
 			'fechareclutamiento' => 'Fechareclutamiento',
 			'fechaseleccion' => 'Fechaseleccion',
-			'evaluacionpersonas' => 'Evaluacionpersonas',
-			'unidadnegocio' => 'Unidadnegocio',
+			'procesoevaluacion' => 'Proceso Evaluacion',
 		);
 	}
 
@@ -97,8 +94,7 @@ class Vacante extends CActiveRecord
 		$criteria->compare('periodo',$this->periodo);
 		$criteria->compare('fechareclutamiento',$this->fechareclutamiento,true);
 		$criteria->compare('fechaseleccion',$this->fechaseleccion,true);
-		$criteria->compare('evaluacionpersonas',$this->evaluacionpersonas);
-		$criteria->compare('unidadnegocio',$this->unidadnegocio);
+		$criteria->compare('procesoevaluacion',$this->procesoevaluacion);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

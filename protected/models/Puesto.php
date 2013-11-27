@@ -14,8 +14,8 @@
  * @property Evaluacioncompetencias[] $_puestospotencial1evaluacioncompetencia
  * @property Evaluacioncompetencias[] $_puestospotencial2evaluacioncompetencia
  * @property Evaluacioncompetencias[] $_puestospotencial3evaluacioncompetencia
- * @property Evaluacionpersonas[] $_evaluacionpersonas
- * @property Evaluaciondesempeno[] $_puestosevaluaciondesempeno
+ * @property Evaluacioncompetencias[] $_puestoevaluacioncompetencias
+ * @property Evaluaciondesempeno[] $$_puestosevaluaciondesempeno
  * @property Habilidadnoequivalente[] $_puestospotencial1habilidadnoequivalente
  * @property Habilidadnoequivalente[] $_puestospotencial2habilidadnoequivalente
  * @property Habilidadnoequivalente[] $_puestospotencial3habilidadnoequivalente
@@ -76,7 +76,7 @@ class Puesto extends CActiveRecord
 			'_puestospotencial2evaluacioncompetencia' => array(self::HAS_MANY, 'Evaluacioncompetencias', 'puestopotencial2'),
 			'_puestospotencial3evaluacioncompetencia' => array(self::HAS_MANY, 'Evaluacioncompetencias', 'puestopotencial3'),
 			'_puestosevaluaciondesempeno' => array(self::HAS_MANY, 'Evaluaciondesempeno', 'puesto'),
-                        '_evaluacionpersonas' => array(self::HAS_MANY, 'Evaluacionpersonas', 'puesto'),
+                        '_puestoevaluacioncompetencias' => array(self::HAS_MANY, 'Evaluacioncompetencias', 'puesto'),
 			'_puestospotencial1habilidadnoequivalente' => array(self::HAS_MANY, 'Habilidadnoequivalente', 'puestopotencial1'),
 			'_puestospotencial2habilidadnoequivalente' => array(self::HAS_MANY, 'Habilidadnoequivalente', 'puestopotencial2'),
 			'_puestospotencial3habilidadnoequivalente' => array(self::HAS_MANY, 'Habilidadnoequivalente', 'puestopotencial3'),

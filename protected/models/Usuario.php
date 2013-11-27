@@ -13,9 +13,6 @@
  * @property integer $estadopassword
  *
  * The followings are the available model relations:
- * @property Colaborador[] $_colaboradores
- * @property Historialcontrasenas[] $_historialcontrasenas //POSIBLEMENTE SE BORRA POR ELIMINACION DE HISTORIALCONTRASENAS
- * @property Historialcontrasenas[] $_historialcontrasenaseditor //POSIBLEMENTE SE BORRA POR ELIMINACION DE HISTORIALCONTRASENAS
  * @property Empresa $_empresa
  */
 class Usuario extends CActiveRecord
@@ -41,6 +38,7 @@ class Usuario extends CActiveRecord
 		return 'usuario';
 	}
         
+        //VER QUE HAY QUE BORRAR DE AQUI
         public $confirmarPassword;
         public $password_actual;
         public $password_nueva;
@@ -55,6 +53,7 @@ class Usuario extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
+                                 //VER QUE HAY QUE BORRAR DE AQUI
 				array('login, password, confirmarPassword', 'required','on'=>'create'),
                                 array('login, empresa', 'required', 'on'=>'update'),
                                 array('password_actual, password_nueva, confirmarPassword', 'required', 'on'=>'CambiarPass'),
@@ -77,10 +76,7 @@ class Usuario extends CActiveRecord
 	{
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
-		return array(
-                        '_historialcontrasenas' => array(self::HAS_MANY, 'Historialcontrasenas', 'usuario'),
-			'_historialcontrasenaseditor' => array(self::HAS_MANY, 'Historialcontrasenas', 'usuarioeditor'),
-			'_colaboradores' => array(self::MANY_MANY, 'Colaborador', 'colaboradorusuario(usuario, colaborador)'),
+		return array(                     
 			'_empresa' => array(self::BELONGS_TO, 'Empresa', 'empresa'),
 		);
 	}
@@ -127,24 +123,5 @@ class Usuario extends CActiveRecord
         
         public function getsalt(){            
             return $this->salt;
-        }
-        
-        /*          
-	 * @return object type Colaborador, si no tiene Colaborador retorna false
-	 */
-        public function getcolaborador(){
-            $colaboradores = $this->_colaboradores;
-            reset($colaboradores);
-            return current($colaboradores);        
-        }
-        
-        /*          
-	 * @return true tiene colaboradores
-	 */
-        public function hascolaborador(){
-            if(count($this->_colaboradores) > 0)
-                return true;
-            else
-                return false;
-        }
+        }   
 }

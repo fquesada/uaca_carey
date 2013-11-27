@@ -92,7 +92,7 @@ class Procesoevaluacion  extends CActiveRecord
                         'periodo' => 'Periodo',
 		);
 	}
-
+            //AJUSTAR LA CONSULTA A LOS NUEVOS NOMBRES DE BD
        public function search(){
             $connection=Yii::app()->db;
             $sql=   "SELECT evaluacionpersonas.id, evaluacionpersonas.descripcion, DATE_FORMAT(evaluacionpersonas.fecha, '%d-%m-%Y') AS fecha,
