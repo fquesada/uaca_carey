@@ -18,8 +18,8 @@ return array(
 	'import'=>array(
 		'application.models.*',
 		'application.components.*',
-                'application.modules.rights.*', 
-		'application.modules.rights.components.*',
+                //'application.modules.rights.*', 
+		//'application.modules.rights.components.*',
                 'application.components.jpgraph.*',
 	),
 
@@ -33,14 +33,15 @@ return array(
 			'ipFilters'=>array('127.0.0.1','::1'),
 		),
             
-                'rights'=>array( 
-                    'superuserName'=>'admin',                    
-                    'authenticatedName'=>'Authenticated',
-                    'userClass' => 'Usuario',
-                    'userIdColumn'=>'id',
-                    'userNameColumn'=>'login',                    
-                    
-                    'install'=>false),
+//                'rights'=>array( 
+//                    'superuserName'=>'admin',                    
+//                    'authenticatedName'=>'Authenticated',
+//                    'userClass' => 'Usuario',
+//                    'userIdColumn'=>'id',
+//                    'userNameColumn'=>'login',                    
+//                    
+//                    'install'=>false),
+
 	),
         
         'homeUrl'=>array('site/login'),
@@ -49,9 +50,10 @@ return array(
 		'user'=>array(
 			// enable cookie-based authentication
 			'allowAutoLogin'=>true,
-                        'class'=>'RWebUser',
+                        'loginUrl'=>array('site/login'),
+                        //'class'=>'RWebUser',
 		),
-                'authManager'=>array( 'class'=>'RDbAuthManager'),
+                //'authManager'=>array( 'class'=>'RDbAuthManager'),
 		// uncomment the following to enable URLs in path-format
 		
 		'urlManager'=>array(
