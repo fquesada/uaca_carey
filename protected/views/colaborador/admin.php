@@ -29,8 +29,6 @@ Puede ingresar opcionalmente un operador comparativo (<b>&lt;</b>, <b>&lt;=</b>,
 		'nombre',
 		'apellido1',
 		'apellido2',
-		'unidadnegocio',
-		'puesto',
 		array(
 			'class'=>'CButtonColumn',
 		),

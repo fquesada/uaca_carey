@@ -7,6 +7,8 @@ $this->pageTitle=Yii::app()->name . ' - Correo para Evaluar';
 $this->breadcrumbs=array(
 	'Envio de correo',
 );
+
+$usuario = new Usuario();
 ?>
 
 <h1>Correo de Evaluación</h1>
@@ -24,7 +26,7 @@ If you have business inquiries or other questions, please fill out the following
 </p>
 
 <div class="form">
-
+    
 <?php $form=$this->beginWidget('CActiveForm', array(
 	'id'=>'correo-form',
 	'enableClientValidation'=>true,
@@ -36,8 +38,8 @@ If you have business inquiries or other questions, please fill out the following
 	<p class="note">Fields with <span class="required">*</span> are required.</p>
 
 	<?php echo $form->errorSummary($model); ?>
-
-	<div class="row">
+        
+        <div class="row">
 		<?php echo $form->labelEx($model,'destinatario'); ?>
 		<?php echo $form->textField($model,'destinatario'); ?>
 		<?php echo $form->error($model,'destinatario'); ?>
@@ -60,7 +62,7 @@ If you have business inquiries or other questions, please fill out the following
 	</div>
 
 <?php $this->endWidget(); ?>
-
+        
 </div><!-- form -->
 
 <?php endif; ?>
