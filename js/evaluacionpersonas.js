@@ -70,7 +70,7 @@ $(document).ready(function() {
        infoponderacion();
    });
    
-    $("#btnagregarcolaboradores").click(function(){       
+    $("#btnbusquedacolaboradores").click(function(){       
        limpiarinputshabilidades();
        $("#divcolaborador").show();       
        $("#dialogcolaboradores").dialog('open');
@@ -184,7 +184,7 @@ $(document).ready(function() {
     function messageerror(message){
         new Messi(message,
         {   
-            title: 'Error', 
+            title: 'Alerta', 
             titleClass: 'anim error',                                 
             modal:true                                          
         });
@@ -253,16 +253,59 @@ $(document).ready(function() {
 
             
         });
+        
+   //Funcionalidad sobre la imagen de borrar en busqueda de evaluador en el proceso de EC
+   $("#imgborrarevaluador").on("click",function(){               
+        $('#cedulaevaluador').text('-');                             
+        $('#busquedaevaluador').val('');                                              
+        $('#idevaluador').val('');                    
+        $('#busquedaevaluador').removeAttr("disabled");
+        $("#imgborrarevaluador").hide();
+        $('#btnbusquedacolaboradores').attr('disabled', 'true');
+   });
+   
+   //Funcionalidad sobre la imagen de borrar en busqueda de colaborador en el proceso de EC
+   $("#imgborrarcolaborador").on("click",function(){ 
+        restablecerbuscarcolaborador();
+   });
 
-   $("#imgborrar").on("click",function(){        
+   function restablecerbuscarcolaborador(){
+        $('#cedulacolaborador').text('-');                             
+        $('#busquedacolaborador').val('');                                              
+        $('#idcolaborador').val('');                   
+        $('#busquedacolaborador').removeAttr("disabled");
+        $('#btnagregarcolaborador').attr('disabled', 'true');
+        $("#imgborrarcolaborador").hide();
+   }
+   
+   //Validacion cuando se va agregar un colaborador busqueda de colaborador en el proceso de EC
+   $("#btnagregarcolaborador").click(function(){         
        
-          $('#cedula').text('-');                             
-                $('#colaborador').val('');                                              
-                $('#id').val('');                              
-                $('#tipo').val('');                             
-                $('#colaborador').removeAttr("disabled");
-                $('#btnagregarpersona').attr('disabled', 'true');
-                $("#imgborrar").hide();
+       var idevaluador = $('#idevaluador').val();  
+       var idcolaborador = $('#idcolaborador').val(); 
+       
+       if(idevaluador === idcolaborador){
+           messageerror('El colaborador no puede ser el mismo que el evaluador');
+           restablecerbuscarcolaborador();
+       }
+//       else if(){};
+//       if(validar($('#txtnombrehabilidad')) && validar($('#txtareadescripcionhabilidad'))&& validar($('#dllponderacion'))){       
+//        var habilidad = $('#txtnombrehabilidad').val();
+//        var habilidaddescripcion = $('#txtareadescripcionhabilidad').val();
+//        var ponderacion = $('#dllponderacion').val(); 
+//        $('#tblhabilidades > tbody').append('<tr><td name="habilidad">'+habilidad+'</td><td name="descripcion">'+habilidaddescripcion+'</td><td name="ponderacion">'+ponderacion+'</td><td><img id="borrarhabilidad" style="cursor: pointer;" src="../../images/icons/silk/delete.png" alt="Eliminar habilidad"/></td></tr>');               
+//        if (cantidadhabilidades() >= 5){
+//            $("#btndialoghabilidadespecial").attr("disabled", "disabled");        
+//        }       
+//        $("#dialogHabilidades").dialog('close');
+//       }else{
+//           if(!validar($('#txtnombrehabilidad')))
+//                mostrarerror($('#txtnombrehabilidad'));
+//           if(!validar($('#txtareadescripcionhabilidad')))
+//                mostrarerror($('#txtareadescripcionhabilidad'));
+//           if(!validar($('#dllponderacion')))
+//                mostrarerror($('#dllponderacion'));
+//       }
    });
    
     

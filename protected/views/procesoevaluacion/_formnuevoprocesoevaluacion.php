@@ -16,7 +16,7 @@
             $this->widget('zii.widgets.jui.CJuiAutoComplete', array(
             'attribute'=>'colaborador',
             'name'=>'colaborador', 
-            'id'=>'colaborador',
+            'id'=>'busquedaevaluador',
             'source'=>$this->createUrl('procesoevaluacion/AutocompleteEvaluado'),
             // additional javascript options for the autocomplete plugin
             'options'=>array(
@@ -26,12 +26,12 @@
                     
                 if(ui.item['value']!='')
                 {
-                    $('#colaborador').attr('disabled', 'true');	                    
-                    $('#cedula').text(ui.item['cedula']);                                                              
-                    $('#id').val(ui.item['id']);                              
-                    $('#tipo').val(ui.item['tipo']);  
-                    $('#btnagregarpersona').removeAttr('disabled'); 
-                    $('#imgborrar').show();
+                    $('#busquedaevaluador').attr('disabled', 'true');	                    
+                    $('#cedulaevaluador').text(ui.item['cedula']);                                                              
+                    $('#idevaluador').val(ui.item['id']); 
+                    $('#imgborrarevaluador').show();
+                    $('#btnbusquedacolaboradores').removeAttr('disabled'); 
+
                  }
                     
                 }",                
@@ -42,14 +42,17 @@
         
             ?>                   
             <?php echo CHtml::image(Yii::app()->request->baseUrl."/images/icons/silk/decline.png", "Borrar Colaborador seleccionado", 
-                    array("id"=>"imgborrar", "style" => "padding-left:5px; cursor:pointer; display:none")); ?>
+                    array("id"=>"imgborrarevaluador", "style" => "padding-left:5px; cursor:pointer; display:none")); ?>
             <div id="ddlpuestoerror" class="errorevaluacionpersona">Debe seleccionar un puesto</div>
     </div>  
     <div class="row">        
             <?php  echo CHtml::label('Cédula', 'cedula'); ?>            
-            <?php echo CHtml::label('-', 'cedula',array('id'=>'cedula','name'=>'cedula')); ?>
+            <?php echo CHtml::label('-', 'cedula',array('id'=>'cedulaevaluador','name'=>'cedula')); ?>
         
     </div>
+    <div class="row">                  
+            <?php echo CHtml::hiddenField('idevaluador', '-',array('id'=>'idevaluador','name'=>'id')); ?>        
+    </div>   
     </fieldset>
 
     <div class="row">

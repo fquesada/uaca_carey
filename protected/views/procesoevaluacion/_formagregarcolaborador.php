@@ -1,5 +1,5 @@
 <div>                    
-<button  id="btnagregarcolaboradores" type="button" class="sexybutton sexysimple"><span class="add">Agregar colaboradores</span></button>
+<button  id="btnbusquedacolaboradores" type="button" class="sexybutton sexysimple" disabled="disabled"><span class="add">Buscar colaborador(es)</span></button>
 </div>
 </br>
 </br>
@@ -49,18 +49,15 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array(
             'options'=>array(
                 'showAnim'=>'fold',
                 'minLength'=>'2',
-                'select'=>"js: function(event, ui) {
-                    
+                'select'=>"js: function(event, ui) {                    
                 if(ui.item['value']!='')
                 {
-                    $('#buscarcolaborador').attr('disabled', 'true');	                    
+                    $('#busquedacolaborador').attr('disabled', 'true');	                    
                     $('#cedulacolaborador').text(ui.item['cedula']);                                                              
-                    $('#id').val(ui.item['id']);                              
-                    $('#tipo').val(ui.item['tipo']);  
-                    $('#btnagregarpersona').removeAttr('disabled'); 
+                    $('#idcolaborador').val(ui.item['id']);
+                    $('#btnagregarcolaborador').removeAttr('disabled'); 
                     $('#imgborrarcolaborador').show();
-                 }
-                    
+                 }                    
                 }",                
                  ),
               'htmlOptions'=>array('size'=>'30'),
@@ -75,9 +72,12 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array(
             <?php echo CHtml::label('-', 'cedula',array('id'=>'cedulacolaborador','name'=>'cedula')); ?>
         
     </div>
+    <div class="row">                  
+            <?php echo CHtml::hiddenField('id', '-',array('id'=>'idcolaborador','name'=>'idcolaborador')); ?>        
+    </div>
     </fieldset>       
     <div class="row buttons">                    
-        <button  id="btncrearhabilidad" type="button" class="sexybutton sexysimple"><span class="accept">Agregar evaluación especial</span></button>
+        <button  id="btnagregarcolaborador" type="button" class="sexybutton sexysimple" disabled="disabled"><span class="accept">Agregar colaborador</span></button>
     </div>
            
     </div>
@@ -92,13 +92,20 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array(
 <table border="1" id="tblcolaboradores">
   <thead>
     <tr>
+      <th style="display: none">id</th>
       <th>Cédula</th>      
       <th>Colaborador</th> 
       <th>Puesto</th>
-      <th></th> 
+       
     </tr>
   </thead>  
-  <tbody>       
+  <tbody>   
+       <tr>
+        <td style="display: none">13</td>
+        <td>114330232</td>      
+        <td>Fabian</td> 
+        <td>>TI</td>
+        </tr>
   </tbody>
 </table>
     
