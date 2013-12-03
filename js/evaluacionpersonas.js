@@ -1,13 +1,13 @@
 $(document).ready(function() {
    
    //Proceso crear evaluacion persona
-   $("#btncrearevaluacionpersona").click(function(event){
+   $("#btncrearproceso").click(function(event){
        event.preventDefault();
        
-      if(validar($('#txtdescripcion')) && validar($('#ddlpuesto'))){       
+      if(validar($('#txtdescripcion'))){       
        $.ajax({
                     type: "POST",
-                    url: "Crear",
+                    url: "CrearProcesoEC",
                     data: obtenerdatoscrearpersona(),
                     dataType: 'json',
                     error: function (jqXHR, textStatus){
@@ -68,6 +68,13 @@ $(document).ready(function() {
        $("#divhabilidad").show();       
        $("#dialogHabilidades").dialog('open');
        infoponderacion();
+   });
+   
+    $("#btnagregarcolaboradores").click(function(){       
+       limpiarinputshabilidades();
+       $("#divcolaborador").show();       
+       $("#dialogcolaboradores").dialog('open');
+       //infoponderacion();
    });
    
 

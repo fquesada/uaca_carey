@@ -5,19 +5,19 @@ Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/evaluacion
 
 
 $this->breadcrumbs=array(	
-	'Gestión de evaluación de competencias',
+	'Evaluación de Competencias (EC)',
 );
 ?>
 
 
 
-<h3 style="text-align: center">Gestión de evaluación de competencias</h3>
+<h3 style="text-align: center">Evaluación de Competencias (EC)</h3>
 
-<?php echo CHtml::beginForm($this->createUrl('evaluacionpersonas/crear'),'post', array('id'=>'formcrearevaluacionpersona'))?>                      
-<button  id="btnformcrearevaluacionpersona" type="submit" class="sexybutton sexysimple"><span class="add">Crear proceso evaluación</span></button>
+<?php echo CHtml::beginForm($this->createUrl('procesoevaluacion/CrearProcesoEC'),'post', array('id'=>'formcrearevaluacionpersona'))?>                      
+<button  id="btnformcrearevaluacionpersona" type="submit" class="sexybutton sexysimple"><span class="add">Nuevo proceso EC</span></button>
 <?php echo CHtml::endForm()?>
 <?php $this->widget('zii.widgets.grid.CGridView', array(
-	'id'=>'evaluacionpersonas-grid',
+	'id'=>'procesoevaluacion-grid',
 	'dataProvider'=>$model,
         'template' => '{summary}{pager}<br/>{items}{pager}',
 	'filter'=>$filtersForm,    
@@ -32,21 +32,21 @@ $this->breadcrumbs=array(
                     'name'=>'descripcion',                    
                 ),
                 array(
-                    'header'=>'Puesto',
-                    'name'=>'puesto',                     
+                    'header'=>'Evaluador',
+                    'name'=>'evaluador',                     
                 ),
                 array(
-                    'header'=>'Creador',
-                    'name'=>'creador',                     
-                ),
+                    'header'=>'Periodo',
+                    'name'=>'periodo',                     
+                ),                
                 array(
                     'header'=>'Fecha creación',
                     'name'=>'fecha',                     
                 ),
-//                array(
-//                    'header'=>'Estado',
-//                    'name'=>'estado',                     
-//                ),
+                array(
+                    'header'=>'Estado',
+                    'name'=>'estado',                     
+                ),
                 array(
 			'class'=>'CButtonColumn',
                         'htmlOptions'=>array('width'=>'90'),

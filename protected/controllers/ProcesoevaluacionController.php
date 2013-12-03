@@ -1,6 +1,6 @@
 <?php
 
-class EvaluacionpersonasController extends Controller
+class ProcesoevaluacionController extends Controller
 {
 	/**
 	 * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
@@ -32,7 +32,7 @@ class EvaluacionpersonasController extends Controller
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('crear','update','admin','AgregarPersonas','AgregarPersona','AutocompleteEvaluado',
+				'actions'=>array('CrearProcesoEC','update','admin','AgregarPersonas','AgregarPersona','AutocompleteEvaluado',
                                                     'HabilidadesEspeciales','InfoPonderacion', 'delete', 'reporteevaluacioncompetencias', 'DataReporteEvaluacionCompetencias'),
 				'users'=>array('@'),
 			),
@@ -197,7 +197,7 @@ class EvaluacionpersonasController extends Controller
 		));
 	}
         
-        public function actionCrear(){            
+        public function actionCrearProcesoEC(){            
                         
             if(Yii::app()->request->isAjaxRequest)
             {                
@@ -250,7 +250,7 @@ class EvaluacionpersonasController extends Controller
             }
             
             
-            $this->render('crear');
+            $this->render('crearprocesoec');
         }
         
         public function actionHabilidadesEspeciales(){
@@ -329,7 +329,7 @@ class EvaluacionpersonasController extends Controller
 	 */
 	public function actionAdmin()
 	{
-            $model = Evaluacionpersonas::model()->search();                
+            $model = Procesoevaluacion::model()->search();                
             $filtersForm=new FiltersForm;
 
             if (isset($_GET['FiltersForm']))

@@ -92,29 +92,26 @@ class Procesoevaluacion  extends CActiveRecord
                         'periodo' => 'Periodo',
 		);
 	}
-            //AJUSTAR LA CONSULTA A LOS NUEVOS NOMBRES DE BD
+
        public function search(){
             $connection=Yii::app()->db;
-            $sql=   "SELECT evaluacionpersonas.id, evaluacionpersonas.descripcion, DATE_FORMAT(evaluacionpersonas.fecha, '%d-%m-%Y') AS fecha,
-                    CONCAT(colaborador.nombre,' ',colaborador.apellido1,' ',colaborador.apellido2) AS creador,
-                    puesto.nombre AS puesto, (CASE WHEN evaluacionpersonas.estado = 1 THEN 'En proceso' ELSE 'Finalizado' END) as estado                   
-                    FROM evaluacionpersonas
+            $sql=  "SELECT procesoevaluacion.id, procesoevaluacion.descripcion, DATE_FORMAT(procesoevaluacion.fecha, '%d-%m-%Y') AS fecha, procesoevaluacion.periodo, CONCAT(colaborador.nombre,' ',colaborador.apellido1,' ',colaborador.apellido2) AS evaluador,(CASE WHEN procesoevaluacion.estado = 1 THEN 'En proceso' ELSE 'Finalizado' END) as estado                   
+                    FROM procesoevaluacion
                     INNER JOIN colaborador
-                    ON (evaluacionpersonas.creador = colaborador.id)
-                    INNER JOIN puesto
-                    ON (evaluacionpersonas.puesto = puesto.id)"; 
+                    ON (procesoevaluacion.evaluador = colaborador.id)
+                    WHERE procesoevaluacion.tipo = 1;"; 
             $command=$connection->createCommand($sql);
             $models = $command->queryAll();
 
             $dataProvider = new CArrayDataProvider($models,array(
             'keyField'=>'id',
-            'id'=>'evaluacionpersonasgrid',
+            'id'=>'procesoevaluaciongrid',
             'sort'=>array(
                 'attributes'=>array(
                     'descripcion',
                     'fecha',
-                    'creador',
-                    'puesto',                       
+                    'periodo',
+                    'evaluador',                       
                     'estado',
                     ),
                 ),
