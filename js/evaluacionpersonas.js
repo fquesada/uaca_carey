@@ -278,15 +278,44 @@ $(document).ready(function() {
         $("#imgborrarcolaborador").hide();
    }
    
+   function cantidadcolaboradorestabla(){
+      return $('#tblcolaboradores > tbody tr').length;       
+   }
+   
+   function existeidcolaboradortabla(idcomprobar){
+       var existe = false;
+       $('#tblcolaboradores > tbody tr').each(function(index,columna){
+           var idcolaborador = $(columna).find('td:eq(0)').text();//La columna cero posee el idcolaborador
+           if (idcomprobar == idcolaborador)
+               return existe = true;
+       }            
+       );
+       return existe;           
+   }
+   
    //Validacion cuando se va agregar un colaborador busqueda de colaborador en el proceso de EC
    $("#btnagregarcolaborador").click(function(){         
        
        var idevaluador = $('#idevaluador').val();  
        var idcolaborador = $('#idcolaborador').val(); 
+       var cedula = $('#cedulacolaborador').text(); 
+       var colaborador =  $('#busquedacolaborador').val(); 
        
-       if(idevaluador === idcolaborador){
+       if(idevaluador == idcolaborador){
            messageerror('El colaborador no puede ser el mismo que el evaluador');
            restablecerbuscarcolaborador();
+       }
+       else if(cantidadcolaboradorestabla()==0){
+           $('#tblcolaboradores > tbody').append('<tr><td name="idcolaborador" style="display: none">'+idcolaborador+'</td><td name="cedula">'+cedula+'</td><td name="colaborador">'+colaborador+'</td><td name="colaborador">Falta puesto</td><td><img id="borrarhabilidad" style="cursor: pointer;" src="../../images/icons/silk/delete.png" alt="Eliminar colaborador"/></td></tr>');     
+           restablecerbuscarcolaborador();
+       }
+       else if (existeidcolaboradortabla(idcolaborador)){
+           messageerror('El colaborador ya se encuentra seleccionado.');
+           restablecerbuscarcolaborador();
+       }
+       else{
+          $('#tblcolaboradores > tbody').append('<tr><td name="idcolaborador" style="display: none">'+idcolaborador+'</td><td name="cedula">'+cedula+'</td><td name="colaborador">'+colaborador+'</td><td name="colaborador">Falta puesto</td><td><img id="borrarhabilidad" style="cursor: pointer;" src="../../images/icons/silk/delete.png" alt="Eliminar colaborador"/></td></tr>');      
+          restablecerbuscarcolaborador();
        }
 //       else if(){};
 //       if(validar($('#txtnombrehabilidad')) && validar($('#txtareadescripcionhabilidad'))&& validar($('#dllponderacion'))){       

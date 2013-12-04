@@ -6,7 +6,6 @@
  * The followings are the available columns in table 'puesto':
  * @property integer $id
  * @property string $nombre
- * @property string $descripcion
  * @property string $codigo
  * @property integer $estado
  *
@@ -56,11 +55,10 @@ class Puesto extends CActiveRecord
 			array('nombre, codigo', 'required'),
 			array('estado', 'numerical', 'integerOnly'=>true),
 			array('nombre', 'length', 'max'=>90),
-			array('descripcion', 'length', 'max'=>200),
 			array('codigo', 'length', 'max'=>45),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, nombre, descripcion, codigo, estado', 'safe', 'on'=>'search'),
+			array('id, nombre, codigo, estado', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -96,7 +94,6 @@ class Puesto extends CActiveRecord
 		return array(
 			'id' => 'ID',
 			'nombre' => 'Nombre',
-			'descripcion' => 'Descripcion',
 			'codigo' => 'Codigo',
 			'estado' => 'Estado',
 		);
@@ -115,7 +112,6 @@ class Puesto extends CActiveRecord
 
 		$criteria->compare('id',$this->id);
 		$criteria->compare('nombre',$this->nombre,true);
-		$criteria->compare('descripcion',$this->descripcion,true);
 		$criteria->compare('codigo',$this->codigo,true);
 		$criteria->compare('estado',$this->estado);
                 //Muestra los puestos activos unicamente
@@ -133,7 +129,6 @@ class Puesto extends CActiveRecord
             $criteria = new CDbCriteria;
             
             $criteria->compare('nombre',$this->nombre,true);
-            $criteria->compare('descripcion',$this->descripcion,true);
             $criteria->compare('codigo',$this->codigo,true);	
             
             $criteria->addcolumncondition(array('estado'=>'1'));

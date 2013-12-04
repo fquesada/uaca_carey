@@ -95,17 +95,11 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array(
       <th style="display: none">id</th>
       <th>Cédula</th>      
       <th>Colaborador</th> 
-      <th>Puesto</th>
-       
+      <th>Puesto</th> 
+      <th>Acciones</th>
     </tr>
   </thead>  
   <tbody>   
-       <tr>
-        <td style="display: none">13</td>
-        <td>114330232</td>      
-        <td>Fabian</td> 
-        <td>>TI</td>
-        </tr>
   </tbody>
 </table>
     
