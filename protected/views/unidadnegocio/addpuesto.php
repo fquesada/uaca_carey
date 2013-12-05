@@ -25,8 +25,7 @@
     <?php $this->widget('zii.widgets.CDetailView', array(
             'data'=>$model,
             'attributes'=>array(
-                    'nombre',
-                    'descripcion'		
+                    'nombre',	
             ),
     )); ?>
     
@@ -55,7 +54,6 @@
                 ),
 		'codigo',
                 'nombre',
-		'descripcion',
                 
 	),
     )); ?>
@@ -85,10 +83,6 @@
                     array(
                         'name'=>'NombrePuesto',
                         'header'=>'Nombre'
-                    ),
-                    array(
-                        'name'=>'DescripcionPuesto',
-                        'header'=>'Descripción'
                     ),
                     array(
                             'class'=>'CButtonColumn',

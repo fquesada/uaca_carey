@@ -133,7 +133,6 @@ class Puesto extends CActiveRecord
             $criteria = new CDbCriteria;
             
             $criteria->compare('nombre',$this->nombre,true);
-            $criteria->compare('descripcion',$this->descripcion,true);
             $criteria->compare('codigo',$this->codigo,true);	
             
             $criteria->addcolumncondition(array('estado'=>'1'));

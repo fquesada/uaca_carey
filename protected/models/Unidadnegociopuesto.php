@@ -78,14 +78,6 @@ class Unidadnegociopuesto extends CActiveRecord
             
         }
         
-        public function getDescripcionPuesto(){
-            $puestosel = Puesto::model()->findAllByAttributes(array('id'=>$this->puesto));
-            foreach ($puestosel as $puesto){
-                $resultado = $puesto->descripcion;
-            }
-            return $resultado;
-        }
-        
         public function  getCodigoPuesto(){
             $puestosel = Puesto::model()->findAllByAttributes(array('id'=>$this->puesto));
             foreach ($puestosel as $puesto){

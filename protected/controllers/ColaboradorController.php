@@ -36,7 +36,7 @@ class ColaboradorController extends Controller
 				'users'=>array('@'),
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
-				'actions'=>array('admin','delete'),
+				'actions'=>array('admin','delete','EnviarNotificacion', 'Enviar'),
 				'users'=>array('admin'),
 			),
 			array('deny',  // deny all users
@@ -195,6 +195,53 @@ class ColaboradorController extends Controller
 			throw new CHttpException(404,'The requested page does not exist.');
 		return $model;
 	}
+        
+        public function actionEnviarNotificacion($id)
+        {
+            $model=$this->loadModel($id);
+            
+            $this->render('enviarcorreo',array(
+			'model'=>$model,
+		));
+
+        }
+        
+        public function actionEnviar()
+        {
+                $modelocorreo =new Correo;
+		if(isset($_POST['Correo']))
+		{
+			$modelocorreo->destinatario = Yii::app()->session['destinatario'];
+                        
+                        //Desalambrar esto
+                        $modelocorreo->asunto = 'Prueba';
+                        $modelocorreo->mensaje = 'Favor evaluar a sus colaboradores';
+                        
+                        
+			if($modelocorreo->validate())
+			{
+                                $mail = new YiiMailer();
+                                $mail->setView('contact');
+                                $mail->setData(array('message' => $modelocorreo->mensaje , 'name' => $modelocorreo->destinatario, 'description' => 'Evaluación de Colaboradores'));
+				
+                                //set properties
+                                $mail->setFrom('willcha9019@hotmail.com', 'William Chacón C.');
+                                $mail->setSubject($modelocorreo->asunto);
+                                $mail->setTo($modelocorreo->destinatario);
+
+                                //envio
+                                if ($mail->send()) {
+                                        Yii::app()->user->setFlash('success','Se envio correctamente la notificación de evaluación.');         
+                                        $this->redirect(array('admin'));
+                                } else {
+                                        Yii::app()->user->setFlash('error','No se pudo enviar la notificación correctamente.');
+                                        $this->redirect(array('admin'));
+                                }
+			}
+		}
+                
+		$this->render('correoevaluacion',array('model'=>$model));
+        }
 
 	/**
 	 * Performs the AJAX validation.
