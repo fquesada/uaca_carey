@@ -4,11 +4,11 @@ $(document).ready(function() {
    $("#btncrearproceso").click(function(event){
        event.preventDefault();
        
-      if(validar($('#txtdescripcion'))){       
+//      if(validar($('#txtdescripcion'))){       
        $.ajax({
                     type: "POST",
                     url: "CrearProcesoEC",
-                    data: obtenerdatoscrearpersona(),
+                    data: obtenerdatoscrearproceso(),
                     dataType: 'json',
                     error: function (jqXHR, textStatus){
                         if (jqXHR.status === 0) {                            
@@ -28,20 +28,20 @@ $(document).ready(function() {
                         }
                     },
                     success: function(resultado){
-                        if(resultado.result){
-                            messagesuccess(resultado.value, 'agregarpersonas/'+resultado.idproceso);
-                        }else{
+//                        if(resultado.result){
+//                            messagesuccess(resultado.value, 'agregarpersonas/'+resultado.idproceso);
+//                        }else{
                             messageerror(resultado.value);
-                        }                        
+//                        }                        
                     }
         });
-      }
-      else{
-          if(!validar($('#txtdescripcion')))
-                mostrarerror($('#txtdescripcion'));
-           if(!validar($('#ddlpuesto')))
-                mostrarerror($('#ddlpuesto'));
-      }
+//      }
+//      else{
+//          if(!validar($('#txtdescripcion')))
+//                mostrarerror($('#txtdescripcion'));
+//           if(!validar($('#ddlpuesto')))
+//                mostrarerror($('#ddlpuesto'));
+//      }
    });
   
     function obtenerdatoscrearpersona(){             
@@ -317,30 +317,27 @@ $(document).ready(function() {
           $('#tblcolaboradores > tbody').append('<tr><td name="idcolaborador" style="display: none">'+idcolaborador+'</td><td name="cedula">'+cedula+'</td><td name="colaborador">'+colaborador+'</td><td name="colaborador">Falta puesto</td><td><img id="borrarhabilidad" style="cursor: pointer;" src="../../images/icons/silk/delete.png" alt="Eliminar colaborador"/></td></tr>');      
           restablecerbuscarcolaborador();
        }
-//       else if(){};
-//       if(validar($('#txtnombrehabilidad')) && validar($('#txtareadescripcionhabilidad'))&& validar($('#dllponderacion'))){       
-//        var habilidad = $('#txtnombrehabilidad').val();
-//        var habilidaddescripcion = $('#txtareadescripcionhabilidad').val();
-//        var ponderacion = $('#dllponderacion').val(); 
-//        $('#tblhabilidades > tbody').append('<tr><td name="habilidad">'+habilidad+'</td><td name="descripcion">'+habilidaddescripcion+'</td><td name="ponderacion">'+ponderacion+'</td><td><img id="borrarhabilidad" style="cursor: pointer;" src="../../images/icons/silk/delete.png" alt="Eliminar habilidad"/></td></tr>');               
-//        if (cantidadhabilidades() >= 5){
-//            $("#btndialoghabilidadespecial").attr("disabled", "disabled");        
-//        }       
-//        $("#dialogHabilidades").dialog('close');
-//       }else{
-//           if(!validar($('#txtnombrehabilidad')))
-//                mostrarerror($('#txtnombrehabilidad'));
-//           if(!validar($('#txtareadescripcionhabilidad')))
-//                mostrarerror($('#txtareadescripcionhabilidad'));
-//           if(!validar($('#dllponderacion')))
-//                mostrarerror($('#dllponderacion'));
-//       }
-   });
-   
-    
-    
-});
 
+   });
+
+    function obtenerdatoscrearproceso(){             
+    var data = {};
+    data['nombreproceso'] = $("#txtdescripcion").val();
+    data['idevaluador'] = $("#idevaluador").val(); 
+    data['periodo'] = $('#ddlperiodo').val();
+    data['colaboradores'] = obtenercolaboradoresevaluar();    
+    return data;
+   }
+   
+    function obtenercolaboradoresevaluar(){                 
+       var colaboradores = Array();
+        $("#tblcolaboradores > tbody > tr").each(function(index, columna) {		
+            var idcolaborador = $(columna).find('td:eq(0)').text();	            
+            colaboradores[index] = idcolaborador;
+        });
+        return colaboradores;
+   }
+   
 //Dialog Informacion Ponderacion en Habilidades Especiales Dialog
 
     function infoponderacion(){
@@ -396,4 +393,6 @@ $(document).ready(function() {
 //                                           ),
 //    }
  }
-
+ 
+ 
+});

@@ -201,49 +201,80 @@ class ProcesoevaluacionController extends Controller
                         
             if(Yii::app()->request->isAjaxRequest)
             {                
-                $nombreproceso = $_POST['proceso'];
-                $puesto = CommonFunctions::stringtonumber($_POST['puesto']);
+                $nombreproceso = $_POST['nombreproceso'];
+                $idevaluador = CommonFunctions::stringtonumber($_POST['idevaluador']);
+                $periodo = CommonFunctions::stringtonumber($_POST['periodo']);
                 
-                $evaluacionpersona = new Evaluacionpersonas();
+                //$puesto = CommonFunctions::stringtonumber($_POST['puesto']);
+                $procesoevaluacion = new Procesoevaluacion();
                 
-                $evaluacionpersona->descripcion = $nombreproceso;
-                $evaluacionpersona->puesto = $puesto; 
-                $evaluacionpersona->fecha = CommonFunctions::datenow();
+                //$evaluacionpersona = new Evaluacionpersonas();
                 
-                $usuario = Usuario::model()->findByPk(Yii::app()->user->id);              
-                $colaborador = $usuario->getcolaborador();
-                $evaluacionpersona->creador = $colaborador->id;
+                $procesoevaluacion->descripcion = $nombreproceso;
+                $procesoevaluacion->periodo = $periodo;
+                $procesoevaluacion->evaluador = $idevaluador;
+                
+//                $evaluacionpersona->descripcion = $nombreproceso;
+//                $evaluacionpersona->puesto = $puesto; 
+                $procesoevaluacion->fecha = CommonFunctions::datenow();                
+                $procesoevaluacion->tipo = 1; //MIGRAR VARIABLES GLOBALES
+//                $usuario = Usuario::model()->findByPk(Yii::app()->user->id);              
+//                $colaborador = $usuario->getcolaborador();
+//                $evaluacionpersona->creador = $colaborador->id;
                 
                 $transaction = Yii::app()->db->beginTransaction();
                 
-                $saveresult = $evaluacionpersona->save();
+                $saveresult = $procesoevaluacion->save();
                 
                                
                 if($saveresult){
-                    if(isset($_POST['habilidades'])){
-                        foreach ($_POST['habilidades'] as $nombre => $informacion) {
-                            $habilidadesespecial = new Habilidadespecial();
-                            $habilidadesespecial->nombre = $nombre;
-                            $habilidadesespecial->descripcion = $informacion['descripcion'];
-                            $habilidadesespecial->ponderacion = $informacion['ponderacion'];
-                            $habilidadesespecial->evaluacionpersonas = $evaluacionpersona->id;
-                            $saveresult = $habilidadesespecial->save();                      
-                        }
+//                    if(isset($_POST['habilidades'])){
+                        foreach ($_POST['colaboradores'] as $index => $idcolaborador){
+                            
+                            $evaluacioncompetencias = new Evaluacioncompetencias();
+                            $evaluacioncompetencias->procesoevaluacion = $procesoevaluacion->id;
+                            
+                            $colaborador = Colaborador::model()->findAllByPk(CommonFunctions::stringtonumber($idcolaborador));
+                            
+                            $evaluacioncompetencias->colaborador = $colaborador->id;
+                            $evaluacioncompetencias->puesto = $colaborador->puesto();//HACER FUNCION DEME PUESTO
+                            
+                            $link = new Links();
+                            $link->url = obtenerhashurl(); //HACER FUNCION HASH URL
+                            //AGREGAR DEFAULT A CONTADOR REENVIOS Y ESTADO EN TABLA LINKS
+                            $saveresult = $link->save();
+                            //VALIDADOR GUARDADO EXITO SINO ROLLBACK
+                            if(!$saveresult){                    
+                               $transaction->rollback();
+                               $response = array('result' => false,'value' => "Ha ocurrido un inconveniente al intentar guardar el proceso: ".$evaluacionpersona->descripcion); 
+                               echo CJSON::encode($response); 
+                               Yii::app()->end();
+                            }else{                           
+                                $evaluacioncompetencias->links = $link->id;
+                                $saveresult = $evaluacioncompetencias->save(); 
+                                //VALIDADOR GUARDADO EXITO SINO ROLLBACK
+                                if(!$saveresult){                    
+                                    $transaction->rollback();
+                                    $response = array('result' => false,'value' => "Ha ocurrido un inconveniente al intentar guardar el proceso: ".$evaluacionpersona->descripcion); 
+                                    echo CJSON::encode($response); 
+                                    Yii::app()->end();
+                                }
+                            }       
                     }
                     if($saveresult){                    
                        $transaction->commit();
-                       $response = array('result' => true,'value' => "Se guardó con éxito el proceso: ".$evaluacionpersona->descripcion, 'idproceso' => $evaluacionpersona->id);
+                       $response = array('result' => true,'value' => "Se guardó con éxito el proceso: ".$procesoevaluacion->descripcion, 'idproceso' => $procesoevaluacion->id);
                        echo CJSON::encode($response);   
                        Yii::app()->end();
                     }else{
                         $transaction->rollback();
-                        $response = array('result' => false,'value' => "Ha ocurrido un inconveniente al intentar guardar el proceso: ".$evaluacionpersona->descripcion); 
+                        $response = array('result' => false,'value' => "Ha ocurrido un inconveniente al intentar guardar el proceso: ".$procesoevaluacion->descripcion); 
                         echo CJSON::encode($response); 
                         Yii::app()->end();
                     }                    
                 }else{
                         $transaction->rollback();
-                        $response = array('result' => false,'value' => "Ha ocurrido un inconveniente al intentar guardar el proceso: ".$evaluacionpersona->descripcion); 
+                        $response = array('result' => false,'value' => "Ha ocurrido un inconveniente al intentar guardar el proceso: ".$procesoevaluacion->descripcion); 
                         echo CJSON::encode($response);                        
                         Yii::app()->end();
                 }           
