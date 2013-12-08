@@ -39,28 +39,33 @@
     
 <div class="form">
     
-    <?php $form=$this->beginWidget('CActiveForm', array(
-            'id'=>'correo-form',
-            'enableClientValidation'=>true,
-            'clientOptions'=>array(
-                    'validateOnSubmit'=>true,
-            ),
-    )); ?>
+    <?php
+//            $form=$this->beginWidget('CActiveForm', array(
+//            'id'=>'correo-form',
+//            'enableClientValidation'=>true,
+//            'clientOptions'=>array(
+//                    'validateOnSubmit'=>true,
+//            ),
+//    )); 
+    
+        echo CHtml::beginForm('','POST',array('id'=>'formcorreo'))
+    
+    ?>
 
 	<p class="note">Fields with <span class="required">*</span> are required.</p>
 
-	<?php echo $form->errorSummary($correo); ?>
+	<?php echo CHtml::errorSummary($correo); ?>
 
 	<div class="row">
-		<?php echo $form->labelEx($correo,'asunto'); ?>
-		<?php echo $form->textField($correo,'asunto',array('size'=>60,'maxlength'=>128)); ?>
-		<?php echo $form->error($correo,'asunto'); ?>
+		<?php echo CHtml::activelabelEx($correo,'asunto'); ?>
+		<?php echo CHtml::activetextField($correo,'asunto',array('size'=>60,'maxlength'=>128)); ?>
+		<?php echo CHtml::error($correo,'asunto'); ?>
 	</div>
 
 	<div class="row">
-		<?php echo $form->labelEx($correo,'mensaje'); ?>
-		<?php echo $form->textArea($correo,'mensaje',array('rows'=>6, 'cols'=>50)); ?>
-		<?php echo $form->error($correo,'mensaje'); ?>
+		<?php echo CHtml::activelabelEx($correo,'mensaje'); ?>
+		<?php echo CHtml::activetextArea($correo,'mensaje',array('rows'=>6, 'cols'=>50)); ?>
+		<?php echo CHtml::error($correo,'mensaje'); ?>
 	</div>
 
 	<div class="row buttons">
@@ -68,6 +73,8 @@
 	</div>
         
 
-            <?php $this->endWidget(); ?>
+            <?php // 
+                echo CHtml::endForm()
+            ?>
 
 </div><!-- form -->

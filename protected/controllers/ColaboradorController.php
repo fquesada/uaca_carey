@@ -214,8 +214,8 @@ class ColaboradorController extends Controller
 			$modelocorreo->destinatario = Yii::app()->session['destinatario'];
                         
                         //Desalambrar esto
-                        $modelocorreo->asunto = 'Prueba';
-                        $modelocorreo->mensaje = 'Favor evaluar a sus colaboradores';
+                        $modelocorreo->asunto = $_POST['Correo']['asunto'];
+                        $modelocorreo->mensaje = $_POST['Correo']['mensaje'];
                         
                         
 			if($modelocorreo->validate())
