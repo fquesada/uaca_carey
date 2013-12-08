@@ -21,7 +21,7 @@ $this->menu=array(
 	'template'=>"{pager}<br/>{items}{pager}{summary}",
 	'columns'=>array(
 		'nombre',
-		'descripcion',
+		//'descripcion',
 		'codigo',
 		array(
 			'class'=>'CButtonColumn',

@@ -25,11 +25,6 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->baseUrl . '/css/sexybutton
 		<?php echo $form->error($model,'nombre'); ?>
 	</div>
 
-	<div class="row">
-		<?php echo $form->labelEx($model,'descripcion'); ?>
-		<?php echo $form->textArea($model,'descripcion',array('style'=>'width: 375px; height: 95px;')); ?>
-		<?php echo $form->error($model,'descripcion'); ?>
-	</div>
 
 	<div class="row">
 		<?php echo $form->labelEx($model,'codigo'); ?>
