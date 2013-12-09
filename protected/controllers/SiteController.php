@@ -40,12 +40,12 @@ class SiteController extends Controller
                     }
                     else 
                     {
-                       $this->redirect('index.php/usuario/CambiarPass/'.$modelo->id); 
+                       $this->redirect('usuario/cambiarpass/'.$modelo->id); 
                     }
                 }
                 else 
                 {
-                    $this->redirect('index.php/site/login');
+                    $this->redirect('site/login');
                 }
 	}
         

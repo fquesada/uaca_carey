@@ -65,7 +65,7 @@ class Colaborador extends CActiveRecord
 	{
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
-		return array(	
+		return array(
                         '_colaboradorevaluacioncompetencias' => array(self::HAS_MANY, 'Evaluacioncompetencias', 'colaborador'),
 			'_colaboradoresevaluaciondesempeno' => array(self::HAS_MANY, 'Evaluaciondesempeno', 'colaborador'),		
 			'_colaboradoreshistoricopuesto' => array(self::HAS_MANY, 'Historicopuesto', 'colaborador'),
@@ -114,7 +114,7 @@ class Colaborador extends CActiveRecord
 	}
         
         //Posiblemente esta funcion ya no sirva
-        public function getNombreUnidadNegocio(){
+       public function getNombreUnidadNegocio(){
             $unidadsel = Unidadnegocio::model()->findAllByAttributes(array('id'=>$this->unidadnegocio));
             foreach ($unidadsel as $unidadnegocio){
                 $resultado = $unidadnegocio->nombre;

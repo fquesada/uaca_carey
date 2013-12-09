@@ -9,7 +9,7 @@ $this->breadcrumbs=array(
 );
 
 $this->menu=array(
-        array('label'=>'Cambiar Password', 'url'=>array('CambiarPass', 'id'=>$model->id)),
+        array('label'=>'Cambiar Password', 'url'=>array('cambiarpass', 'id'=>$model->id)),
 	array('label'=>'Gestionar Usuarios', 'url'=>array('admin')),
 );
 ?>

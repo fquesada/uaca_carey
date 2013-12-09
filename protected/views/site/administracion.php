@@ -29,7 +29,7 @@ $this->pageTitle=Yii::app()->name;
 <!--           <a href="../unidadnegocio/admin" class="btn">Unidad de Negocio</a>-->
            <a href="#" class="btn">Unidad de Negocio</a>
 <!--           <a href="../usuario/admin" class="btn">Usuario</a>-->
-           <a href="#" class="btn">Usuario</a>
+<a href="../usuario/admin" class="btn">Usuario</a>
    </div>
 </div>
 </body>
