@@ -66,6 +66,7 @@ return array(
                                 '<controller:\w+>/crear'=>'<controller>/create',
 				'<controller:\w+>/<id:\d+>'=>'<controller>/view',
 				'<controller:\w+>/actualizar'=>'<controller>/update',
+                                '<controller:\w+>/eliminar'=>'<controller>/delete',
                                 
 			),
 		),

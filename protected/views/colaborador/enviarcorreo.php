@@ -40,13 +40,6 @@
 <div class="form">
     
     <?php
-//            $form=$this->beginWidget('CActiveForm', array(
-//            'id'=>'correo-form',
-//            'enableClientValidation'=>true,
-//            'clientOptions'=>array(
-//                    'validateOnSubmit'=>true,
-//            ),
-//    )); 
     
         echo CHtml::beginForm('','POST',array('id'=>'formcorreo'))
     

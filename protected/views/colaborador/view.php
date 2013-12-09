@@ -28,7 +28,6 @@ $this->menu=array(
 		'nombre',
 		'apellido1',
 		'apellido2',
-		'NombreUnidadNegocio',
-		'NombrePuesto',
+                'correo',
 	),
 )); ?>
