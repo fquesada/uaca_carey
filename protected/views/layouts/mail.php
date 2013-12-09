@@ -6,7 +6,7 @@
 	<tbody>
 		<tr>
             <td style="color:#4D90FE;font-size:22px;border-bottom: 2px solid #4D90FE;">
-				<?php echo CHtml::encode(Yii::app()->name); ?>
+				<?php echo 'Departamento de Recursos Humanos' ?>
             </td>
 		</tr>
 		<tr>
