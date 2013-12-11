@@ -14,7 +14,7 @@
  *
  * The followings are the available model relations:
  * @property Evaluacioncompetencias[] $_evaluacionescompetencias
- * @property Evaluaciondesempeno[] $_evaluaciondesempeno
+ * @property Procesoevaluacion[] $_procesoevaluacion
  * @property Colaborador $_evaluador
  * @property Periodo $_periodo
  * @property Habilidadespecial[] $_habilidadesespecial
@@ -67,7 +67,7 @@ class Procesoevaluacion  extends CActiveRecord
 		// class name for the relations automatically generated below.
 		return array(
 			'_evaluacionescompetencias' => array(self::HAS_MANY, 'Evaluacioncompetencias', 'procesoevaluacion'),
-                        'evaluaciondesempenos' => array(self::HAS_MANY, 'Evaluaciondesempeno', 'procesoevaluacion'),					
+                        'procesoevaluacion' => array(self::HAS_MANY, 'Procesoevaluacion', 'procesoevaluacion'),					
 			'_habilidadesespecial' => array(self::HAS_MANY, 'Habilidadespecial', 'procesoevaluacion'),
 			'_habilidadesespecialevaluada' => array(self::HAS_MANY, 'Habilidadespecialevaluada', 'procesoevaluacion'),
 			'_vacantes' => array(self::HAS_MANY, 'Vacante', 'procesoevaluacion'),
@@ -95,20 +95,21 @@ class Procesoevaluacion  extends CActiveRecord
             //AJUSTAR LA CONSULTA A LOS NUEVOS NOMBRES DE BD
        public function search(){
             $connection=Yii::app()->db;
-            $sql=   "SELECT evaluacionpersonas.id, evaluacionpersonas.descripcion, DATE_FORMAT(evaluacionpersonas.fecha, '%d-%m-%Y') AS fecha,
-                    CONCAT(colaborador.nombre,' ',colaborador.apellido1,' ',colaborador.apellido2) AS creador,
-                    puesto.nombre AS puesto, (CASE WHEN evaluacionpersonas.estado = 1 THEN 'En proceso' ELSE 'Finalizado' END) as estado                   
-                    FROM evaluacionpersonas
+            $sql=   "SELECT procesoevaluacion.id, procesoevaluacion.descripcion, DATE_FORMAT(procesoevaluacion.fecha, '%d-%m-%Y') AS fecha,
+                    colaborador.nombre AS creador,puesto.nombre AS puesto, (CASE WHEN procesoevaluacion.estado = 1 THEN 'En proceso' ELSE 'Finalizado' END) as estado                                        
+                    FROM procesoevaluacion                    
                     INNER JOIN colaborador
-                    ON (evaluacionpersonas.creador = colaborador.id)
+                    ON (procesoevaluacion.evaluador = colaborador.id)
+                    INNER JOIN evaluaciondesempeno
+                    ON (procesoevaluacion.id = evaluaciondesempeno.procesoevaluacion)
                     INNER JOIN puesto
-                    ON (evaluacionpersonas.puesto = puesto.id)"; 
+                    ON (evaluaciondesempeno.puesto = puesto.id)"; 
             $command=$connection->createCommand($sql);
             $models = $command->queryAll();
 
             $dataProvider = new CArrayDataProvider($models,array(
             'keyField'=>'id',
-            'id'=>'evaluacionpersonasgrid',
+            'id'=>'procesoevaluaciongrid',
             'sort'=>array(
                 'attributes'=>array(
                     'descripcion',
