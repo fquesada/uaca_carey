@@ -63,6 +63,8 @@ return array(
                                 'ec/<action>'=>'evaluacionpersonas/<action>', 
                                 'puesto/agregarcompetencia'=>'puesto/addcompetence',
                                 'puesto/agregarpuntualizacion'=>'puesto/addpuntualizacion',
+                                'usuario/cambiarcontraseña'=>'usuario/cambiarpass',
+                                'unidadnegocio/agregarpuesto'=>'unidadnegocio/addpuesto',
                                 '<controller:\w+>/crear'=>'<controller>/create',
 				'<controller:\w+>/<id:\d+>'=>'<controller>/view',
 				'<controller:\w+>/actualizar'=>'<controller>/update',
