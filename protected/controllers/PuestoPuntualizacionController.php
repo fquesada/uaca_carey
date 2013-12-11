@@ -21,9 +21,9 @@ class PuestoPuntualizacionController extends Controller
 	public function accessRules()
 	{
 		return array(
-			array('allow', // allow admin user to perform 'admin' and 'delete' actions
+			array('allow', // allow admin user to perform and 'delete' actions
 				'actions'=>array('delete'),
-				'roles'=>array('Admin'),
+				'users'=>array('admin'),
 			),
 			array('deny',  // deny all users
 				'users'=>array('*'),

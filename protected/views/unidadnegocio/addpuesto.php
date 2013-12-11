@@ -57,7 +57,7 @@
                 
 	),
     )); ?>
-      <?php echo CHtml::submitButton('Asociar',array('submit'=>'../save', 'class'=>'sexybutton sexysimple sexylarge'));?>
+      <?php echo CHtml::submitButton('Asociar',array('submit'=>'http://localhost/uaca_carey/unidadnegocio/save', 'class'=>'sexybutton sexysimple sexylarge'));?>
 
      
      <?php echo CHtml::endForm()?>

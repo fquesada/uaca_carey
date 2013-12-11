@@ -25,8 +25,7 @@
             'data'=>$model,
             'attributes'=>array(
                     'codigo',
-                    'nombre',
-                    'descripcion'		
+                    'nombre',		
             ),
     )); ?>
     

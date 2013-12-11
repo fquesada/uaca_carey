@@ -6,7 +6,6 @@
  * The followings are the available columns in table 'puesto':
  * @property integer $id
  * @property string $nombre
- * @property string $descripcion
  * @property string $codigo
  * @property integer $estado
  *
@@ -95,7 +94,7 @@ class Puesto extends CActiveRecord
 		return array(
 			'id' => 'ID',
 			'nombre' => 'Nombre',
-			'codigo' => 'Codigo',
+			'codigo' => 'Código',
 			'estado' => 'Estado',
 		);
 	}

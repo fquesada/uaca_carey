@@ -25,8 +25,7 @@
             'data'=>$model,
             'attributes'=>array(
                     'codigo',
-                    'nombre',
-                    'descripcion'		
+                    'nombre',	
             ),
     )); ?>
     
@@ -86,7 +85,7 @@
     
     <br></br>
         
-    <?php echo CHtml::submitButton('Asociar',array('submit'=>'../savecompetencia', 'class'=>'sexybutton sexysimple sexylarge'));?>
+    <?php echo CHtml::submitButton('Asociar',array('submit'=>'./savecompetencia', 'class'=>'sexybutton sexysimple sexylarge'));?>
 
      <?php echo CHtml::endForm()?>
     
