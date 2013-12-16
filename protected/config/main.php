@@ -60,7 +60,8 @@ return array(
                         'showScriptName' => false,
                         'caseSensitive'=>false,
 			'rules'=>array(
-                                'ec/<action>'=>'evaluacionpersonas/<action>', 
+                                'ec/<action>'=>'evaluacionpersonas/<action>',
+                                'entrevista/generar'=>'entrevista/index',
                                 'puesto/agregarcompetencia'=>'puesto/addcompetence',
                                 'puesto/agregarpuntualizacion'=>'puesto/addpuntualizacion',
                                 'usuario/cambiarcontraseña'=>'usuario/cambiarpass',

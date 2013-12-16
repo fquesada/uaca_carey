@@ -12,7 +12,7 @@ $this->pageTitle=Yii::app()->name;
        </div>
        <div id="ContenidoR">
            <br>
-           <a href="#" class="boton">Función 1</a>
+           <?php echo CHtml::link('Generar entrevista',array('entrevista/index'), array("class"=>"boton")); ?>
            <a href="#" class="boton">Función 2</a>
            <a href="#" class="boton">Función 3</a>
        </div>
