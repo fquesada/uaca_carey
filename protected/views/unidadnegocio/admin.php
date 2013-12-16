@@ -24,8 +24,8 @@ Puede ingresar opcionalmente un operador comparativo (<b>&lt;</b>, <b>&lt;=</b>,
 	'dataProvider'=>$model->search(),
 	'template'=>"{pager}\n{items}\n{pager}\n{summary}",
 	'columns'=>array(
+                'codigo',
 		'nombre',
-		'descripcion',
 		array(
 			'class'=>'CButtonColumn',
                         'htmlOptions'=>array('width'=>'70'),

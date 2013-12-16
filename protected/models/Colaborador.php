@@ -65,7 +65,7 @@ class Colaborador extends CActiveRecord
 	{
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
-		return array(	
+		return array(
                         '_colaboradorevaluacioncompetencias' => array(self::HAS_MANY, 'Evaluacioncompetencias', 'colaborador'),
 			'_colaboradoresevaluaciondesempeno' => array(self::HAS_MANY, 'Evaluaciondesempeno', 'colaborador'),		
 			'_colaboradoreshistoricopuesto' => array(self::HAS_MANY, 'Historicopuesto', 'colaborador'),
@@ -107,29 +107,13 @@ class Colaborador extends CActiveRecord
 		$criteria->compare('apellido2',$this->apellido2,true);
 		$criteria->compare('estado',$this->estado);	
                 $criteria->compare('correo',$this->correo,true);
+                
+                $criteria->addColumnCondition(array('estado'=>'1'));
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
 		));
 	}
-        
-        //Posiblemente esta funcion ya no sirva
-        public function getNombreUnidadNegocio(){
-            $unidadsel = Unidadnegocio::model()->findAllByAttributes(array('id'=>$this->unidadnegocio));
-            foreach ($unidadsel as $unidadnegocio){
-                $resultado = $unidadnegocio->nombre;
-            }
-            return $resultado;
-        }
-        
-        //Posiblemente esta funcion ya no sirva
-        public function getNombrePuesto(){
-            $puestosel = Puesto::model()->findAllByAttributes(array('id'=>$this->puesto));
-            foreach ($puestosel as $puesto){
-                $resultado = $puesto->nombre;
-            }
-            return $resultado;
-        }
         
         public function getnombrecompleto(){            
             if(isset($this->_nombrecompleto)) {

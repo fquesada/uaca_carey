@@ -25,8 +25,7 @@
     <?php $this->widget('zii.widgets.CDetailView', array(
             'data'=>$model,
             'attributes'=>array(
-                    'nombre',
-                    'descripcion'		
+                    'nombre',	
             ),
     )); ?>
     
@@ -55,11 +54,10 @@
                 ),
 		'codigo',
                 'nombre',
-		'descripcion',
                 
 	),
     )); ?>
-      <?php echo CHtml::submitButton('Asociar',array('submit'=>'../save', 'class'=>'sexybutton sexysimple sexylarge'));?>
+      <?php echo CHtml::submitButton('Asociar',array('submit'=>'http://localhost/uaca_carey/unidadnegocio/save', 'class'=>'sexybutton sexysimple sexylarge'));?>
 
      
      <?php echo CHtml::endForm()?>
@@ -85,10 +83,6 @@
                     array(
                         'name'=>'NombrePuesto',
                         'header'=>'Nombre'
-                    ),
-                    array(
-                        'name'=>'DescripcionPuesto',
-                        'header'=>'Descripción'
                     ),
                     array(
                             'class'=>'CButtonColumn',

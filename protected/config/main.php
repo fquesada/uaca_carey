@@ -18,9 +18,8 @@ return array(
 	'import'=>array(
 		'application.models.*',
 		'application.components.*',
-                //'application.modules.rights.*', 
-		//'application.modules.rights.components.*',
                 'application.components.jpgraph.*',
+                 'ext.YiiMailer.YiiMailer',
 	),
 
 	'modules'=>array(
@@ -58,10 +57,19 @@ return array(
 		
 		'urlManager'=>array(
 			'urlFormat'=>'path',
+                        'showScriptName' => false,
+                        'caseSensitive'=>false,
 			'rules'=>array(
+                                'ec/<action>'=>'evaluacionpersonas/<action>', 
+                                'puesto/agregarcompetencia'=>'puesto/addcompetence',
+                                'puesto/agregarpuntualizacion'=>'puesto/addpuntualizacion',
+                                'usuario/cambiarcontraseña'=>'usuario/cambiarpass',
+                                'unidadnegocio/agregarpuesto'=>'unidadnegocio/addpuesto',
+                                '<controller:\w+>/crear'=>'<controller>/create',
 				'<controller:\w+>/<id:\d+>'=>'<controller>/view',
-				'<controller:\w+>/<action:\w+>/<id:\d+>'=>'<controller>/<action>',
-				'<controller:\w+>/<action:\w+>'=>'<controller>/<action>',
+				'<controller:\w+>/actualizar'=>'<controller>/update',
+                                '<controller:\w+>/eliminar'=>'<controller>/delete',
+                                
 			),
 		),
 		

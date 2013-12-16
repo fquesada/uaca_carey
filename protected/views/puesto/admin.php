@@ -21,12 +21,12 @@ $this->menu=array(
 	'template'=>"{pager}<br/>{items}{pager}{summary}",
 	'columns'=>array(
 		'nombre',
-		'descripcion',
+		//'descripcion',
 		'codigo',
 		array(
 			'class'=>'CButtonColumn',
                         'htmlOptions'=>array('width'=>'90'),
-                        'template'=>'{view}{update}{addcompetence}{addpuntualizacion}',
+                        'template'=>'{view}{update}{addcompetence}{addpuntualizacion}{delete}',
                         'buttons'=>array(
                             'addcompetence'=>array(
                                 'label'=>'Agregar competencias',

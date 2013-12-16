@@ -21,14 +21,10 @@
 	<b><?php echo CHtml::encode($data->getAttributeLabel('apellido2')); ?>:</b>
 	<?php echo CHtml::encode($data->apellido2); ?>
 	<br />
-
-	<b><?php echo CHtml::encode($data->getAttributeLabel('unidadnegocio')); ?>:</b>
-	<?php echo CHtml::encode($data->unidadnegocio); ?>
+        
+        <b><?php echo CHtml::encode($data->getAttributeLabel('correo')); ?>:</b>
+	<?php echo CHtml::encode($data->correo); ?>
 	<br />
-	
-<!--	<b><?php echo CHtml::encode($data->getAttributeLabel('puesto')); ?>:</b>
-	<?php echo CHtml::encode($data->puesto); ?>
-	<br />-->
 
 	
 
