@@ -18,6 +18,7 @@
  * @property integer $estadoevaluacion
  * @property integer $links
  * @property integer $procesoevaluacion
+ * @property integer $estado
  *
  * The followings are the available model relations:
  * @property Compromiso[] $_compromisos
@@ -56,13 +57,13 @@ class Evaluaciondesempeno extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('colaborador, puesto, fecharegistrocompromiso, fechaevaluacion, links, procesoevaluacion', 'required'),
-			array('colaborador, puesto, estadoevaluacion, links, procesoevaluacion', 'numerical', 'integerOnly'=>true),
+			array('colaborador, puesto, estadoevaluacion, links, procesoevaluacion, estado', 'numerical', 'integerOnly'=>true),
 			array('promediocompromisos, promediocompetencias, promedioevaluacion', 'numerical'),
 			array('comentariocompromisos, comentarioevaluacion', 'length', 'max'=>800),
 			array('fecharegistroevaluacion', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, colaborador, puesto, fecharegistrocompromiso, fechaevaluacion, comentariocompromisos, comentarioevaluacion, promediocompromisos, promediocompetencias, promedioevaluacion, fecharegistroevaluacion, estadoevaluacion, links, procesoevaluacion', 'safe', 'on'=>'search'),
+			array('id, colaborador, puesto, fecharegistrocompromiso, fechaevaluacion, comentariocompromisos, comentarioevaluacion, promediocompromisos, promediocompetencias, promedioevaluacion, fecharegistroevaluacion, estadoevaluacion, links, procesoevaluacion, estado', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -103,6 +104,7 @@ class Evaluaciondesempeno extends CActiveRecord
 			'estadoevaluacion' => 'Estadoevaluacion',
                         'links' => 'Links',
 			'procesoevaluacion' => 'Procesoevaluacion',
+                        'estado' => 'Estado',
 		);
 	}
 
@@ -131,6 +133,7 @@ class Evaluaciondesempeno extends CActiveRecord
 		$criteria->compare('estadoevaluacion',$this->estadoevaluacion);
                 $criteria->compare('links',$this->links);
 		$criteria->compare('procesoevaluacion',$this->procesoevaluacion);
+                $criteria->compare('estado',$this->estado);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

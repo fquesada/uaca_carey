@@ -16,6 +16,7 @@
  * @property integer $links
  * @property integer $puesto
  * @property integer $colaborador
+ * @property integer $estado
  *
  * The followings are the available model relations:
  * @property Puesto $_puestopotencial1
@@ -60,12 +61,12 @@ class Evaluacioncompetencias extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('procesoevaluacion, fechaevaluacion, links, puesto, colaborador', 'required'),
-			array('procesoevaluacion, puestopotencial1, puestopotencial2, puestopotencial3, tipo, links, puesto, colaborador', 'numerical', 'integerOnly'=>true),
+			array('procesoevaluacion, puestopotencial1, puestopotencial2, puestopotencial3, tipo, links, puesto, colaborador, estado', 'numerical', 'integerOnly'=>true),
 			array('promedioponderado', 'numerical'),
                         array('comentario', 'length', 'max'=>800),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, procesoevaluacion, fechaevaluacion, puestopotencial1, puestopotencial2, puestopotencial3, promedioponderado, tipo, links, puesto, colaborador', 'safe', 'on'=>'search'),
+			array('id, procesoevaluacion, fechaevaluacion, puestopotencial1, puestopotencial2, puestopotencial3, promedioponderado, tipo, links, puesto, colaborador, estado', 'safe', 'on'=>'search'),
 
 		);
 	}
@@ -111,6 +112,7 @@ class Evaluacioncompetencias extends CActiveRecord
 			'links' => 'Links',
 			'puesto' => 'Puesto',
                         'colaborador' => 'Colaborador',
+                        'estado' => 'Estado',
 		);
 	}
 
@@ -137,6 +139,7 @@ class Evaluacioncompetencias extends CActiveRecord
 		$criteria->compare('links',$this->links);
 		$criteria->compare('puesto',$this->puesto);
                 $criteria->compare('colaborador',$this->colaborador);
+                $criteria->compare('estado',$this->estado);
                 
 
 		return new CActiveDataProvider($this, array(
