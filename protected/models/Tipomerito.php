@@ -6,6 +6,7 @@
  * The followings are the available columns in table 'tipomerito':
  * @property integer $id
  * @property string $nombre
+ * @property integer $estado
  *
  * The followings are the available model relations:
  * @property Merito[] $_meritos
@@ -38,11 +39,12 @@ class Tipomerito extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('nombre', 'required'),
+			array('nombre', 'required'),                        
+			array('estado', 'numerical', 'integerOnly'=>true),
 			array('nombre', 'length', 'max'=>200),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, nombre', 'safe', 'on'=>'search'),
+			array('id, nombre, estado', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -66,6 +68,7 @@ class Tipomerito extends CActiveRecord
 		return array(
 			'id' => 'ID',
 			'nombre' => 'Nombre',
+                        'estado' => 'Estado',
 		);
 	}
 

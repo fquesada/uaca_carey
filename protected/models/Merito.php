@@ -9,6 +9,7 @@
  * @property integer $ponderacion
  * @property integer $puesto
  * @property string $descripcion
+ * @property integer $estado
  *
  * The followings are the available model relations:
  * @property Puesto $_puesto
@@ -44,11 +45,11 @@ class Merito extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('tipomerito, ponderacion, puesto', 'required'),
-			array('tipomerito, ponderacion, puesto', 'numerical', 'integerOnly'=>true),
+			array('tipomerito, ponderacion, puesto, estado', 'numerical', 'integerOnly'=>true),
 			array('descripcion', 'length', 'max'=>800),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, tipomerito, ponderacion, puesto, descripcion', 'safe', 'on'=>'search'),
+			array('id, tipomerito, ponderacion, puesto, descripcion, estado', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -77,6 +78,7 @@ class Merito extends CActiveRecord
 			'ponderacion' => 'Ponderacion',
 			'puesto' => 'Puesto',
 			'descripcion' => 'Descripcion',
+                        'estado' => 'Estado',
 		);
 	}
 
@@ -96,6 +98,7 @@ class Merito extends CActiveRecord
 		$criteria->compare('ponderacion',$this->ponderacion);
 		$criteria->compare('puesto',$this->puesto);
 		$criteria->compare('descripcion',$this->descripcion,true);
+                $criteria->compare('estado',$this->estado);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
