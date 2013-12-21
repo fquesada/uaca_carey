@@ -12,6 +12,7 @@ class EntrevistaController extends Controller
         {            
             $id = $_POST['puesto'];
             $puesto = Puesto::model()->findByPk($id);
+            $core = Competenciacore::model()->findAll();
             $competencias = $puesto->_competencias;
             
            // get a reference to the path of PHPExcel classes 
@@ -24,7 +25,8 @@ class EntrevistaController extends Controller
             //require_once('phpexcel.php');
             
             $objPHPExcel = new PHPExcel();
-
+            
+            
             // Set document properties
             $objPHPExcel->getProperties()->setCreator("Carey")
                                                                     ->setLastModifiedBy("Carey")
@@ -33,7 +35,14 @@ class EntrevistaController extends Controller
                                                                     ->setDescription("Entrevista Conductual Estructurada.")
                                                                     ->setKeywords("office 2007 openxml php")
                                                                     ->setCategory("Test result file");
-
+            
+            $objDrawing = new PHPExcel_Worksheet_Drawing();
+            $objDrawing->setName('Logo');
+            $objDrawing->setDescription('Logo');
+            $objDrawing->setPath('./images/UACA.png');
+            $objDrawing->setHeight(40);
+            $objDrawing->setWorksheet($objPHPExcel->getActiveSheet());
+            $objDrawing->setCoordinates('A2');
 
             $objPHPExcel->setActiveSheetIndex(0)
                     ->getStyle('B2')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER)
@@ -54,45 +63,111 @@ class EntrevistaController extends Controller
             
             // Add some data
             $objPHPExcel->setActiveSheetIndex(0)                        
-                        ->mergeCells('B2:H3')                        
-                        ->setCellValue('B2', 'Entrevista Conductual Estructurada')                                          
+                        ->mergeCells('A2:I3') 
+                        ->setCellValue('A2', 'Entrevista Conductual Estructurada')                                          
                         ->mergeCells('B4:H4')
-                        ->setCellValue('B4', 'Puesto: '.$puesto->nombre);
+                        ->setCellValue('F5', 'Puesto')
+                        ->mergeCells('F6:I7')
+                        ->setCellValue('F6', $puesto->nombre)
+                        ->mergeCells('F5:I5');
+                        
+            $objPHPExcel->setActiveSheetIndex(0)->getStyle('A2:I3')->applyFromArray(array(
+            'fill' => array(
+            'type' => PHPExcel_Style_Fill::FILL_SOLID,
+            'color' => array('rgb' => '000066')
+            )
+                )
+                    );
             
-             $styleBottonBorder = array(
-                 'borders'=>array(
-                     'bottom'=>array(
-                         'style'=> PHPExcel_Style_Border::BORDER_THIN,                         
-                     )
-                 ),
-             );
+            $objPHPExcel->setActiveSheetIndex(0)->getStyle('A2')->getFont() 
+                     ->setSize(24)
+                     ->getColor()
+                     ->setRGB('FFFFFF');   
             
-             $objPHPExcel->setActiveSheetIndex(0)  
-                        ->mergeCells('D6:G6')
-                        ->mergeCells('D8:G8')
-                        ->mergeCells('D9:G9')
-                        ->setCellValue('C6', 'Unidad de Negocio:')
-                        ->setCellValue('C8', 'Nombre:')
-                        ->setCellValue('C9', 'Cédula:');
+            $objPHPExcel->setActiveSheetIndex(0)->getStyle('A2')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER)
+                                                    ->setVertical(PHPExcel_Style_Alignment::VERTICAL_CENTER); 
              
-             $objPHPExcel->setActiveSheetIndex(0)->getStyle('D6:G6')->applyFromArray($styleBottonBorder);
-             $objPHPExcel->setActiveSheetIndex(0)->getStyle('D8:G8')->applyFromArray($styleBottonBorder);
-             $objPHPExcel->setActiveSheetIndex(0)->getStyle('D9:G9')->applyFromArray($styleBottonBorder);
+             $objPHPExcel->setActiveSheetIndex(0)->getStyle('F5')
+                     ->getFont()
+                     ->setBold(TRUE);
+             
+             $objPHPExcel->setActiveSheetIndex(0)->getStyle('F6')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_LEFT)
+                                                    ->setVertical(PHPExcel_Style_Alignment::VERTICAL_CENTER);                 
+             
+             $styleArray = array(
+          'borders' => array(
+              'allborders' => array(
+                  'style' => PHPExcel_Style_Border::BORDER_THIN
+                    )
+                )
+            );
+             
+             $objPHPExcel->setActiveSheetIndex(0)->getStyle('F5:I7')->applyFromArray($styleArray);
+            
+            $objPHPExcel->setActiveSheetIndex(0)  
+                        ->mergeCells('A6:D7')
+                        ->mergeCells('A10:D11')
+                        ->mergeCells('F10:I11')
+                        ->mergeCells('F9:I9')
+                        ->mergeCells('A5:D5')
+                        ->mergeCells('A9:D9')
+                        ->setCellValue('F9', 'Unidad de Negocio:')
+                        ->setCellValue('A5', 'Nombre')
+                        ->setCellValue('A9', 'Cédula');
+            
+            $objPHPExcel->setActiveSheetIndex(0)->getStyle('A5:D5')->applyFromArray(array(
+            'fill' => array(
+            'type' => PHPExcel_Style_Fill::FILL_SOLID,
+            'color' => array('rgb' => '6699FF')
+            )
+                )
+                    );
+            
+            $objPHPExcel->setActiveSheetIndex(0)->getStyle('F5:I5')->applyFromArray(array(
+            'fill' => array(
+            'type' => PHPExcel_Style_Fill::FILL_SOLID,
+            'color' => array('rgb' => '6699FF')
+            )
+                )
+                    );
+            
+            $objPHPExcel->setActiveSheetIndex(0)->getStyle('A9:D9')->applyFromArray(array(
+            'fill' => array(
+            'type' => PHPExcel_Style_Fill::FILL_SOLID,
+            'color' => array('rgb' => '6699FF')
+            )
+                )
+                    );
+            
+            $objPHPExcel->setActiveSheetIndex(0)->getStyle('F9:I9')->applyFromArray(array(
+            'fill' => array(
+            'type' => PHPExcel_Style_Fill::FILL_SOLID,
+            'color' => array('rgb' => '6699FF')
+            )
+                )
+                    );
+             
+             $objPHPExcel->setActiveSheetIndex(0)->getStyle('F9')->getFont()->setBold(TRUE);
+             $objPHPExcel->setActiveSheetIndex(0)->getStyle('A5')->getFont()->setBold(TRUE);
+             $objPHPExcel->setActiveSheetIndex(0)->getStyle('A9')->getFont()->setBold(TRUE);
+             $objPHPExcel->setActiveSheetIndex(0)->getStyle('A5:D7')->applyFromArray($styleArray);
+             $objPHPExcel->setActiveSheetIndex(0)->getStyle('A9:D11')->applyFromArray($styleArray);
+             $objPHPExcel->setActiveSheetIndex(0)->getStyle('F9:I11')->applyFromArray($styleArray);
              
              //Tabla
              $objPHPExcel->setActiveSheetIndex(0)
-                    ->getStyle('B11')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                    ->getStyle('B18')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
              $objPHPExcel->setActiveSheetIndex(0)
-                    ->getStyle('D11')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                    ->getStyle('D18')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
              $objPHPExcel->setActiveSheetIndex(0)
-                    ->getStyle('G11')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                    ->getStyle('G18')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
              
              $objPHPExcel->setActiveSheetIndex(0)                        
-                        ->mergeCells('A11:B11')                        
-                        ->setCellValue('A11', 'Competencia')                                          
-                        ->mergeCells('C11:H11')                        
-                        ->setCellValue('C11', 'Preguntas y Respuestas')                        
-                        ->setCellValue('I11', 'U.V.');
+                        ->mergeCells('A18:B18')                        
+                        ->setCellValue('A15', 'Competencia')                                          
+                        ->mergeCells('C15:H15')                        
+                        ->setCellValue('C15', 'Preguntas y Respuestas')                        
+                        ->setCellValue('I15', 'U.V.');
              
 
              $styleTableBorder = array(
@@ -103,12 +178,20 @@ class EntrevistaController extends Controller
                  ),
              );
  
-             $objPHPExcel->setActiveSheetIndex()->getStyle('A11:I11')->applyFromArray($styleTableBorder);
+             $objPHPExcel->setActiveSheetIndex()->getStyle('A15:I15')->applyFromArray($styleTableBorder);
+             $objPHPExcel->setActiveSheetIndex(0)->getStyle('A15:I15')->getFont()->setBold(TRUE);
+             $objPHPExcel->setActiveSheetIndex(0)->getStyle('A15:I15')->applyFromArray(array(
+                    'fill' => array(
+                    'type' => PHPExcel_Style_Fill::FILL_SOLID,
+                    'color' => array('rgb' => '6699FF')
+                    )
+                        )
+                            );
              
              
-             $i = '12';
+             $i = '16';
                        
-            foreach($competencias as $competencia)
+            foreach($core as $competencia_core)
             {
                 $objPHPExcel->setActiveSheetIndex(0)
                     ->getStyle('A'.$i.':B'.$i)->getAlignment()->setVertical(PHPExcel_Style_Alignment::VERTICAL_TOP);
@@ -121,15 +204,40 @@ class EntrevistaController extends Controller
                         
                  $objPHPExcel->setActiveSheetIndex(0)                        
                         ->mergeCells('A'.$i.':B'.$i)   
-                        ->setCellValue('A'.$i, $competencia->competencia)                                          
+                        ->setCellValue('A'.$i, $competencia_core->competencia)                                          
                         ->mergeCells('C'.$i.':H'.$i)                        
-                        ->setCellValue('C'.$i, $competencia->pregunta);
+                        ->setCellValue('C'.$i, $competencia_core->pregunta);
                  
                  $objPHPExcel->getActiveSheet()->getRowDimension($i)->setRowHeight(350);
                  $objPHPExcel->setActiveSheetIndex()->getStyle('A'.$i.':I'.$i)->applyFromArray($styleTableBorder);
-                $i++;                             
+                 $i++;  
              }         
 
+             $j = '20';
+                       
+            foreach($competencias as $competencia)
+            {
+                $objPHPExcel->setActiveSheetIndex(0)
+                    ->getStyle('A'.$j.':B'.$j)->getAlignment()->setVertical(PHPExcel_Style_Alignment::VERTICAL_TOP);
+                $objPHPExcel->setActiveSheetIndex(0)
+                    ->getStyle('A'.$j.':B'.$j)->getAlignment()->setWrapText(true);
+                $objPHPExcel->setActiveSheetIndex(0)
+                    ->getStyle('C'.$j.':H'.$j)->getAlignment()->setWrapText(true);
+                $objPHPExcel->setActiveSheetIndex(0)
+                    ->getStyle('C'.$j.':H'.$j)->getAlignment()->setVertical(PHPExcel_Style_Alignment::VERTICAL_TOP);
+                        
+                 $objPHPExcel->setActiveSheetIndex(0)                        
+                        ->mergeCells('A'.$j.':B'.$j)   
+                        ->setCellValue('A'.$j, $competencia->competencia)                                          
+                        ->mergeCells('C'.$j.':H'.$j)                        
+                        ->setCellValue('C'.$j, $competencia->pregunta);
+                 
+                 $objPHPExcel->getActiveSheet()->getRowDimension($j)->setRowHeight(350);
+                 $objPHPExcel->setActiveSheetIndex()->getStyle('A'.$j.':I'.$j)->applyFromArray($styleTableBorder);
+                 $objPHPExcel->getActiveSheet()->getPageSetup()->setPrintArea('A1:I'.$j);
+                 $j++;  
+             }   
+             
             // Set active sheet index to the first sheet, so Excel opens this as the first sheet
             
 

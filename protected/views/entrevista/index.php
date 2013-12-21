@@ -9,11 +9,12 @@ $this->breadcrumbs=array(
 
 <div class="form">
 <?php echo CHtml::beginForm('excel','post'); ?>
-     
- 
+
+<h5>Seleccione el puesto para el que desea generar la entrevista conducutal estructurada</h5>
+    
     <div class="row">
         <?php echo CHtml::label('Puesto', 'puesto') ?>
-        <?php echo CHtml::dropDownList('puesto','puesto', CHtml::listData(Puesto::model()->findAll(array('order'=>'nombre','condition'=>'estado=:estado', 'params'=>array(':estado'=>1))),'id', 'nombre'),array('empty' => 'Selecione un periodo')); ?>
+        <?php echo CHtml::dropDownList('puesto','puesto', CHtml::listData(Puesto::model()->findAll(array('order'=>'nombre','condition'=>'estado=:estado', 'params'=>array(':estado'=>1))),'id', 'nombre'),array('empty' => 'Selecione un puesto')); ?>
     </div>          
  
     <div class="row submit">
