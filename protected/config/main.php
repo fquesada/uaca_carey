@@ -61,7 +61,8 @@ return array(
                         'caseSensitive'=>false,
 			'rules'=>array(
                                 'ec/<action>'=>'evaluacionpersonas/<action>',
-                                'entrevista/generar'=>'entrevista/index',
+                                'rs/entrevista'=>'entrevista/index',
+                                'rs/excel'=>'entrevista/excel',
                                 'puesto/agregarcompetencia'=>'puesto/addcompetence',
                                 'puesto/agregarpuntualizacion'=>'puesto/addpuntualizacion',
                                 'usuario/cambiarcontraseña'=>'usuario/cambiarpass',

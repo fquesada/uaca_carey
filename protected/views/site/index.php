@@ -13,8 +13,8 @@ $this->pageTitle=Yii::app()->name;
        <div id="ContenidoR">
            <br>
            <?php echo CHtml::link('Generar entrevista',array('entrevista/index'), array("class"=>"boton")); ?>
-           <a href="#" class="boton">Función 2</a>
-           <a href="#" class="boton">Función 3</a>
+           <?php echo CHtml::link('Crear proceso ECV',array('entrevista/index'), array("class"=>"boton")); ?>
+           <?php echo CHtml::link('Gestionar proceso ECV',array('entrevista/index'), array("class"=>"boton")); ?>
        </div>
    </div>
     <div id="Competencias">
@@ -23,9 +23,9 @@ $this->pageTitle=Yii::app()->name;
        </div>
        <div id="ContenidoC">
            <br>
-           <?php echo CHtml::link('Gestión de evaluaciones',array('evaluacionpersonas/admin'), array("class"=>"boton")); ?>
-           <?php echo CHtml::link('Nueva evaluación',array('evaluacionpersonas/crear'), array("class"=>"boton")); ?>
-           <a href="#" class="boton">Función 3</a>
+           <?php echo CHtml::link('Crear proceso EC',array('evaluacionpersonas/crear'), array("class"=>"boton")); ?>
+           <?php echo CHtml::link('Gestionar proceso EC',array('evaluacionpersonas/admin'), array("class"=>"boton")); ?>
+           <?php echo CHtml::link('Evaluar competencias',array('evaluacionpersonas/evaluar'), array("class"=>"boton")); ?>
        </div>
    </div>
      <div id="Desmpeño">
@@ -34,9 +34,9 @@ $this->pageTitle=Yii::app()->name;
        </div>
        <div id="ContenidoD">
            <br>
-           <a href="#" class="boton">Función 1</a>
-           <a href="#" class="boton">Función 2</a>
-           <a href="#" class="boton">Función 3</a>
+           <?php echo CHtml::link('Crear proceso ED',array('evaluaciondesempeno/crear'), array("class"=>"boton")); ?>
+           <?php echo CHtml::link('Gestionar proceso ED',array('evaluaciondesempeno/admin'), array("class"=>"boton")); ?>
+           <?php echo CHtml::link('Evaluar desempeño',array('evaluaciondesempeno/evaluar'), array("class"=>"boton")); ?>
        </div>
    </div>
 </div>
