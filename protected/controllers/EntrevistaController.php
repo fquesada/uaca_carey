@@ -239,13 +239,12 @@ class EntrevistaController extends Controller
              }   
              
             // Set active sheet index to the first sheet, so Excel opens this as the first sheet
-            
-
             // Redirect output to a client’s web browser (Excel5)
+            date_default_timezone_set('America/Costa_Rica');
             header('Content-Type: application/vnd.ms-excel');
-            header('Content-Disposition: attachment;filename="ECE.xls"');
+            header('Content-Disposition: attachment;filename="'.$puesto->nombre."_".date("d-m-Y").'.xls"');
             header('Cache-Control: max-age=0');
-
+      
             $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
             $objWriter->save('php://output');
             
