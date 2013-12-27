@@ -25,7 +25,6 @@ $this->pageTitle=Yii::app()->name;
            <br>
            <?php echo CHtml::link('Crear proceso EC',array('evaluacionpersonas/crear'), array("class"=>"boton")); ?>
            <?php echo CHtml::link('Gestionar proceso EC',array('evaluacionpersonas/admin'), array("class"=>"boton")); ?>
-           <?php echo CHtml::link('Evaluar competencias',array('evaluacionpersonas/evaluar'), array("class"=>"boton")); ?>
        </div>
    </div>
      <div id="Desmpeño">
@@ -34,9 +33,8 @@ $this->pageTitle=Yii::app()->name;
        </div>
        <div id="ContenidoD">
            <br>
-           <?php echo CHtml::link('Crear proceso ED',array('evaluaciondesempeno/crear'), array("class"=>"boton")); ?>
-           <?php echo CHtml::link('Gestionar proceso ED',array('evaluaciondesempeno/admin'), array("class"=>"boton")); ?>
-           <?php echo CHtml::link('Evaluar desempeño',array('evaluaciondesempeno/evaluar'), array("class"=>"boton")); ?>
+           <?php echo CHtml::link('Crear proceso ED',array('prcoesoed/crear'), array("class"=>"boton")); ?>
+           <?php echo CHtml::link('Gestionar proceso ED',array('procesoed/admin'), array("class"=>"boton")); ?>
        </div>
    </div>
 </div>
