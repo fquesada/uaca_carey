@@ -42,8 +42,11 @@ class EntrevistaController extends Controller
             $objDrawing->setPath('./images/UACA.png');
             $objDrawing->setHeight(40);
             $objDrawing->setWorksheet($objPHPExcel->getActiveSheet());
-            $objDrawing->setCoordinates('A2');
-
+            $objDrawing->setCoordinates('A1');
+            
+            $objPHPExcel->getActiveSheet()->getHeaderFooter()->setOddFooter('&L'.date("d-m-Y").'&R &P');
+            //$objPHPExcel->getActiveSheet()->getHeaderFooter()->setOddFooter('&R &P');
+            
             $objPHPExcel->setActiveSheetIndex(0)
                     ->getStyle('B2')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER)
                                                     ->setVertical(PHPExcel_Style_Alignment::VERTICAL_CENTER);
@@ -63,15 +66,15 @@ class EntrevistaController extends Controller
             
             // Add some data
             $objPHPExcel->setActiveSheetIndex(0)                        
-                        ->mergeCells('A2:I3') 
-                        ->setCellValue('A2', 'Entrevista Conductual Estructurada')                                          
-                        ->mergeCells('B4:H4')
+                        ->mergeCells('A1:I2') 
+                        ->setCellValue('A1', 'Entrevista Conductual Estructurada')                                          
+                        //->mergeCells('B4:H4')
                         ->setCellValue('F5', 'Puesto')
                         ->mergeCells('F6:I7')
                         ->setCellValue('F6', $puesto->nombre)
                         ->mergeCells('F5:I5');
                         
-            $objPHPExcel->setActiveSheetIndex(0)->getStyle('A2:I3')->applyFromArray(array(
+            $objPHPExcel->setActiveSheetIndex(0)->getStyle('A1:I2')->applyFromArray(array(
             'fill' => array(
             'type' => PHPExcel_Style_Fill::FILL_SOLID,
             'color' => array('rgb' => '000066')
@@ -79,12 +82,12 @@ class EntrevistaController extends Controller
                 )
                     );
             
-            $objPHPExcel->setActiveSheetIndex(0)->getStyle('A2')->getFont() 
+            $objPHPExcel->setActiveSheetIndex(0)->getStyle('A1')->getFont() 
                      ->setSize(24)
                      ->getColor()
                      ->setRGB('FFFFFF');   
             
-            $objPHPExcel->setActiveSheetIndex(0)->getStyle('A2')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER)
+            $objPHPExcel->setActiveSheetIndex(0)->getStyle('A1')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER)
                                                     ->setVertical(PHPExcel_Style_Alignment::VERTICAL_CENTER); 
              
              $objPHPExcel->setActiveSheetIndex(0)->getStyle('F5')
@@ -156,18 +159,18 @@ class EntrevistaController extends Controller
              
              //Tabla
              $objPHPExcel->setActiveSheetIndex(0)
-                    ->getStyle('B18')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                    ->getStyle('B17')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
              $objPHPExcel->setActiveSheetIndex(0)
-                    ->getStyle('D18')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                    ->getStyle('D17')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
              $objPHPExcel->setActiveSheetIndex(0)
-                    ->getStyle('G18')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                    ->getStyle('G17')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
              
              $objPHPExcel->setActiveSheetIndex(0)                        
-                        ->mergeCells('A18:B18')                        
-                        ->setCellValue('A15', 'Competencia')                                          
-                        ->mergeCells('C15:H15')                        
-                        ->setCellValue('C15', 'Preguntas y Respuestas')                        
-                        ->setCellValue('I15', 'U.V.');
+                        ->mergeCells('A17:B17')                        
+                        ->setCellValue('A14', 'Competencia')                                          
+                        ->mergeCells('C14:H14')                        
+                        ->setCellValue('C14', 'Preguntas y Respuestas')                        
+                        ->setCellValue('I14', 'U.V.');
              
 
              $styleTableBorder = array(
@@ -178,9 +181,9 @@ class EntrevistaController extends Controller
                  ),
              );
  
-             $objPHPExcel->setActiveSheetIndex()->getStyle('A15:I15')->applyFromArray($styleTableBorder);
-             $objPHPExcel->setActiveSheetIndex(0)->getStyle('A15:I15')->getFont()->setBold(TRUE);
-             $objPHPExcel->setActiveSheetIndex(0)->getStyle('A15:I15')->applyFromArray(array(
+             $objPHPExcel->setActiveSheetIndex()->getStyle('A14:I14')->applyFromArray($styleTableBorder);
+             $objPHPExcel->setActiveSheetIndex(0)->getStyle('A14:I14')->getFont()->setBold(TRUE);
+             $objPHPExcel->setActiveSheetIndex(0)->getStyle('A14:I14')->applyFromArray(array(
                     'fill' => array(
                     'type' => PHPExcel_Style_Fill::FILL_SOLID,
                     'color' => array('rgb' => '6699FF')
@@ -189,7 +192,7 @@ class EntrevistaController extends Controller
                             );
              
              
-             $i = '16';
+             $i = '15';
                        
             foreach($core as $competencia_core)
             {
@@ -213,7 +216,7 @@ class EntrevistaController extends Controller
                  $i++;  
              }         
 
-             $j = '20';
+             $j = '19';
                        
             foreach($competencias as $competencia)
             {
