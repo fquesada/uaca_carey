@@ -56,7 +56,7 @@ class Evaluaciondesempeno extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('colaborador, puesto, fecharegistrocompromiso, fechaevaluacion, links, procesoevaluacion', 'required'),
+			array('colaborador, puesto, procesoevaluacion', 'required'),
 			array('colaborador, puesto, estadoevaluacion, links, procesoevaluacion, estado', 'numerical', 'integerOnly'=>true),
 			array('promediocompromisos, promediocompetencias, promedioevaluacion', 'numerical'),
 			array('comentariocompromisos, comentarioevaluacion', 'length', 'max'=>800),
