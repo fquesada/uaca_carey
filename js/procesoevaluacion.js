@@ -4,7 +4,7 @@ $(document).ready(function() {
    $("#btncrearprocesoevaluacion").click(function(event){
        event.preventDefault();
        
-      if(validar($('#txtdescripcion')) && validar($('#ddlpuesto'))){       
+      if(validar($('#txtdescripcion')) && validar($('#id'))){       
        $.ajax({
                     type: "POST",
                     url: "Crear",
@@ -29,7 +29,7 @@ $(document).ready(function() {
                     },
                     success: function(resultado){
                         if(resultado.result){
-                            messagesuccess(resultado.value, 'agregarpersonas/'+resultado.idproceso);
+                            messagesuccess(resultado.value, 'admin/');
                         }else{
                             messageerror(resultado.value);
                         }                        
@@ -39,8 +39,8 @@ $(document).ready(function() {
       else{
           if(!validar($('#txtdescripcion')))
                 mostrarerror($('#txtdescripcion'));
-           if(!validar($('#ddlpuesto')))
-                mostrarerror($('#ddlpuesto'));
+           if(!validar($('#id')))
+                mostrarerror($('#colaborador'));
       }
    });
   
