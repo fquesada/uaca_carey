@@ -207,7 +207,7 @@ class EntrevistaController extends Controller
                         
                  $objPHPExcel->setActiveSheetIndex(0)                        
                         ->mergeCells('A'.$i.':B'.$i)   
-                        ->setCellValue('A'.$i, $competencia_core->competencia)                                          
+                        ->setCellValue('A'.$i, $competencia_core->competencia." (core)")                                          
                         ->mergeCells('C'.$i.':H'.$i)                        
                         ->setCellValue('C'.$i, $competencia_core->pregunta);
                  
