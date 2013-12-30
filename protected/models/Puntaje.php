@@ -40,7 +40,7 @@ class Puntaje extends CActiveRecord
 		return array(
 			array('valor, estado, descripcion', 'required'),
 			array('valor, estado', 'numerical', 'integerOnly'=>true),
-                        array('descripcion', 'length', 'max'=>100),
+                        array('descripcion', 'length', 'max'=>400),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
 			array('id, valor, estado, descripcion', 'safe', 'on'=>'search'),
