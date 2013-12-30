@@ -200,39 +200,29 @@ class ProcesoevaluacionController extends Controller
         public function actionCrearProcesoEC(){            
                         
             if(Yii::app()->request->isAjaxRequest)
-            {                
+            {               
+                //VALORAR PONER UN VALIDADOR ISSET TANTO DE VARIABLES DEL PROCESO COMO DE COLABORADORES
                 $nombreproceso = $_POST['nombreproceso'];
                 $idevaluador = CommonFunctions::stringtonumber($_POST['idevaluador']);
-                $periodo = CommonFunctions::stringtonumber($_POST['periodo']);
+                $periodo = CommonFunctions::stringtonumber($_POST['periodo']);         
                 
-                //$puesto = CommonFunctions::stringtonumber($_POST['puesto']);
-                $procesoevaluacion = new Procesoevaluacion();
-                
-                //$evaluacionpersona = new Evaluacionpersonas();
-                
-                $procesoevaluacion->descripcion = $nombreproceso;
-                $procesoevaluacion->periodo = $periodo;
+                $procesoevaluacion = new Procesoevaluacion();                
+                $procesoevaluacion->fecha = CommonFunctions::datenow(); 
                 $procesoevaluacion->evaluador = $idevaluador;
-                
-//                $evaluacionpersona->descripcion = $nombreproceso;
-//                $evaluacionpersona->puesto = $puesto; 
-                $procesoevaluacion->fecha = CommonFunctions::datenow();                
+                $procesoevaluacion->descripcion = $nombreproceso;
                 $procesoevaluacion->tipo = 1; //MIGRAR VARIABLES GLOBALES
-//                $usuario = Usuario::model()->findByPk(Yii::app()->user->id);              
-//                $colaborador = $usuario->getcolaborador();
-//                $evaluacionpersona->creador = $colaborador->id;
+                $procesoevaluacion->periodo = $periodo;
                 
                 $transaction = Yii::app()->db->beginTransaction();
                 
-                $saveresult = $procesoevaluacion->save();
-                
+                $resultadoguardarbd = $procesoevaluacion->save();                
                                
-                if($saveresult){
-//                    if(isset($_POST['habilidades'])){
+                if($resultadoguardarbd){
                         foreach ($_POST['colaboradores'] as $index => $idcolaborador){
                             
                             $evaluacioncompetencias = new Evaluacioncompetencias();
                             $evaluacioncompetencias->procesoevaluacion = $procesoevaluacion->id;
+                            $evaluacioncompetencias->fechaevaluacion = CommonFunctions::datenow(); 
                             
                             $colaborador = Colaborador::model()->findAllByPk(CommonFunctions::stringtonumber($idcolaborador));
                             
@@ -242,18 +232,18 @@ class ProcesoevaluacionController extends Controller
                             $link = new Links();
                             $link->url = obtenerhashurl(); //HACER FUNCION HASH URL
                             //AGREGAR DEFAULT A CONTADOR REENVIOS Y ESTADO EN TABLA LINKS
-                            $saveresult = $link->save();
+                            $resultadoguardarbd = $link->save();
                             //VALIDADOR GUARDADO EXITO SINO ROLLBACK
-                            if(!$saveresult){                    
+                            if(!$resultadoguardarbd){                    
                                $transaction->rollback();
                                $response = array('result' => false,'value' => "Ha ocurrido un inconveniente al intentar guardar el proceso: ".$evaluacionpersona->descripcion); 
                                echo CJSON::encode($response); 
                                Yii::app()->end();
                             }else{                           
                                 $evaluacioncompetencias->links = $link->id;
-                                $saveresult = $evaluacioncompetencias->save(); 
+                                $resultadoguardarbd = $evaluacioncompetencias->save(); 
                                 //VALIDADOR GUARDADO EXITO SINO ROLLBACK
-                                if(!$saveresult){                    
+                                if(!$resultadoguardarbd){                    
                                     $transaction->rollback();
                                     $response = array('result' => false,'value' => "Ha ocurrido un inconveniente al intentar guardar el proceso: ".$evaluacionpersona->descripcion); 
                                     echo CJSON::encode($response); 
@@ -261,7 +251,7 @@ class ProcesoevaluacionController extends Controller
                                 }
                             }       
                     }
-                    if($saveresult){                    
+                    if($resultadoguardarbd){                    
                        $transaction->commit();
                        $response = array('result' => true,'value' => "Se guardó con éxito el proceso: ".$procesoevaluacion->descripcion, 'idproceso' => $procesoevaluacion->id);
                        echo CJSON::encode($response);   
