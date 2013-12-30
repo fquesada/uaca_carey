@@ -13,17 +13,19 @@ class Mail {
     public static function enviarcorreo($evaluador, $correoevaluador, $colaborador, $link, $tipo){         
         
         $correo = new YiiMailer();
-        $correo->setView('contact');
-        $correo->setData(array('nombreevaluador' => $evaluador , 'nombrecolaborador' => $colaborador, 'link' => $link, 'description' => 'Evaluación de Colaboradores'));
+        $correo->setData(array('nombreevaluador' => $evaluador , 'nombrecolaborador' => $colaborador, 'link' => $link, 'description' => 'Evaluación de Colaboradores',));
 
-        //set properties
-        $correo->setFrom($correoevaluador, $evaluador);
+        //Se busca id 1, porque solo existe un registro en la tabla
+        $admin =  Infoadmin::model()->findByAttributes(array('id' => '1'));
+        $correo->setFrom($admin->correo, $admin->nombre);
         
         if ($tipo == 1){
             $correo->setSubject('Evaluación de Desempeño: '. $colaborador);
+            $correo->setView('evaluacion_desempeno');
         }
         else if ($tipo == 2){
             $correo->setSubject('Evaluación de Competencias: '. $colaborador);
+            $correo->setView('evaluacion_competencias');
         }
         
         $correo->setTo($correoevaluador);

@@ -25,5 +25,12 @@ $this->pageTitle=Yii::app()->name;
            <a href="../usuario/admin" class="btn">Usuario</a>
 
    </div>
+         <div class="Menu">
+           <a href="../merito/admin" class="btn">Mérito</a>
+           <a href="../tipomerito/admin" class="btn">Tipo Mérito</a>
+           <a href="../infoadmin/admin" class="btn">Información Administrador</a>
+
+   </div>
+    
 </div>
 </body>
