@@ -7,6 +7,7 @@
  * @property integer $id
  * @property string $url
  * @property integer $contadorenvios
+ * @property string $fechaultimoenvio
  * @property integer $estado
  *
  * The followings are the available model relations:
@@ -46,7 +47,7 @@ class Links extends CActiveRecord
             array('url', 'length', 'max'=>150),
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
-            array('id, url, contadorenvios, estado', 'safe', 'on'=>'search'),
+            array('id, url, contadorenvios, fechaultimoenvio, estado', 'safe', 'on'=>'search'),
         );
     }
 
@@ -72,6 +73,7 @@ class Links extends CActiveRecord
             'id' => 'ID',
             'url' => 'Url',
             'contadorenvios' => 'Contadorenvios',
+            'fechaultimoenvio' => 'Fecha Ult. Envio',
             'estado' => 'Estado',
         );
     }
@@ -90,6 +92,7 @@ class Links extends CActiveRecord
         $criteria->compare('id',$this->id);
         $criteria->compare('url',$this->url,true);
         $criteria->compare('contadorenvios',$this->contadorenvios);
+        $criteria->compare('fechaultimoenvio',$this->fechaultimoenvio,true);
         $criteria->compare('estado',$this->estado);
 
         return new CActiveDataProvider($this, array(
