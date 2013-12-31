@@ -1,47 +1,45 @@
 <?php
 /* @var $this EvaluacionpersonasController */
-/* @var $model Evaluacionpersonas */
-Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/evaluacionpersonas.js');
-
+/* @var $ec ProcesoEvaluacion */
+Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/evaluacionpersonas.js');//CLEAN CODE
 
 $this->breadcrumbs=array(	
 	'Evaluación de Competencias (EC)',
 );
 ?>
 
-
-
 <h3 style="text-align: center">Evaluación de Competencias (EC)</h3>
 
-<?php echo CHtml::beginForm($this->createUrl('procesoevaluacion/CrearProcesoEC'),'post', array('id'=>'formcrearevaluacionpersona'))?>                      
-<button  id="btnformcrearevaluacionpersona" type="submit" class="sexybutton sexysimple"><span class="add">Nuevo proceso EC</span></button>
+<?php echo CHtml::beginForm($this->createUrl('procesoevaluacion/crearprocesoec'),'post', array('id'=>'formcrearprocesoec'))?>                      
+<button  id="btnformcrearprocesoec" type="submit" class="sexybutton sexysimple"><span class="add">Nuevo proceso EC</span></button>
 <?php echo CHtml::endForm()?>
+
 <?php $this->widget('zii.widgets.grid.CGridView', array(
 	'id'=>'procesoevaluacion-grid',
-	'dataProvider'=>$model,
+	'dataProvider'=>$ec,
         'template' => '{summary}{pager}<br/>{items}{pager}',
 	'filter'=>$filtersForm,    
 	'columns'=>array(
                  array(
-                     'header'=>'Nombre proceso',
+                     'header'=>'id',
                      'name'=>'id',
                      'visible'=>false,
                  ),
                  array(     
-                    'header'=>'Nombre proceso',
+                    'header'=>'Proceso',
                     'name'=>'descripcion',                    
-                ),
-                array(
-                    'header'=>'Evaluador',
-                    'name'=>'evaluador',                     
                 ),
                 array(
                     'header'=>'Periodo',
                     'name'=>'periodo',                     
-                ),                
+                ),
                 array(
                     'header'=>'Fecha creación',
                     'name'=>'fecha',                     
+                ),                
+                array(
+                    'header'=>'Evaluador',
+                    'name'=>'evaluador',                     
                 ),
                 array(
                     'header'=>'Estado',
@@ -50,12 +48,15 @@ $this->breadcrumbs=array(
                 array(
 			'class'=>'CButtonColumn',
                         'htmlOptions'=>array('width'=>'90'),
-                        'template'=>'{agregarpersonas}{habilidades}',
-                        'deleteButtonUrl'=>'Yii::app()->controller->createUrl("evaluacionpersonas/borrar", array("id"=>$data["id"]))',
-                        'deleteButtonLabel' => 'Eliminar este proceso.', 
-                        'deleteButtonImageUrl'=>Yii::app()->request->baseUrl.'/images/icons/silk/delete.png',                          
-                        'deleteConfirmation'=>'js:alert("hola")',
-                        'afterDelete'=>'function(link,success,data){ 
+                        'template'=>'{adminprocesoec}{update}{copiar}{delete}',
+                        'updateButtonUrl'=>'Yii::app()->controller->createUrl("#", array("id"=>$data["id"]))',
+                        'updateButtonLabel' => 'Editar Proceso', 
+                        'updateButtonImageUrl'=>Yii::app()->request->baseUrl.'/images/icons/silk/page_edit.png',                         
+                        'deleteButtonUrl'=>'Yii::app()->controller->createUrl("#", array("id"=>$data["id"]))',
+                        'deleteButtonLabel' => 'Eliminar Proceso', 
+                        'deleteButtonImageUrl'=>Yii::app()->request->baseUrl.'/images/icons/silk/decline.png',                          
+                        //'deleteConfirmation'=>'js:alert("")',
+                        /*'afterDelete'=>'function(link,success,data){ 
                             if(success) {
                                 new Messi(data,
                                 { title: "Exito.",
@@ -71,14 +72,17 @@ $this->breadcrumbs=array(
                                     modal:true
                                 });
                             }
-                            }',
-                        'buttons'=>array(
-                            'agregarpersonas'=>array(
-                                'label'=>'Gestión de personas en el proceso',
-                                'imageUrl'=>Yii::app()->request->baseUrl.'/images/icons/silk/group_add.png',
-                                'url'=>'Yii::app()->createUrl("evaluacionpersonas/agregarpersonas", array("id"=>$data["id"]))'
-                                
+                            }',*/
+                        'buttons'=>array(                            
+                            'adminprocesoec'=> array(
+                                'label'=>'Gestionar Proceso EC',
+                                'imageUrl'=>Yii::app()->request->baseUrl.'/images/icons/silk/door_in.png',
+                                'url'=>'Yii::app()->createUrl("procesoevaluacion/adminprocesoec", array("id"=>$data["id"]))'
                             ),
+                            'copiar'=> array(
+                                'label'=>'Copiar proceso',
+                                'imageUrl'=>Yii::app()->request->baseUrl.'/images/icons/silk/page_copy.png',                                
+                            ),//CLEAN CODE
                             'habilidades'=>array(
                                 'label'=>'Ver Evaluaciones Especiales',
                                 'imageUrl'=>Yii::app()->request->baseUrl.'/images/icons/silk/award_star_gold_3.png',
@@ -105,6 +109,7 @@ $this->breadcrumbs=array(
 )); ?>
 
 <?php
+//CLEAN CODE
 //the dialog
 $this->beginWidget('zii.widgets.jui.CJuiDialog', array( 
 'id'=>'dlghabilidadesespeciales',

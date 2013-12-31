@@ -262,10 +262,11 @@ class ProcesoevaluacionController extends Controller
                             }
                     }                                    
                    $transaction->commit();
-                   $response = array('resultado' => true,'mensaje' => "Se guardó con éxito el proceso: ".$procesoevaluacion->descripcion, 'url' => Yii::app()->getBaseUrl(true).'/index.php/procesoevaluacion/admin/');                  
+                   $response = array('resultado' => true,'mensaje' => "Se guardó con éxito el proceso: ".$procesoevaluacion->descripcion, 'url' => Yii::app()->getBaseUrl(true).'/index.php/procesoevaluacion/adminprocesoec/'.$procesoevaluacion->id);                  
                    echo CJSON::encode($response);   
                    Yii::app()->end();                                   
-                }else{
+                }
+                else{
                         $transaction->rollback();
                         $response = array('resultado' => false,'mensaje' => "Ha ocurrido un inconveniente al intentar guardar el proceso: ".$procesoevaluacion->descripcion);              
                         echo CJSON::encode($response);                        
@@ -277,11 +278,12 @@ class ProcesoevaluacionController extends Controller
             $this->render('crearprocesoec');
         }
         
-        public function actionAdminProcesoEC($idprocesoec){            
-            $proceso = Procesoevaluacion::model()->findByPk($idprocesoec);
+        public function actionAdminProcesoEC($id){            
             
-            $ec = $proceso->__evaluacionescompetencias;
-            
+            $procesoec = Procesoevaluacion::model()->findByPk($id);
+            $this->render('adminprocesoec',array(
+			'procesoec'=>$procesoec,
+		));       
         }
         
         public function actionHabilidadesEspeciales(){
@@ -360,7 +362,7 @@ class ProcesoevaluacionController extends Controller
 	 */
 	public function actionAdmin()
 	{
-            $model = Procesoevaluacion::model()->search();                
+            $ec = Procesoevaluacion::model()->obtenerevaluacioncompetencias();                
             $filtersForm=new FiltersForm;
 
             if (isset($_GET['FiltersForm']))
@@ -368,7 +370,7 @@ class ProcesoevaluacionController extends Controller
             
             $this->layout='column1';
             $this->render('admin',array(
-                'model' => $filtersForm->filter($model),
+                'ec' => $filtersForm->filter($ec),
                 'filtersForm' => $filtersForm,
             ));
 	}

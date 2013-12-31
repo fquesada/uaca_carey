@@ -93,38 +93,35 @@ class Procesoevaluacion  extends CActiveRecord
 		);
 	}
 
-       public function search(){
+       public function obtenerevaluacioncompetencias(){
             $connection=Yii::app()->db;
-            $sql=  "SELECT procesoevaluacion.id, procesoevaluacion.descripcion, DATE_FORMAT(procesoevaluacion.fecha, '%d-%m-%Y') AS fecha, procesoevaluacion.periodo, CONCAT(colaborador.nombre,' ',colaborador.apellido1,' ',colaborador.apellido2) AS evaluador,(CASE WHEN procesoevaluacion.estado = 1 THEN 'En proceso' ELSE 'Finalizado' END) as estado                   
-                    FROM procesoevaluacion
-                    INNER JOIN colaborador
-                    ON (procesoevaluacion.evaluador = colaborador.id)
-                    WHERE procesoevaluacion.tipo = 1;"; 
+            $sql=  "SELECT pe.id, pe.descripcion, p.nombre as periodo, DATE_FORMAT(pe.fecha, '%d-%m-%Y') AS fecha, CONCAT(c.nombre,' ',c.apellido1,' ',c.apellido2) AS evaluador,(CASE WHEN pe.estado = 1 THEN 'En proceso' ELSE 'Finalizado' END) as estado                   
+                    FROM procesoevaluacion pe
+                    INNER JOIN periodo p
+                    ON (pe.periodo = p.id)
+                    INNER JOIN colaborador c
+                    ON (pe.evaluador = c.id)
+                    WHERE pe.tipo = 1;"; 
             $command=$connection->createCommand($sql);
-            $models = $command->queryAll();
-
-            $dataProvider = new CArrayDataProvider($models,array(
+            $ec = $command->queryAll();
+            $dataProvider = new CArrayDataProvider($ec,array(
             'keyField'=>'id',
             'id'=>'procesoevaluaciongrid',
             'sort'=>array(
                 'attributes'=>array(
                     'descripcion',
-                    'fecha',
                     'periodo',
+                    'fecha',                    
                     'evaluador',                       
                     'estado',
                     ),
                 ),
                 'pagination'=>array(
-                    'pageSize'=>10,
+                    'pageSize'=>15,
                 ),
             ));
-
             return $dataProvider;
         }
-        
-       public function obtenerEC(){
-           
-       }
+
            
 }
