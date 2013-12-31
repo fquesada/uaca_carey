@@ -67,7 +67,7 @@ class Procesoevaluacion  extends CActiveRecord
 		// class name for the relations automatically generated below.
 		return array(
 			'_evaluacionescompetencias' => array(self::HAS_MANY, 'Evaluacioncompetencias', 'procesoevaluacion'),
-                        'evaluaciondesempenos' => array(self::HAS_MANY, 'Evaluaciondesempeno', 'procesoevaluacion'),					
+                        '_evaluaciondesempenos' => array(self::HAS_MANY, 'Evaluaciondesempeno', 'procesoevaluacion'),					
 			'_habilidadesespecial' => array(self::HAS_MANY, 'Habilidadespecial', 'procesoevaluacion'),
 			'_habilidadesespecialevaluada' => array(self::HAS_MANY, 'Habilidadespecialevaluada', 'procesoevaluacion'),
 			'_vacantes' => array(self::HAS_MANY, 'Vacante', 'procesoevaluacion'),
