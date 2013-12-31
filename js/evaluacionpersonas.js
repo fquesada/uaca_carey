@@ -1,10 +1,19 @@
 $(document).ready(function() {
    
-   //Proceso crear evaluacion persona
-   $("#btncrearproceso").click(function(event){
+   //Crear Proceso de Evaluacion Competencias
+   $("#btncrearprocesoEC").click(function(event){
        event.preventDefault();
        
-//      if(validar($('#txtdescripcion'))){       
+       if(!validar($('#ddlperiodo'))){     
+            mostrarerror($('#ddlperiodo'));}
+       else if (!validar($('#txtdescripcion'))){
+            mostrarerror($('#txtdescripcion'));}
+       else if (!validar($('#busquedaevaluador'))){
+           mostrarerror($('#busquedaevaluador'));}
+       else if (cantidadcolaboradorestabla()== 0){
+           mostrarerror($('#tblcolaboradores'));
+       }
+       else{
        $.ajax({
                     type: "POST",
                     url: "CrearProcesoEC",
@@ -27,14 +36,13 @@ $(document).ready(function() {
                             messageerror("Error desconocido, contacte al administrador de sistemas.");                            
                         }
                     },
-                    success: function(resultado){
-//                        if(resultado.result){
-//                            messagesuccess(resultado.value, 'agregarpersonas/'+resultado.idproceso);
-//                        }else{
-                            messageerror(resultado.value);
-//                        }                        
+                    success: function(datos){
+                        if(datos.resultado)
+                            messagesuccess(datos.mensaje, datos.url);              
+                        else
+                            messageerror(datos.mensaje);
                     }
-        });
+        });}
 //      }
 //      else{
 //          if(!validar($('#txtdescripcion')))
@@ -106,45 +114,30 @@ $(document).ready(function() {
                 mostrarerror($('#dllponderacion'));
        }
    });
-   
-   function cantidadhabilidades(){
-      return $('#tblhabilidades > tbody tr').length;       
-   }
-   
-   $('#txtnombrehabilidad').focusout(function(){
-       if(!validar($(this)))          
-           mostrarerror($(this));                           
-   });   
-   $('#txtnombrehabilidad').focusin(function(){
-        ocultarerror($(this));  
-   });
-   
-   $('#txtareadescripcionhabilidad').focusout(function(){
-       if(!validar($(this)))          
-           mostrarerror($(this));     
-   });
-   $('#txtareadescripcionhabilidad').focusin(function(){
-        ocultarerror($(this)); 
-   });
-   
+  
+  //Validacion de campos
    $('#txtdescripcion').focusout(function(){
        if(!validar($(this)))          
            mostrarerror($(this));     
    });
    $('#txtdescripcion').focusin(function(){
         ocultarerror($(this)); 
-   });
-   
-   $('#ddlpuesto').focusout(function(){
+   });   
+   $('#ddlperiodo').focusout(function(){
        if(!validar($(this)))          
            mostrarerror($(this));     
    });
-   $('#ddlpuesto').focusin(function(){
+   $('#ddlperiodo').focusin(function(){
         ocultarerror($(this)); 
    });
-   $('#dllponderacion').click(function(){
+   $('#busquedaevaluador').focusout(function(){
+       if(!validar($(this)))          
+           mostrarerror($(this));     
+   });
+   $('#busquedaevaluador').focusin(function(){
         ocultarerror($(this)); 
    });
+   
    
    function limpiarinputshabilidades(){
        $('#txtnombrehabilidad').val('');
@@ -177,7 +170,7 @@ $(document).ready(function() {
             modal:true,
             closeButton: false,
             buttons: [{id: 0, label: 'Cerrar', val: 'X'}],
-            callback: function(val){$(location).attr('href',url);}
+            callback: function(val){window.location.replace(url);}            
         });
     }
     
@@ -262,6 +255,7 @@ $(document).ready(function() {
         $('#busquedaevaluador').removeAttr("disabled");
         $("#imgborrarevaluador").hide();
         $('#btnbusquedacolaboradores').attr('disabled', 'true');
+        $('#tblcolaboradores > tbody > tr').remove()
    });
    
    //Funcionalidad sobre la imagen de borrar en busqueda de colaborador en el proceso de EC
@@ -308,6 +302,7 @@ $(document).ready(function() {
        else if(cantidadcolaboradorestabla()==0){
            $('#tblcolaboradores > tbody').append('<tr><td name="idcolaborador" style="display: none">'+idcolaborador+'</td><td name="cedula">'+cedula+'</td><td name="colaborador">'+colaborador+'</td><td name="colaborador">Falta puesto</td><td><img id="borrarhabilidad" style="cursor: pointer;" src="../../images/icons/silk/delete.png" alt="Eliminar colaborador"/></td></tr>');     
            restablecerbuscarcolaborador();
+           ocultarerror($('#tblcolaboradores'));
        }
        else if (existeidcolaboradortabla(idcolaborador)){
            messageerror('El colaborador ya se encuentra seleccionado.');
@@ -316,6 +311,7 @@ $(document).ready(function() {
        else{
           $('#tblcolaboradores > tbody').append('<tr><td name="idcolaborador" style="display: none">'+idcolaborador+'</td><td name="cedula">'+cedula+'</td><td name="colaborador">'+colaborador+'</td><td name="colaborador">Falta puesto</td><td><img id="borrarhabilidad" style="cursor: pointer;" src="../../images/icons/silk/delete.png" alt="Eliminar colaborador"/></td></tr>');      
           restablecerbuscarcolaborador();
+          ocultarerror($('#tblcolaboradores'));
        }
 
    });

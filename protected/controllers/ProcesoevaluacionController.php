@@ -32,8 +32,8 @@ class ProcesoevaluacionController extends Controller
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('CrearProcesoEC','update','admin','AgregarPersonas','AgregarPersona','AutocompleteEvaluado',
-                                                    'HabilidadesEspeciales','InfoPonderacion', 'delete', 'reporteevaluacioncompetencias', 'DataReporteEvaluacionCompetencias'),
+				'actions'=>array('CrearProcesoEC','AdminProcesoEC','update','admin','AgregarPersonas','AgregarPersona','AutocompleteEvaluado',
+                                                    'HabilidadesEspeciales','InfoPonderacion', 'delete', 'reporteevaluacioncompetencias', 'DataReporteEvaluacionCompetencias', 'vistaprueba'),
 				'users'=>array('@'),
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -45,6 +45,22 @@ class ProcesoevaluacionController extends Controller
 			),
 		);
 	}
+        
+        public function actionVistaPrueba(){
+//             $idcolaborador =1;
+//             $colaborador = Colaborador::model()->findByPk($idcolaborador);
+//             $puesto = $colaborador->getidpuestoactual();//HACER FUNCION DEME PUESTO
+//             if(!$puesto)
+//                 $puesto = 'Es Nulo';
+            $puesto = Yii::app()->getBaseUrl(true);
+           $puesto = Yii::app()->getBaseUrl(true).'//index.php/procesoevaluacion/admin';
+         
+           
+             $this->render('vistaprueba',array(
+			'datos'=>$puesto,
+		));
+             
+        }
         
         public function actionAgregarPersonas($id)
         {
@@ -218,53 +234,35 @@ class ProcesoevaluacionController extends Controller
                 $resultadoguardarbd = $procesoevaluacion->save();                
                                
                 if($resultadoguardarbd){
-                        foreach ($_POST['colaboradores'] as $index => $idcolaborador){
+                    foreach ($_POST['colaboradores'] as $index => $idcolaborador){
                             
                             $evaluacioncompetencias = new Evaluacioncompetencias();
                             $evaluacioncompetencias->procesoevaluacion = $procesoevaluacion->id;
-                            $evaluacioncompetencias->fechaevaluacion = CommonFunctions::datenow(); 
-                            
-                            $colaborador = Colaborador::model()->findAllByPk(CommonFunctions::stringtonumber($idcolaborador));
-                            
-                            $evaluacioncompetencias->colaborador = $colaborador->id;
-                            $evaluacioncompetencias->puesto = $colaborador->puesto();//HACER FUNCION DEME PUESTO
-                            
+                            $colaborador = Colaborador::model()->findByPk($idcolaborador);
+                            $evaluacioncompetencias->puesto = $colaborador->getidpuestoactual();
+                            $evaluacioncompetencias->colaborador = $colaborador->id;                            
+                            $evaluacioncompetencias->save();
+
                             $link = new Links();
-                            $link->url = obtenerhashurl(); //HACER FUNCION HASH URL
-                            //AGREGAR DEFAULT A CONTADOR REENVIOS Y ESTADO EN TABLA LINKS
-                            $resultadoguardarbd = $link->save();
-                            //VALIDADOR GUARDADO EXITO SINO ROLLBACK
+                            $link->url = $evaluacioncompetencias->id; //FALTA FUNCION HASH                          
+                            $link->save();
+
+                            $evaluacioncompetencias->links = $link->id;
+                            $resultadoguardarbd =  $evaluacioncompetencias->save();
                             if(!$resultadoguardarbd){                    
-                               $transaction->rollback();
-                               $response = array('result' => false,'value' => "Ha ocurrido un inconveniente al intentar guardar el proceso: ".$evaluacionpersona->descripcion); 
-                               echo CJSON::encode($response); 
-                               Yii::app()->end();
-                            }else{                           
-                                $evaluacioncompetencias->links = $link->id;
-                                $resultadoguardarbd = $evaluacioncompetencias->save(); 
-                                //VALIDADOR GUARDADO EXITO SINO ROLLBACK
-                                if(!$resultadoguardarbd){                    
                                     $transaction->rollback();
-                                    $response = array('result' => false,'value' => "Ha ocurrido un inconveniente al intentar guardar el proceso: ".$evaluacionpersona->descripcion); 
+                                    $response = array('resultado' => false,'mensaje' => "Ha ocurrido un inconveniente al intentar guardar el proceso: ".$procesoevaluacion->descripcion);              
                                     echo CJSON::encode($response); 
                                     Yii::app()->end();
-                                }
-                            }       
-                    }
-                    if($resultadoguardarbd){                    
-                       $transaction->commit();
-                       $response = array('result' => true,'value' => "Se guardó con éxito el proceso: ".$procesoevaluacion->descripcion, 'idproceso' => $procesoevaluacion->id);
-                       echo CJSON::encode($response);   
-                       Yii::app()->end();
-                    }else{
-                        $transaction->rollback();
-                        $response = array('result' => false,'value' => "Ha ocurrido un inconveniente al intentar guardar el proceso: ".$procesoevaluacion->descripcion); 
-                        echo CJSON::encode($response); 
-                        Yii::app()->end();
-                    }                    
+                            }
+                    }                                    
+                   $transaction->commit();
+                   $response = array('resultado' => true,'mensaje' => "Se guardó con éxito el proceso: ".$procesoevaluacion->descripcion, 'url' => Yii::app()->getBaseUrl(true).'/index.php/procesoevaluacion/admin/');                  
+                   echo CJSON::encode($response);   
+                   Yii::app()->end();                                   
                 }else{
                         $transaction->rollback();
-                        $response = array('result' => false,'value' => "Ha ocurrido un inconveniente al intentar guardar el proceso: ".$procesoevaluacion->descripcion); 
+                        $response = array('resultado' => false,'mensaje' => "Ha ocurrido un inconveniente al intentar guardar el proceso: ".$procesoevaluacion->descripcion);              
                         echo CJSON::encode($response);                        
                         Yii::app()->end();
                 }           
@@ -272,6 +270,10 @@ class ProcesoevaluacionController extends Controller
             
             
             $this->render('crearprocesoec');
+        }
+        
+        public function actionAdminProcesoEC($idprocesoec){            
+            $proceso = Procesoevaluacion::model()->findByPk($idprocesoec);
         }
         
         public function actionHabilidadesEspeciales(){

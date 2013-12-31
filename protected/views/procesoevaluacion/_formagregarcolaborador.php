@@ -26,7 +26,7 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array(
         'autoOpen'=>false,
         'modal'=>true,
         'width'=>375,
-        'height'=>415,
+        'height'=>245,
         'resizable' => false,
         'draggable' => false,
         'beforeClose' => 'js:function(){$("#divcolaborador").hide();}',
@@ -104,4 +104,5 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array(
 </table>
     
 </div>
+<div id="tblcolaboradoreserror" class="errorevaluacionpersona">Debe agregar al menos un colaborador</div>
 

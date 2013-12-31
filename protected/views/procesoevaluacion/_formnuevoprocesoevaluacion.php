@@ -2,6 +2,13 @@
     <p>Campos con * son obligatorios.</p> 
     
     <div class="row">
+            <?php echo CHtml::label('Periodo *', 'periodo');?>
+            <?php echo CHtml::dropDownList('ddlperiodo', 'nombre',
+                        CHtml::listData(Periodo::model()->findAll(), 'id', 'nombre'), array('empty'=>'Elija el periodo', 'id'=>'ddlperiodo')) ?>       
+            <div id="ddlperiodoerror" class="errorevaluacionpersona">Debe seleccionar un periodo</div>
+    </div> 
+    
+    <div class="row">
             <?php echo CHtml::label('Nombre del proceso *', 'descripcion');?>
             <?php echo CHtml::textArea('txtareadescripcion','', array('id'=>'txtdescripcion', 'rows' => '3', 'cols' => '40', 'maxlength' => '90'));?>                    
             <div id="txtdescripcionerror" class="errorevaluacionpersona">Debe ingresar el nombre del proceso.</div>
@@ -43,7 +50,7 @@
             ?>                   
             <?php echo CHtml::image(Yii::app()->request->baseUrl."/images/icons/silk/decline.png", "Borrar Colaborador seleccionado", 
                     array("id"=>"imgborrarevaluador", "style" => "padding-left:5px; cursor:pointer; display:none")); ?>
-            <div id="ddlpuestoerror" class="errorevaluacionpersona">Debe seleccionar un puesto</div>
+            <div id="busquedaevaluadorerror" class="errorevaluacionpersona">Debe seleccionar un evaluador</div>
     </div>  
     <div class="row">        
             <?php  echo CHtml::label('Cédula', 'cedula'); ?>            
@@ -54,12 +61,6 @@
             <?php echo CHtml::hiddenField('idevaluador', '-',array('id'=>'idevaluador','name'=>'id')); ?>        
     </div>   
     </fieldset>
-
-    <div class="row">
-            <?php echo CHtml::label('Periodo *', 'periodo');?>
-            <?php echo CHtml::dropDownList('ddlperiodo', 'nombre',
-                        CHtml::listData(Periodo::model()->findAll(), 'id', 'nombre'), array('empty'=>'Elija el periodo', 'id'=>'ddlperiodo')) ?>       
-            <div id="ddlpuestoerror" class="errorevaluacionpersona">Debe seleccionar un periodo</div>
-    </div>  
+ 
       
-</div><!-- form -->
+</div>

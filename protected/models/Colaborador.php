@@ -138,5 +138,13 @@ class Colaborador extends CActiveRecord
             $this->_nombrecompleto = $this->nombre." ".$this->apellido1." ".$this->apellido2;
             return $this->_nombrecompleto;            
         }
+        
+        public function getidpuestoactual(){
+            $historicopuesto = Historicopuesto::model()->findByAttributes(array('colaborador' => $this->id), 'puestoactual=1');
+            if(!is_null($historicopuesto))
+                return $historicopuesto->puesto;
+            else
+                return false;
+        }
 }
 
