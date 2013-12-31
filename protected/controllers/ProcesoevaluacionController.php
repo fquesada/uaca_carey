@@ -51,13 +51,18 @@ class ProcesoevaluacionController extends Controller
 //             $colaborador = Colaborador::model()->findByPk($idcolaborador);
 //             $puesto = $colaborador->getidpuestoactual();//HACER FUNCION DEME PUESTO
 //             if(!$puesto)
-//                 $puesto = 'Es Nulo';
-            $puesto = Yii::app()->getBaseUrl(true);
-           $puesto = Yii::app()->getBaseUrl(true).'//index.php/procesoevaluacion/admin';
-         
+////                 $puesto = 'Es Nulo';
+//            $puesto = Yii::app()->getBaseUrl(true);
+//           $puesto = Yii::app()->getBaseUrl(true).'//index.php/procesoevaluacion/admin';
+//         
+            $idprocesoec = 1;
+            $proceso = Procesoevaluacion::model()->findByPk($idprocesoec);
+            
+            $ec = $proceso->_evaluacionescompetencias;
+            
            
              $this->render('vistaprueba',array(
-			'datos'=>$puesto,
+			'proceso'=>$proceso, 'ec' =>$ec
 		));
              
         }
@@ -226,7 +231,7 @@ class ProcesoevaluacionController extends Controller
                 $procesoevaluacion->fecha = CommonFunctions::datenow(); 
                 $procesoevaluacion->evaluador = $idevaluador;
                 $procesoevaluacion->descripcion = $nombreproceso;
-                $procesoevaluacion->tipo = 1; //MIGRAR VARIABLES GLOBALES
+                $procesoevaluacion->tipo = 1; //MIGRAR VARIABLES GLOBALES CLEAN CODE
                 $procesoevaluacion->periodo = $periodo;
                 
                 $transaction = Yii::app()->db->beginTransaction();
@@ -239,7 +244,7 @@ class ProcesoevaluacionController extends Controller
                             $evaluacioncompetencias = new Evaluacioncompetencias();
                             $evaluacioncompetencias->procesoevaluacion = $procesoevaluacion->id;
                             $colaborador = Colaborador::model()->findByPk($idcolaborador);
-                            $evaluacioncompetencias->puesto = $colaborador->getidpuestoactual();
+                            $evaluacioncompetencias->puesto = $colaborador->getidpuestoactual(); //CLEAN CODE
                             $evaluacioncompetencias->colaborador = $colaborador->id;                            
                             $evaluacioncompetencias->save();
 
@@ -274,6 +279,9 @@ class ProcesoevaluacionController extends Controller
         
         public function actionAdminProcesoEC($idprocesoec){            
             $proceso = Procesoevaluacion::model()->findByPk($idprocesoec);
+            
+            $ec = $proceso->__evaluacionescompetencias;
+            
         }
         
         public function actionHabilidadesEspeciales(){
