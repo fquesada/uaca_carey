@@ -87,7 +87,7 @@ $(document).ready(function() {
    
 
    
-   $(document).on("click", "#borrarhabilidad", function(e){
+   $(document).on("click", "#borrarcolaborador", function(e){
         $(this).parents("tr").remove()
         if (cantidadhabilidades() < 5){
            $("#btndialoghabilidadespecial").removeAttr('disabled');        
@@ -100,7 +100,7 @@ $(document).ready(function() {
         var habilidad = $('#txtnombrehabilidad').val();
         var habilidaddescripcion = $('#txtareadescripcionhabilidad').val();
         var ponderacion = $('#dllponderacion').val(); 
-        $('#tblhabilidades > tbody').append('<tr><td name="habilidad">'+habilidad+'</td><td name="descripcion">'+habilidaddescripcion+'</td><td name="ponderacion">'+ponderacion+'</td><td><img id="borrarhabilidad" style="cursor: pointer;" src="../../images/icons/silk/delete.png" alt="Eliminar habilidad"/></td></tr>');               
+        $('#tblhabilidades > tbody').append('<tr><td name="habilidad">'+habilidad+'</td><td name="descripcion">'+habilidaddescripcion+'</td><td name="ponderacion">'+ponderacion+'</td><td><img id="borrarcolaborador" style="cursor: pointer;" src="../../images/icons/silk/delete.png" alt="Eliminar habilidad"/></td></tr>');               
         if (cantidadhabilidades() >= 5){
             $("#btndialoghabilidadespecial").attr("disabled", "disabled");        
         }       
@@ -300,7 +300,7 @@ $(document).ready(function() {
            restablecerbuscarcolaborador();
        }
        else if(cantidadcolaboradorestabla()==0){
-           $('#tblcolaboradores > tbody').append('<tr><td name="idcolaborador" style="display: none">'+idcolaborador+'</td><td name="cedula">'+cedula+'</td><td name="colaborador">'+colaborador+'</td><td name="colaborador">Falta puesto</td><td><img id="borrarhabilidad" style="cursor: pointer;" src="../../images/icons/silk/delete.png" alt="Eliminar colaborador"/></td></tr>');     
+           $('#tblcolaboradores > tbody').append('<tr><td name="idcolaborador" style="display: none">'+idcolaborador+'</td><td name="cedula">'+cedula+'</td><td name="colaborador">'+colaborador+'</td><td name="colaborador">Falta puesto</td><td><img id="borrarcolaborador" style="cursor: pointer;" src="../../images/icons/silk/delete.png" alt="Eliminar colaborador"/></td></tr>');     
            restablecerbuscarcolaborador();
            ocultarerror($('#tblcolaboradores'));
        }
@@ -309,7 +309,7 @@ $(document).ready(function() {
            restablecerbuscarcolaborador();
        }
        else{
-          $('#tblcolaboradores > tbody').append('<tr><td name="idcolaborador" style="display: none">'+idcolaborador+'</td><td name="cedula">'+cedula+'</td><td name="colaborador">'+colaborador+'</td><td name="colaborador">Falta puesto</td><td><img id="borrarhabilidad" style="cursor: pointer;" src="../../images/icons/silk/delete.png" alt="Eliminar colaborador"/></td></tr>');      
+          $('#tblcolaboradores > tbody').append('<tr><td name="idcolaborador" style="display: none">'+idcolaborador+'</td><td name="cedula">'+cedula+'</td><td name="colaborador">'+colaborador+'</td><td name="colaborador">Falta puesto</td><td><img id="borrarcolaborador" style="cursor: pointer;" src="../../images/icons/silk/delete.png" alt="Eliminar colaborador"/></td></tr>');      
           restablecerbuscarcolaborador();
           ocultarerror($('#tblcolaboradores'));
        }

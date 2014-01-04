@@ -32,7 +32,7 @@ class ProcesoevaluacionController extends Controller
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('CrearProcesoEC','AdminProcesoEC','update','admin','AgregarPersonas','AgregarPersona','AutocompleteEvaluado',
+				'actions'=>array('CrearProcesoEC','AdminProcesoEC','EvaluarProcesoEC','EnvioCorreoEC','update','admin','AgregarPersonas','AgregarPersona','AutocompleteEvaluado',
                                                     'HabilidadesEspeciales','InfoPonderacion', 'delete', 'reporteevaluacioncompetencias', 'DataReporteEvaluacionCompetencias', 'vistaprueba'),
 				'users'=>array('@'),
 			),
@@ -278,12 +278,31 @@ class ProcesoevaluacionController extends Controller
             $this->render('crearprocesoec');
         }
         
-        public function actionAdminProcesoEC($id){            
+        public function actionAdminProcesoEC($id){    
             
             $procesoec = Procesoevaluacion::model()->findByPk($id);
             $this->render('adminprocesoec',array(
 			'procesoec'=>$procesoec,
 		));       
+        }
+        
+        public function actionEnvioCorreoEC(){
+            
+            if(Yii::app()->request->isAjaxRequest){                                                                
+                 $response = array('url' => Yii::app()->getBaseUrl(true).'/index.php/procesoevaluacion/evaluarprocesoec/'.$_POST['id']);               
+                 echo CJSON::encode($response);                        
+                 Yii::app()->end();
+            }
+        }
+        
+        public function actionEvaluarProcesoEC($id){
+            
+            $this->layout='column1';
+            $ec = Evaluacioncompetencias::model()->findByPk($id);
+            $puntaje = Puntaje::model()->obtenerpuntajesactivos();
+            $this->render('evaluarprocesoec',array(
+                            'ec'=>$ec,'puntaje'=>$puntaje,
+            ));
         }
         
         public function actionHabilidadesEspeciales(){

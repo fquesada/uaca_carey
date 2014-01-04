@@ -14,8 +14,7 @@ echo $proceso->periodo;
 
  echo "\n";
  echo "Colaboradores a evaluar";
-foreach($proceso->_evaluacionescompetencias as $index => $ec)
-{
+foreach($proceso->_evaluacionescompetencias as $ec){
     echo "Colaboradores a evaluar";
     echo $ec->_colaborador->nombre;
     echo "\n";

@@ -159,5 +159,14 @@ class Puesto extends CActiveRecord
             }
             return $idUnidades;
         }
+        
+        public function getmeritosactuales(){
+            $meritos = Merito::model()->findAllByAttributes(array('puesto' => $this->id), 'estado=1');
+            if(is_null($meritos))
+                return false;
+            else
+                return  $meritos;
+        }
+                
 }
 

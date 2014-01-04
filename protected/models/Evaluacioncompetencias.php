@@ -155,11 +155,28 @@ class Evaluacioncompetencias extends CActiveRecord {
             return Postulante::model()->findByPk($this->evaluado)->nombrecompleto;
     }
 
-    public function getEstadoEvaluacion() {
-        if ($this->promedioponderado != null)
-            return 'Finalizado';
-        else
+    public function getEstadoEvaluacionDescripcion() {
+        if ($this->estado == 1)
             return 'Pendiente';
+        else if ($this->estado == 2)
+            return 'Evaluado';
+    }
+    
+    public function getEstadoEvaluacionIndicador() {
+        if ($this->estado == 1)
+            return false;
+        else if ($this->estado == 2)
+            return true;
+    }
+    
+    public function getfechaevaluacionecformato() {
+        if (is_null($this->fechaevaluacion))
+            return "-- / -- / ----";
+        else {
+            $fechasinformato = strtotime($this->fechaevaluacion);
+            $fechaconformato = date('d-m-Y', $fechasinformato);
+            return $fechaconformato;
+        }
     }
 
 //        public function obtenerGraficoSpiderCalificado($idevaluacioncompetencias,$idevaluacionpersonas){

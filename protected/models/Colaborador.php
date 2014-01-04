@@ -146,5 +146,29 @@ class Colaborador extends CActiveRecord
             else
                 return false;
         }
+        
+        public function getnombrepuestoactual(){
+            $historicopuesto = Historicopuesto::model()->findByAttributes(array('colaborador' => $this->id), 'puestoactual=1');
+            if(is_null($historicopuesto))
+                return false;
+            $idpuesto = $historicopuesto->puesto;
+            $puesto = Puesto::model()->findByPk($idpuesto);
+            if(is_null($puesto))
+                return false;
+             else           
+                return $puesto->nombre;
+        }
+        
+        public function getnombreunidadnegocioactual(){
+            $historicopuesto = Historicopuesto::model()->findByAttributes(array('colaborador' => $this->id), 'puestoactual=1');
+            if(is_null($historicopuesto))
+                return false;
+            $idunidadnegocio = $historicopuesto->unidadnegocio;
+            $unidadnegocio = Unidadnegocio::model()->findByPk($idunidadnegocio);
+            if(is_null($unidadnegocio))
+                return false;
+             else           
+                return $unidadnegocio->nombre;
+        }
 }
 

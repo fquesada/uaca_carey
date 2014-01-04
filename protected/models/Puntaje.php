@@ -93,5 +93,9 @@ class Puntaje extends CActiveRecord
 			'criteria'=>$criteria,
 		));
 	}
+        
+        public function obtenerpuntajesactivos(){
+            return $this->findAll('estado=1');
+        }
 }
 

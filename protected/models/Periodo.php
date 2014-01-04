@@ -69,7 +69,7 @@ class Periodo extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'nombre' => 'Nombre',
+			'nombre' => 'Periodo',
 			'estado' => 'Estado',
 		);
 	}

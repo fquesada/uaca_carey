@@ -84,7 +84,7 @@ class Procesoevaluacion  extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'fecha' => 'Fecha',
+			'fecha' => 'Fecha creacion',
 			'evaluador' => 'Evaluador',
 			'estado' => 'Estado',
 			'descripcion' => 'Descripcion',
@@ -95,7 +95,7 @@ class Procesoevaluacion  extends CActiveRecord
 
        public function obtenerevaluacioncompetencias(){
             $connection=Yii::app()->db;
-            $sql=  "SELECT pe.id, pe.descripcion, p.nombre as periodo, DATE_FORMAT(pe.fecha, '%d-%m-%Y') AS fecha, CONCAT(c.nombre,' ',c.apellido1,' ',c.apellido2) AS evaluador,(CASE WHEN pe.estado = 1 THEN 'En proceso' ELSE 'Finalizado' END) as estado                   
+            $sql=  "SELECT pe.id, pe.descripcion, p.nombre as periodo, DATE_FORMAT(pe.fecha, '%d/%m/%Y') AS fecha, CONCAT(c.nombre,' ',c.apellido1,' ',c.apellido2) AS evaluador,(CASE WHEN pe.estado = 1 THEN 'En proceso' ELSE 'Finalizado' END) as estado                   
                     FROM procesoevaluacion pe
                     INNER JOIN periodo p
                     ON (pe.periodo = p.id)
@@ -122,6 +122,19 @@ class Procesoevaluacion  extends CActiveRecord
             ));
             return $dataProvider;
         }
+        
+       public function getEstadoProceso() {
+        if ($this->estado == 1)
+            return 'En proceso';
+        else if ($this->estado == 2)
+            return 'Finalizado';
+      }
+      
+       public function getFechaProcesoFormato(){
+          $fechasinformato = strtotime($this->fecha);          
+          $fechaconformato = date('d/m/Y', $fechasinformato);          
+          return $fechaconformato;
+       }
 
            
 }
