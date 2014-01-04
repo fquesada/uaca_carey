@@ -29,7 +29,7 @@ $this->menu=array(
 <h3 style="text-align: center">Nuevo proceso EC</h3>
 
 <?php echo CHtml::beginForm()?>
-<?php echo $this->renderPartial('_formnuevoprocesoevaluacion'); ?>
+<?php echo $this->renderPartial('_formprocesoevaluacion'); ?>
 <?php echo $this->renderPartial('_formagregarcolaborador'); ?>
 
 </br>
