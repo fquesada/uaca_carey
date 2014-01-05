@@ -20,6 +20,6 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->baseUrl.'/css/evaluarproce
 
 </br>
 <div class="row buttons" style="text-align: center">                
-                  <?php echo CHtml::submitButton('Guardar evaluacion',array('id'=>'btnguardarevaluacionec', 'class'=>'sexybutton sexysimple sexylarge'));?>
+                  <?php echo CHtml::submitButton('Guardar evaluacion',array('id'=>'btnguardarec', 'class'=>'sexybutton sexysimple sexylarge'));?>
 </div>
 <?php echo CHtml::endForm()?>
