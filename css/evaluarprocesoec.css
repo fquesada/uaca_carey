@@ -1,4 +1,209 @@
-.divencabezadoec {
-    border-style: solid dotted;
+/*Encabezado*/
+.divencabezadoec{
+    text-align: center;
 }
 
+.pencabezadoec{
+    font-family: times, Times New Roman, times-roman, georgia, serif;
+    font-size: 28px;
+    line-height: 40px;
+    letter-spacing: -1px;color: #444;
+    margin-bottom: 1px;    
+}
+.divencabezadoec p{
+    margin: 0 0 10px 0;    
+}
+
+.divencabezadoec p b{
+    color: #033E6B;
+}
+
+.divescalacalificacion{
+    display: none;
+}
+
+/*Tabla Meritos*/
+.ptitulomeritos{
+    font-family: times, Times New Roman, times-roman, georgia, serif;
+    font-size: 28px;
+    line-height: 40px;
+    letter-spacing: -1px;color: #444;
+    margin-bottom: 1px;
+}
+.tblmeritos{
+    border-collapse: collapse; 
+    border-spacing: 0; 
+    width: auto; 
+    margin: 0px auto 0px auto; 
+    table-layout: fixed; 
+}
+
+.tblmeritos thead th{
+    background-color: #033E6B;
+    color: #FFFFFF;
+    text-align: center;   
+    padding: 4px 10px 8px 5px;
+}
+
+.tblmeritos #idmerito{
+    display: none;
+}
+
+.tblmeritos #errormerito{
+    color: #EE0000;
+    font-style: italic;
+}
+
+.tblmeritos tbody{
+     border-top: 10px solid white; 
+/*     trick que permite hacer margin en un tbody*/
+}
+
+.tblmeritos tr:hover{
+    background-color: #ECF1EF;
+}
+
+.tblmeritos td{    
+    vertical-align: top;
+    text-align: justify;
+    font-size: 12px;
+}
+
+/*Tabla Competencias*/
+
+.ptitulohabilidad{
+    font-family: times, Times New Roman, times-roman, georgia, serif;
+    font-size: 28px;
+    line-height: 40px;
+    letter-spacing: -1px;color: #444;
+    margin-bottom: 1px;
+    margin-top: 15px;
+}
+
+.tblhabilidadec{
+    border-collapse: collapse; 
+    border-spacing: 0; 
+    width: auto; 
+    margin: 0px auto 0px auto; 
+    table-layout: fixed; 
+}
+
+.tblhabilidadec thead th{
+    background-color: #033E6B;
+    color: #FFFFFF;
+    text-align: center;   
+    padding: 4px 10px 8px 5px;
+}
+
+.tblhabilidadec #idcompetencia{
+    display: none;
+}
+
+.tblhabilidadec #errorcompetencia{
+    color: #EE0000;
+    font-style: italic;
+}
+
+.tblhabilidadec tbody{
+     border-top: 10px solid white; 
+/*     trick que permite hacer margin en un tbody*/
+}
+
+.tblhabilidadec tr:hover{
+    background-color: #ECF1EF;
+}
+
+.tblhabilidadec td{    
+    vertical-align: top;
+    text-align: justify;
+    font-size: 12px;
+}
+
+.tfvariablequivalente{
+    width: 150px;    
+}
+.tfcalificacionvariablequivalente{
+    width: 150px; 
+}
+
+/*Tabla Habilidades No Equivalentes*/
+
+.ptitulohabilidadnoequivalente{
+    font-family: times, Times New Roman, times-roman, georgia, serif;
+    font-size: 28px;
+    line-height: 40px;
+    letter-spacing: -1px;color: #444;
+    margin-bottom: 1px;
+    margin-top: 15px;
+}
+
+.tblhabilidadnoequivalente{
+    border-collapse: collapse; 
+    border-spacing: 0; 
+    width: auto; 
+    margin: 0px auto 0px auto; 
+    table-layout: fixed; 
+}
+
+.tblhabilidadnoequivalente thead th{
+    background-color: #033E6B;
+    color: #FFFFFF;
+    text-align: center;   
+    padding: 4px 10px 4px 5px;
+}
+
+.tblhabilidadnoequivalente #idhabilidadnoequivalente{
+    display: none;
+}
+
+.tblhabilidadnoequivalente tbody{
+     border-top: 10px solid white; 
+/*     trick que permite hacer margin en un tbody*/
+}
+
+.tblhabilidadnoequivalente tr:hover{
+    background-color: #ECF1EF;
+}
+
+.tblhabilidadnoequivalente td{    
+    vertical-align: top;
+    text-align: justify;
+    font-size: 12px;
+}
+
+.tfvariablenoquivalente{
+    width: 200px;    
+}
+.tfcalificacionvariablequivalente{
+    width: 150px; 
+}
+
+.ddlpuestonoequivalente{
+    width: 135px; 
+}
+
+.ddlcompetencia{
+    width: 175px;
+}
+
+/*Seccion Promedio Ponderado*/
+.promedioponderado{
+    text-align: right;
+    font-size: 28px;
+    font-family: times, Times New Roman, times-roman, georgia, serif;
+}
+
+.promedioponderado p{
+    margin-right: 20px;
+    margin-bottom: 5px;
+}
+
+.promedioponderado p:hover{
+    background-color: #ECF1EF;
+}
+
+.promedioponderado span{
+    font-size: 30px;
+    font-weight: bold;
+    color: #033E6B;
+}

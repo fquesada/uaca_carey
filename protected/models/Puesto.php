@@ -167,6 +167,24 @@ class Puesto extends CActiveRecord
             else
                 return  $meritos;
         }
+        
+        public function getcompetenciasactuales(){ 
+            $idpuesto = $this->id;
+            $connection=Yii::app()->db;
+            $sql=  "SELECT pc.ponderacion, c.*                
+                    FROM puestocompetencia pc
+                    LEFT JOIN competencia c
+                    ON (pc.competencia = c.id)                    
+                    WHERE pc.puesto = :idpuesto
+                    AND c.estado = 1"; 
+            $command=$connection->createCommand($sql);
+            $command->bindParam(":idpuesto",$idpuesto);
+            $competencias = $command->queryAll();
+            if(is_null($competencias))
+                return false;
+            else
+                return  $competencias;
+        }
                 
 }
 

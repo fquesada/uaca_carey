@@ -5,7 +5,7 @@
 ?>
 
 <div id="divencabezadoec" class="divencabezadoec">
-    <p> <i>Informacion evaluacion</i> </p>
+    <p class="pencabezadoec">Informacion evaluacion</p>
     <p> <b>Colaborador:</b> <?php echo $ec->_colaborador->nombrecompleto?> </p>
     <p> <b>Cedula:</b> <?php echo $ec->_colaborador->cedula?> </p>
     <p> <b>Puesto:</b> <?php echo $ec->_colaborador->idpuestoactual?> </p>
@@ -16,8 +16,24 @@
 </div>
 
 <?php  //COLOCAR EN UN DIALOG ?>
-<div id="divpuntaje" class="divpuntaje">
-    <p> <i>Escala evaluacion</i> </p>
+<p class="pescalacalificacion">Escala de calificacion <?php echo CHtml::image(Yii::app()->request->baseUrl.'/images/icons/silk/information.png', 'Escala calificacion', array("id"=>"imgescalacalificacion", "cursor:pointer;"));?></p>
+
+<?php
+$this->beginWidget('zii.widgets.jui.CJuiDialog', array(
+    'id'=>'infoescalacalificacion',
+    'options'=>array(
+        'title'=>'Escala calificacion',
+        'autoOpen'=>false,
+        'modal'=>false,
+        'width'=>600,
+        'height'=>350,
+        'resizable' => true,
+        'draggable' => true,
+        'beforeClose' => 'js:function(){$("#divescalacalificacion").hide();}',
+    ),
+));
+?>
+<div id="divescalacalificacion" class="divescalacalificacion">    
     <?php        
     foreach ($puntaje as $registropuntaje) {
         echo '<p>';
@@ -27,3 +43,5 @@
     }
     ?>
 </div>
+
+<?php $this->endWidget();?>

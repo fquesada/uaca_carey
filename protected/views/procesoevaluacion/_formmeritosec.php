@@ -4,30 +4,46 @@
 ?>
 
 <div id="divmeritosec" class="divmeritosec">
-    <p> <i>Calificar meritos</i> </p>
-    <?php
-    if (!$ec->_puesto->meritosactuales)
-        echo 'El puesto debe poseer meritos para continuar con la evaluacion.';
-    else {
-        foreach ($ec->_puesto->meritosactuales as $merito) {
-            echo '<p>';
-            echo '<b>' . $merito->puesto . ' = </b>';
-            echo $merito->descripcion;
-            echo '</p>';
-        }
-    }
-    ?>
-</div>
-
-<div class="row">
-    <?php echo CHtml::label('Periodo *', 'periodo'); ?>
-    <?php echo CHtml::dropDownList('ddlperiodo', 'nombre', CHtml::listData(Periodo::model()->findAll(), 'id', 'nombre'), array('empty' => 'Elija el periodo', 'id' => 'ddlperiodo'))
-    ?>       
-    <div id="ddlperiodoerror" class="errorevaluacionpersona">Debe seleccionar un periodo</div>
-</div> 
-
-<div class="row">
-    <?php echo CHtml::label('Nombre del proceso *', 'descripcion'); ?>
-    <?php echo CHtml::textArea('txtareadescripcion', '', array('id' => 'txtdescripcion', 'rows' => '3', 'cols' => '40', 'maxlength' => '90')); ?>                    
-    <div id="txtdescripcionerror" class="errorevaluacionpersona">Debe ingresar el nombre del proceso.</div>
+    <p class="ptitulomeritos">Calificación de Méritos</p>
+    <table id="tblmeritos" class="tblmeritos">
+        <thead>
+            <tr>
+                <th id="idmerito"></th>
+                <th>Mérito</th>
+                <th>Descripción</th>
+                <th>Calificación</th>
+            </tr>
+        <thead>
+        <tbody>
+            <?php
+            $meritos = $ec->_puesto->meritosactuales;
+            if (!$meritos) {
+                echo '<tr>';
+                echo '<td id="idmerito">';
+                echo "false";
+                echo '</td>';
+                echo '<td id="errormerito">';
+                echo "El puesto debe poseer meritos para continuar con la evaluacion.";
+                echo '</td>';
+            } else {
+                foreach ($meritos as $merito) {
+                    echo '<tr>';
+                    echo '<td id="idmerito">';
+                    echo $merito->id;
+                    echo '</td>';
+                    echo '<td>';
+                    echo $merito->_tipomerito->nombre;
+                    echo '</td>';
+                    echo '<td>';
+                    echo $merito->descripcion;
+                    echo '</td>';
+                    echo '<td>';
+                    echo CHtml::dropDownList('puntaje', 'puntaje', CHtml::listData(Puntaje::model()->findAll('estado=1'), 'valor', 'valor'), array('empty' => 'Seleccione calificacion', 'id' => 'ddlpuntajemeritos'));
+                    echo '</td>';
+                    echo '</tr>';
+                }
+            }
+            ?>           
+        </tbody>
+    </table>
 </div>

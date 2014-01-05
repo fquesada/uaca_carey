@@ -93,7 +93,7 @@ class Procesoevaluacion  extends CActiveRecord
 		);
 	}
 
-       public function obtenerevaluacioncompetencias(){
+       public function obtenerevaluacioncompetencias(){//CLEAN CODE
             $connection=Yii::app()->db;
             $sql=  "SELECT pe.id, pe.descripcion, p.nombre as periodo, DATE_FORMAT(pe.fecha, '%d/%m/%Y') AS fecha, CONCAT(c.nombre,' ',c.apellido1,' ',c.apellido2) AS evaluador,(CASE WHEN pe.estado = 1 THEN 'En proceso' ELSE 'Finalizado' END) as estado                   
                     FROM procesoevaluacion pe

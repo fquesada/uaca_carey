@@ -15,7 +15,7 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->baseUrl.'/css/evaluarproce
 
 <?php echo $this->renderPartial('_encabezadoec', array('ec'=>$ec, 'puntaje' => $puntaje)); ?>
 <?php echo $this->renderPartial('_formmeritosec', array('ec'=>$ec)); ?>
-<?php echo $this->renderPartial('_formcompetenciasec'); ?>
+<?php echo $this->renderPartial('_formcompetenciasec', array('ec'=>$ec)); ?>
 <?php echo $this->renderPartial('_formhabilidadesnoequivalentes'); ?>
 
 </br>
