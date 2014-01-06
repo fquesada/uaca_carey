@@ -12,9 +12,9 @@ $this->pageTitle=Yii::app()->name;
        </div>
        <div id="ContenidoR">
            <br>
-           <a href="#" class="boton">Función 1</a>
-           <a href="#" class="boton">Función 2</a>
-           <a href="#" class="boton">Función 3</a>
+           <?php echo CHtml::link('Generar entrevista',array('entrevista/index'), array("class"=>"boton")); ?>
+           <?php echo CHtml::link('Crear proceso ECV',array('entrevista/index'), array("class"=>"boton")); ?>
+           <?php echo CHtml::link('Gestionar proceso ECV',array('entrevista/index'), array("class"=>"boton")); ?>
        </div>
    </div>
     <div id="Competencias">
@@ -23,9 +23,8 @@ $this->pageTitle=Yii::app()->name;
        </div>
        <div id="ContenidoC">
            <br>
-           <?php echo CHtml::link('Gestión de evaluaciones',array('procesoevaluacion/admin'), array("class"=>"boton")); ?>
-           <?php echo CHtml::link('Nueva evaluación',array('procesoevaluacion/crear'), array("class"=>"boton")); ?>
-           <a href="#" class="boton">Función 3</a>
+           <?php echo CHtml::link('Crear proceso EC',array('prcoesoevaluacion/crear'), array("class"=>"boton")); ?>
+           <?php echo CHtml::link('Gestionar proceso EC',array('procesoevaluacion/admin'), array("class"=>"boton")); ?>
        </div>
    </div>
      <div id="Desmpeño">
@@ -34,9 +33,8 @@ $this->pageTitle=Yii::app()->name;
        </div>
        <div id="ContenidoD">
            <br>
-           <a href="#" class="boton">Función 1</a>
-           <a href="#" class="boton">Función 2</a>
-           <a href="#" class="boton">Función 3</a>
+           <?php echo CHtml::link('Crear proceso ED',array('procoesoed/crear'), array("class"=>"boton")); ?>
+           <?php echo CHtml::link('Gestionar proceso ED',array('procesoed/admin'), array("class"=>"boton")); ?>
        </div>
    </div>
 </div>
