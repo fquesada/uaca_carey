@@ -7,21 +7,13 @@
  * @property integer $id
  * @property integer $procesoevaluacion
  * @property string $fechaevaluacion
- * @property integer $puestopotencial1
- * @property integer $puestopotencial2
- * @property integer $puestopotencial3
  * @property double $promedioponderado
- * @property integer $tipo
- * @property string $comentario
  * @property integer $links
  * @property integer $puesto
  * @property integer $colaborador
  * @property integer $estado
  *
  * The followings are the available model relations:
- * @property Puesto $_puestopotencial1
- * @property Puesto $_puestopotencial2
- * @property Puesto $_puestopotencial3
  * @property Procesoevaluacion $_procesoevaluacion
  * @property Links $_links
  * @property Puesto $_puesto
@@ -30,7 +22,6 @@
  * @property Habilidadevaluacioncandidato[] $_habilidadesevaluacioncandidato
  * @property Habilidadnoequivalente[] $_habilidadesnoequivalente
  * @property Meritoevaluacioncandidato[] $_meritosevaluacioncandidato
- * @property Origenevaluacion[] $_origenesevaluacion
  */
 class Evaluacioncompetencias extends CActiveRecord {
 
@@ -43,12 +34,20 @@ class Evaluacioncompetencias extends CActiveRecord {
         return parent::model($className);
     }
 
-    /**
-     * @return string the associated database table name
-     */
-    public function tableName() {
-        return 'evaluacioncompetencias';
-    }
+	/**
+	 * @return array validation rules for model attributes.
+	 */
+	public function rules()
+	{
+		// NOTE: you should only define rules for those attributes that
+		// will receive user inputs.
+		return array(
+			array('procesoevaluacion, puesto, colaborador', 'required'),
+			array('procesoevaluacion, links, puesto, colaborador, estado', 'numerical', 'integerOnly'=>true),
+			array('promedioponderado', 'numerical'),
+			// The following rule is used by search().
+			// Please remove those attributes that should not be searched.
+			array('id, procesoevaluacion, fechaevaluacion, promedioponderado, links, puesto, colaborador, estado', 'safe', 'on'=>'search'),
 
     /**
      * @return array validation rules for model attributes.
@@ -67,48 +66,41 @@ class Evaluacioncompetencias extends CActiveRecord {
         );
     }
 
-    /**
-     * @return array relational rules.
-     */
-    public function relations() {
-        // NOTE: you may need to adjust the relation name and the related
-        // class name for the relations automatically generated below.
-        return array(
-            '_puestopotencial1' => array(self::BELONGS_TO, 'Puesto', 'puestopotencial1'),
-            '_puestopotencial2' => array(self::BELONGS_TO, 'Puesto', 'puestopotencial2'),
-            '_puestopotencial3' => array(self::BELONGS_TO, 'Puesto', 'puestopotencial3'),
-            '_procesoevaluacion' => array(self::BELONGS_TO, 'Procesoevaluacion', 'procesoevaluacion'),
-            '_links' => array(self::BELONGS_TO, 'Links', 'links'),
-            '_puesto' => array(self::BELONGS_TO, 'Puesto', 'puesto'),
-            '_colaborador' => array(self::BELONGS_TO, 'Colaborador', 'colaborador'),
-            '_habilidadesespecialevaluada' => array(self::HAS_MANY, 'Habilidadespecialevaluada', 'evaluacioncompetencias'),
-            '_habilidadesevaluacioncandidato' => array(self::HAS_MANY, 'Habilidadevaluacioncandidato', 'evaluacioncandidato'),
-            '_habilidadesnoequivalente' => array(self::HAS_MANY, 'Habilidadnoequivalente', 'evaluacioncandidato'),
-            '_meritosevaluacioncandidato' => array(self::HAS_MANY, 'Meritoevaluacioncandidato', 'evaluacioncandidato'),
-            '_origenesevaluacion' => array(self::MANY_MANY, 'Origenevaluacion', 'evaluacioncompetenciasorigen(evaluacioncompetencias, origenevaluacion)'),
-        );
-    }
+	/**
+	 * @return array relational rules.
+	 */
+	public function relations()
+	{
+		// NOTE: you may need to adjust the relation name and the related
+		// class name for the relations automatically generated below.
+		return array(
+			'_procesoevaluacion' => array(self::BELONGS_TO, 'Procesoevaluacion', 'procesoevaluacion'),
+                        '_links' => array(self::BELONGS_TO, 'Links', 'links'),
+                        '_puesto' => array(self::BELONGS_TO, 'Puesto', 'puesto'),
+			'_colaborador' => array(self::BELONGS_TO, 'Colaborador', 'colaborador'),                        
+			'_habilidadesespecialevaluada' => array(self::HAS_MANY, 'Habilidadespecialevaluada', 'evaluacioncompetencias'),
+			'_habilidadesevaluacioncandidato' => array(self::HAS_MANY, 'Habilidadevaluacioncandidato', 'evaluacioncandidato'),
+			'_habilidadesnoequivalente' => array(self::HAS_MANY, 'Habilidadnoequivalente', 'evaluacioncandidato'),
+			'_meritosevaluacioncandidato' => array(self::HAS_MANY, 'Meritoevaluacioncandidato', 'evaluacioncandidato'),                        
+		);
+	}
 
-    /**
-     * @return array customized attribute labels (name=>label)
-     */
-    public function attributeLabels() {
-        return array(
-            'id' => 'ID',
-            'procesoevaluacion' => 'Proceso Evaluacion',
-            'fechaevaluacion' => 'Fechaevaluacion',
-            'puestopotencial1' => 'Puestopotencial1',
-            'puestopotencial2' => 'Puestopotencial2',
-            'puestopotencial3' => 'Puestopotencial3',
-            'promedioponderado' => 'Promedioponderado',
-            'tipo' => 'Tipo',
-            'comentario' => 'Comentario',
-            'links' => 'Links',
-            'puesto' => 'Puesto',
-            'colaborador' => 'Colaborador',
-            'estado' => 'Estado',
-        );
-    }
+	/**
+	 * @return array customized attribute labels (name=>label)
+	 */
+	public function attributeLabels()
+	{
+		return array(
+			'id' => 'ID',
+			'procesoevaluacion' => 'Proceso Evaluacion',
+			'fechaevaluacion' => 'Fechaevaluacion',	
+			'promedioponderado' => 'Promedioponderado',
+			'links' => 'Links',
+			'puesto' => 'Puesto',
+                        'colaborador' => 'Colaborador',
+                        'estado' => 'Estado',
+		);
+	}
 
     /**
      * Retrieves a list of models based on the current search/filter conditions.
@@ -120,19 +112,15 @@ class Evaluacioncompetencias extends CActiveRecord {
 
         $criteria = new CDbCriteria;
 
-        $criteria->compare('id', $this->id);
-        $criteria->compare('procesoevaluacion', $this->procesoevaluacion);
-        $criteria->compare('fechaevaluacion', $this->fechaevaluacion, true);
-        $criteria->compare('puestopotencial1', $this->puestopotencial1);
-        $criteria->compare('puestopotencial2', $this->puestopotencial2);
-        $criteria->compare('puestopotencial3', $this->puestopotencial3);
-        $criteria->compare('promedioponderado', $this->promedioponderado);
-        $criteria->compare('tipo', $this->tipo);
-        $criteria->compare('comentario', $this->comentario, true);
-        $criteria->compare('links', $this->links);
-        $criteria->compare('puesto', $this->puesto);
-        $criteria->compare('colaborador', $this->colaborador);
-        $criteria->compare('estado', $this->estado);
+		$criteria->compare('id',$this->id);
+		$criteria->compare('procesoevaluacion',$this->procesoevaluacion);
+		$criteria->compare('fechaevaluacion',$this->fechaevaluacion,true);
+		$criteria->compare('promedioponderado',$this->promedioponderado);
+		$criteria->compare('links',$this->links);
+		$criteria->compare('puesto',$this->puesto);
+                $criteria->compare('colaborador',$this->colaborador);
+                $criteria->compare('estado',$this->estado);
+                
 
 
         return new CActiveDataProvider($this, array(
