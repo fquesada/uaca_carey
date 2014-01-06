@@ -73,10 +73,11 @@ class Merito extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'tipomerito' => 'Tipomerito',
-			'ponderacion' => 'Ponderacion',
+			'tipomerito' => 'Tipo merito',
+			'ponderacion' => 'Ponderación',
 			'puesto' => 'Puesto',
-			'descripcion' => 'Descripcion',
+			'descripcion' => 'Descripción',
+                        'NombreTipoMerito' => 'Tipo merito'
 		);
 	}
 
@@ -101,4 +102,28 @@ class Merito extends CActiveRecord
 			'criteria'=>$criteria,
 		));
 	}
+        
+        public function getNombreTipoMerito(){
+            
+            $tipomerito = Tipomerito::model()->findAllByAttributes(array('id'=> $this->tipomerito));
+            foreach ($tipomerito as $tmerito){
+                $resultado = $tmerito->nombre;
+            }
+            
+            if (isset($resultado)){
+            return $resultado;
+            }
+        }
+        
+         public function getNombrePuesto(){
+            
+            $puestos = Puesto::model()->findAllByAttributes(array('id'=>  $this->puesto));
+            foreach ($puestos as $puesto){
+                $resultado = $puesto->nombre;
+            }
+            
+            if (isset($resultado)){
+            return $resultado;
+            }
+        }
 }
