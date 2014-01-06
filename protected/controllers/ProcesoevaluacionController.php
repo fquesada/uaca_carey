@@ -262,7 +262,7 @@ class ProcesoevaluacionController extends Controller
                             }
                     }                                    
                    $transaction->commit();
-                   $response = array('resultado' => true,'mensaje' => "Se guardó con éxito el proceso: ".$procesoevaluacion->descripcion, 'url' => Yii::app()->getBaseUrl(true).'/index.php/procesoevaluacion/adminprocesoec/'.$ec->procesoevaluacion);                  
+                   $response = array('resultado' => true,'mensaje' => "Se guardó con éxito el proceso: ".$procesoevaluacion->descripcion, 'url' => Yii::app()->getBaseUrl(true).'/index.php/procesoevaluacion/adminprocesoec/'.$procesoevaluacion->id);                  
                    echo CJSON::encode($response);   
                    Yii::app()->end();                                   
                 }
@@ -394,7 +394,7 @@ class ProcesoevaluacionController extends Controller
                     }     
                     
                    $transaction->commit();
-                   $response = array('resultado' => true,'mensaje' => "Se guardó con éxito la evaluacion", 'url' => Yii::app()->getBaseUrl(true).'/index.php/procesoevaluacion/adminprocesoec/');                  
+                   $response = array('resultado' => true,'mensaje' => "Se guardó con éxito la evaluacion", 'url' => Yii::app()->getBaseUrl(true).'/index.php/procesoevaluacion/adminprocesoec/'.$ec->procesoevaluacion);                  
                    echo CJSON::encode($response);   
                    Yii::app()->end();
                     
