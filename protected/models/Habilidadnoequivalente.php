@@ -12,7 +12,6 @@
  * @property integer $puestopotencial1
  * @property integer $puestopotencial2
  * @property string $variablemetodo
- * @property string $calificacionvariablemetodo
  *
  * The followings are the available model relations:
  * @property Competencia $_competencia
@@ -48,12 +47,12 @@ class Habilidadnoequivalente extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('metodo, competencia, evaluacioncandidato, calificacion, variablemetodo, calificacionvariablemetodo', 'required'),
+			array('metodo, competencia, evaluacioncandidato, calificacion, variablemetodo', 'required'),
 			array('competencia, evaluacioncandidato, calificacion, puestopotencial1, puestopotencial2', 'numerical', 'integerOnly'=>true),
-			array('metodo, variablemetodo, calificacionvariablemetodo', 'length', 'max'=>250),
+			array('metodo, variablemetodo', 'length', 'max'=>250),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, metodo, competencia, evaluacioncandidato, calificacion, puestopotencial1, puestopotencial2, variablemetodo, calificacionvariablemetodo', 'safe', 'on'=>'search'),
+			array('id, metodo, competencia, evaluacioncandidato, calificacion, puestopotencial1, puestopotencial2, variablemetodo', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -86,7 +85,6 @@ class Habilidadnoequivalente extends CActiveRecord
 			'puestopotencial1' => 'Puestopotencial1',
 			'puestopotencial2' => 'Puestopotencial2',
                         'variablemetodo' => 'Variable Metodo',
-                        'calificacionvariablemetodo' => 'Calificacion Variable Metodo',
 		);
 	}
 
@@ -109,7 +107,6 @@ class Habilidadnoequivalente extends CActiveRecord
 		$criteria->compare('puestopotencial1',$this->puestopotencial1);
 		$criteria->compare('puestopotencial2',$this->puestopotencial2);
                 $criteria->compare('variablemetodo',$this->variablemetodo, true);
-                $criteria->compare('calificacionvariablemetodo',$this->calificacionvariablemetodo, true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
