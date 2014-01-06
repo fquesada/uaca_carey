@@ -25,7 +25,7 @@
  */
 class Evaluacioncompetencias extends CActiveRecord {
 
-    /**
+    /*
      * Returns the static model of the specified AR class.
      * @param string $className active record class name.
      * @return Evaluacioncompetencias the static model class
@@ -33,6 +33,14 @@ class Evaluacioncompetencias extends CActiveRecord {
     public static function model($className = __CLASS__) {
         return parent::model($className);
     }
+
+    /**
+     * @return string the associated database table name
+     */
+    public function tableName() {
+        return 'evaluacioncompetencias';
+    }
+
 
 	/**
 	 * @return array validation rules for model attributes.
@@ -48,24 +56,8 @@ class Evaluacioncompetencias extends CActiveRecord {
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
 			array('id, procesoevaluacion, fechaevaluacion, promedioponderado, links, puesto, colaborador, estado', 'safe', 'on'=>'search'),
-
-    /**
-     * @return array validation rules for model attributes.
-     */
-    public function rules() {
-        // NOTE: you should only define rules for those attributes that
-        // will receive user inputs.
-        return array(
-            array('procesoevaluacion, puesto, colaborador', 'required'),
-            array('procesoevaluacion, puestopotencial1, puestopotencial2, puestopotencial3, tipo, links, puesto, colaborador, estado', 'numerical', 'integerOnly' => true),
-            array('promedioponderado', 'numerical'),
-            array('comentario', 'length', 'max' => 800),
-            // The following rule is used by search().
-            // Please remove those attributes that should not be searched.
-            array('id, procesoevaluacion, fechaevaluacion, puestopotencial1, puestopotencial2, puestopotencial3, promedioponderado, tipo, links, puesto, colaborador, estado', 'safe', 'on' => 'search'),
-        );
-    }
-
+                );
+        }
 	/**
 	 * @return array relational rules.
 	 */
