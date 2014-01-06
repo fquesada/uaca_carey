@@ -98,4 +98,8 @@ class Competenciacore extends CActiveRecord
             'criteria'=>$criteria,
         ));
     }
+    
+    public function obtenercompetenciascoreactivos(){
+        return $this->findAll('estado=1');
+    }
 }

@@ -1,3 +1,8 @@
+/*Container*/
+.container{
+    width: 1150px;
+}
+
 /*Encabezado*/
 .divencabezadoec{
     text-align: center;
@@ -10,6 +15,7 @@
     letter-spacing: -1px;color: #444;
     margin-bottom: 1px;    
 }
+
 .divencabezadoec p{
     margin: 0 0 10px 0;    
 }
@@ -30,6 +36,7 @@
     letter-spacing: -1px;color: #444;
     margin-bottom: 1px;
 }
+
 .tblmeritos{
     border-collapse: collapse; 
     border-spacing: 0; 
@@ -52,6 +59,10 @@
 .tblmeritos #errormerito{
     color: #EE0000;
     font-style: italic;
+}
+
+.tblmeritos #ponderacion{
+    display: none;
 }
 
 .tblmeritos tbody{
@@ -99,9 +110,17 @@
     display: none;
 }
 
+.tblhabilidadec #tipocompetencia{
+    display: none;
+}
+
 .tblhabilidadec #errorcompetencia{
     color: #EE0000;
     font-style: italic;
+}
+
+.tblhabilidadec #ponderacion{
+    display: none;
 }
 
 .tblhabilidadec tbody{
@@ -119,9 +138,14 @@
     font-size: 12px;
 }
 
+.tfmetodoseleccionado{
+    width: 150px;    
+}
+
 .tfvariablequivalente{
     width: 150px;    
 }
+
 .tfcalificacionvariablequivalente{
     width: 150px; 
 }
@@ -171,9 +195,14 @@
     font-size: 12px;
 }
 
+.tfmetodovariablenoquivalente{
+    width: 200px;    
+}
+
 .tfvariablenoquivalente{
     width: 200px;    
 }
+
 .tfcalificacionvariablequivalente{
     width: 150px; 
 }

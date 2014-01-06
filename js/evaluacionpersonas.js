@@ -327,8 +327,8 @@ $(document).ready(function() {
    
     function obtenercolaboradoresevaluar(){                 
        var colaboradores = Array();
-        $("#tblcolaboradores > tbody > tr").each(function(index, columna) {		
-            var idcolaborador = $(columna).find('td:eq(0)').text();	            
+        $("#tblcolaboradores > tbody > tr").each(function(index, fila) {		
+            var idcolaborador = $(fila).find('td:eq(0)').text();	            
             colaboradores[index] = idcolaborador;
         });
         return colaboradores;

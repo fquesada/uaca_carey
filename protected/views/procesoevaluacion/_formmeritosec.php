@@ -12,6 +12,7 @@
                 <th>Mérito</th>
                 <th>Descripción</th>
                 <th>Calificación</th>
+                <th id="ponderacion">Ponderacion</th>
             </tr>
         <thead>
         <tbody>
@@ -39,6 +40,9 @@
                     echo '</td>';
                     echo '<td>';
                     echo CHtml::dropDownList('puntaje', 'puntaje', CHtml::listData(Puntaje::model()->findAll('estado=1'), 'valor', 'valor'), array('empty' => 'Seleccione calificacion', 'id' => 'ddlpuntajemeritos'));
+                    echo '</td>';                    
+                    echo '<td id="ponderacion">';
+                    echo $merito->ponderacion;
                     echo '</td>';
                     echo '</tr>';
                 }

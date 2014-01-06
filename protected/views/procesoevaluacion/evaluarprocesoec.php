@@ -2,20 +2,18 @@
 /* @var $this ProcesoEvaluacionController */
 /* @var $ec EvaluacionCompetencias*/
 /* @var $puntaje Puntaje*/
+/* @var $competenciascore Competenciascore*/
 
 Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/evaluarprocesoec.js');
 Yii::app()->clientScript->registerCssFile(Yii::app()->baseUrl.'/css/evaluarprocesoec.css');
 
 ?>
 
-<h3 style="text-align: center">Proceso Evaluacion Competencias</h3>
-
-
 <?php echo CHtml::beginForm()?>
 
 <?php echo $this->renderPartial('_encabezadoec', array('ec'=>$ec, 'puntaje' => $puntaje)); ?>
 <?php echo $this->renderPartial('_formmeritosec', array('ec'=>$ec)); ?>
-<?php echo $this->renderPartial('_formcompetenciasec', array('ec'=>$ec)); ?>
+<?php echo $this->renderPartial('_formcompetenciasec', array('ec'=>$ec, 'competenciascore' => $competenciascore)); ?>
 <?php echo $this->renderPartial('_formhabilidadesnoequivalentes'); ?>
 
 </br>

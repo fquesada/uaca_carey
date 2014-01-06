@@ -8,7 +8,8 @@
         <thead>
             <tr>
                 <th id="idhabilidadnoequivalente"></th>
-                <th>Variable equivalente segun prueba seleccionada</th>
+                <th>Método seleccionado</th>
+                <th>Variable equivalente segun método seleccionado</th>
                 <th>Variable equivalente segun manual de puestos</th>                
                 <th>Calificación</th>
                 <th>Puesto Potencial 1</th>
@@ -22,6 +23,9 @@
                     echo '<tr>';
                     echo '<td id="idhabilidadnoequivalente">';
                     echo $fila;
+                    echo '</td>';
+                    echo '<td>';
+                    echo CHtml::textField('metodovariablenoquivalente', '', array('id' => 'tfmetodovariablenoquivalente', 'class' => 'tfmetodovariablenoquivalente'));
                     echo '</td>';
                     echo '<td>';
                     echo CHtml::textField('variablenoquivalente', '', array('id' => 'tfvariablenoquivalente', 'class' => 'tfvariablenoquivalente'));

@@ -3,24 +3,24 @@ $(document).ready(function() {
     //Guardar Evaluacion Competencias
     $("#btnguardarec").click(function(event){
         event.preventDefault();
-       
-        if(!validar($('#ddlperiodo'))){     
-            mostrarerror($('#ddlperiodo'));
-        }
-        else if (!validar($('#txtdescripcion'))){
-            mostrarerror($('#txtdescripcion'));
-        }
-        else if (!validar($('#busquedaevaluador'))){
-            mostrarerror($('#busquedaevaluador'));
-        }
-        else if (cantidadcolaboradorestabla()== 0){
-            mostrarerror($('#tblcolaboradores'));
-        }
+       if(false){}//VALIDACIONES
+//        if(!validar($('#ddlperiodo'))){     
+//            mostrarerror($('#ddlperiodo'));
+//        }
+//        else if (!validar($('#txtdescripcion'))){
+//            mostrarerror($('#txtdescripcion'));
+//        }
+//        else if (!validar($('#busquedaevaluador'))){
+//            mostrarerror($('#busquedaevaluador'));
+//        }
+//        else if (cantidadcolaboradorestabla()== 0){
+//            mostrarerror($('#tblcolaboradores'));
+//        }
         else{
             $.ajax({
                 type: "POST",
-                url: "CrearProcesoEC",
-                data: obtenerdatoscrearproceso(),
+                url: "../GuardarProcesoEC",
+                data: obtenerdatosguardarproceso(),
                 dataType: 'json',
                 error: function (jqXHR, textStatus){
                     if (jqXHR.status === 0) {                            
@@ -96,34 +96,58 @@ $(document).ready(function() {
         $("#infoescalacalificacion").dialog('open');      
     });
    
-    function obtenerdatoscrearproceso(){             
+    function obtenerdatosguardarproceso(){             
         var data = {};
-        data['nombreproceso'] = $("#txtdescripcion").val();
-        data['idevaluador'] = $("#idevaluador").val(); 
-        data['periodo'] = $('#ddlperiodo').val();
-        data['colaboradores'] = obtenercolaboradoresevaluar();    
+        data['idec'] = $("#lblidec").text();        
+        data['meritos'] = obtenercalificacionmeritos();    
+        data['habilidades'] = obtenercalificacionhabilidades(); 
+        data['habilidadesnoequivalentes'] = obtenercalificacionhabilidadesnoequivalentes(); 
         return data;
     }
     
     function obtenercalificacionmeritos(){
+        var meritos = {};       
+        $("#tblmeritos > tbody > tr").each(function(index, fila) {		
+            var idmerito = $(fila).find('td:first').text();
+            var calificacionmerito = $(fila).find('#ddlpuntajemeritos').val();
+            var ponderacion = $(fila).find('td:last').text();
+            meritos[index] = {"idmerito":idmerito, "calificacionmerito":calificacionmerito, "ponderacion":ponderacion}
+        });
+        return meritos;
         
     }
     
     function obtenercalificacionhabilidades(){
-        
+        var habilidades = {};
+        $("#tblhabilidadec > tbody > tr").each(function(index, fila) {		
+            var idhabilidad= $(fila).find('td:first').text();            
+            var tipohabilidad= $(fila).find('td:eq(1)').text(); 
+            var metodoseleccionado = $(fila).find('#tfmetodoseleccionado').val()
+            var variableequivalente = $(fila).find('#tfvariablequivalente').val();
+            var calificacionequivalente = $(fila).find('#tfcalificacionvariablequivalente').val();
+            var calificacionhabilidad = $(fila).find('#ddlpuntajehabilidades').val();
+            var ponderacion = $(fila).find('td:last').text();
+            habilidades[index] = {"idhabilidad":idhabilidad,"tipohabilidad":tipohabilidad, "metodoseleccionado":metodoseleccionado, "variableequivalente":variableequivalente, "calificacionequivalente":calificacionequivalente,"calificacionhabilidad":calificacionhabilidad, "ponderacion":ponderacion}
+        });
+        return habilidades;
     }
    
     function obtenercalificacionhabilidadesnoequivalentes(){
-        
+        var habilidadesnoequivalentes = {};       
+        $("#tblhabilidadnoequivalente > tbody > tr").each(function(index, fila) {
+            if($(fila).find('#tfmetodovariablenoquivalente').val()===""){
+                return true;
+            }else{                           
+                var metodovariablenoquivalente = $(fila).find('#tfmetodovariablenoquivalente').val();
+                var variablenoquivalente = $(fila).find('#tfvariablenoquivalente').val();
+                var competencia = $(fila).find('#ddlcompetencia').val();
+                var calificacionvariablenoquivalente = $(fila).find('#ddlpuntajenoequivalente').val();
+                var puesto1 = $(fila).find('#ddlpuesto1').val();
+                var puesto2 = $(fila).find('#ddlpuesto2').val();               
+                habilidadesnoequivalentes[index] = {"metodovariablenoquivalente":metodovariablenoquivalente, "variablenoquivalente":variablenoquivalente, "competencia":competencia,"calificacionvariablenoquivalente":calificacionvariablenoquivalente,"puesto1":puesto1, "puesto2":puesto2}
+            }
+        });
+        return habilidadesnoequivalentes;
     }
     
-    function obtenercolaboradoresevaluar(){                 
-        var colaboradores = Array();
-        $("#tblcolaboradores > tbody > tr").each(function(index, columna) {		
-            var idcolaborador = $(columna).find('td:eq(0)').text();	            
-            colaboradores[index] = idcolaborador;
-        });
-        return colaboradores;
-    }
-   
 });

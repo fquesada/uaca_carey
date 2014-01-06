@@ -6,6 +6,7 @@
 
 <div id="divencabezadoec" class="divencabezadoec">
     <p class="pencabezadoec">Informacion evaluacion</p>
+    <p style="display:none"><?php echo CHtml::label($ec->id, 'idec', array('id'=>'lblidec'))?></p>
     <p> <b>Colaborador:</b> <?php echo $ec->_colaborador->nombrecompleto?> </p>
     <p> <b>Cedula:</b> <?php echo $ec->_colaborador->cedula?> </p>
     <p> <b>Puesto:</b> <?php echo $ec->_colaborador->idpuestoactual?> </p>

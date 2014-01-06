@@ -25,14 +25,14 @@ class ProcesoevaluacionController extends Controller
 	 * @return array access control rules
 	 */
 	public function accessRules()
-	{
+	{       //CLEAN CODE GUARDAR Y EVALUAR PROCESO DEBE ESTAR ACCESO PARA TODOS
 		return array(
 			array('allow',  // allow all users to perform 'index' and 'view' actions
 				'actions'=>array('index','view'),
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('CrearProcesoEC','AdminProcesoEC','EvaluarProcesoEC','EnvioCorreoEC','update','admin','AgregarPersonas','AgregarPersona','AutocompleteEvaluado',
+				'actions'=>array('CrearProcesoEC','AdminProcesoEC','EvaluarProcesoEC','EnvioCorreoEC','GuardarProcesoEC','update','admin','AgregarPersonas','AgregarPersona','AutocompleteEvaluado',
                                                     'HabilidadesEspeciales','InfoPonderacion', 'delete', 'reporteevaluacioncompetencias', 'DataReporteEvaluacionCompetencias', 'vistaprueba'),
 				'users'=>array('@'),
 			),
@@ -300,9 +300,34 @@ class ProcesoevaluacionController extends Controller
             $this->layout='column1';
             $ec = Evaluacioncompetencias::model()->findByPk($id);
             $puntaje = Puntaje::model()->obtenerpuntajesactivos();
+            $competenciascore = Competenciacore::model()->obtenercompetenciascoreactivos();
             $this->render('evaluarprocesoec',array(
-                            'ec'=>$ec,'puntaje'=>$puntaje,
+                            'ec'=>$ec,'puntaje'=>$puntaje,'competenciascore'=>$competenciascore
             ));
+        }
+        
+        public function actionGuardarProcesoEC(){
+            
+            if(Yii::app()->request->isAjaxRequest){                                                                
+                
+                $idec = CommonFunctions::stringtonumber($_POST['idec']);
+                $ec = Evaluacioncompetencias::model()->findByPk($idec);
+                
+                $meritos = ($_POST['meritos']);
+                $habilidades = ($_POST['habilidades']);
+                $habilidadesnoequivalentes = ($_POST['habilidadesnoequivalentes']);
+                
+                $promedioponderado = $ec->promedioponderado($meritos, $habilidades);
+                
+                 $response = array('url' => Yii::app()->getBaseUrl(true).'/index.php/procesoevaluacion/evaluarprocesoec/'.$_POST['id']);               
+                 echo CJSON::encode($response);                        
+                 Yii::app()->end();
+            }
+        }
+        
+        function promedioponderadoec($meritos, $habilidades)
+        {
+            
         }
         
         public function actionHabilidadesEspeciales(){

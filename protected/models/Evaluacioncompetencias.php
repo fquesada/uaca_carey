@@ -279,6 +279,40 @@ class Evaluacioncompetencias extends CActiveRecord {
             return $dataspider;
     }
     
+    public function promedioponderado($meritos, $habilidades){        
+        
+        $dividendo = 0;
+        $divisor = 0;
+        
+        foreach ($meritos as $merito) {
+            $dividendo = $dividendo + CommonFunctions::stringtonumber($merito["calificacionmerito"]) *  CommonFunctions::stringtonumber($merito["ponderacion"]);
+            $divisor = $divisor + CommonFunctions::stringtonumber($merito["ponderacion"]);           
+        }
+        
+        foreach ($habilidades as $habilidad) {
+            $dividendo = $dividendo + CommonFunctions::stringtonumber($habilidad["calificacionhabilidad"]) *  CommonFunctions::stringtonumber($habilidad["ponderacion"]);
+            $divisor = $divisor + CommonFunctions::stringtonumber($habilidad["ponderacion"]);           
+        }
+        
+        if($divisor==0)
+            $promedioponderado = 0;
+        else        
+            $promedioponderado = $dividendo / $divisor;
+        
+        return $promedioponderado;        
+    }    
+     
+    function validarmeritos($meritos){
+        //FALTA
+    }
+    
+    function validarhabilidades($habilidades){
+        //FALTA
+    }
+    
+    function validarpuntaje($valor, $puntaje){
+        //FALTA
+    }
 
 
 }
