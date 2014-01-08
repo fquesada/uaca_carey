@@ -85,7 +85,7 @@ $this->menu=array(
         echo CHtml::link($imgcorreo, '#');
         $imgreporte=CHtml::image(Yii::app()->request->baseUrl.'/images/icons/silk/chart_pie.png', 'Generar reporte', array("id"=>"imggenerarreporte", "cursor:pointer;"));        
         if($ec->estadoevaluacionindicador)
-            echo CHtml::link($imgreporte, '#');
+            echo CHtml::link($imgreporte,'#');
         echo'</th>';
         echo '</tr>';
     }?>

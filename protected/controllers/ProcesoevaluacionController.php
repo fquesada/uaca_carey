@@ -33,7 +33,7 @@ class ProcesoevaluacionController extends Controller
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
 				'actions'=>array('CrearProcesoEC','AdminProcesoEC','EvaluarProcesoEC','EnvioCorreoEC','GuardarProcesoEC','update','admin','AgregarPersonas','AgregarPersona','AutocompleteEvaluado',
-                                                    'HabilidadesEspeciales','InfoPonderacion', 'delete', 'reporteevaluacioncompetencias', 'DataReporteEvaluacionCompetencias', 'vistaprueba'),
+                                                    'HabilidadesEspeciales','InfoPonderacion', 'delete', 'reporteevaluacioncompetencias', 'DataReporteEvaluacionCompetencias', 'vistaprueba','CrearReporteEC','ReporteEC'),
 				'users'=>array('@'),
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -627,5 +627,118 @@ class ProcesoevaluacionController extends Controller
            echo CJSON::encode($data);                        
            Yii::app()->end();                
            
-        }       
+        }
+        
+        public function actionCrearReporteEC(){
+           if(Yii::app()->request->isAjaxRequest){
+           $id = CommonFunctions::stringtonumber($_POST['id']);                
+           $ec = Evaluacioncompetencias::model()->findByPk($id); 
+           $response = array('url' => Yii::app()->getBaseUrl(true).'/index.php/procesoevaluacion/reporteec/'.$id);               
+           echo CJSON::encode($response);                        
+           Yii::app()->end();
+            }
+        }
+        
+         public function actionReporteEC($id) {
+                          
+                $ec = Evaluacioncompetencias::model()->findByPk($id);  
+                $proceso = Procesoevaluacion::model()->findByPk($ec->procesoevaluacion);
+                $colaborador = Colaborador::model()->findByPk($ec->colaborador);
+                $puesto = Puesto::model()->findByPk($ec->puesto);
+                $evaluador = Colaborador::model()->findByPk($proceso->evaluador);
+                $competencias = $ec->_habilidadesevaluacioncandidato;
+                $meritos = $ec->_meritosevaluacioncandidato;
+                
+              
+                $phpExcelPath = Yii::getPathOfAlias('application.modules.excel');
+
+               // Turn off our amazing library autoload 
+               spl_autoload_unregister(array('YiiBase','autoload'));        
+
+               include($phpExcelPath . DIRECTORY_SEPARATOR . 'Classes'. DIRECTORY_SEPARATOR .'PHPExcel.php');                      
+
+               $objReader = PHPExcel_IOFactory::createReader('Excel2007');
+               $objReader->setIncludeCharts(TRUE);
+               $objPHPExcel = $objReader->load($phpExcelPath. DIRECTORY_SEPARATOR ."templates". DIRECTORY_SEPARATOR ."EvaluacionPorCompetenciasTemplate.xlsx");
+
+
+               $objPHPExcel->setActiveSheetIndex(0);  //set first sheet as active
+
+               $objPHPExcel->getActiveSheet()->setCellValue('E4', $colaborador->nombre.' '.$colaborador->apellido1.' '.$colaborador->apellido2); 
+               $objPHPExcel->getActiveSheet()->setCellValue('E5', $puesto->nombre);
+               $objPHPExcel->getActiveSheet()->setCellValue('E6', '');
+               $objPHPExcel->getActiveSheet()->setCellValue('J4', $colaborador->cedula);
+               $objPHPExcel->getActiveSheet()->setCellValue('J5', '');
+               $objPHPExcel->getActiveSheet()->setCellValue('J6', $evaluador->nombre.' '.$evaluador->apellido1.' '.$evaluador->apellido2);
+               $objPHPExcel->getActiveSheet()->setCellValue('J7', $proceso->fecha);
+               
+                $i = '34';  
+                
+                foreach($meritos as $merito)
+                {
+                    
+                   //$nombre = Merito::model()->findByPk($merito->merito);
+                    /*$objPHPExcel->setActiveSheetIndex(0)
+                        ->getStyle('E'.$i.':F'.$i)->getAlignment()->setVertical(PHPExcel_Style_Alignment::VERTICAL_TOP);
+                    $objPHPExcel->setActiveSheetIndex(0)
+                        ->getStyle('E'.$i.':F'.$i)->getAlignment()->setWrapText(true);
+                    $objPHPExcel->setActiveSheetIndex(0)
+                        ->getStyle('H'.$i)->getAlignment()->setWrapText(true);
+                    $objPHPExcel->setActiveSheetIndex(0)
+                        ->getStyle('H'.$i)->getAlignment()->setVertical(PHPExcel_Style_Alignment::VERTICAL_TOP);
+                    $objPHPExcel->setActiveSheetIndex(0)
+                        ->getStyle('I'.$i)->getAlignment()->setWrapText(true);
+                    $objPHPExcel->setActiveSheetIndex(0)
+                        ->getStyle('I'.$i)->getAlignment()->setVertical(PHPExcel_Style_Alignment::VERTICAL_TOP);*/
+                    
+                     $objPHPExcel->setActiveSheetIndex(0)
+                            ->mergeCells('E'.$i.':F'.$i)
+                            ->setCellValue('E'.$i, $merito->merito)
+                            ->setCellValue('H'.$i, $merito->ponderacion)
+                            ->setCellValue('I'.$i, $merito->calificacion);
+
+                     $objPHPExcel->getActiveSheet()->getRowDimension($i)->setRowHeight(15);
+                     //$objPHPExcel->setActiveSheetIndex()->getStyle('E'.$i.':I'.$i)->applyFromArray($styleTableBorder);
+                     $i++;
+                  
+                }
+                
+                $j=$i;
+                
+                foreach($competencias as $competencia)
+                {
+                    //$nombre = Competenciacore::model()->findByPk($competencia->competencia);
+                    /*$objPHPExcel->setActiveSheetIndex(0)
+                        ->getStyle('E'.$j.':F'.$j)->getAlignment()->setVertical(PHPExcel_Style_Alignment::VERTICAL_TOP);
+                    $objPHPExcel->setActiveSheetIndex(0)
+                        ->getStyle('E'.$j.':F'.$j)->getAlignment()->setWrapText(true);
+                    $objPHPExcel->setActiveSheetIndex(0)
+                        ->getStyle('H'.$j)->getAlignment()->setWrapText(true);
+                    $objPHPExcel->setActiveSheetIndex(0)
+                        ->getStyle('H'.$j)->getAlignment()->setVertical(PHPExcel_Style_Alignment::VERTICAL_TOP);
+                    $objPHPExcel->setActiveSheetIndex(0)
+                        ->getStyle('I'.$j)->getAlignment()->setWrapText(true);
+                    $objPHPExcel->setActiveSheetIndex(0)
+                        ->getStyle('I'.$j)->getAlignment()->setVertical(PHPExcel_Style_Alignment::VERTICAL_TOP);*/
+
+                     $objPHPExcel->setActiveSheetIndex(0)
+                            ->mergeCells('E'.$j.':F'.$j)
+                            ->setCellValue('E'.$j, $competencia->competencia)
+                            ->setCellValue('H'.$j, $competencia->ponderacion)
+                            ->setCellValue('I'.$j, $competencia->calificacion);
+
+                     $objPHPExcel->getActiveSheet()->getRowDimension($j)->setRowHeight(15);
+                     //$objPHPExcel->setActiveSheetIndex()->getStyle('E'.$j.':I'.$j)->applyFromArray($styleTableBorder);
+                     $j++;
+                  
+                } 
+
+                header('Content-Type: application/excel');
+                header('Content-Disposition: attachment;filename="ReporteEC_'.$colaborador->nombre.''.$colaborador->apellido1.''.$colaborador->apellido2.'.xlsx"');
+                header('Cache-Control: max-age=0');
+
+                $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
+                $objWriter->setIncludeCharts(TRUE);                        
+                $objWriter->save('php://output');
+        }
 }
