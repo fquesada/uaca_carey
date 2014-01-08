@@ -34,7 +34,7 @@
                     echo CHtml::dropDownList('competencia', '', CHtml::listData(Competencia::model()->findAll('estado=1'), 'id', 'competencia'), array('empty' => 'Seleccione habilidad', 'id' => 'ddlcompetencia', 'class'=>'ddlcompetencia'));
                     echo '</td>';
                     echo '<td>';
-                    echo CHtml::dropDownList('puntaje', '', CHtml::listData(Puntaje::model()->findAll('estado=1'), 'valor', 'valor'), array('empty' => 'Seleccione calificacion', 'id' => 'ddlpuntajenoequivalente'));
+                    echo CHtml::dropDownList('puntajenoequivalente', '', CHtml::listData(Puntaje::model()->findAll('estado=1'), 'valor', 'valor'), array('empty' => 'Seleccione calificacion', 'id' => 'ddlpuntajenoequivalente'));
                     echo '</td>';                    
                     echo '<td>';
                     echo CHtml::dropDownList('puesto1', '', CHtml::listData(Puesto::model()->findAll('estado=1'), 'id', 'nombre'), array('empty' => 'Seleccione puesto', 'id' => 'ddlpuesto1', 'class'=>'ddlpuestonoequivalente'));

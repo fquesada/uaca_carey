@@ -150,4 +150,25 @@ $(document).ready(function() {
         return habilidadesnoequivalentes;
     }
     
+    $("[name='puntaje']" ).change(function(){        
+        var promedio = 0;
+        var dividendo = 0;
+        var divisor = 0;
+        $("[name='puntaje']" ).each(function() {
+                var calificacion = $(this).val();                
+                var ponderado = parseInt($(this).parent().parent().find('td:last').text());
+                if(calificacion === ""){
+                    calificacion = 0;
+                    dividendo = dividendo + calificacion * ponderado;  
+                    divisor = divisor + ponderado;                   
+                }else{
+                    calificacion = parseInt(calificacion);
+                    dividendo = dividendo + calificacion * ponderado;  
+                    divisor = divisor + ponderado;                  
+                }                                
+        });    
+        promedio = dividendo / divisor;
+        $('.promedioponderado > p > span').text(promedio.toPrecision(3));
+    });
+    
 });
