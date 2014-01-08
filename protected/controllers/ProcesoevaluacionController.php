@@ -330,7 +330,9 @@ class ProcesoevaluacionController extends Controller
                 $ec->fechaevaluacion = CommonFunctions::datenow();
                 $ec->estado = 2;//CLEAN CODE - PONER EN VARIABLES GLOBALES
                 $ec->promedioponderado = $promedioponderado;
+                
                 //FALTA EDITAR ESTADO DEL LINK PARA QUE QUEDE DESACTIVO
+                //FALTA VALIDAR SI SE DEBE PASAR EL PROCESO A TERMINADO, SI SOLO SI ES LA ULTIMA EVALUACION ACTIVA DEL PROCESO
                 
                 $transaction = Yii::app()->db->beginTransaction();
                 
