@@ -678,7 +678,7 @@ class ProcesoevaluacionController extends Controller
                 
                 foreach($meritos as $merito)
                 {
-                    
+                    //evaluacionmeritocandidato->_merito->nombre
                    //$nombre = Merito::model()->findByPk($merito->merito);
                     /*$objPHPExcel->setActiveSheetIndex(0)
                         ->getStyle('E'.$i.':F'.$i)->getAlignment()->setVertical(PHPExcel_Style_Alignment::VERTICAL_TOP);
@@ -726,7 +726,8 @@ class ProcesoevaluacionController extends Controller
                      $objPHPExcel->setActiveSheetIndex(0)
                             ->mergeCells('E'.$j.':F'.$j)
                             ->setCellValue('E'.$j, $competencia->competencia)
-                            ->setCellValue('H'.$j, $competencia->ponderacion)
+                            ->setCellValue('G'.$j, $competencia->ponderacion)
+                            ->setCellValue('H'.$j, CommonFunctions::ponderaciontoideal($competencia->ponderacion))
                             ->setCellValue('I'.$j, $competencia->calificacion);
 
                      $objPHPExcel->getActiveSheet()->getRowDimension($j)->setRowHeight(15);

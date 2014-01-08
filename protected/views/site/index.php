@@ -23,7 +23,7 @@ $this->pageTitle=Yii::app()->name;
        </div>
        <div id="ContenidoC">
            <br>
-           <?php echo CHtml::link('Crear proceso EC',array('procoesoevaluacion/crear'), array("class"=>"boton")); ?>
+           <?php echo CHtml::link('Crear proceso EC',array('procesoevaluacion/crearprocesoec'), array("class"=>"boton")); ?>
            <?php echo CHtml::link('Gestionar proceso EC',array('procesoevaluacion/admin'), array("class"=>"boton")); ?>
        </div>
    </div>
