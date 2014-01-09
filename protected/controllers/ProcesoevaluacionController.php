@@ -644,10 +644,7 @@ class ProcesoevaluacionController extends Controller
         public function actionReporteEC($id) {
                           
                 $ec = Evaluacioncompetencias::model()->findByPk($id);  
-                $proceso = Procesoevaluacion::model()->findByPk($ec->procesoevaluacion);
                 $colaborador = Colaborador::model()->findByPk($ec->colaborador);
-                $puesto = Puesto::model()->findByPk($ec->puesto);
-                $evaluador = Colaborador::model()->findByPk($proceso->evaluador);
                 $competencias = $ec->_habilidadesevaluacioncandidato;
                 $meritos = $ec->_meritosevaluacioncandidato;
                 
@@ -659,6 +656,12 @@ class ProcesoevaluacionController extends Controller
 
                require_once( dirname(__FILE__) . '/../components/CommonFunctions.php');
                require_once( dirname(__FILE__) . '/../models/Merito.php');
+               require_once( dirname(__FILE__) . '/../models/Puesto.php');
+               require_once( dirname(__FILE__) . '/../models/Colaborador.php');
+               require_once( dirname(__FILE__) . '/../models/Procesoevaluacion.php');
+               require_once( dirname(__FILE__) . '/../models/Competenciacore.php');
+               require_once( dirname(__FILE__) . '/../models/Competencia.php');
+               require_once( dirname(__FILE__) . '/../models/Tipomerito.php');
                include($phpExcelPath . DIRECTORY_SEPARATOR . 'Classes'. DIRECTORY_SEPARATOR .'PHPExcel.php');                      
 
                $objReader = PHPExcel_IOFactory::createReader('Excel2007');
@@ -668,36 +671,24 @@ class ProcesoevaluacionController extends Controller
 
                $objPHPExcel->setActiveSheetIndex(0);  //set first sheet as active
 
-               $objPHPExcel->getActiveSheet()->setCellValue('E4', $colaborador->nombre.' '.$colaborador->apellido1.' '.$colaborador->apellido2); 
-               $objPHPExcel->getActiveSheet()->setCellValue('E5', $puesto->nombre);
+               $objPHPExcel->getActiveSheet()->setCellValue('E4', $ec->_colaborador->nombrecompleto); 
+               $objPHPExcel->getActiveSheet()->setCellValue('E5', $ec->_puesto->nombre);
                $objPHPExcel->getActiveSheet()->setCellValue('E6', '');
-               $objPHPExcel->getActiveSheet()->setCellValue('J4', $colaborador->cedula);
+               $objPHPExcel->getActiveSheet()->setCellValue('J4', $ec->_colaborador->cedula);
                $objPHPExcel->getActiveSheet()->setCellValue('J5', '');
-               $objPHPExcel->getActiveSheet()->setCellValue('J6', $evaluador->nombre.' '.$evaluador->apellido1.' '.$evaluador->apellido2);
-               $objPHPExcel->getActiveSheet()->setCellValue('J7', $proceso->fecha);
+               $objPHPExcel->getActiveSheet()->setCellValue('J6', $ec->_procesoevaluacion->_evaluador->nombrecompleto);
+               $objPHPExcel->getActiveSheet()->setCellValue('J7', $ec->_procesoevaluacion->fecha);
                
                 $i = '34';  
                 
                 foreach($meritos as $merito)
                 {
-                   $nombre = $merito->_merito->descripcion;
-                    /*$objPHPExcel->setActiveSheetIndex(0)
-                        ->getStyle('E'.$i.':F'.$i)->getAlignment()->setVertical(PHPExcel_Style_Alignment::VERTICAL_TOP);
-                    $objPHPExcel->setActiveSheetIndex(0)
-                        ->getStyle('E'.$i.':F'.$i)->getAlignment()->setWrapText(true);
-                    $objPHPExcel->setActiveSheetIndex(0)
-                        ->getStyle('H'.$i)->getAlignment()->setWrapText(true);
-                    $objPHPExcel->setActiveSheetIndex(0)
-                        ->getStyle('H'.$i)->getAlignment()->setVertical(PHPExcel_Style_Alignment::VERTICAL_TOP);
-                    $objPHPExcel->setActiveSheetIndex(0)
-                        ->getStyle('I'.$i)->getAlignment()->setWrapText(true);
-                    $objPHPExcel->setActiveSheetIndex(0)
-                        ->getStyle('I'.$i)->getAlignment()->setVertical(PHPExcel_Style_Alignment::VERTICAL_TOP);*/
                     
                      $objPHPExcel->setActiveSheetIndex(0)
                             ->mergeCells('E'.$i.':F'.$i)
-                            ->setCellValue('E'.$i, $merito->_merito->descripcion)
-                            ->setCellValue('H'.$i, $merito->ponderacion)
+                            ->setCellValue('E'.$i, $merito->_merito->_tipomerito->nombre)
+                            ->setCellValue('G'.$i, $merito->ponderacion)
+                             ->setCellValue('H'.$i, CommonFunctions::ponderaciontoideal($merito->ponderacion))
                             ->setCellValue('I'.$i, $merito->calificacion);
 
                      $objPHPExcel->getActiveSheet()->getRowDimension($i)->setRowHeight(15);
@@ -710,23 +701,24 @@ class ProcesoevaluacionController extends Controller
                 
                 foreach($competencias as $competencia)
                 {
-                    //$nombre = Competenciacore::model()->findByPk($competencia->competencia);
-                    /*$objPHPExcel->setActiveSheetIndex(0)
-                        ->getStyle('E'.$j.':F'.$j)->getAlignment()->setVertical(PHPExcel_Style_Alignment::VERTICAL_TOP);
-                    $objPHPExcel->setActiveSheetIndex(0)
-                        ->getStyle('E'.$j.':F'.$j)->getAlignment()->setWrapText(true);
-                    $objPHPExcel->setActiveSheetIndex(0)
-                        ->getStyle('H'.$j)->getAlignment()->setWrapText(true);
-                    $objPHPExcel->setActiveSheetIndex(0)
-                        ->getStyle('H'.$j)->getAlignment()->setVertical(PHPExcel_Style_Alignment::VERTICAL_TOP);
-                    $objPHPExcel->setActiveSheetIndex(0)
-                        ->getStyle('I'.$j)->getAlignment()->setWrapText(true);
-                    $objPHPExcel->setActiveSheetIndex(0)
-                        ->getStyle('I'.$j)->getAlignment()->setVertical(PHPExcel_Style_Alignment::VERTICAL_TOP);*/
+                    if ($competencia->tipocompetencia == 1) {
+                        
+                        $objPHPExcel->setActiveSheetIndex(0)
+                            ->mergeCells('E'.$j.':F'.$j)
+                            ->setCellValue('E'.$j, $competencia->_competenciacore->competencia)
+                            ->setCellValue('G'.$j, $competencia->ponderacion)
+                            ->setCellValue('H'.$j, CommonFunctions::ponderaciontoideal($competencia->ponderacion))
+                            ->setCellValue('I'.$j, $competencia->calificacion);
 
+                     $objPHPExcel->getActiveSheet()->getRowDimension($j)->setRowHeight(15);
+                     //$objPHPExcel->setActiveSheetIndex()->getStyle('E'.$j.':I'.$j)->applyFromArray($styleTableBorder);
+                     $j++;   
+                    }
+                    else{
+                    
                     $objPHPExcel->setActiveSheetIndex(0)
                             ->mergeCells('E'.$j.':F'.$j)
-                            ->setCellValue('E'.$j, $competencia->competencia)
+                            ->setCellValue('E'.$j, $competencia->_competencia->competencia)
                             ->setCellValue('G'.$j, $competencia->ponderacion)
                             ->setCellValue('H'.$j, CommonFunctions::ponderaciontoideal($competencia->ponderacion))
                             ->setCellValue('I'.$j, $competencia->calificacion);
@@ -734,8 +726,11 @@ class ProcesoevaluacionController extends Controller
                      $objPHPExcel->getActiveSheet()->getRowDimension($j)->setRowHeight(15);
                      //$objPHPExcel->setActiveSheetIndex()->getStyle('E'.$j.':I'.$j)->applyFromArray($styleTableBorder);
                      $j++;
-                  
-                } 
+                    }
+                }
+                
+                $objPHPExcel->setActiveSheetIndex(0)
+                        ->setCellValue('G46', $ec->promedioponderado); 
 
                 header('Content-Type: application/excel');
                 header('Content-Disposition: attachment;filename="ReporteEC_'.$colaborador->nombre.''.$colaborador->apellido1.''.$colaborador->apellido2.'.xlsx"');
