@@ -679,7 +679,7 @@ class ProcesoevaluacionController extends Controller
                 
                 foreach($meritos as $merito)
                 {
-                    
+                   $nombre = $merito->_merito->descripcion;
                     /*$objPHPExcel->setActiveSheetIndex(0)
                         ->getStyle('E'.$i.':F'.$i)->getAlignment()->setVertical(PHPExcel_Style_Alignment::VERTICAL_TOP);
                     $objPHPExcel->setActiveSheetIndex(0)
@@ -695,7 +695,7 @@ class ProcesoevaluacionController extends Controller
                     
                      $objPHPExcel->setActiveSheetIndex(0)
                             ->mergeCells('E'.$i.':F'.$i)
-                            ->setCellValue('E'.$i, $merito->merito)
+                            ->setCellValue('E'.$i, $nombre)
                             ->setCellValue('G'.$i, $merito->ponderacion)
                             ->setCellValue('H'.$i, CommonFunctions::ponderaciontoideal($merito->ponderacion))
                             ->setCellValue('I'.$i, $merito->calificacion);

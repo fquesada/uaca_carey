@@ -59,7 +59,7 @@ return array(
 		'urlManager'=>array(
 			'urlFormat'=>'path',
 			'rules'=>array(
-                                'ec/crear'=>'procesoevaluacion/crearprocesoec',
+                                //ec/crear'=>'procesoevaluacion/crearprocesoec',
                                 //'ec/<action>'=>'procesoevaluacion/<action>',
                                 'rs/entrevista'=>'entrevista/index',
                                 'rs/excel'=>'entrevista/excel',
