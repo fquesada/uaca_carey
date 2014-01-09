@@ -641,7 +641,7 @@ class ProcesoevaluacionController extends Controller
             }
         }
         
-         public function actionReporteEC($id) {
+        public function actionReporteEC($id) {
                           
                 $ec = Evaluacioncompetencias::model()->findByPk($id);  
                 $proceso = Procesoevaluacion::model()->findByPk($ec->procesoevaluacion);
@@ -652,11 +652,12 @@ class ProcesoevaluacionController extends Controller
                 $meritos = $ec->_meritosevaluacioncandidato;
                 
               
-                $phpExcelPath = Yii::getPathOfAlias('application.modules.excel');
+               $phpExcelPath = Yii::getPathOfAlias('application.modules.excel');
 
                // Turn off our amazing library autoload 
                spl_autoload_unregister(array('YiiBase','autoload'));        
 
+               require_once( dirname(__FILE__) . '/../components/CommonFunctions.php');
                include($phpExcelPath . DIRECTORY_SEPARATOR . 'Classes'. DIRECTORY_SEPARATOR .'PHPExcel.php');                      
 
                $objReader = PHPExcel_IOFactory::createReader('Excel2007');
@@ -723,7 +724,7 @@ class ProcesoevaluacionController extends Controller
                     $objPHPExcel->setActiveSheetIndex(0)
                         ->getStyle('I'.$j)->getAlignment()->setVertical(PHPExcel_Style_Alignment::VERTICAL_TOP);*/
 
-                     $objPHPExcel->setActiveSheetIndex(0)
+                    $objPHPExcel->setActiveSheetIndex(0)
                             ->mergeCells('E'.$j.':F'.$j)
                             ->setCellValue('E'.$j, $competencia->competencia)
                             ->setCellValue('G'.$j, $competencia->ponderacion)
