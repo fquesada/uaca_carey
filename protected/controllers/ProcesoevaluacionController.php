@@ -658,6 +658,7 @@ class ProcesoevaluacionController extends Controller
                spl_autoload_unregister(array('YiiBase','autoload'));        
 
                require_once( dirname(__FILE__) . '/../components/CommonFunctions.php');
+               require_once( dirname(__FILE__) . '/../models/Merito.php');
                include($phpExcelPath . DIRECTORY_SEPARATOR . 'Classes'. DIRECTORY_SEPARATOR .'PHPExcel.php');                      
 
                $objReader = PHPExcel_IOFactory::createReader('Excel2007');
@@ -696,7 +697,7 @@ class ProcesoevaluacionController extends Controller
                     
                      $objPHPExcel->setActiveSheetIndex(0)
                             ->mergeCells('E'.$i.':F'.$i)
-                            ->setCellValue('E'.$i, $merito->merito)
+                            ->setCellValue('E'.$i, $merito->_merito->descripcion)
                             ->setCellValue('H'.$i, $merito->ponderacion)
                             ->setCellValue('I'.$i, $merito->calificacion);
 
