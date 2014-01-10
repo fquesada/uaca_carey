@@ -77,7 +77,8 @@ class Merito extends CActiveRecord
 			'ponderacion' => 'Ponderación',
 			'puesto' => 'Puesto',
 			'descripcion' => 'Descripción',
-                        'NombreTipoMerito' => 'Tipo merito'
+                        'NombreTipoMerito' => 'Tipo merito',
+                        'NombrePuesto' => 'Puesto',
 		);
 	}
 

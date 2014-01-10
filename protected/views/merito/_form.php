@@ -20,10 +20,10 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->baseUrl . '/css/sexybutton
 	<?php echo $form->errorSummary($model); ?>
 
 	<div class="row">
-		<?php echo $form->labelEx($model,'tipomerito'); ?>
-		<?php echo $form->textField($model,'tipomerito'); ?>
+                <?php echo $form->labelEx($model,'tipomerito'); ?>
+                <?php echo CHtml::activeDropDownList($model,'tipomerito',CHtml::listData(Tipomerito::model()->findAll(array('order'=>'id')), 'id', 'nombre'), array ('empty'=>'Seleccione un tipo'));?>
 		<?php echo $form->error($model,'tipomerito'); ?>
-	</div>
+        </div>  
 
 	<div class="row">
 		<?php echo $form->labelEx($model,'ponderacion'); ?>
@@ -33,7 +33,7 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->baseUrl . '/css/sexybutton
 
 	<div class="row">
 		<?php echo $form->labelEx($model,'puesto'); ?>
-		<?php echo $form->textField($model,'puesto'); ?>
+                <?php echo CHtml::activeDropDownList($model,'puesto',CHtml::listData(Puesto::model()->findAll(array('order'=>'id')), 'id', 'nombre'), array ('empty'=>'Seleccione un puesto'));?>
 		<?php echo $form->error($model,'puesto'); ?>
 	</div>
 
