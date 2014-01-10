@@ -1,6 +1,7 @@
 <?php
 /* @var $this ProcesoEvaluacionController */
-/* @var $model ProcesoEvaluacion */
+/* @var $procesoec ProcesoEvaluacion */
+/* @var $indicadoreditar Indicador Editar*/
 
 Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/messi.min.js');
 Yii::app()->clientScript->registerCssFile(Yii::app()->baseUrl.'/css/messi.min.css');
@@ -17,23 +18,55 @@ Yii::app()->clientScript->registerScript('autocomplete', '
 ',
   CClientScript::POS_READY
 );
-$this->breadcrumbs=array(
-	'EC'=>array('admin'),
-	'Nuevo proceso EC',
-);
+
+if(!$indicadoreditar){
+    $this->breadcrumbs=array(
+            'EC'=>array('admin'),
+            'Nuevo proceso EC',
+    );
+}else{
+    $this->breadcrumbs=array(
+            'EC'=>array('admin'),
+            'Editar proceso EC',
+    );
+}
 $this->menu=array(
 	array('label'=>'EC' , 'url'=>array('admin')),	
 );
 ?>
 
-<h3 style="text-align: center">Nuevo proceso EC</h3>
+<?php if(!$indicadoreditar){?>
+<div class="row">                  
+            <?php echo CHtml::hiddenField('id', 'false', array('id'=>'indicadoreditar','name'=>'indicadoreditar')); ?>        
+</div>
+<?php } else {?>
+<div class="row">                  
+            <?php echo CHtml::hiddenField('id', 'true', array('id'=>'indicadoreditar','name'=>'indicadoreditar')); ?>        
+</div>
+<?php }?>
+
+<h3 style="text-align: center"><?php if(!$indicadoreditar) echo "Nuevo proceso EC"; else echo "Editar proceso EC #".$procesoec->id;?></h3>
 
 <?php echo CHtml::beginForm()?>
-<?php echo $this->renderPartial('_formprocesoevaluacion'); ?>
-<?php echo $this->renderPartial('_formagregarcolaborador'); ?>
+
+<?php 
+    if(!$indicadoreditar){
+        echo $this->renderPartial('_formprocesoevaluacion', array('indicadoreditar' => $indicadoreditar ));
+        echo $this->renderPartial('_formagregarcolaborador', array('indicadoreditar' => $indicadoreditar )); 
+    }else{
+        echo $this->renderPartial('_formprocesoevaluacion', array('procesoec'=>$procesoec,'indicadoreditar' => $indicadoreditar )); 
+        echo $this->renderPartial('_formagregarcolaborador', array('procesoec'=>$procesoec,'indicadoreditar' => $indicadoreditar ));       
+    }
+?>
+
+
 
 </br>
-<div class="row buttons" style="text-align: center">                
-                  <?php echo CHtml::submitButton('Crear proceso EC',array('id'=>'btncrearprocesoEC', 'class'=>'sexybutton sexysimple sexylarge'));?>
+<div class="row buttons" style="text-align: center">  
+                <?php if(!$indicadoreditar)
+                        echo CHtml::submitButton('Crear proceso EC',array('id'=>'btncrearprocesoEC', 'class'=>'sexybutton sexysimple sexylarge'));
+                   else
+                        echo CHtml::submitButton('Guardar proceso EC',array('id'=>'btnguardarprocesoEC', 'class'=>'sexybutton sexysimple sexylarge')); 
+                   ?>
 </div>
 <?php echo CHtml::endForm()?>

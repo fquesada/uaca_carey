@@ -32,7 +32,7 @@ class ProcesoevaluacionController extends Controller
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('CrearProcesoEC','AdminProcesoEC','EvaluarProcesoEC','EnvioCorreoEC','GuardarProcesoEC','update','admin','AgregarPersonas','AgregarPersona','AutocompleteEvaluado',
+				'actions'=>array('CrearProcesoEC','AdminProcesoEC','EditarProcesoEC','EvaluarProcesoEC','EnvioCorreoEC','GuardarProcesoEC','update','admin','AgregarPersonas','AgregarPersona','AutocompleteEvaluado',
                                                     'HabilidadesEspeciales','InfoPonderacion', 'delete', 'reporteevaluacioncompetencias', 'DataReporteEvaluacionCompetencias', 'vistaprueba'),
 				'users'=>array('@'),
 			),
@@ -274,8 +274,10 @@ class ProcesoevaluacionController extends Controller
                 }           
             }
             
-            
-            $this->render('crearprocesoec');
+            $editar = false;
+            $this->render('crearprocesoec',array(
+			'indicadoreditar' => $editar,
+            ));       
         }
         
         public function actionAdminProcesoEC($id){    
@@ -283,7 +285,15 @@ class ProcesoevaluacionController extends Controller
             $procesoec = Procesoevaluacion::model()->findByPk($id);
             $this->render('adminprocesoec',array(
 			'procesoec'=>$procesoec,
-		));       
+            ));       
+        }
+        
+        public function actionEditarProcesoEC($id){
+            $procesoec = Procesoevaluacion::model()->findByPk($id);
+            $editar = true;
+            $this->render('crearprocesoec',array(
+			'procesoec'=>$procesoec,'indicadoreditar' => $editar,
+            ));       
         }
         
         public function actionEnvioCorreoEC(){

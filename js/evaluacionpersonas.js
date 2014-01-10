@@ -294,13 +294,17 @@ $(document).ready(function() {
        var idcolaborador = $('#idcolaborador').val(); 
        var cedula = $('#cedulacolaborador').text(); 
        var colaborador =  $('#busquedacolaborador').val(); 
+       if ($('#indicadoreditar').val() == "true")
+           var urlimagenborrarcolaborador = "../../../images/icons/silk/delete.png";
+       else
+           var urlimagenborrarcolaborador = "../../images/icons/silk/delete.png";
        
        if(idevaluador == idcolaborador){
            messageerror('El colaborador no puede ser el mismo que el evaluador');
            restablecerbuscarcolaborador();
        }
        else if(cantidadcolaboradorestabla()==0){
-           $('#tblcolaboradores > tbody').append('<tr><td name="idcolaborador" style="display: none">'+idcolaborador+'</td><td name="cedula">'+cedula+'</td><td name="colaborador">'+colaborador+'</td><td name="colaborador">Falta puesto</td><td><img id="borrarcolaborador" style="cursor: pointer;" src="../../images/icons/silk/delete.png" alt="Eliminar colaborador"/></td></tr>');     
+           $('#tblcolaboradores > tbody').append('<tr><td name="idcolaborador" style="display: none">'+idcolaborador+'</td><td name="cedula">'+cedula+'</td><td name="colaborador">'+colaborador+'</td><td name="puesto">Falta puesto</td><td><img id="borrarcolaborador" style="cursor: pointer; padding-left:5px;" src="'+urlimagenborrarcolaborador+'" alt="Eliminar colaborador"/></td></tr>');     
            restablecerbuscarcolaborador();
            ocultarerror($('#tblcolaboradores'));
        }
@@ -309,7 +313,7 @@ $(document).ready(function() {
            restablecerbuscarcolaborador();
        }
        else{
-          $('#tblcolaboradores > tbody').append('<tr><td name="idcolaborador" style="display: none">'+idcolaborador+'</td><td name="cedula">'+cedula+'</td><td name="colaborador">'+colaborador+'</td><td name="colaborador">Falta puesto</td><td><img id="borrarcolaborador" style="cursor: pointer;" src="../../images/icons/silk/delete.png" alt="Eliminar colaborador"/></td></tr>');      
+          $('#tblcolaboradores > tbody').append('<tr><td name="idcolaborador" style="display: none">'+idcolaborador+'</td><td name="cedula">'+cedula+'</td><td name="colaborador">'+colaborador+'</td><td name="puesto">Falta puesto</td><td><img id="borrarcolaborador" style="cursor: pointer; padding-left:5px;" src="'+urlimagenborrarcolaborador+'" alt="Eliminar colaborador"/></td></tr>');      
           restablecerbuscarcolaborador();
           ocultarerror($('#tblcolaboradores'));
        }

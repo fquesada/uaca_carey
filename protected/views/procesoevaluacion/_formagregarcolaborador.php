@@ -1,3 +1,9 @@
+<?php
+/* @var $this ProcesoEvaluacionController */
+/* @var $procesoec ProcesoEvaluacion */
+/* @var $indicadoreditar Indicador Editar*/
+?>
+
 <div>                    
 <button  id="btnbusquedacolaboradores" type="button" class="sexybutton sexysimple" disabled="disabled"><span class="add">Buscar colaborador(es)</span></button>
 </div>
@@ -100,6 +106,30 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array(
     </tr>
   </thead>  
   <tbody>   
+      <?php
+      if($indicadoreditar){
+          foreach ($procesoec->_evaluacionescompetencias as $ec) {
+              echo '<tr>';
+              echo '<td name="idcolaborador" style="display: none">';
+              echo $ec->colaborador;
+              echo '</td>';
+              echo '<td name="cedula">';
+              echo $ec->_colaborador->cedula;
+              echo '</td>';
+              echo '<td name="colaborador">';
+              echo $ec->_colaborador->nombrecompleto;
+              echo '</td>';
+              echo '<td name="puesto">';
+              echo $ec->_colaborador->nombrepuestoactual;
+              echo '</td>';
+              echo '<td>';
+              echo CHtml::image(Yii::app()->request->baseUrl."/images/icons/silk/delete.png", "Eliminar colaborador", 
+                    array("id"=>"borrarcolaborador", "style" => "padding-left:5px; cursor:pointer;"));       
+              echo '</td>';
+              echo '</tr>';
+          }
+      }
+      ?>
   </tbody>
 </table>
     
