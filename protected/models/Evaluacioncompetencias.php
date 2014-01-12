@@ -8,6 +8,8 @@
  * @property integer $procesoevaluacion
  * @property string $fechaevaluacion
  * @property double $promedioponderado
+ * @property integer $accalificacion
+ * @property string $acdetalle
  * @property integer $links
  * @property integer $puesto
  * @property integer $colaborador
@@ -52,11 +54,12 @@ class Evaluacioncompetencias extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('procesoevaluacion, puesto, colaborador', 'required'),
-			array('procesoevaluacion, links, puesto, colaborador, estado', 'numerical', 'integerOnly'=>true),
+			array('procesoevaluacion, links, puesto, colaborador, estado, accalificacion', 'numerical', 'integerOnly'=>true),
+                        array('acdetalle', 'length', 'max'=>200),
 			array('promedioponderado', 'numerical'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, procesoevaluacion, fechaevaluacion, promedioponderado, links, puesto, colaborador, estado', 'safe', 'on'=>'search'),
+			array('id, procesoevaluacion, fechaevaluacion, promedioponderado, links, puesto, colaborador, estado, accalificacion, acdetalle', 'safe', 'on'=>'search'),
 
 		);
 	}
@@ -94,6 +97,8 @@ class Evaluacioncompetencias extends CActiveRecord
 			'puesto' => 'Puesto',
                         'colaborador' => 'Colaborador',
                         'estado' => 'Estado',
+                        'accalificacion' => 'Calificacion Assesment Center', 
+                        'acdetalle' => 'Detalle Assesment Center', 
 		);
 	}
 
@@ -116,6 +121,8 @@ class Evaluacioncompetencias extends CActiveRecord
 		$criteria->compare('puesto',$this->puesto);
                 $criteria->compare('colaborador',$this->colaborador);
                 $criteria->compare('estado',$this->estado);
+                $criteria->compare('accalificacion',$this->accalificacion);
+                $criteria->compare('acdetalle',$this->acdetalle);
                 
 
 		return new CActiveDataProvider($this, array(
