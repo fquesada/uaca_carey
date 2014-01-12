@@ -289,6 +289,12 @@ class ProcesoevaluacionController extends Controller
         }
         
         public function actionEditarProcesoEC($id){
+            
+            if(Yii::app()->request->isAjaxRequest)
+            { 
+                //Comparar
+            }
+            
             $procesoec = Procesoevaluacion::model()->findByPk($id);
             $editar = true;
             $this->render('crearprocesoec',array(
@@ -584,8 +590,7 @@ class ProcesoevaluacionController extends Controller
 		)); 
         }
         
-        public function actionDataReporteEvaluacionCompetencias()
-        { 
+        public function actionDataReporteEvaluacionCompetencias(){ 
             $idevaluacionpersonas = $_POST['idevaluacionpersonas'];           
             $idevaluacioncompetencias = $_POST['idevaluacioncompetencias'];
            

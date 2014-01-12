@@ -35,16 +35,6 @@ $this->menu=array(
 );
 ?>
 
-<?php if(!$indicadoreditar){?>
-<div class="row">                  
-            <?php echo CHtml::hiddenField('id', 'false', array('id'=>'indicadoreditar','name'=>'indicadoreditar')); ?>        
-</div>
-<?php } else {?>
-<div class="row">                  
-            <?php echo CHtml::hiddenField('id', 'true', array('id'=>'indicadoreditar','name'=>'indicadoreditar')); ?>        
-</div>
-<?php }?>
-
 <h3 style="text-align: center"><?php if(!$indicadoreditar) echo "Nuevo proceso EC"; else echo "Editar proceso EC #".$procesoec->id;?></h3>
 
 <?php echo CHtml::beginForm()?>
@@ -56,6 +46,7 @@ $this->menu=array(
     }else{
         echo $this->renderPartial('_formprocesoevaluacion', array('procesoec'=>$procesoec,'indicadoreditar' => $indicadoreditar )); 
         echo $this->renderPartial('_formagregarcolaborador', array('procesoec'=>$procesoec,'indicadoreditar' => $indicadoreditar ));       
+        echo CHtml::hiddenField('idproceso', $procesoec->id,array('id'=>'idprocesoec','name'=>'idprocesoec'));
     }
 ?>
 
