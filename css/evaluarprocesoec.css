@@ -28,6 +28,62 @@
     display: none;
 }
 
+/*Tabla Assesment Center*/
+
+
+.divindicadorassessmentcenter{
+    margin-bottom: 15px;
+    font-size: 16px;
+    font-style: italic;
+}
+
+.divassessmentcenter{
+    display: none;
+}
+
+.ptituloassessmentcenter{
+    font-family: times, Times New Roman, times-roman, georgia, serif;
+    font-size: 28px;
+    line-height: 40px;
+    letter-spacing: -1px;color: #444;
+    margin-bottom: 1px;
+}
+
+.tblassessmentcenter{
+    border-collapse: collapse; 
+    border-spacing: 0; 
+    width: auto; 
+    margin: 0px auto 0px auto; 
+    table-layout: fixed; 
+}
+
+.tblassessmentcenter thead th{
+    background-color: #033E6B;
+    color: #FFFFFF;
+    text-align: center;   
+    padding: 4px 10px 8px 5px;
+}
+
+.tblassessmentcenter tbody{
+     border-top: 10px solid white; 
+/*     trick que permite hacer margin en un tbody*/
+}
+
+.tblassessmentcenter tr:hover{
+    background-color: #ECF1EF;
+}
+
+.tblassessmentcenter td{    
+    vertical-align: top;
+    text-align: justify;
+    font-size: 12px;
+}
+
+.taassessmentcenter {
+    width: 430px;
+}
+
+
 /*Tabla Meritos*/
 .ptitulomeritos{
     font-family: times, Times New Roman, times-roman, georgia, serif;

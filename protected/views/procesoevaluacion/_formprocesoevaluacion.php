@@ -1,16 +1,29 @@
+<?php
+/* @var $this ProcesoEvaluacionController */
+/* @var $procesoec ProcesoEvaluacion */
+/* @var $indicadoreditar Indicador Editar*/
+?>
+
 <div class="form">
     <p>Campos con * son obligatorios.</p> 
     
     <div class="row">
             <?php echo CHtml::label('Periodo *', 'periodo');?>
-            <?php echo CHtml::dropDownList('ddlperiodo', 'nombre',
-                        CHtml::listData(Periodo::model()->findAll(), 'id', 'nombre'), array('empty'=>'Elija el periodo', 'id'=>'ddlperiodo')) ?>       
+            <?php if(!$indicadoreditar)    
+                    echo CHtml::dropDownList('ddlperiodo','', CHtml::listData(Periodo::model()->findAll(), 'id', 'nombre'), array('empty'=>'Elija el periodo', 'id'=>'ddlperiodo'));
+                  else
+                    echo CHtml::dropDownList('ddlperiodo',$procesoec ->periodo, CHtml::listData(Periodo::model()->findAll(), 'id', 'nombre'), array('empty'=>'Elija el periodo', 'id'=>'ddlperiodo'));  
+                      ?>       
             <div id="ddlperiodoerror" class="errorevaluacionpersona">Debe seleccionar un periodo</div>
     </div> 
     
     <div class="row">
-            <?php echo CHtml::label('Nombre del proceso *', 'descripcion');?>
-            <?php echo CHtml::textArea('txtareadescripcion','', array('id'=>'txtdescripcion', 'rows' => '3', 'cols' => '40', 'maxlength' => '90'));?>                    
+            <?php echo CHtml::label('Nombre del proceso *', 'descripcion');?>          
+            <?php if(!$indicadoreditar)   
+                    echo CHtml::textArea('txtareadescripcion','', array('id'=>'txtdescripcion', 'rows' => '3', 'cols' => '40', 'maxlength' => '90'));
+                else
+                    echo CHtml::textArea('txtareadescripcion',$procesoec->descripcion, array('id'=>'txtdescripcion', 'rows' => '3', 'cols' => '40', 'maxlength' => '90'));
+            ?>                    
             <div id="txtdescripcionerror" class="errorevaluacionpersona">Debe ingresar el nombre del proceso.</div>
     </div>
     
@@ -19,33 +32,40 @@
     <div class="row">
             <?php echo CHtml::label('Evaluador *', 'evaluador');?>
             <?php 
-            
-            $this->widget('zii.widgets.jui.CJuiAutoComplete', array(
-            'attribute'=>'colaborador',
-            'name'=>'colaborador', 
-            'id'=>'busquedaevaluador',
-            'source'=>$this->createUrl('procesoevaluacion/AutocompleteEvaluado'),
-            // additional javascript options for the autocomplete plugin
-            'options'=>array(
-                'showAnim'=>'fold',
-                'minLength'=>'2',
-                'select'=>"js: function(event, ui) {
-                    
-                if(ui.item['value']!='')
-                {
-                    $('#busquedaevaluador').attr('disabled', 'true');	                    
-                    $('#cedulaevaluador').text(ui.item['cedula']);                                                              
-                    $('#idevaluador').val(ui.item['id']); 
-                    $('#imgborrarevaluador').show();
-                    $('#btnbusquedacolaboradores').removeAttr('disabled'); 
+            if(!$indicadoreditar){
+                $this->widget('zii.widgets.jui.CJuiAutoComplete', array(
+                'attribute'=>'colaborador',
+                'name'=>'colaborador', 
+                'id'=>'busquedaevaluador',
+                'source'=>$this->createUrl('procesoevaluacion/AutocompleteEvaluado'),
+                // additional javascript options for the autocomplete plugin
+                'options'=>array(
+                    'showAnim'=>'fold',
+                    'minLength'=>'2',
+                    'select'=>"js: function(event, ui) {
 
-                 }
-                    
-                }",                
-                 ),
-              'htmlOptions'=>array('size'=>'30'),
-            ));
-                        
+                    if(ui.item['value']!='')
+                    {
+                        $('#busquedaevaluador').attr('disabled', 'true');	                    
+                        $('#cedulaevaluador').text(ui.item['cedula']);                                                              
+                        $('#idevaluador').val(ui.item['id']); 
+                        $('#imgborrarevaluador').show();
+                        $('#btnbusquedacolaboradores').removeAttr('disabled'); 
+
+                     }
+
+                    }",                
+                     ),
+                  'htmlOptions'=>array('size'=>'30'),
+                ));
+            }
+            else{
+                echo CHtml::textField('colaborador', $procesoec->_evaluador->nombrecompleto, array('id' => 'busquedaevaluador','size'=>'30'));
+                Yii::app()->clientScript->registerScript('activarevaluador', "
+                        $('#busquedaevaluador').attr('disabled', 'true');	                                                                   
+                        $('#btnbusquedacolaboradores').removeAttr('disabled'); 
+                ");
+            }                  
         
             ?>                   
             <?php echo CHtml::image(Yii::app()->request->baseUrl."/images/icons/silk/decline.png", "Borrar Colaborador seleccionado", 
@@ -54,11 +74,19 @@
     </div>  
     <div class="row">        
             <?php  echo CHtml::label('Cédula', 'cedula'); ?>            
-            <?php echo CHtml::label('-', 'cedula',array('id'=>'cedulaevaluador','name'=>'cedula')); ?>
+            <?php if(!$indicadoreditar)  
+                    echo CHtml::label('-', 'cedula',array('id'=>'cedulaevaluador','name'=>'cedula')); 
+                  else
+                    echo CHtml::label($procesoec->_evaluador->cedula, 'cedula',array('id'=>'cedulaevaluador','name'=>'cedula'));
+            ?>
         
     </div>
     <div class="row">                  
-            <?php echo CHtml::hiddenField('idevaluador', '-',array('id'=>'idevaluador','name'=>'id')); ?>        
+            <?php if(!$indicadoreditar) 
+                    echo CHtml::hiddenField('idevaluador', '-',array('id'=>'idevaluador','name'=>'id')); 
+                  else 
+                    echo CHtml::hiddenField('idevaluador', $procesoec->evaluador,array('id'=>'idevaluador','name'=>'id')); 
+            ?>        
     </div>   
     </fieldset>
  

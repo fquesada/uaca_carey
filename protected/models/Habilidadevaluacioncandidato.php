@@ -47,7 +47,7 @@ class Habilidadevaluacioncandidato extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('competencia, evaluacioncandidato, metodo, calificacion, ponderacion, tipocompetencia, variablemetodo, calificacionvariablemetodo', 'required'),
+			array('competencia, evaluacioncandidato, calificacion, ponderacion, tipocompetencia', 'required'),
 			array('competencia, evaluacioncandidato, calificacion, tipocompetencia', 'numerical', 'integerOnly'=>true),
 			array('metodo, variablemetodo, calificacionvariablemetodo', 'length', 'max'=>250),
 			// The following rule is used by search().

@@ -1,4 +1,51 @@
 $(document).ready(function() {
+    
+    //Guardar proceso de editar EC
+    $("#btnguardarprocesoEC").click(function(event){
+        event.preventDefault();
+        var idprocesoec = $('#idprocesoec').val();
+        
+        if(!validar($('#ddlperiodo'))){     
+            mostrarerror($('#ddlperiodo'));}
+       else if (!validar($('#txtdescripcion'))){
+            mostrarerror($('#txtdescripcion'));}
+       else if (!validar($('#busquedaevaluador'))){
+           mostrarerror($('#busquedaevaluador'));}
+       else if (cantidadcolaboradorestabla()== 0){
+           mostrarerror($('#tblcolaboradores'));
+       }
+       else{
+           $.ajax({
+                    type: "POST",
+                    url: "../editarprocesoec/"+idprocesoec,
+                    data: obtenerdatoscrearproceso(),
+                    dataType: 'json',
+                    error: function (jqXHR, textStatus){
+                        if (jqXHR.status === 0) {                            
+                            messageerror("Problema de red, contacte al administrador de sistemas.");
+                        } else if (jqXHR.status == 404) {
+                            messagewarning("Solicitud no encontrada.");
+                        } else if (jqXHR.status == 500) {
+                            messageerror("Error 500. Ha ocurrido un problema con el servidor, contacte al administrador de sistemas.");
+                        } else if (textStatus === 'parsererror') {
+                            messagewarning("Ha ocurrido un inconveniente, intente nuevamente.");
+                        } else if (textStatus === 'timeout') {
+                            messageerror("Tiempo de espera excedido, intente nuevamente.");
+                        } else if (textStatus === 'abort') {
+                            messageerror("Se ha abortado la solicitud, intente nuevamente");
+                        } else {
+                            messageerror("Error desconocido, contacte al administrador de sistemas.");                            
+                        }
+                    },
+                    success: function(datos){
+                        if(datos.resultado)
+                            messagesuccess(datos.mensaje, datos.url);              
+                        else
+                            messageerror(datos.mensaje);
+                    }
+        });
+       }
+    });
    
    //Crear Proceso de Evaluacion Competencias
    $("#btncrearprocesoEC").click(function(event){
@@ -294,13 +341,17 @@ $(document).ready(function() {
        var idcolaborador = $('#idcolaborador').val(); 
        var cedula = $('#cedulacolaborador').text(); 
        var colaborador =  $('#busquedacolaborador').val(); 
+       if ($('#indicadoreditar').val() == "true")
+           var urlimagenborrarcolaborador = "../../../images/icons/silk/delete.png";
+       else
+           var urlimagenborrarcolaborador = "../../images/icons/silk/delete.png";
        
        if(idevaluador == idcolaborador){
            messageerror('El colaborador no puede ser el mismo que el evaluador');
            restablecerbuscarcolaborador();
        }
        else if(cantidadcolaboradorestabla()==0){
-           $('#tblcolaboradores > tbody').append('<tr><td name="idcolaborador" style="display: none">'+idcolaborador+'</td><td name="cedula">'+cedula+'</td><td name="colaborador">'+colaborador+'</td><td name="colaborador">Falta puesto</td><td><img id="borrarcolaborador" style="cursor: pointer;" src="../../images/icons/silk/delete.png" alt="Eliminar colaborador"/></td></tr>');     
+           $('#tblcolaboradores > tbody').append('<tr><td name="idcolaborador" style="display: none">'+idcolaborador+'</td><td name="cedula">'+cedula+'</td><td name="colaborador">'+colaborador+'</td><td name="puesto">Falta puesto</td><td><img id="borrarcolaborador" style="cursor: pointer; padding-left:5px;" src="'+urlimagenborrarcolaborador+'" alt="Eliminar colaborador"/></td></tr>');     
            restablecerbuscarcolaborador();
            ocultarerror($('#tblcolaboradores'));
        }
@@ -309,7 +360,7 @@ $(document).ready(function() {
            restablecerbuscarcolaborador();
        }
        else{
-          $('#tblcolaboradores > tbody').append('<tr><td name="idcolaborador" style="display: none">'+idcolaborador+'</td><td name="cedula">'+cedula+'</td><td name="colaborador">'+colaborador+'</td><td name="colaborador">Falta puesto</td><td><img id="borrarcolaborador" style="cursor: pointer;" src="../../images/icons/silk/delete.png" alt="Eliminar colaborador"/></td></tr>');      
+          $('#tblcolaboradores > tbody').append('<tr><td name="idcolaborador" style="display: none">'+idcolaborador+'</td><td name="cedula">'+cedula+'</td><td name="colaborador">'+colaborador+'</td><td name="puesto">Falta puesto</td><td><img id="borrarcolaborador" style="cursor: pointer; padding-left:5px;" src="'+urlimagenborrarcolaborador+'" alt="Eliminar colaborador"/></td></tr>');      
           restablecerbuscarcolaborador();
           ocultarerror($('#tblcolaboradores'));
        }
@@ -389,6 +440,4 @@ $(document).ready(function() {
 //                                           ),
 //    }
  }
- 
-
 });
