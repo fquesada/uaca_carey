@@ -330,30 +330,49 @@ class ProcesoevaluacionController extends Controller
             ));
         }
         
-        public function actionGuardarProcesoEC(){
-            
-            if(Yii::app()->request->isAjaxRequest){                                                                
-                
+        public function actionGuardarProcesoEC() {
+
+            if (Yii::app()->request->isAjaxRequest) {
+
                 $idec = CommonFunctions::stringtonumber($_POST['idec']);
                 $ec = Evaluacioncompetencias::model()->findByPk($idec);
-                
+
+                $assessmentcenter = ($_POST['ac']);
+
                 $meritos = ($_POST['meritos']);
                 $habilidades = ($_POST['habilidades']);
-                $habilidadesnoequivalentes = ($_POST['habilidadesnoequivalentes']);
+
+                //Determinar si hay necesidad de guardar habilidadesnoequivalentes
+                if (isset($_POST['habilidadesnoequivalentes'])){
+                    $habilidadesnoequivalentes = ($_POST['habilidadesnoequivalentes']);
+                    $indicadorhabilidadesnoequivalentes = true;
+                }
+                else{
+                    $indicadorhabilidadesnoequivalentes = false;
+                }
                 
-                $promedioponderado = $ec->promedioponderado($meritos, $habilidades);
-                
+                if ($assessmentcenter['indicadorac'] == "true") {
+                    $calificacionac = CommonFunctions::stringtonumber($assessmentcenter['calificacionac']);
+                    $promedioponderado = $ec->promedioponderadoacec($meritos, $habilidades, $calificacionac);
+                    $ec->accalificacion = $calificacionac;
+                    $ec->acdetalle = $assessmentcenter['detalleac'];
+                    $ec->acindicador = 1; //CLEAN CODE - PONER EN VARIABLES GLOBALES
+                }
+                else
+                    $promedioponderado = $ec->promedioponderadoec($meritos, $habilidades);
+
                 $ec->fechaevaluacion = CommonFunctions::datenow();
-                $ec->estado = 2;//CLEAN CODE - PONER EN VARIABLES GLOBALES
+                $ec->estado = 2; //CLEAN CODE - PONER EN VARIABLES GLOBALES
                 $ec->promedioponderado = $promedioponderado;
-                
+
                 //FALTA EDITAR ESTADO DEL LINK PARA QUE QUEDE DESACTIVO
                 //FALTA VALIDAR SI SE DEBE PASAR EL PROCESO A TERMINADO, SI SOLO SI ES LA ULTIMA EVALUACION ACTIVA DEL PROCESO
-                
+
                 $transaction = Yii::app()->db->beginTransaction();
-                
+
                 $resultadoguardarbd = $ec->save();
-                if($resultadoguardarbd){
+                if ($resultadoguardarbd) {
+                    
                     foreach ($meritos as $merito) {
                         $meritoevaluacioncandidato = new Meritoevaluacioncandidato();
                         $meritoevaluacioncandidato->evaluacioncandidato = $ec->id;
@@ -361,70 +380,70 @@ class ProcesoevaluacionController extends Controller
                         $meritoevaluacioncandidato->calificacion = CommonFunctions::stringtonumber($merito["calificacionmerito"]);
                         $meritoevaluacioncandidato->ponderacion = CommonFunctions::stringtonumber($merito["ponderacion"]);
                         $resultadoguardarbd = $meritoevaluacioncandidato->save();
-                        if(!$resultadoguardarbd){                    
-                                    $transaction->rollback();
-                                    $response = array('resultado' => false,'mensaje' => "Ha ocurrido un inconveniente al intentar guardar la Evaluacion Competencias Id: ".$ec->id);              
-                                    echo CJSON::encode($response); 
-                                    Yii::app()->end();
+                        if (!$resultadoguardarbd) {
+                            $transaction->rollback();
+                            $response = array('resultado' => false, 'mensaje' => "Ha ocurrido un inconveniente al intentar guardar la Evaluacion Competencias Id: " . $ec->id);
+                            echo CJSON::encode($response);
+                            Yii::app()->end();
                         }
                     }
+                    
                     foreach ($habilidades as $habilidad) {
-                        $habilidadevaluacioncandidato= new Habilidadevaluacioncandidato();
+                        $habilidadevaluacioncandidato = new Habilidadevaluacioncandidato();
                         $habilidadevaluacioncandidato->evaluacioncandidato = $ec->id;
-                        if($habilidad["tipohabilidad"]=="core") //CLEAN CODE COLOCAR EN VARIABLES GLOBALES
-                        {
+                        if ($habilidad["tipohabilidad"] == "core") { //CLEAN CODE COLOCAR EN VARIABLES GLOBALES
                             $habilidadevaluacioncandidato->competencia = CommonFunctions::stringtonumber($habilidad["idhabilidad"]);
-                            $habilidadevaluacioncandidato->tipocompetencia = 1;//CLEAN CODE COLOCAR EN VARIABLES GLOBALES
-                        }else{
+                            $habilidadevaluacioncandidato->tipocompetencia = 1; //CLEAN CODE COLOCAR EN VARIABLES GLOBALES
+                        } else {
                             $habilidadevaluacioncandidato->competencia = CommonFunctions::stringtonumber($habilidad["idhabilidad"]);
-                            $habilidadevaluacioncandidato->tipocompetencia = 2;//CLEAN CODE COLOCAR EN VARIABLES GLOBALES
-                        }                                                
+                            $habilidadevaluacioncandidato->tipocompetencia = 2; //CLEAN CODE COLOCAR EN VARIABLES GLOBALES
+                        }
                         $habilidadevaluacioncandidato->calificacion = CommonFunctions::stringtonumber($habilidad["calificacionhabilidad"]);
                         $habilidadevaluacioncandidato->ponderacion = CommonFunctions::stringtonumber($habilidad["ponderacion"]);
                         $habilidadevaluacioncandidato->metodo = $habilidad["metodoseleccionado"];
                         $habilidadevaluacioncandidato->variablemetodo = $habilidad["variableequivalente"];
-                        $habilidadevaluacioncandidato->calificacionvariablemetodo = $habilidad["calificacionequivalente"];   
+                        $habilidadevaluacioncandidato->calificacionvariablemetodo = $habilidad["calificacionequivalente"];
                         $resultadoguardarbd = $habilidadevaluacioncandidato->save();
-                        if(!$resultadoguardarbd){                    
-                                    $transaction->rollback();
-                                    $response = array('resultado' => false,'mensaje' => "Ha ocurrido un inconveniente al intentar guardar la Evaluacion Competencias Id: ".$ec->id);              
-                                    echo CJSON::encode($response); 
-                                    Yii::app()->end();
+                        if (!$resultadoguardarbd) {
+                            $transaction->rollback();
+                            $response = array('resultado' => false, 'mensaje' => "Ha ocurrido un inconveniente al intentar guardar la Evaluacion Competencias Id: " . $ec->id);
+                            echo CJSON::encode($response);
+                            Yii::app()->end();
                         }
                     }
-                    
-                    foreach ($habilidadesnoequivalentes as $habilidadnoequivalente) {
-                        $hnoequivalente= new Habilidadnoequivalente();
-                        $hnoequivalente->evaluacioncandidato = $ec->id;
-                        $hnoequivalente->competencia = CommonFunctions::stringtonumber($habilidadnoequivalente["competencia"]);                                                                
-                        $hnoequivalente->calificacion = CommonFunctions::stringtonumber($habilidadnoequivalente["calificacionvariablenoquivalente"]);                       
-                        $hnoequivalente->metodo = $habilidadnoequivalente["metodovariablenoquivalente"];
-                        $hnoequivalente->variablemetodo = $habilidadnoequivalente["variablenoquivalente"];                          
-                        $hnoequivalente->puestopotencial1 = CommonFunctions::stringtonumber($habilidadnoequivalente["puesto1"]);
-                        $hnoequivalente->puestopotencial2 = CommonFunctions::stringtonumber($habilidadnoequivalente["puesto2"]);
-                        $resultadoguardarbd = $hnoequivalente->save();
-                        if(!$resultadoguardarbd){                    
-                                    $transaction->rollback();
-                                    $response = array('resultado' => false,'mensaje' => "Ha ocurrido un inconveniente al intentar guardar la Evaluacion Competencias Id: ".$ec->id);              
-                                    echo CJSON::encode($response); 
-                                    Yii::app()->end();
+
+                    if ($indicadorhabilidadesnoequivalentes) {
+                        foreach ($habilidadesnoequivalentes as $habilidadnoequivalente) {
+                            $hnoequivalente = new Habilidadnoequivalente();
+                            $hnoequivalente->evaluacioncandidato = $ec->id;
+                            $hnoequivalente->competencia = CommonFunctions::stringtonumber($habilidadnoequivalente["competencia"]);
+                            $hnoequivalente->calificacion = CommonFunctions::stringtonumber($habilidadnoequivalente["calificacionvariablenoquivalente"]);
+                            $hnoequivalente->metodo = $habilidadnoequivalente["metodovariablenoquivalente"];
+                            $hnoequivalente->variablemetodo = $habilidadnoequivalente["variablenoquivalente"];
+                            $hnoequivalente->puestopotencial1 = CommonFunctions::stringtonumber($habilidadnoequivalente["puesto1"]);
+                            $hnoequivalente->puestopotencial2 = CommonFunctions::stringtonumber($habilidadnoequivalente["puesto2"]);
+                            $resultadoguardarbd = $hnoequivalente->save();
+                            if (!$resultadoguardarbd) {
+                                $transaction->rollback();
+                                $response = array('resultado' => false, 'mensaje' => "Ha ocurrido un inconveniente al intentar guardar la Evaluacion Competencias Id: " . $ec->id);
+                                echo CJSON::encode($response);
+                                Yii::app()->end();
+                            }
                         }
-                    }     
-                    
-                   $transaction->commit();
-                   $response = array('resultado' => true,'mensaje' => "Se guardó con éxito la evaluacion", 'url' => Yii::app()->getBaseUrl(true).'/index.php/procesoevaluacion/adminprocesoec/'.$ec->procesoevaluacion);                  
-                   echo CJSON::encode($response);   
-                   Yii::app()->end();
-                    
-                }                
-                else{
-                        $transaction->rollback();
-                        $response = array('resultado' => false,'mensaje' => "Ha ocurrido un inconveniente al intentar guardar la Evaluacion Competencias Id: ".$ec->id);              
-                        echo CJSON::encode($response);                        
-                        Yii::app()->end();
+                    }
+
+                    $transaction->commit();
+                    $response = array('resultado' => true, 'mensaje' => "Se guardó con éxito la evaluacion", 'url' => Yii::app()->getBaseUrl(true) . '/index.php/procesoevaluacion/adminprocesoec/' . $ec->procesoevaluacion);
+                    echo CJSON::encode($response);
+                    Yii::app()->end();
+                } else {
+                    $transaction->rollback();
+                    $response = array('resultado' => false, 'mensaje' => "Ha ocurrido un inconveniente al intentar guardar la Evaluacion Competencias Id: " . $ec->id);
+                    echo CJSON::encode($response);
+                    Yii::app()->end();
                 }
             }
-        }
+    }
         
         public function actionHabilidadesEspeciales(){
             

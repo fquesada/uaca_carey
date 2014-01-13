@@ -269,7 +269,7 @@ class Evaluacioncompetencias extends CActiveRecord {
             return $dataspider;
     }
     
-    public function promedioponderado($meritos, $habilidades){        
+    public function promedioponderadoec($meritos, $habilidades){        
         
         $dividendo = 0;
         $divisor = 0;
@@ -291,6 +291,11 @@ class Evaluacioncompetencias extends CActiveRecord {
         
         return $promedioponderado;        
     }    
+    
+    public function promedioponderadoacec($meritos, $habilidades, $calificacionac){
+        $promedioponderado = ($calificacionac * 0.60) + ($this->promedioponderadoec($meritos, $habilidades) * 0.40);//CLEAN CODE poner en Variables Globales o BD
+        return $promedioponderado;  
+    }
      
     function validarmeritos($meritos){
         //FALTA
