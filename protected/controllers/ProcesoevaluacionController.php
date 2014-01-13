@@ -673,11 +673,9 @@ class ProcesoevaluacionController extends Controller
 
                $objPHPExcel->getActiveSheet()->setCellValue('E4', $ec->_colaborador->nombrecompleto); 
                $objPHPExcel->getActiveSheet()->setCellValue('E5', $ec->_puesto->nombre);
-               $objPHPExcel->getActiveSheet()->setCellValue('E6', '');
                $objPHPExcel->getActiveSheet()->setCellValue('J4', $ec->_colaborador->cedula);
-               $objPHPExcel->getActiveSheet()->setCellValue('J5', '');
-               $objPHPExcel->getActiveSheet()->setCellValue('J6', $ec->_procesoevaluacion->_evaluador->nombrecompleto);
-               $objPHPExcel->getActiveSheet()->setCellValue('J7', $ec->_procesoevaluacion->fecha);
+               $objPHPExcel->getActiveSheet()->setCellValue('J5', $ec->_procesoevaluacion->_evaluador->nombrecompleto);
+               $objPHPExcel->getActiveSheet()->setCellValue('J6', $ec->_procesoevaluacion->fecha);
                
                 $i = '34';  
                 
@@ -739,5 +737,6 @@ class ProcesoevaluacionController extends Controller
                 $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
                 $objWriter->setIncludeCharts(TRUE);                        
                 $objWriter->save('php://output');
+                
         }
 }

@@ -135,6 +135,14 @@ class Procesoevaluacion  extends CActiveRecord
           $fechaconformato = date('d/m/Y', $fechasinformato);          
           return $fechaconformato;
        }
+     
+       public function getTipoEvaluado() {
+        $estado = 'Interno';
+        if ($this->tipo == 0)
+            $estado = 'Externo';
+
+        return $estado;
+    }
 
            
 }
