@@ -353,17 +353,24 @@ class ProcesoevaluacionController extends Controller
                 
                 if ($assessmentcenter['indicadorac'] == "true") {
                     $calificacionac = CommonFunctions::stringtonumber($assessmentcenter['calificacionac']);
-                    $promedioponderado = $ec->promedioponderadoacec($meritos, $habilidades, $calificacionac);
+                    $promediohabilidadmerito = $ec->promedioec($meritos, $habilidades);
+                    $promedioac = $ec->promedioac($calificacionac);
+                    $promedioponderado = $ec->promedioponderadoacec($promediohabilidadmerito, $promedioac);
                     $ec->accalificacion = $calificacionac;
+                    $ec->promedioac = $promedioac;
                     $ec->acdetalle = $assessmentcenter['detalleac'];
                     $ec->acindicador = 1; //CLEAN CODE - PONER EN VARIABLES GLOBALES
+                    $ec->promedioec = $promediohabilidadmerito;
                 }
-                else
+                else{
                     $promedioponderado = $ec->promedioponderadoec($meritos, $habilidades);
+                    $ec->promedioec = $promedioponderado;
+                    }
 
                 $ec->fechaevaluacion = CommonFunctions::datenow();
                 $ec->estado = 2; //CLEAN CODE - PONER EN VARIABLES GLOBALES
                 $ec->promedioponderado = $promedioponderado;
+                
 
                 //FALTA EDITAR ESTADO DEL LINK PARA QUE QUEDE DESACTIVO
                 //FALTA VALIDAR SI SE DEBE PASAR EL PROCESO A TERMINADO, SI SOLO SI ES LA ULTIMA EVALUACION ACTIVA DEL PROCESO

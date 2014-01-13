@@ -8,6 +8,8 @@
  * @property integer $procesoevaluacion
  * @property string $fechaevaluacion
  * @property double $promedioponderado
+ * @property double $promedioec
+ * @property double $promedioac
  * @property integer $accalificacion
  * @property string $acdetalle
  * @property integer $acindicador
@@ -56,10 +58,10 @@ class Evaluacioncompetencias extends CActiveRecord {
 			array('procesoevaluacion, puesto, colaborador', 'required'),
 			array('procesoevaluacion, links, puesto, colaborador, estado, accalificacion, acindicador', 'numerical', 'integerOnly'=>true),
                         array('acdetalle', 'length', 'max'=>200),
-			array('promedioponderado', 'numerical'),
+			array('promedioponderado, promedioec, promedioac', 'numerical'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, procesoevaluacion, fechaevaluacion, promedioponderado, links, puesto, colaborador, estado, accalificacion, acdetalle, acindicador', 'safe', 'on'=>'search'),
+			array('id, procesoevaluacion, fechaevaluacion, promedioponderado, promedioec, promedioac, links, puesto, colaborador, estado, accalificacion, acdetalle, acindicador', 'safe', 'on'=>'search'),
                 );
         }
 	/**
@@ -91,6 +93,8 @@ class Evaluacioncompetencias extends CActiveRecord {
 			'procesoevaluacion' => 'Proceso Evaluacion',
 			'fechaevaluacion' => 'Fechaevaluacion',	
 			'promedioponderado' => 'Promedioponderado',
+                        'promedioec' => 'Promedio EC',
+                        'promedioac'=> 'Promedio AC',
 			'links' => 'Links',
 			'puesto' => 'Puesto',
                         'colaborador' => 'Colaborador',
@@ -115,6 +119,8 @@ class Evaluacioncompetencias extends CActiveRecord {
 		$criteria->compare('procesoevaluacion',$this->procesoevaluacion);
 		$criteria->compare('fechaevaluacion',$this->fechaevaluacion,true);
 		$criteria->compare('promedioponderado',$this->promedioponderado);
+                $criteria->compare('promedioec',$this->promedioec);
+                $criteria->compare('promedioac',$this->promedioac);
 		$criteria->compare('links',$this->links);
 		$criteria->compare('puesto',$this->puesto);
                 $criteria->compare('colaborador',$this->colaborador);
@@ -292,8 +298,16 @@ class Evaluacioncompetencias extends CActiveRecord {
         return $promedioponderado;        
     }    
     
-    public function promedioponderadoacec($meritos, $habilidades, $calificacionac){
-        $promedioponderado = ($calificacionac * 0.60) + ($this->promedioponderadoec($meritos, $habilidades) * 0.40);//CLEAN CODE poner en Variables Globales o BD
+    public function promedioec($meritos, $habilidades){
+        return ($this->promedioponderadoec($meritos, $habilidades) * 0.40);//CLEAN CODE poner en Variables Globales o BD        
+    }
+    
+    public function promedioac($calificacionac){
+        return ($calificacionac * 0.60);//CLEAN CODE poner en Variables Globales o BD
+    }
+    
+    public function promedioponderadoacec($promediohabilidadmerito, $promedioac){
+        $promedioponderado = $promediohabilidadmerito + $promedioac;
         return $promedioponderado;  
     }
      
