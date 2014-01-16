@@ -244,7 +244,7 @@ $(document).ready(function() {
     $("#formagregarpersona").submit(function(event){
        event.preventDefault();   
        
-       //if(validar($('#cedula')) && validar($('#colaborador')) && validar($('#tipo'))&& validar($('#id')))
+       //if(validar($('#puesto')) && validar($('#colaborador')) && validar($('#tipo'))&& validar($('#id')))
        if(validar('#colaborador') && validar('#colaborador') && validar('#tipo')&& validar('#id'))
        {
             $.ajax({
@@ -281,7 +281,7 @@ $(document).ready(function() {
                         }
                 });
 
-                $('#cedula').text('-');                             
+                $('#puesto').text('-');                             
                 $('#colaborador').val('');                                              
                 $('#id').val('');                              
                 $('#tipo').val('');                             
@@ -296,7 +296,7 @@ $(document).ready(function() {
         
    //Funcionalidad sobre la imagen de borrar en busqueda de evaluador en el proceso de EC
    $("#imgborrarevaluador").on("click",function(){               
-        $('#cedulaevaluador').text('-');                             
+        $('#puestoevaluador').text('-');                             
         $('#busquedaevaluador').val('');                                              
         $('#idevaluador').val('');                    
         $('#busquedaevaluador').removeAttr("disabled");
@@ -311,7 +311,7 @@ $(document).ready(function() {
    });
 
    function restablecerbuscarcolaborador(){
-        $('#cedulacolaborador').text('-');                             
+        $('#puestocolaborador').text('-');                             
         $('#busquedacolaborador').val('');                                              
         $('#idcolaborador').val('');                   
         $('#busquedacolaborador').removeAttr("disabled");
@@ -338,8 +338,9 @@ $(document).ready(function() {
    $("#btnagregarcolaborador").click(function(){         
        
        var idevaluador = $('#idevaluador').val();  
+       var cedula = $('#cedulacolaborador').val();
        var idcolaborador = $('#idcolaborador').val(); 
-       var cedula = $('#cedulacolaborador').text(); 
+       var puesto = $('#puestocolaborador').text(); 
        var colaborador =  $('#busquedacolaborador').val(); 
        if ($('#indicadoreditar').val() == "true")
            var urlimagenborrarcolaborador = "../../../images/icons/silk/delete.png";
@@ -351,7 +352,7 @@ $(document).ready(function() {
            restablecerbuscarcolaborador();
        }
        else if(cantidadcolaboradorestabla()==0){
-           $('#tblcolaboradores > tbody').append('<tr><td name="idcolaborador" style="display: none">'+idcolaborador+'</td><td name="cedula">'+cedula+'</td><td name="colaborador">'+colaborador+'</td><td name="puesto">Falta puesto</td><td><img id="borrarcolaborador" style="cursor: pointer; padding-left:5px;" src="'+urlimagenborrarcolaborador+'" alt="Eliminar colaborador"/></td></tr>');     
+           $('#tblcolaboradores > tbody').append('<tr><td name="idcolaborador" style="display: none">'+idcolaborador+'</td><td name="puesto">'+cedula+'</td><td name="colaborador">'+colaborador+'</td><td name="puesto">'+puesto+'</td><td><img id="borrarcolaborador" style="cursor: pointer; padding-left:5px;" src="'+urlimagenborrarcolaborador+'" alt="Eliminar colaborador"/></td></tr>');     
            restablecerbuscarcolaborador();
            ocultarerror($('#tblcolaboradores'));
        }
@@ -360,7 +361,7 @@ $(document).ready(function() {
            restablecerbuscarcolaborador();
        }
        else{
-          $('#tblcolaboradores > tbody').append('<tr><td name="idcolaborador" style="display: none">'+idcolaborador+'</td><td name="cedula">'+cedula+'</td><td name="colaborador">'+colaborador+'</td><td name="puesto">Falta puesto</td><td><img id="borrarcolaborador" style="cursor: pointer; padding-left:5px;" src="'+urlimagenborrarcolaborador+'" alt="Eliminar colaborador"/></td></tr>');      
+          $('#tblcolaboradores > tbody').append('<tr><td name="idcolaborador" style="display: none">'+idcolaborador+'</td><td name="puesto">'+cedula+'</td><td name="colaborador">'+colaborador+'</td><td name="puesto">'+puesto+'</td><td><img id="borrarcolaborador" style="cursor: pointer; padding-left:5px;" src="'+urlimagenborrarcolaborador+'" alt="Eliminar colaborador"/></td></tr>'); 
           restablecerbuscarcolaborador();
           ocultarerror($('#tblcolaboradores'));
        }

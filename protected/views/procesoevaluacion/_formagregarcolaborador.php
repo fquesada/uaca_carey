@@ -59,8 +59,9 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array(
                 if(ui.item['value']!='')
                 {
                     $('#busquedacolaborador').attr('disabled', 'true');	                    
-                    $('#cedulacolaborador').text(ui.item['cedula']);                                                              
+                    $('#puestocolaborador').text(ui.item['puesto']);                                                              
                     $('#idcolaborador').val(ui.item['id']);
+                    $('#cedulacolaborador').val(ui.item['cedula']);
                     $('#btnagregarcolaborador').removeAttr('disabled'); 
                     $('#imgborrarcolaborador').show();
                  }                    
@@ -74,12 +75,13 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array(
             <div id="ddlpuestoerror" class="errorevaluacionpersona">Debe seleccionar un puesto</div>
     </div>  
     <div class="row">        
-            <?php  echo CHtml::label('Cédula', 'cedulacolaborador'); ?>            
-            <?php echo CHtml::label('-', 'cedula',array('id'=>'cedulacolaborador','name'=>'cedula')); ?>
+            <?php  echo CHtml::label('Puesto', 'puestocolaborador'); ?>            
+            <?php echo CHtml::label('-', 'puesto',array('id'=>'puestocolaborador','name'=>'puesto')); ?>
         
     </div>
     <div class="row">                  
-            <?php echo CHtml::hiddenField('id', '-',array('id'=>'idcolaborador','name'=>'idcolaborador')); ?>        
+            <?php echo CHtml::hiddenField('id', '-',array('id'=>'idcolaborador','name'=>'idcolaborador')); ?>    
+            <?php echo CHtml::hiddenField('cedula', '-',array('id'=>'cedulacolaborador','name'=>'cedulacolaborador')); ?>
     </div>
     </fieldset>       
     <div class="row buttons">                    
@@ -113,8 +115,8 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array(
               echo '<td name="idcolaborador" style="display: none">';
               echo $ec->colaborador;
               echo '</td>';
-              echo '<td name="cedula">';
-              echo $ec->_colaborador->cedula;
+              echo '<td name="puesto">';
+              echo $ec->_colaborador->puesto;
               echo '</td>';
               echo '<td name="colaborador">';
               echo $ec->_colaborador->nombrecompleto;

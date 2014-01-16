@@ -134,18 +134,19 @@ class ProcesoevaluacionController extends Controller
                 $keyword=$_GET['term'];
                 // escape % and _ characters
                 $keyword=strtr($keyword, array('%'=>'\%', '_'=>'\_'));
-                               
-                $dataReader = Yii::app()->db->createCommand(
-                        'SELECT c.cedula,c.nombre,c.apellido1,c.apellido2, c.id '.
-                        'FROM colaborador c '.                        
-                        'WHERE CONCAT_WS(" ", c.nombre, c.apellido1, c.apellido2 ) like "%'.$keyword.'%" AND c.estado = 1;'
-                        )->query(); 
                 
-                $dataReaderPos = Yii::app()->db->createCommand(
-                        'SELECT c.cedula,c.nombre,c.apellido1,c.apellido2, c.id '.
-                        'FROM postulante c '.                        
+                //CLEAN CODE, DEBERIA ESTAR EN MODELS
+                $dataReader = Yii::app()->db->createCommand(
+                        'SELECT c.cedula,c.nombre,c.apellido1,c.apellido2, c.id, p.nombre as "puesto" '.
+                        'FROM colaborador c INNER JOIN historicopuesto hp on c.id = hp.colaborador and hp.puestoactual = 1 INNER JOIN puesto p  ON hp.puesto = p.id '.                        
                         'WHERE CONCAT_WS(" ", c.nombre, c.apellido1, c.apellido2 ) like "%'.$keyword.'%" AND c.estado = 1;'
-                        )->query(); 
+                        )->query();   
+                
+//                $dataReaderPos = Yii::app()->db->createCommand(
+//                        'SELECT c.cedula,c.nombre,c.apellido1,c.apellido2, c.id '.
+//                        'FROM postulante c '.                        
+//                        'WHERE CONCAT_WS(" ", c.nombre, c.apellido1, c.apellido2 ) like "%'.$keyword.'%" AND c.estado = 1;'
+//                        )->query(); 
                                 
 
                 $return_array = array();
@@ -158,25 +159,27 @@ class ProcesoevaluacionController extends Controller
                 }
                 else{ 
                     foreach($dataReader as $row){ 
+                        
                         $nombrecompleto = $row['nombre'].' '.$row['apellido1'].' '.$row['apellido2'];
                         $return_array[] = array(
-                        'label'=>'<div style="font-size:x-small">Cédula: '.$row['cedula'].'</div>'.'<div>'.$nombrecompleto.'</div>',
+                        'label'=>'<div style="font-size:x-small">Puesto: '.$row['puesto'].'</div>'.'<div>'.$nombrecompleto.'</div>',
                         'value'=>$nombrecompleto, 
                         'id'=>$row['id'],
-                         'cedula'=>$row['cedula'],                        
+                         'cedula'=>$row['cedula'],   
+                         'puesto'=>$row['puesto'],
                             'tipo'=>1,                        
                         );
                     }
-                    foreach($dataReaderPos as $row){ 
-                        $nombrecompleto = $row['nombre'].' '.$row['apellido1'].' '.$row['apellido2'];
-                        $return_array[] = array(
-                        'label'=>'<div style="font-size:x-small">Cédula: '.$row['cedula'].'</div>'.'<div>'.$nombrecompleto.'</div>',
-                        'value'=>$nombrecompleto, 
-                        'id'=>$row['id'],
-                         'cedula'=>$row['cedula'],                        
-                            'tipo'=>0,                        
-                        );
-                    }
+//                    foreach($dataReaderPos as $row){ 
+//                        $nombrecompleto = $row['nombre'].' '.$row['apellido1'].' '.$row['apellido2'];
+//                        $return_array[] = array(
+//                        'label'=>'<div style="font-size:x-small">Cédula: '.$row['cedula'].'</div>'.'<div>'.$nombrecompleto.'</div>',
+//                        'value'=>$nombrecompleto, 
+//                        'id'=>$row['id'],
+//                         'cedula'=>$row['cedula'],                        
+//                            'tipo'=>0,                        
+//                        );
+//                    }
                 }
                 echo CJSON::encode($return_array);
             }

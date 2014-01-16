@@ -17,7 +17,9 @@
         <thead>
         <tbody>
             <th><?php echo CHtml::textarea('detalleassessmentcenter', '', array('id' => 'taassessmentcenter', 'class' => 'taassessmentcenter')); ?></th>
-            <th> <?php echo CHtml::dropDownList('puntajeac', 'puntajeac', CHtml::listData(Puntaje::model()->findAll('estado=1'), 'valor', 'valor'), array('empty' => 'Seleccione calificacion', 'id' => 'ddlpuntajeassessmentcenter')); ?></th>          
+            <th> <?php echo CHtml::dropDownList('puntajeac', 'puntajeac', CHtml::listData(Puntaje::model()->findAll('estado=1'), 'valor', 'valor'), array('empty' => 'Seleccione calificacion', 'id' => 'ddlpuntajeassessmentcenter')); ?>
+            <p id="ddlpuntajeassessmentcentererror" class="mensajeerror">Debe seleccionar una calificacion</p>
+            </th>          
         </tbody>
     </table>
 </div>
