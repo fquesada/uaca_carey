@@ -4,6 +4,7 @@
 
 <div id="divhabilidadnoequivalente" class="divhabilidadnoequivalente">
     <p class="ptitulohabilidadnoequivalente">Habilidades no Equivalentes al Puesto</p>
+    <p id="habilidadnoequivalenteerror" class="mensajeerror">Si ingresa una fila, por favor completarla con la informacion solicitada.</p>
     <table id="tblhabilidadnoequivalente" class="tblhabilidadnoequivalente">
         <thead>
             <tr>

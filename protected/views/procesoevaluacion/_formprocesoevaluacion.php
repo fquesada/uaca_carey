@@ -47,7 +47,7 @@
                     if(ui.item['value']!='')
                     {
                         $('#busquedaevaluador').attr('disabled', 'true');	                    
-                        $('#cedulaevaluador').text(ui.item['cedula']);                                                              
+                        $('#puestoevaluador').text(ui.item['puesto']);                                                              
                         $('#idevaluador').val(ui.item['id']); 
                         $('#imgborrarevaluador').show();
                         $('#btnbusquedacolaboradores').removeAttr('disabled'); 
@@ -73,11 +73,11 @@
             <div id="busquedaevaluadorerror" class="errorevaluacionpersona">Debe seleccionar un evaluador</div>
     </div>  
     <div class="row">        
-            <?php  echo CHtml::label('Cédula', 'cedula'); ?>            
+            <?php  echo CHtml::label('Puesto', 'puesto'); ?>            
             <?php if(!$indicadoreditar)  
-                    echo CHtml::label('-', 'cedula',array('id'=>'cedulaevaluador','name'=>'cedula')); 
+                    echo CHtml::label('-', 'puesto',array('id'=>'puestoevaluador','name'=>'puesto')); 
                   else
-                    echo CHtml::label($procesoec->_evaluador->cedula, 'cedula',array('id'=>'cedulaevaluador','name'=>'cedula'));
+                    //echo CHtml::label($procesoec->_evaluador->puesto, 'puesto',array('id'=>'puestoevaluador','name'=>'puesto'));
             ?>
         
     </div>

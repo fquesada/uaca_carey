@@ -61,6 +61,7 @@
                     echo '</td>';
                     echo '<td>';
                     echo CHtml::dropDownList('puntaje', '', CHtml::listData(Puntaje::model()->findAll('estado=1'), 'valor', 'valor'), array('empty' => 'Seleccione calificacion', 'id' => 'ddlpuntajehabilidades'));
+                    echo '<p id="ddlpuntajehabilidadeserror"  class="mensajeerror">Debe seleccionar una calificacion</p>';
                     echo '</td>';
                     echo '<td id="ponderacion">';
                     echo $competenciacore->ponderacion;
@@ -92,6 +93,7 @@
                     echo '</td>';
                     echo '<td>';
                     echo CHtml::dropDownList('puntaje', '', CHtml::listData(Puntaje::model()->findAll('estado=1'), 'valor', 'valor'), array('empty' => 'Seleccione calificacion', 'id' => 'ddlpuntajehabilidades'));
+                    echo '<p id="ddlpuntajehabilidadeserror"  class="mensajeerror">Debe seleccionar una calificacion</p>';
                     echo '</td>';
                     echo '<td id="ponderacion">';
                     echo $competencia["ponderacion"];

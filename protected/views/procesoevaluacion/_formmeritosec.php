@@ -40,6 +40,7 @@
                     echo '</td>';
                     echo '<td>';
                     echo CHtml::dropDownList('puntaje', 'puntaje', CHtml::listData(Puntaje::model()->findAll('estado=1'), 'valor', 'valor'), array('empty' => 'Seleccione calificacion', 'id' => 'ddlpuntajemeritos'));
+                    echo '<p id="ddlpuntajemeritoserror"  class="mensajeerror">Debe seleccionar una calificacion</p>';
                     echo '</td>';                    
                     echo '<td id="ponderacion">';
                     echo $merito->ponderacion;

@@ -2,20 +2,18 @@ $(document).ready(function() {
 
     //Guardar Evaluacion Competencias
     $("#btnguardarec").click(function(event){
-        event.preventDefault();
-       if(false){}//VALIDACIONES
-//        if(!validar($('#ddlperiodo'))){     
-//            mostrarerror($('#ddlperiodo'));
-//        }
-//        else if (!validar($('#txtdescripcion'))){
-//            mostrarerror($('#txtdescripcion'));
-//        }
-//        else if (!validar($('#busquedaevaluador'))){
-//            mostrarerror($('#busquedaevaluador'));
-//        }
-//        else if (cantidadcolaboradorestabla()== 0){
-//            mostrarerror($('#tblcolaboradores'));
-//        }
+        event.preventDefault();        
+        ocultarerrornoequivalente($('#habilidadnoequivalenteerror'));
+        if(!validarcalificacionhabilidadesnoequivalentes()){            
+            messagewarning("Ha ingresado una o mas Habilidades No Equivalentes al Puesto incompletadas.");
+        }        
+        else if(!validarcalificacionac($('#ddlpuntajeassessmentcenter'))){          
+           mostrarerror($('#ddlpuntajeassessmentcenter'));                     
+           messagewarning("El assessment center debe ser calificado.");
+        }
+        else if (!validarcalifacionmeritohabilidades()){
+            messagewarning("Existen Meritos o Habilidades sin calificar.");
+        }
         else{
             $.ajax({
                 type: "POST",
@@ -48,6 +46,12 @@ $(document).ready(function() {
             });
         }
     });
+    
+    function ajustarvistaerror(elemento){
+        $('html, body').animate({
+                scrollTop: $(elemento).offset().top + $(elemento).height()/2 - $(window).height()/2
+        }, 400);
+    }
         
     function validar(elemento){
         if($(elemento).val() == '' || $(elemento).val()=='-')
@@ -56,12 +60,12 @@ $(document).ready(function() {
             return true;
     }
 
-    function mostrarerror(elemento){
-        $('#'+$(elemento).attr('id')+'error').css('visibility', 'visible');
+    function mostrarerror(elemento){      
+        $(elemento).next().show();
     }
     
-    function ocultarerror(elemento){
-        $('#'+$(elemento).attr('id')+'error').css('visibility', 'hidden');
+    function ocultarerror(elemento){       
+        $(elemento).next().hide();
     }
     
     function messagesuccess(message, url){         
@@ -89,13 +93,84 @@ $(document).ready(function() {
             titleClass: 'anim error',                                 
             modal:true                                          
         });
-    }      
+    }  
+    
+    function messagewarning(message){
+        new Messi(message,
+        {   
+            title: 'Advertencia', 
+            titleClass: 'anim warning',                                 
+            modal:true
+        });
+    }
    
     $("#imgescalacalificacion").click(function(){              
         $("#divescalacalificacion").show();       
         $("#infoescalacalificacion").dialog('open');      
     });
-   
+
+    //Validacion de campos
+    $('#ddlpuntajeassessmentcenter').focusout(function(){
+        if(!validarcalificacionac($(this)))          
+            mostrarerror($(this));     
+    });
+    $('#ddlpuntajeassessmentcenter').focusin(function(){
+        ocultarerror($(this)); 
+    });
+    
+    $("[name='puntaje']").focusout(function(){
+        if(!validar($(this)))          
+            mostrarerror($(this));     
+    });
+    $("[name='puntaje']").focusin(function(){
+        ocultarerror($(this)); 
+    });
+    
+    function validarcalificacionac(elemento){
+        if($('#cbassessmentcenter').is(":checked")){                                  
+            if($(elemento).val() == '' || $(elemento).val()=='-')
+                return false;
+            else
+                return true;
+        }else
+            return true;
+    }
+    
+    function validarcalifacionmeritohabilidades(){
+        var valido = true;
+        $("[name='puntaje']" ).each(function() {
+              if($(this).val() == '' || $(this).val()=='-'){
+                  valido = false;
+                  mostrarerror($(this)); 
+              }
+        });
+        return valido;
+    }
+    
+    function mostrarerrornoequivalente(elemento){      
+        $(elemento).show();
+    }
+    
+    function ocultarerrornoequivalente(elemento){       
+        $(elemento).hide();
+    }
+    
+    function validarcalificacionhabilidadesnoequivalentes(){
+        var valido = true;      
+        $("#tblhabilidadnoequivalente > tbody > tr").each(function(index, fila) {
+            if($(fila).find('#tfmetodovariablenoquivalente').val()===""){
+                return true;
+            }else{                           
+                if($(fila).find('#tfmetodovariablenoquivalente').val() == '' || $(fila).find('#tfvariablenoquivalente').val() == '' || $(fila).find(('#ddlcompetencia')).val() == '' || $(fila).find('#ddlpuesto1').val() == '' || $(fila).find('#ddlpuesto2').val() == '')
+                {
+                    valido = false;
+                    mostrarerrornoequivalente($('#habilidadnoequivalenteerror'));                         
+                }
+            }
+        });
+        return valido;
+    }
+    
     function obtenerdatosguardarproceso(){             
         var data = {};
         data['idec'] = $("#lblidec").text();
