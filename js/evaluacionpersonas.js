@@ -135,10 +135,7 @@ $(document).ready(function() {
 
    
    $(document).on("click", "#borrarcolaborador", function(e){
-        $(this).parents("tr").remove()
-        if (cantidadhabilidades() < 5){
-           $("#btndialoghabilidadespecial").removeAttr('disabled');        
-        }
+        $(this).parents("tr").remove()       
    });
    
    $("#btncrearhabilidad").click(function(){         

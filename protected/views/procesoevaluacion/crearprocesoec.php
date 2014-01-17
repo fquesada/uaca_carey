@@ -47,6 +47,7 @@ $this->menu=array(
         echo $this->renderPartial('_formprocesoevaluacion', array('procesoec'=>$procesoec,'indicadoreditar' => $indicadoreditar )); 
         echo $this->renderPartial('_formagregarcolaborador', array('procesoec'=>$procesoec,'indicadoreditar' => $indicadoreditar ));       
         echo CHtml::hiddenField('idproceso', $procesoec->id,array('id'=>'idprocesoec','name'=>'idprocesoec'));
+         echo CHtml::hiddenField('indicadoreditar', "true",array('id'=>'indicadoreditar','name'=>'indicadoreditar'));
     }
 ?>
 

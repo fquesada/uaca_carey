@@ -48,7 +48,7 @@ $this->breadcrumbs=array(
                 array(
 			'class'=>'CButtonColumn',
                         'htmlOptions'=>array('width'=>'90'),
-                        'template'=>'{adminprocesoec}{editar}{copiar}{delete}',                                                
+                        'template'=>'{adminprocesoec}{editar}{delete}',                                                
                         'deleteButtonUrl'=>'Yii::app()->controller->createUrl("#", array("id"=>$data["id"]))',
                         'deleteButtonLabel' => 'Eliminar Proceso', 
                         'deleteButtonImageUrl'=>Yii::app()->request->baseUrl.'/images/icons/silk/decline.png',                          
@@ -81,10 +81,6 @@ $this->breadcrumbs=array(
                                 'imageUrl'=>Yii::app()->request->baseUrl.'/images/icons/silk/page_edit.png',
                                 'url'=>'Yii::app()->createUrl("procesoevaluacion/editarprocesoec", array("id"=>$data["id"]))'
                             ),
-                            'copiar'=> array(
-                                'label'=>'Copiar proceso',
-                                'imageUrl'=>Yii::app()->request->baseUrl.'/images/icons/silk/page_copy.png',                                
-                            ),//CLEAN CODE
                             'habilidades'=>array(
                                 'label'=>'Ver Evaluaciones Especiales',
                                 'imageUrl'=>Yii::app()->request->baseUrl.'/images/icons/silk/award_star_gold_3.png',
