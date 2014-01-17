@@ -115,8 +115,8 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array(
               echo '<td name="idcolaborador" style="display: none">';
               echo $ec->colaborador;
               echo '</td>';
-              echo '<td name="puesto">';
-              echo $ec->_colaborador->puesto;
+              echo '<td name="cedula">';
+              echo $ec->_colaborador->cedula;
               echo '</td>';
               echo '<td name="colaborador">';
               echo $ec->_colaborador->nombrecompleto;
