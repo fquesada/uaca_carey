@@ -855,12 +855,13 @@ class ProcesoevaluacionController extends Controller
                 }
                 
                 header('Content-Type: application/excel');
-                header('Content-Disposition: attachment;filename="ReporteEC_'.$colaborador->nombre.''.$colaborador->apellido1.''.$colaborador->apellido2.'.xlsx"');
+                header('Content-Disposition: attachment;filename="ReporteEC_'.$colaborador->nombrecompleto.'.xlsx"');
                 header('Cache-Control: max-age=0');
 
-                $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
+                $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');             
                 $objWriter->setIncludeCharts(TRUE);                        
                 $objWriter->save('php://output');
+              
                    
         }
 }
