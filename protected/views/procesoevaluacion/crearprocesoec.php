@@ -24,15 +24,19 @@ if(!$indicadoreditar){
             'EC'=>array('admin'),
             'Nuevo proceso EC',
     );
+    $this->menu=array(
+	array('label'=>'Lista de Procesos EC' , 'url'=>array('admin')),	        
+    );
 }else{
     $this->breadcrumbs=array(
             'EC'=>array('admin'),
             'Editar proceso EC',
     );
+    $this->menu=array(
+	array('label'=>'Lista de Procesos EC' , 'url'=>array('admin')),	
+        array('label'=>'Crear Proceso EC' , 'url'=>array('crearprocesoec')),
+    );
 }
-$this->menu=array(
-	array('label'=>'EC' , 'url'=>array('admin')),	
-);
 ?>
 
 <h3 style="text-align: center"><?php if(!$indicadoreditar) echo "Nuevo proceso EC"; else echo "Editar proceso EC #".$procesoec->id;?></h3>

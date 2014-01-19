@@ -48,10 +48,10 @@ $this->breadcrumbs=array(
                 array(
 			'class'=>'CButtonColumn',
                         'htmlOptions'=>array('width'=>'90'),
-                        'template'=>'{adminprocesoec}{editar}{delete}',                                                
-                        'deleteButtonUrl'=>'Yii::app()->controller->createUrl("#", array("id"=>$data["id"]))',
-                        'deleteButtonLabel' => 'Eliminar Proceso', 
-                        'deleteButtonImageUrl'=>Yii::app()->request->baseUrl.'/images/icons/silk/decline.png',                          
+                        'template'=>'{adminprocesoec}{editar}{eliminar}',                                                
+                        //'deleteButtonUrl'=>'Yii::app()->controller->createUrl("#", array("id"=>$data["id"]))',
+                        //'deleteButtonLabel' => 'Eliminar Proceso', 
+                        //'deleteButtonImageUrl'=>Yii::app()->request->baseUrl.'/images/icons/silk/decline.png',                          
                         //'deleteConfirmation'=>'js:alert("")',
                         /*'afterDelete'=>'function(link,success,data){ 
                             if(success) {
@@ -80,6 +80,47 @@ $this->breadcrumbs=array(
                                 'label'=>'Editar Proceso EC',
                                 'imageUrl'=>Yii::app()->request->baseUrl.'/images/icons/silk/page_edit.png',
                                 'url'=>'Yii::app()->createUrl("procesoevaluacion/editarprocesoec", array("id"=>$data["id"]))'
+                            ),
+                            'eliminar'=> array(
+                                'label'=>'Eliminar Proceso EC',
+                                'imageUrl'=>Yii::app()->request->baseUrl.'/images/icons/silk/decline.png',                                
+                                'url'=>'Yii::app()->createUrl("procesoevaluacion/eliminarprocesoec", array("id"=>$data["id"]))',
+                                'click'=>"function(){
+                                        event.preventDefault();
+                                        var url = $(this).attr('href');
+                                        new Messi('¿Desea eliminar este proceso: '+ $(this).parent().parent().children(':nth-child(1)').text() +'?', 
+                                        {title: 'Aviso:', buttons: [{id: 0, label: 'Si', val: 'Y'}, {id: 1, label: 'No', val: 'N'}], 
+                                        callback: function(val) {                                        
+                                        if(val == 'Y'){                                           
+                                            $.ajax({
+                                                type: 'POST',
+                                                url: url,      
+                                                dataType: 'json', 
+                                                success:function(datos) {                                                
+                                                     if(datos.resultado){
+                                                        new Messi(datos.mensaje,
+                                                            { title: 'Exito',
+                                                                titleClass: 'success',
+                                                                autoclose: '4000',
+                                                                modal:true
+                                                            });
+                                                        $.fn.yiiGridView.update('procesoevaluacion-grid'); //change my-grid to your grid's name
+                                                    }else{
+                                                        new Messi(datos.mensaje,
+                                                            { title: 'Lo sentimos',
+                                                                titleClass: 'error',
+                                                                autoclose: '4000',
+                                                                modal:true
+                                                         });  
+                                                         $.fn.yiiGridView.update('procesoevaluacion-grid'); //change my-grid to your grid's name
+                                                    }                                                    
+                                                }
+                                            })                                           
+                                         }
+                                         
+                                        }});                                                                                                      
+                                      }",
+                                
                             ),
                             'habilidades'=>array(
                                 'label'=>'Ver Evaluaciones Especiales',

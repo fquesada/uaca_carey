@@ -366,7 +366,7 @@ $(document).ready(function() {
    });
 
     function obtenerdatoscrearproceso(){             
-    var data = {};
+    var data = {};    
     data['nombreproceso'] = $("#txtdescripcion").val();
     data['idevaluador'] = $("#idevaluador").val(); 
     data['periodo'] = $('#ddlperiodo').val();

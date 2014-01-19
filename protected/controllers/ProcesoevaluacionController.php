@@ -32,7 +32,7 @@ class ProcesoevaluacionController extends Controller
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('CrearProcesoEC','AdminProcesoEC','EditarProcesoEC','EvaluarProcesoEC','EnvioCorreoEC','GuardarProcesoEC','update','admin','AgregarPersonas','AgregarPersona','AutocompleteEvaluado',
+				'actions'=>array('CrearProcesoEC','AdminProcesoEC','EditarProcesoEC','EliminarProcesoEC','EvaluarProcesoEC','EnvioCorreoEC','GuardarEvaluacionEC','update','admin','AgregarPersonas','AgregarPersona','AutocompleteEvaluado',
                                                     'HabilidadesEspeciales','InfoPonderacion', 'delete', 'reporteevaluacioncompetencias', 'DataReporteEvaluacionCompetencias', 'vistaprueba'),
 				'users'=>array('@'),
 			),
@@ -294,15 +294,91 @@ class ProcesoevaluacionController extends Controller
         public function actionEditarProcesoEC($id){
             
             if(Yii::app()->request->isAjaxRequest)
-            { 
-                //Comparar
+            {                 
+                $nombreproceso = $_POST['nombreproceso'];                
+                $periodo = CommonFunctions::stringtonumber($_POST['periodo']); 
+                $colaboradores = $_POST['colaboradores'];
+                
+                $procesoevaluacion = Procesoevaluacion::model()->findByPk($id);                
+                $evaluacioncompetenciaactual = $procesoevaluacion->_evaluacionescompetencias;
+                
+                $transaction = Yii::app()->db->beginTransaction();                
+                
+                $procesoevaluacion->descripcion = $nombreproceso;
+                $procesoevaluacion->periodo = $periodo;
+                $resultadoguardarbd =  $procesoevaluacion->save();
+                if(!$resultadoguardarbd){                    
+                    $transaction->rollback();
+                    $response = array('resultado' => false,'mensaje' => "Ha ocurrido un inconveniente al intentar guardar los cambios del proceso: ".$procesoevaluacion->descripcion);              
+                    echo CJSON::encode($response); 
+                    Yii::app()->end();
+                }else{               
+                
+                    foreach ($colaboradores as $index => $idcolaborador) {                    
+                        $indicadoragregarec = true;                                        
+                        foreach ($evaluacioncompetenciaactual as $ec) {
+                            if(CommonFunctions::stringtonumber($idcolaborador) == $ec->colaborador){                                                       
+                               $indicadoragregarec = false; 
+                               break 1;
+                            }                        
+                        }
+                        if($indicadoragregarec){
+                                $evaluacioncompetencias = new Evaluacioncompetencias();
+                                $evaluacioncompetencias->procesoevaluacion = $procesoevaluacion->id;
+                                $colaborador = Colaborador::model()->findByPk($idcolaborador);
+                                $evaluacioncompetencias->puesto = $colaborador->getidpuestoactual(); //CLEAN CODE
+                                $evaluacioncompetencias->colaborador = $colaborador->id;                            
+                                $evaluacioncompetencias->save();
+
+                                $link = new Links();
+                                $link->url = $evaluacioncompetencias->id; //FALTA FUNCION HASH                          
+                                $link->save();
+
+                                $evaluacioncompetencias->links = $link->id;
+                                $resultadoguardarbd =  $evaluacioncompetencias->save();
+                                if(!$resultadoguardarbd){                    
+                                        $transaction->rollback();
+                                        $response = array('resultado' => false,'mensaje' => "Ha ocurrido un inconveniente al intentar guardar los cambios del proceso: ".$procesoevaluacion->descripcion);              
+                                        echo CJSON::encode($response); 
+                                        Yii::app()->end();
+                                }
+                        }
+                    }
+                    
+                    foreach ($evaluacioncompetenciaactual as $ec){                    
+                        $indicadorborrarec = true;                                        
+                        foreach ($colaboradores as $index => $idcolaborador) {
+                            if(CommonFunctions::stringtonumber($idcolaborador) == $ec->colaborador){                                                       
+                               $indicadorborrarec = false; 
+                               break 1;
+                            }                        
+                        }
+                        if($indicadorborrarec){
+                            $evaluacioncompetencias = Evaluacioncompetencias::model()->findByPk($ec->id);
+                            $evaluacioncompetencias->estado = 0;//CLEAN CODE VARIABLES GLOBALES
+                            $resultadoguardarbd =  $evaluacioncompetencias->save();
+                            if(!$resultadoguardarbd){                    
+                                    $transaction->rollback();
+                                    $response = array('resultado' => false,'mensaje' => "Ha ocurrido un inconveniente al intentar guardar los cambios del proceso: ".$procesoevaluacion->descripcion);              
+                                    echo CJSON::encode($response); 
+                                    Yii::app()->end();
+                            }
+                        }
+                    }
+                }                
+                
+               $transaction->commit();
+               $response = array('resultado' => true,'mensaje' => "Se guardó con éxito los cambios realizados al proceso: ".$procesoevaluacion->descripcion, 'url' => Yii::app()->getBaseUrl(true).'/index.php/procesoevaluacion/adminprocesoec/'.$procesoevaluacion->id);                  
+               echo CJSON::encode($response);   
+               Yii::app()->end();
             }
             
             $procesoec = Procesoevaluacion::model()->findByPk($id);
             $editar = true;
             $this->render('crearprocesoec',array(
 			'procesoec'=>$procesoec,'indicadoreditar' => $editar,
-            ));       
+            ));
+            
         }
         
         public function actionEnvioCorreoEC(){
@@ -333,7 +409,7 @@ class ProcesoevaluacionController extends Controller
             ));
         }
         
-        public function actionGuardarProcesoEC() {
+        public function actionGuardarEvaluacionEC() {
 
             if (Yii::app()->request->isAjaxRequest) {
 
@@ -374,14 +450,16 @@ class ProcesoevaluacionController extends Controller
                 $ec->estado = 2; //CLEAN CODE - PONER EN VARIABLES GLOBALES
                 $ec->promedioponderado = $promedioponderado;
                 
-
-                //FALTA EDITAR ESTADO DEL LINK PARA QUE QUEDE DESACTIVO
+                $link = Links::model()->findByPk($ec->links);
+                $link->estado = 0;                
+                
                 //FALTA VALIDAR SI SE DEBE PASAR EL PROCESO A TERMINADO, SI SOLO SI ES LA ULTIMA EVALUACION ACTIVA DEL PROCESO
 
                 $transaction = Yii::app()->db->beginTransaction();
-
+                
+                $resultadoguardarbdlink = $link->save();
                 $resultadoguardarbd = $ec->save();
-                if ($resultadoguardarbd) {
+                if ($resultadoguardarbd && $resultadoguardarbdlink) {
                     
                     foreach ($meritos as $merito) {
                         $meritoevaluacioncandidato = new Meritoevaluacioncandidato();
@@ -454,6 +532,23 @@ class ProcesoevaluacionController extends Controller
                 }
             }
     }
+    
+        public function actionEliminarProcesoEC($id){            
+             if (Yii::app()->request->isAjaxRequest) {
+            
+                $id = CommonFunctions::stringtonumber($id);
+                $procesoec = Procesoevaluacion::model()->findByPk($id);
+                $procesoec->estado = 0;
+                $resultadoguardarbd = $procesoec->save();
+                if($resultadoguardarbd)
+                 $response = array('resultado' => true, 'mensaje' => "Se elimino correctamente el proceso.");
+                else
+                 $response = array('resultado' => false, 'mensaje' => "Ha ocurrido un inconveniente al intentar eliminar el proceso");
+                
+                echo CJSON::encode($response);
+                Yii::app()->end();          
+             }
+        }
         
         public function actionHabilidadesEspeciales(){
             
