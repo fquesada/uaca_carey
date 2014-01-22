@@ -159,7 +159,7 @@ class Evaluacioncompetencias extends CActiveRecord {
     }
     
     public function getEstadoEvaluacionIndicador() {
-        if ($this->estado == 1)
+        if ($this->estado == 1) //CLEAN CODE VARIABLES GLOBALES
             return false;
         else if ($this->estado == 2)
             return true;

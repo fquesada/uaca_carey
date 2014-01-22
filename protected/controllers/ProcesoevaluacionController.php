@@ -32,8 +32,8 @@ class ProcesoevaluacionController extends Controller
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('CrearProcesoEC','AdminProcesoEC','EvaluarProcesoEC','EnvioCorreoEC','GuardarProcesoEC','update','admin','AgregarPersonas','AgregarPersona','AutocompleteEvaluado',
-                                                    'HabilidadesEspeciales','InfoPonderacion', 'delete', 'reporteevaluacioncompetencias', 'DataReporteEvaluacionCompetencias', 'vistaprueba','CrearReporteEC','ReporteEC'),
+				'actions'=>array('CrearProcesoEC','AdminProcesoEC','EditarProcesoEC','EliminarProcesoEC','EvaluarProcesoEC','EnvioCorreoEC','GuardarEvaluacionEC','update','admin','AgregarPersonas','AgregarPersona','AutocompleteEvaluado',
+                                                    'HabilidadesEspeciales','InfoPonderacion', 'delete', 'reporteevaluacioncompetencias', 'DataReporteEvaluacionCompetencias', 'vistaprueba'),
 				'users'=>array('@'),
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -138,15 +138,15 @@ class ProcesoevaluacionController extends Controller
                 //CLEAN CODE, DEBERIA ESTAR EN MODELS
                 $dataReader = Yii::app()->db->createCommand(
                         'SELECT c.cedula,c.nombre,c.apellido1,c.apellido2, c.id, p.nombre as "puesto" '.
-                        'FROM colaborador c INNER JOIN historicopuesto hp on c.id = hp.colaborador and hp.puestoactual = 1 INNER JOIN puesto p ON hp.puesto = p.id '.
+                        'FROM colaborador c INNER JOIN historicopuesto hp on c.id = hp.colaborador and hp.puestoactual = 1 INNER JOIN puesto p  ON hp.puesto = p.id '.                        
                         'WHERE CONCAT_WS(" ", c.nombre, c.apellido1, c.apellido2 ) like "%'.$keyword.'%" AND c.estado = 1;'
-                        )->query();
+                        )->query();   
                 
-                // $dataReaderPos = Yii::app()->db->createCommand(
-                // 'SELECT c.cedula,c.nombre,c.apellido1,c.apellido2, c.id '.
-                // 'FROM postulante c '.
-                // 'WHERE CONCAT_WS(" ", c.nombre, c.apellido1, c.apellido2 ) like "%'.$keyword.'%" AND c.estado = 1;'
-                // )->query();
+//                $dataReaderPos = Yii::app()->db->createCommand(
+//                        'SELECT c.cedula,c.nombre,c.apellido1,c.apellido2, c.id '.
+//                        'FROM postulante c '.                        
+//                        'WHERE CONCAT_WS(" ", c.nombre, c.apellido1, c.apellido2 ) like "%'.$keyword.'%" AND c.estado = 1;'
+//                        )->query(); 
                                 
 
                 $return_array = array();
@@ -154,32 +154,32 @@ class ProcesoevaluacionController extends Controller
                 {
                     $return_array[] = array(
                     'label'=>'No hay resultados.',
-                    'value'=>'',
+                    'value'=>'', 
                     );
                 }
-                else{
-                    foreach($dataReader as $row){
+                else{ 
+                    foreach($dataReader as $row){ 
                         
                         $nombrecompleto = $row['nombre'].' '.$row['apellido1'].' '.$row['apellido2'];
                         $return_array[] = array(
                         'label'=>'<div style="font-size:x-small">Puesto: '.$row['puesto'].'</div>'.'<div>'.$nombrecompleto.'</div>',
-                        'value'=>$nombrecompleto,
+                        'value'=>$nombrecompleto, 
                         'id'=>$row['id'],
-                         'cedula'=>$row['cedula'],
+                         'cedula'=>$row['cedula'],   
                          'puesto'=>$row['puesto'],
-                            'tipo'=>1,
+                            'tipo'=>1,                        
                         );
                     }
-                    // foreach($dataReaderPos as $row){
-                    // $nombrecompleto = $row['nombre'].' '.$row['apellido1'].' '.$row['apellido2'];
-                    // $return_array[] = array(
-                    // 'label'=>'<div style="font-size:x-small">Cédula: '.$row['cedula'].'</div>'.'<div>'.$nombrecompleto.'</div>',
-                    // 'value'=>$nombrecompleto,
-                    // 'id'=>$row['id'],
-                    // 'cedula'=>$row['cedula'],
-                    // 'tipo'=>0,
-                    // );
-                    // }
+//                    foreach($dataReaderPos as $row){ 
+//                        $nombrecompleto = $row['nombre'].' '.$row['apellido1'].' '.$row['apellido2'];
+//                        $return_array[] = array(
+//                        'label'=>'<div style="font-size:x-small">Cédula: '.$row['cedula'].'</div>'.'<div>'.$nombrecompleto.'</div>',
+//                        'value'=>$nombrecompleto, 
+//                        'id'=>$row['id'],
+//                         'cedula'=>$row['cedula'],                        
+//                            'tipo'=>0,                        
+//                        );
+//                    }
                 }
                 echo CJSON::encode($return_array);
             }
@@ -294,15 +294,91 @@ class ProcesoevaluacionController extends Controller
         public function actionEditarProcesoEC($id){
             
             if(Yii::app()->request->isAjaxRequest)
-            { 
-                //Comparar
+            {                 
+                $nombreproceso = $_POST['nombreproceso'];                
+                $periodo = CommonFunctions::stringtonumber($_POST['periodo']); 
+                $colaboradores = $_POST['colaboradores'];
+                
+                $procesoevaluacion = Procesoevaluacion::model()->findByPk($id);                
+                $evaluacioncompetenciaactual = $procesoevaluacion->_evaluacionescompetencias;
+                
+                $transaction = Yii::app()->db->beginTransaction();                
+                
+                $procesoevaluacion->descripcion = $nombreproceso;
+                $procesoevaluacion->periodo = $periodo;
+                $resultadoguardarbd =  $procesoevaluacion->save();
+                if(!$resultadoguardarbd){                    
+                    $transaction->rollback();
+                    $response = array('resultado' => false,'mensaje' => "Ha ocurrido un inconveniente al intentar guardar los cambios del proceso: ".$procesoevaluacion->descripcion);              
+                    echo CJSON::encode($response); 
+                    Yii::app()->end();
+                }else{               
+                
+                    foreach ($colaboradores as $index => $idcolaborador) {                    
+                        $indicadoragregarec = true;                                        
+                        foreach ($evaluacioncompetenciaactual as $ec) {
+                            if(CommonFunctions::stringtonumber($idcolaborador) == $ec->colaborador){                                                       
+                               $indicadoragregarec = false; 
+                               break 1;
+                            }                        
+                        }
+                        if($indicadoragregarec){
+                                $evaluacioncompetencias = new Evaluacioncompetencias();
+                                $evaluacioncompetencias->procesoevaluacion = $procesoevaluacion->id;
+                                $colaborador = Colaborador::model()->findByPk($idcolaborador);
+                                $evaluacioncompetencias->puesto = $colaborador->getidpuestoactual(); //CLEAN CODE
+                                $evaluacioncompetencias->colaborador = $colaborador->id;                            
+                                $evaluacioncompetencias->save();
+
+                                $link = new Links();
+                                $link->url = $evaluacioncompetencias->id; //FALTA FUNCION HASH                          
+                                $link->save();
+
+                                $evaluacioncompetencias->links = $link->id;
+                                $resultadoguardarbd =  $evaluacioncompetencias->save();
+                                if(!$resultadoguardarbd){                    
+                                        $transaction->rollback();
+                                        $response = array('resultado' => false,'mensaje' => "Ha ocurrido un inconveniente al intentar guardar los cambios del proceso: ".$procesoevaluacion->descripcion);              
+                                        echo CJSON::encode($response); 
+                                        Yii::app()->end();
+                                }
+                        }
+                    }
+                    
+                    foreach ($evaluacioncompetenciaactual as $ec){                    
+                        $indicadorborrarec = true;                                        
+                        foreach ($colaboradores as $index => $idcolaborador) {
+                            if(CommonFunctions::stringtonumber($idcolaborador) == $ec->colaborador){                                                       
+                               $indicadorborrarec = false; 
+                               break 1;
+                            }                        
+                        }
+                        if($indicadorborrarec){
+                            $evaluacioncompetencias = Evaluacioncompetencias::model()->findByPk($ec->id);
+                            $evaluacioncompetencias->estado = 0;//CLEAN CODE VARIABLES GLOBALES
+                            $resultadoguardarbd =  $evaluacioncompetencias->save();
+                            if(!$resultadoguardarbd){                    
+                                    $transaction->rollback();
+                                    $response = array('resultado' => false,'mensaje' => "Ha ocurrido un inconveniente al intentar guardar los cambios del proceso: ".$procesoevaluacion->descripcion);              
+                                    echo CJSON::encode($response); 
+                                    Yii::app()->end();
+                            }
+                        }
+                    }
+                }                
+                
+               $transaction->commit();
+               $response = array('resultado' => true,'mensaje' => "Se guardó con éxito los cambios realizados al proceso: ".$procesoevaluacion->descripcion, 'url' => Yii::app()->getBaseUrl(true).'/index.php/procesoevaluacion/adminprocesoec/'.$procesoevaluacion->id);                  
+               echo CJSON::encode($response);   
+               Yii::app()->end();
             }
             
             $procesoec = Procesoevaluacion::model()->findByPk($id);
             $editar = true;
             $this->render('crearprocesoec',array(
 			'procesoec'=>$procesoec,'indicadoreditar' => $editar,
-            ));       
+            ));
+            
         }
         
         public function actionEnvioCorreoEC(){
@@ -333,7 +409,7 @@ class ProcesoevaluacionController extends Controller
             ));
         }
         
-        public function actionGuardarProcesoEC() {
+        public function actionGuardarEvaluacionEC() {
 
             if (Yii::app()->request->isAjaxRequest) {
 
@@ -374,14 +450,16 @@ class ProcesoevaluacionController extends Controller
                 $ec->estado = 2; //CLEAN CODE - PONER EN VARIABLES GLOBALES
                 $ec->promedioponderado = $promedioponderado;
                 
-
-                //FALTA EDITAR ESTADO DEL LINK PARA QUE QUEDE DESACTIVO
+                $link = Links::model()->findByPk($ec->links);
+                $link->estado = 0;                
+                
                 //FALTA VALIDAR SI SE DEBE PASAR EL PROCESO A TERMINADO, SI SOLO SI ES LA ULTIMA EVALUACION ACTIVA DEL PROCESO
 
                 $transaction = Yii::app()->db->beginTransaction();
-
+                
+                $resultadoguardarbdlink = $link->save();
                 $resultadoguardarbd = $ec->save();
-                if ($resultadoguardarbd) {
+                if ($resultadoguardarbd && $resultadoguardarbdlink) {
                     
                     foreach ($meritos as $merito) {
                         $meritoevaluacioncandidato = new Meritoevaluacioncandidato();
@@ -454,6 +532,23 @@ class ProcesoevaluacionController extends Controller
                 }
             }
     }
+    
+        public function actionEliminarProcesoEC($id){            
+             if (Yii::app()->request->isAjaxRequest) {
+            
+                $id = CommonFunctions::stringtonumber($id);
+                $procesoec = Procesoevaluacion::model()->findByPk($id);
+                $procesoec->estado = 0;
+                $resultadoguardarbd = $procesoec->save();
+                if($resultadoguardarbd)
+                 $response = array('resultado' => true, 'mensaje' => "Se elimino correctamente el proceso.");
+                else
+                 $response = array('resultado' => false, 'mensaje' => "Ha ocurrido un inconveniente al intentar eliminar el proceso");
+                
+                echo CJSON::encode($response);
+                Yii::app()->end();          
+             }
+        }
         
         public function actionHabilidadesEspeciales(){
             
@@ -673,198 +768,5 @@ class ProcesoevaluacionController extends Controller
            echo CJSON::encode($data);                        
            Yii::app()->end();                
            
-        }
-        
-        public function actionCrearReporteEC(){
-           if(Yii::app()->request->isAjaxRequest){
-           $id = CommonFunctions::stringtonumber($_POST['id']);                
-           $ec = Evaluacioncompetencias::model()->findByPk($id); 
-           $response = array('url' => Yii::app()->getBaseUrl(true).'/index.php/procesoevaluacion/reporteec/'.$id);               
-           echo CJSON::encode($response);                        
-           Yii::app()->end();
-            }
-        }
-        
-        public function actionReporteEC($id) {
-                          
-                $ec = Evaluacioncompetencias::model()->findByPk($id);  
-                $colaborador = Colaborador::model()->findByPk($ec->colaborador);
-                $competencias = $ec->_habilidadesevaluacioncandidato;
-                $meritos = $ec->_meritosevaluacioncandidato;
-                
-              
-               $phpExcelPath = Yii::getPathOfAlias('application.modules.excel');
-
-               // Turn off our amazing library autoload 
-               spl_autoload_unregister(array('YiiBase','autoload'));        
-
-               require_once( dirname(__FILE__) . '/../components/CommonFunctions.php');
-               require_once( dirname(__FILE__) . '/../models/Merito.php');
-               require_once( dirname(__FILE__) . '/../models/Puesto.php');
-               require_once( dirname(__FILE__) . '/../models/Colaborador.php');
-               require_once( dirname(__FILE__) . '/../models/Procesoevaluacion.php');
-               require_once( dirname(__FILE__) . '/../models/Competenciacore.php');
-               require_once( dirname(__FILE__) . '/../models/Competencia.php');
-               require_once( dirname(__FILE__) . '/../models/Tipomerito.php');
-               include($phpExcelPath . DIRECTORY_SEPARATOR . 'Classes'. DIRECTORY_SEPARATOR .'PHPExcel.php');                      
-
-               $objReader = PHPExcel_IOFactory::createReader('Excel2007');
-               $objReader->setIncludeCharts(TRUE);
-               
-               $styleTableBorder = array(
-                 'borders'=>array(
-                     'allborders'=>array(
-                         'style'=> PHPExcel_Style_Border::BORDER_THIN,
-                     )
-                 ),
-             );
-               
-               if ($ec->acindicador == 0) {
-               $objPHPExcel = $objReader->load($phpExcelPath. DIRECTORY_SEPARATOR ."templates". DIRECTORY_SEPARATOR ."EvaluacionPorCompetenciasTemplate.xlsx");
-
-               $objPHPExcel->setActiveSheetIndex(0);  //set first sheet as active
-
-               $objPHPExcel->getActiveSheet()->setCellValue('E4', $ec->_colaborador->nombrecompleto); 
-               $objPHPExcel->getActiveSheet()->setCellValue('E5', $ec->_puesto->nombre);
-               $objPHPExcel->getActiveSheet()->setCellValue('J4', $ec->_colaborador->cedula);
-               $objPHPExcel->getActiveSheet()->setCellValue('J5', $ec->_procesoevaluacion->_evaluador->nombrecompleto);
-               $objPHPExcel->getActiveSheet()->setCellValue('J6', $ec->_procesoevaluacion->fecha);
-               
-                $i = '32';  
-                
-                foreach($meritos as $merito)
-                {
-                    
-                     $objPHPExcel->setActiveSheetIndex(0)
-                            ->mergeCells('E'.$i.':F'.$i)
-                            ->setCellValue('E'.$i, $merito->_merito->_tipomerito->nombre)
-                            ->setCellValue('H'.$i, $merito->ponderacion)
-                             ->setCellValue('I'.$i, CommonFunctions::ponderaciontoideal($merito->ponderacion))
-                            ->setCellValue('J'.$i, $merito->calificacion);
-
-                     $objPHPExcel->getActiveSheet()->getRowDimension($i)->setRowHeight(15);
-                     $objPHPExcel->setActiveSheetIndex()->getStyle('E'.$i.':I'.$i)->applyFromArray($styleTableBorder);
-                     $i++;
-                  
-                }
-                
-                $j=$i;
-                
-                foreach($competencias as $competencia)
-                {
-                    if ($competencia->tipocompetencia == 1) {
-                        
-                        $objPHPExcel->setActiveSheetIndex(0)
-                            ->mergeCells('E'.$j.':F'.$j)
-                            ->setCellValue('E'.$j, $competencia->_competenciacore->competencia)
-                            ->setCellValue('G'.$j, $competencia->variablemetodo)
-                            ->setCellValue('H'.$j, $competencia->ponderacion)
-                            ->setCellValue('I'.$j, CommonFunctions::ponderaciontoideal($competencia->ponderacion))
-                            ->setCellValue('J'.$j, $competencia->calificacion);
-
-                     $objPHPExcel->getActiveSheet()->getRowDimension($j)->setRowHeight(15);
-                     $objPHPExcel->setActiveSheetIndex()->getStyle('E'.$j.':I'.$j)->applyFromArray($styleTableBorder);
-                     $j++;   
-                    }
-                    
-                    else{
-                    
-                    $objPHPExcel->setActiveSheetIndex(0)
-                            ->mergeCells('E'.$j.':F'.$j)
-                            ->setCellValue('E'.$j, $competencia->_competencia->competencia)
-                            ->setCellValue('G'.$j, $competencia->variablemetodo)
-                            ->setCellValue('H'.$j, $competencia->ponderacion)
-                            ->setCellValue('I'.$j, CommonFunctions::ponderaciontoideal($competencia->ponderacion))
-                            ->setCellValue('J'.$j, $competencia->calificacion);
-
-                     $objPHPExcel->getActiveSheet()->getRowDimension($j)->setRowHeight(15);
-                     $objPHPExcel->setActiveSheetIndex()->getStyle('E'.$j.':I'.$j)->applyFromArray($styleTableBorder);
-                     $j++;
-                    }
-                }
-                
-                $objPHPExcel->setActiveSheetIndex(0)
-                        ->setCellValue('G44', $ec->promedioponderado); 
-               }
-               
-               else {
-                $objPHPExcel = $objReader->load($phpExcelPath. DIRECTORY_SEPARATOR ."templates". DIRECTORY_SEPARATOR ."EvaluacionPorCompetenciasTemplate_AC.xlsx");
-
-                $objPHPExcel->setActiveSheetIndex(0);  //set first sheet as active
-
-                $objPHPExcel->getActiveSheet()->setCellValue('E4', $ec->_colaborador->nombrecompleto); 
-                $objPHPExcel->getActiveSheet()->setCellValue('E5', $ec->_puesto->nombre);
-                $objPHPExcel->getActiveSheet()->setCellValue('J4', $ec->_colaborador->cedula);
-                $objPHPExcel->getActiveSheet()->setCellValue('J5', $ec->_procesoevaluacion->_evaluador->nombrecompleto);
-                $objPHPExcel->getActiveSheet()->setCellValue('J6', $ec->_procesoevaluacion->fecha);
-                $objPHPExcel->getActiveSheet()->setCellValue('F48', $ec->promedioac);
-                $objPHPExcel->getActiveSheet()->setCellValue('G48', $ec->promedioec);
-
-                 $i = '50';  
-
-                 foreach($meritos as $merito)
-                 {
-
-                      $objPHPExcel->setActiveSheetIndex(0)
-                             ->mergeCells('E'.$i.':F'.$i)
-                             ->setCellValue('E'.$i, $merito->_merito->_tipomerito->nombre)
-                             ->setCellValue('H'.$i, $merito->ponderacion)
-                              ->setCellValue('I'.$i, CommonFunctions::ponderaciontoideal($merito->ponderacion))
-                             ->setCellValue('J'.$i, $merito->calificacion);
-
-                      $objPHPExcel->getActiveSheet()->getRowDimension($i)->setRowHeight(15);
-                      $objPHPExcel->setActiveSheetIndex()->getStyle('E'.$i.':I'.$i)->applyFromArray($styleTableBorder);
-                      $i++;
-
-                 }
-
-                 $j=$i;
-
-                 foreach($competencias as $competencia)
-                 {
-                     if ($competencia->tipocompetencia == 1) {
-
-                         $objPHPExcel->setActiveSheetIndex(0)
-                             ->mergeCells('E'.$j.':F'.$j)
-                             ->setCellValue('E'.$j, $competencia->_competenciacore->competencia)
-                             ->setCellValue('G'.$j, $competencia->variablemetodo)
-                             ->setCellValue('H'.$j, $competencia->ponderacion)
-                             ->setCellValue('I'.$j, CommonFunctions::ponderaciontoideal($competencia->ponderacion))
-                             ->setCellValue('J'.$j, $competencia->calificacion);
-
-                      $objPHPExcel->getActiveSheet()->getRowDimension($j)->setRowHeight(15);
-                      $objPHPExcel->setActiveSheetIndex()->getStyle('E'.$j.':I'.$j)->applyFromArray($styleTableBorder);
-                      $j++;   
-                     }
-                     
-                     else{
-
-                     $objPHPExcel->setActiveSheetIndex(0)
-                             ->mergeCells('E'.$j.':F'.$j)
-                             ->setCellValue('E'.$j, $competencia->_competencia->competencia)
-                             ->setCellValue('G'.$j, $competencia->variablemetodo)
-                             ->setCellValue('H'.$j, $competencia->ponderacion)
-                             ->setCellValue('I'.$j, CommonFunctions::ponderaciontoideal($competencia->ponderacion))
-                             ->setCellValue('J'.$j, $competencia->calificacion);
-
-                      $objPHPExcel->getActiveSheet()->getRowDimension($j)->setRowHeight(15);
-                      $objPHPExcel->setActiveSheetIndex()->getStyle('E'.$j.':I'.$j)->applyFromArray($styleTableBorder);
-                      $j++;
-                     }
-                 }
-
-                 $objPHPExcel->setActiveSheetIndex(0)
-                         ->setCellValue('G62', $ec->promedioponderado); 
-                }
-                
-                header('Content-Type: application/excel');
-                header('Content-Disposition: attachment;filename="ReporteEC_'.$colaborador->nombrecompleto.'.xlsx"');
-                header('Cache-Control: max-age=0');
-
-                $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');             
-                $objWriter->setIncludeCharts(TRUE);                        
-                $objWriter->save('php://output');
-              
-                   
-        }
+        }       
 }

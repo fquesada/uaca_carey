@@ -17,7 +17,7 @@ $(document).ready(function() {
         else{
             $.ajax({
                 type: "POST",
-                url: "../GuardarProcesoEC",
+                url: "../GuardarEvaluacionEC",
                 data: obtenerdatosguardarproceso(),
                 dataType: 'json',
                 error: function (jqXHR, textStatus){

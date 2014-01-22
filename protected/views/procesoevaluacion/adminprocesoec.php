@@ -10,11 +10,12 @@ $this->breadcrumbs=array(
 	'Gestionar proceso EC',
 );
 $this->menu=array(
-	array('label'=>'EC' , 'url'=>array('admin')),	
+	array('label'=>'Lista de Procesos EC' , 'url'=>array('admin')),	
+        array('label'=>'Editar Proceso EC' , 'url'=>array('editarprocesoec', 'id'=>$procesoec->id)),	
 );
 ?>
 
-<h3 style="text-align: center">Gestionar Proceso EC</h3>
+<h3 style="text-align: center">Gestionar Proceso EC #<?php echo $procesoec->id;?></h3>
 
 <div>
 <?php $this->widget('zii.widgets.CDetailView', array(

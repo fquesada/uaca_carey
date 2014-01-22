@@ -66,7 +66,7 @@ class Procesoevaluacion  extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'_evaluacionescompetencias' => array(self::HAS_MANY, 'Evaluacioncompetencias', 'procesoevaluacion'),
+			'_evaluacionescompetencias' => array(self::HAS_MANY, 'Evaluacioncompetencias', 'procesoevaluacion', 'condition'=>'estado <> 0',),
                         '_evaluaciondesempenos' => array(self::HAS_MANY, 'Evaluaciondesempeno', 'procesoevaluacion'),					
 			'_habilidadesespecial' => array(self::HAS_MANY, 'Habilidadespecial', 'procesoevaluacion'),
 			'_habilidadesespecialevaluada' => array(self::HAS_MANY, 'Habilidadespecialevaluada', 'procesoevaluacion'),
@@ -101,7 +101,8 @@ class Procesoevaluacion  extends CActiveRecord
                     ON (pe.periodo = p.id)
                     INNER JOIN colaborador c
                     ON (pe.evaluador = c.id)
-                    WHERE pe.tipo = 1;"; 
+                    WHERE pe.tipo = 1
+                    AND pe.estado <> 0;"; 
             $command=$connection->createCommand($sql);
             $ec = $command->queryAll();
             $dataProvider = new CArrayDataProvider($ec,array(

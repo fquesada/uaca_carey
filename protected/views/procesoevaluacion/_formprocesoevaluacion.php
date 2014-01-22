@@ -77,7 +77,7 @@
             <?php if(!$indicadoreditar)  
                     echo CHtml::label('-', 'puesto',array('id'=>'puestoevaluador','name'=>'puesto')); 
                   else
-                    //echo CHtml::label($procesoec->_evaluador->puesto, 'puesto',array('id'=>'puestoevaluador','name'=>'puesto'));
+                    echo CHtml::label($procesoec->_evaluador->nombrepuestoactual, 'puesto',array('id'=>'puestoevaluador','name'=>'puesto'));
             ?>
         
     </div>
