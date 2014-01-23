@@ -5,7 +5,7 @@
 ?>
 
 <div id="divencabezadoec" class="divencabezadoec">
-    <p class="pencabezadoec">Informacion evaluacion</p>
+    <p class="pencabezadoec">Informacion evaluación</p>
     <p style="display:none"><?php echo CHtml::label($ec->id, 'idec', array('id'=>'lblidec'))?></p>
     <p> <b>Colaborador:</b> <?php echo $ec->_colaborador->nombrecompleto?> </p>
     <p> <b>Cedula:</b> <?php echo $ec->_colaborador->cedula?> </p>
@@ -17,13 +17,13 @@
 </div>
 
 <?php  //COLOCAR EN UN DIALOG ?>
-<p class="pescalacalificacion">Escala de calificacion <?php echo CHtml::image(Yii::app()->request->baseUrl.'/images/icons/silk/information.png', 'Escala calificacion', array("id"=>"imgescalacalificacion", "cursor:pointer;"));?></p>
+<p class="pescalacalificacion">Escala de calificación <?php echo CHtml::image(Yii::app()->request->baseUrl.'/images/icons/silk/information.png', 'Escala calificacion', array("id"=>"imgescalacalificacion", "cursor:pointer;"));?></p>
 
 <?php
 $this->beginWidget('zii.widgets.jui.CJuiDialog', array(
     'id'=>'infoescalacalificacion',
     'options'=>array(
-        'title'=>'Escala calificacion',
+        'title'=>'Escala calificación',
         'autoOpen'=>false,
         'modal'=>false,
         'width'=>600,

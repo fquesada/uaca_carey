@@ -3,7 +3,7 @@
 ?>
 
 <div id="divindicadorassessmentcenter" class="divindicadorassessmentcenter">  
-        <input id="cbassessmentcenter" type="checkbox" name="cbassessmentcenter">Activar calificacion de Assessment Center</input>        
+        <input id="cbassessmentcenter" type="checkbox" name="cbassessmentcenter">Activar solo para evaluaciones exclusivas en Assessment Center</input>        
 </div>
 
 <div id="divassessmentcenter" class="divassessmentcenter">
@@ -11,14 +11,14 @@
     <table id="tblassessmentcenter" class="tblassessmentcenter">
         <thead>
             <tr>                
-                <th>Detalle calificacion</th>               
+                <th>Detalle calificación</th>               
                 <th>Calificación</th>
             </tr>
         <thead>
         <tbody>
-            <th><?php echo CHtml::textarea('detalleassessmentcenter', '', array('id' => 'taassessmentcenter', 'class' => 'taassessmentcenter')); ?></th>
-            <th> <?php echo CHtml::dropDownList('puntajeac', 'puntajeac', CHtml::listData(Puntaje::model()->findAll('estado=1'), 'valor', 'valor'), array('empty' => 'Seleccione calificacion', 'id' => 'ddlpuntajeassessmentcenter')); ?>
-            <p id="ddlpuntajeassessmentcentererror" class="mensajeerror">Debe seleccionar una calificacion</p>
+            <th><?php echo CHtml::textarea('detalleassessmentcenter', '', array('id' => 'taassessmentcenter', 'class' => 'taassessmentcenter')); ?></th>        
+            <th> <?php echo CHtml::textField('puntajeac', '', array('id' => 'ddlpuntajeassessmentcenter', 'class'=>'taassessmentcenter')); ?>
+            <p id="ddlpuntajeassessmentcentererror" class="mensajeerror">Debe seleccionar una calificación</p>
             </th>          
         </tbody>
     </table>

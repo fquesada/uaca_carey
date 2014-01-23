@@ -56,9 +56,9 @@ class Evaluacioncompetencias extends CActiveRecord {
 		// will receive user inputs.
 		return array(
 			array('procesoevaluacion, puesto, colaborador', 'required'),
-			array('procesoevaluacion, links, puesto, colaborador, estado, accalificacion, acindicador', 'numerical', 'integerOnly'=>true),
+			array('procesoevaluacion, links, puesto, colaborador, estado, acindicador', 'numerical', 'integerOnly'=>True),
                         array('acdetalle', 'length', 'max'=>200),
-			array('promedioponderado, promedioec, promedioac', 'numerical'),
+			array('promedioponderado, promedioec, promedioac, accalificacion', 'numerical'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
 			array('id, procesoevaluacion, fechaevaluacion, promedioponderado, promedioec, promedioac, links, puesto, colaborador, estado, accalificacion, acdetalle, acindicador', 'safe', 'on'=>'search'),
