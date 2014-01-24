@@ -16,9 +16,9 @@
             </tr>
         <thead>
         <tbody>
-            <th><?php echo CHtml::textarea('detalleassessmentcenter', '', array('id' => 'taassessmentcenter', 'class' => 'taassessmentcenter')); ?></th>        
-            <th> <?php echo CHtml::textField('puntajeac', '', array('id' => 'ddlpuntajeassessmentcenter', 'class'=>'taassessmentcenter')); ?>
-            <p id="ddlpuntajeassessmentcentererror" class="mensajeerror">Debe seleccionar una calificación</p>
+            <th><?php echo CHtml::textarea('detalleassessmentcenter', '', array('id' => 'taassessmentcenter', 'class' => 'taassessmentcenter')); ?></th>                    
+            <th> <?php echo CHtml::textField('puntajeac', '', array('id' => 'tfpuntajeassessmentcenter')); ?>           
+            <p id="tfpuntajeassessmentcentererror" class="mensajeerror">Debe ingresar una calificación</p>
             </th>          
         </tbody>
     </table>

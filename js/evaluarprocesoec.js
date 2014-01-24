@@ -7,8 +7,8 @@ $(document).ready(function() {
         if(!validarcalificacionhabilidadesnoequivalentes()){            
             messagewarning("Ha ingresado una o mas Habilidades No Equivalentes al Puesto incompletadas.");
         }        
-        else if(!validarcalificacionac($('#ddlpuntajeassessmentcenter'))){          
-           mostrarerror($('#ddlpuntajeassessmentcenter'));                     
+        else if(!validarcalificacionac($('#tfpuntajeassessmentcenter'))){          
+           mostrarerror($('#tfpuntajeassessmentcenter'));                     
            messagewarning("El assessment center debe ser calificado.");
         }
         else if (!validarcalifacionmeritohabilidades()){
@@ -110,11 +110,11 @@ $(document).ready(function() {
     });
 
     //Validacion de campos
-    $('#ddlpuntajeassessmentcenter').focusout(function(){
-        if(!validarcalificacionac($(this)))          
-            mostrarerror($(this));     
+    $('#tfpuntajeassessmentcenter').focusout(function(){
+        if(!validarcalificacionac($(this)))                     
+            mostrarerror($(this));
     });
-    $('#ddlpuntajeassessmentcenter').focusin(function(){
+    $('#tfpuntajeassessmentcenter').focusin(function(){
         ocultarerror($(this)); 
     });
     
@@ -132,10 +132,29 @@ $(document).ready(function() {
                 return false;
             else
                 return true;
+//            if(CheckDecimal(elemento))
+//                return true;
+//            else
+//                return false;
         }else
             return true;
     }
     
+    function CheckDecimal(inputtxt) 
+    { 
+        var decimal=  /[-+][0-9]+\.[0-9]+$/; 
+        if(inputtxt.value.match(decimal)) 
+        { 
+        alert('Correct, try another...')
+        return true;
+        }
+        else
+        { 
+        alert('Wrong...!')
+        return false;
+        }
+    }
+
     function validarcalifacionmeritohabilidades(){
         var valido = true;
         $("[name='puntaje']" ).each(function() {
@@ -266,7 +285,7 @@ $(document).ready(function() {
     }
     
     function califacionac(){
-        return $("#ddlpuntajeassessmentcenter").val();
+        return $("#tfpuntajeassessmentcenter").val();
     }
     
     function formulapromedioacec(promedioac, promedioec){       
@@ -302,7 +321,7 @@ $(document).ready(function() {
     function actualizarindicadorac(){
         actualizarec();
         $("#taassessmentcenter").val('');
-        $("#ddlpuntajeassessmentcenter").val('');
+        $("#tfpuntajeassessmentcenter").val('');
         if($("#cbassessmentcenter").is(":checked"))
             $("#divassessmentcenter").toggle("fast");
         else           
