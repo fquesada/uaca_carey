@@ -103,9 +103,5 @@
             }
             ?>           
         </tbody>
-    </table>
-    <div class="promedioponderado">
-        <p>Promedio Ponderado: <span>0</span>
-        </p>
-    </div>
+    </table>    
 </div>

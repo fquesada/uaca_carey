@@ -18,7 +18,7 @@
         <tbody>
             <th><?php echo CHtml::textarea('detalleassessmentcenter', '', array('id' => 'taassessmentcenter', 'class' => 'taassessmentcenter')); ?></th>                    
             <th> <?php echo CHtml::textField('puntajeac', '', array('id' => 'tfpuntajeassessmentcenter')); ?>           
-            <p id="tfpuntajeassessmentcentererror" class="mensajeerror">Debe ingresar una calificación</p>
+            <p id="tfpuntajeassessmentcentererror" class="mensajeerror">Debe ingresar una calificación entre 0 y 5 (Se aceptan decimales)</p>
             </th>          
         </tbody>
     </table>

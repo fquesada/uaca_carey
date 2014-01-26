@@ -128,33 +128,25 @@ $(document).ready(function() {
     
     function validarcalificacionac(elemento){
         if($('#cbassessmentcenter').is(":checked")){                                  
-            if($(elemento).val() == '' || $(elemento).val()=='-')
-                return false;
+            var ac = $(elemento).val();
+            if(!(ac == '')){
+                if(!(isNaN(parseFloat(ac)) || isNaN(Number(ac.replace(',','.'))))){
+                    var acnumero = parseFloat(ac.replace(',','.'));
+                    if(!(acnumero < 0 || acnumero > 5)){
+                        return true;
+                    }
+                    else
+                        return false;
+                }
+                else
+                    return false;
+            }
             else
-                return true;
-//            if(CheckDecimal(elemento))
-//                return true;
-//            else
-//                return false;
+                return false;
         }else
             return true;
-    }
+    }    
     
-    function CheckDecimal(inputtxt) 
-    { 
-        var decimal=  /[-+][0-9]+\.[0-9]+$/; 
-        if(inputtxt.value.match(decimal)) 
-        { 
-        alert('Correct, try another...')
-        return true;
-        }
-        else
-        { 
-        alert('Wrong...!')
-        return false;
-        }
-    }
-
     function validarcalifacionmeritohabilidades(){
         var valido = true;
         $("[name='puntaje']" ).each(function() {
@@ -209,8 +201,7 @@ $(document).ready(function() {
         if($("#cbassessmentcenter").is(":checked")){            
             detalleac = $("#taassessmentcenter").val();
             indicadorac = true;      
-            if(!(califacionac() === ""))
-                calificacionac = califacionac();
+            calificacionac = califacionac();
         }        
         ac['indicadorac'] = indicadorac;
         ac['calificacionac'] = calificacionac;
@@ -285,7 +276,10 @@ $(document).ready(function() {
     }
     
     function califacionac(){
-        return $("#tfpuntajeassessmentcenter").val();
+        if(!validarcalificacionac($('#tfpuntajeassessmentcenter')))
+           return 0;        
+        else 
+            return parseFloat($("#tfpuntajeassessmentcenter").val().replace(',','.'));
     }
     
     function formulapromedioacec(promedioac, promedioec){       
@@ -298,9 +292,7 @@ $(document).ready(function() {
     }
     
     function actualizaracac(){
-        var calificacionac =  califacionac();
-        if(calificacionac === ""){
-                    calificacionac = 0;}       
+        var calificacionac =  califacionac();       
         var promedioec = promediomeritoshabilidades();
         formulapromedioacec(calificacionac, promedioec);
     }
@@ -310,9 +302,7 @@ $(document).ready(function() {
         var promedioec = promediomeritoshabilidades();
         
         if($("#cbassessmentcenter").is(":checked")){            
-            calificacionac =  califacionac();      
-            if(calificacionac === ""){
-                    calificacionac = 0;}        
+            calificacionac =  califacionac();             
             formulapromedioacec(calificacionac, promedioec);
         }else{
         actualizarpromedio(promedioec);}
@@ -329,14 +319,14 @@ $(document).ready(function() {
     }
     
     $("[name='puntajeac']").change(function(){        
-        actualizaracac();
+            actualizaracac();
     });
     
     $("[name='puntaje']" ).change(function(){               
         actualizarec();
     });       
 
-    $("#cbassessmentcenter" ).on( "click", function() {   
-        actualizarindicadorac();        
+    $("#cbassessmentcenter" ).on( "click", function() {           
+            actualizarindicadorac();        
     });
 });
