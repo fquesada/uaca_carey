@@ -10,6 +10,7 @@
  * @property double $promedioponderado
  * @property double $promedioec
  * @property double $promedioac
+ * @property integer $eccalificacion
  * @property integer $accalificacion
  * @property string $acdetalle
  * @property integer $acindicador
@@ -58,10 +59,10 @@ class Evaluacioncompetencias extends CActiveRecord {
 			array('procesoevaluacion, puesto, colaborador', 'required'),
 			array('procesoevaluacion, links, puesto, colaborador, estado, acindicador', 'numerical', 'integerOnly'=>True),
                         array('acdetalle', 'length', 'max'=>200),
-			array('promedioponderado, promedioec, promedioac, accalificacion', 'numerical'),
+			array('promedioponderado, promedioec, promedioac, accalificacion, eccalificacion', 'numerical'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, procesoevaluacion, fechaevaluacion, promedioponderado, promedioec, promedioac, links, puesto, colaborador, estado, accalificacion, acdetalle, acindicador', 'safe', 'on'=>'search'),
+			array('id, procesoevaluacion, fechaevaluacion, promedioponderado, promedioec, promedioac, links, puesto, colaborador, estado, accalificacion, eccalificacion, acdetalle, acindicador', 'safe', 'on'=>'search'),
                 );
         }
 	/**
@@ -100,6 +101,7 @@ class Evaluacioncompetencias extends CActiveRecord {
                         'colaborador' => 'Colaborador',
                         'estado' => 'Estado',
                         'accalificacion' => 'Calificacion Assessment Center', 
+                        'eccalificacion' => 'Calificacion EC',
                         'acdetalle' => 'Detalle Assessment Center',
                         'acindicador' => 'Indicador Assessment Center',
 		);
@@ -126,6 +128,7 @@ class Evaluacioncompetencias extends CActiveRecord {
                 $criteria->compare('colaborador',$this->colaborador);
                 $criteria->compare('estado',$this->estado);
                 $criteria->compare('accalificacion',$this->accalificacion);
+                $criteria->compare('eccalificacion',$this->eccalificacion);
                 $criteria->compare('acdetalle',$this->acdetalle);
                 $criteria->compare('acindicador',$this->acindicador);
                 
