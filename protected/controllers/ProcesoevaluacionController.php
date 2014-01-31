@@ -815,7 +815,7 @@ class ProcesoevaluacionController extends Controller
              );
                
                if ($ec->acindicador == 0) {
-               $objPHPExcel = $objReader->load($phpExcelPath. DIRECTORY_SEPARATOR ."templates". DIRECTORY_SEPARATOR ."EvaluacionPorCompetenciasTemplate2.xlsx");
+               $objPHPExcel = $objReader->load($phpExcelPath. DIRECTORY_SEPARATOR ."templates". DIRECTORY_SEPARATOR ."EvaluacionPorCompetenciasTemplate.xlsx");
 
                $objPHPExcel->setActiveSheetIndex(0);  //set first sheet as active
 
@@ -893,7 +893,7 @@ class ProcesoevaluacionController extends Controller
                 $objPHPExcel->getActiveSheet()->setCellValue('J5', $ec->_procesoevaluacion->_evaluador->nombrecompleto);
                 $objPHPExcel->getActiveSheet()->setCellValue('J6', $ec->_procesoevaluacion->fecha);
                 $objPHPExcel->getActiveSheet()->setCellValue('F48', $ec->accalificacion);
-                $objPHPExcel->getActiveSheet()->setCellValue('G48', $ec->promedioec);
+                $objPHPExcel->getActiveSheet()->setCellValue('G48', $ec->eccalificacion);
 
                  $i = '50';  
 
