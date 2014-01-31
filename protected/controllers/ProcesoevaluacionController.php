@@ -815,7 +815,7 @@ class ProcesoevaluacionController extends Controller
              );
                
                if ($ec->acindicador == 0) {
-               $objPHPExcel = $objReader->load($phpExcelPath. DIRECTORY_SEPARATOR ."templates". DIRECTORY_SEPARATOR ."EvaluacionPorCompetenciasTemplate.xlsx");
+               $objPHPExcel = $objReader->load($phpExcelPath. DIRECTORY_SEPARATOR ."templates". DIRECTORY_SEPARATOR ."EvaluacionPorCompetenciasTemplate2.xlsx");
 
                $objPHPExcel->setActiveSheetIndex(0);  //set first sheet as active
 
@@ -838,7 +838,7 @@ class ProcesoevaluacionController extends Controller
                             ->setCellValue('J'.$i, $merito->calificacion);
 
                      $objPHPExcel->getActiveSheet()->getRowDimension($i)->setRowHeight(15);
-                     $objPHPExcel->setActiveSheetIndex()->getStyle('E'.$i.':I'.$i)->applyFromArray($styleTableBorder);
+                     $objPHPExcel->setActiveSheetIndex()->getStyle('E'.$i.':J'.$i)->applyFromArray($styleTableBorder);
                      $i++;
                   
                 }
@@ -858,7 +858,7 @@ class ProcesoevaluacionController extends Controller
                             ->setCellValue('J'.$j, $competencia->calificacion);
 
                      $objPHPExcel->getActiveSheet()->getRowDimension($j)->setRowHeight(15);
-                     $objPHPExcel->setActiveSheetIndex()->getStyle('E'.$j.':I'.$j)->applyFromArray($styleTableBorder);
+                     $objPHPExcel->setActiveSheetIndex()->getStyle('E'.$j.':J'.$j)->applyFromArray($styleTableBorder);
                      $j++;   
                     }
                     
@@ -873,7 +873,7 @@ class ProcesoevaluacionController extends Controller
                             ->setCellValue('J'.$j, $competencia->calificacion);
 
                      $objPHPExcel->getActiveSheet()->getRowDimension($j)->setRowHeight(15);
-                     $objPHPExcel->setActiveSheetIndex()->getStyle('E'.$j.':I'.$j)->applyFromArray($styleTableBorder);
+                     $objPHPExcel->setActiveSheetIndex()->getStyle('E'.$j.':J'.$j)->applyFromArray($styleTableBorder);
                      $j++;
                     }
                 }
@@ -892,7 +892,7 @@ class ProcesoevaluacionController extends Controller
                 $objPHPExcel->getActiveSheet()->setCellValue('J4', $ec->_colaborador->cedula);
                 $objPHPExcel->getActiveSheet()->setCellValue('J5', $ec->_procesoevaluacion->_evaluador->nombrecompleto);
                 $objPHPExcel->getActiveSheet()->setCellValue('J6', $ec->_procesoevaluacion->fecha);
-                $objPHPExcel->getActiveSheet()->setCellValue('F48', $ec->promedioac);
+                $objPHPExcel->getActiveSheet()->setCellValue('F48', $ec->accalificacion);
                 $objPHPExcel->getActiveSheet()->setCellValue('G48', $ec->promedioec);
 
                  $i = '50';  
@@ -908,7 +908,6 @@ class ProcesoevaluacionController extends Controller
                              ->setCellValue('J'.$i, $merito->calificacion);
 
                       $objPHPExcel->getActiveSheet()->getRowDimension($i)->setRowHeight(15);
-                      $objPHPExcel->setActiveSheetIndex()->getStyle('E'.$i.':I'.$i)->applyFromArray($styleTableBorder);
                       $i++;
 
                  }
@@ -928,7 +927,7 @@ class ProcesoevaluacionController extends Controller
                              ->setCellValue('J'.$j, $competencia->calificacion);
 
                       $objPHPExcel->getActiveSheet()->getRowDimension($j)->setRowHeight(15);
-                      $objPHPExcel->setActiveSheetIndex()->getStyle('E'.$j.':I'.$j)->applyFromArray($styleTableBorder);
+                      $objPHPExcel->setActiveSheetIndex()->getStyle('E'.$j.':J'.$j)->applyFromArray($styleTableBorder);
                       $j++;   
                      }
                      
@@ -943,7 +942,7 @@ class ProcesoevaluacionController extends Controller
                              ->setCellValue('J'.$j, $competencia->calificacion);
 
                       $objPHPExcel->getActiveSheet()->getRowDimension($j)->setRowHeight(15);
-                      $objPHPExcel->setActiveSheetIndex()->getStyle('E'.$j.':I'.$j)->applyFromArray($styleTableBorder);
+                      $objPHPExcel->setActiveSheetIndex()->getStyle('E'.$j.':J'.$j)->applyFromArray($styleTableBorder);
                       $j++;
                      }
                  }
@@ -955,7 +954,7 @@ class ProcesoevaluacionController extends Controller
                 header('Content-Type: application/excel');
                 header('Content-Disposition: attachment;filename="ReporteEC_'.$colaborador->nombrecompleto.'.xlsx"');
                 header('Cache-Control: max-age=0');
-
+                
                 $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');             
                 $objWriter->setIncludeCharts(TRUE);                        
                 $objWriter->save('php://output');
