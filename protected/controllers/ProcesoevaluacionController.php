@@ -435,6 +435,7 @@ class ProcesoevaluacionController extends Controller
                     $promediohabilidadmerito = $ec->promedioec($meritos, $habilidades);
                     $promedioac = $ec->promedioac($calificacionac);
                     $promedioponderado = $ec->promedioponderadoacec($promediohabilidadmerito, $promedioac);
+                    $ec->eccalificacion = $ec->promedioponderadoec($meritos, $habilidades);
                     $ec->accalificacion = $calificacionac;
                     $ec->promedioac = $promedioac;
                     $ec->acdetalle = $assessmentcenter['detalleac'];
@@ -442,7 +443,9 @@ class ProcesoevaluacionController extends Controller
                     $ec->promedioec = $promediohabilidadmerito;
                 }
                 else{
+                    
                     $promedioponderado = $ec->promedioponderadoec($meritos, $habilidades);
+                    $ec->eccalificacion = $promedioponderado;
                     $ec->promedioec = $promedioponderado;
                     }
 
