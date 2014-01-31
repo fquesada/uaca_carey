@@ -895,10 +895,10 @@ class ProcesoevaluacionController extends Controller
                 $objPHPExcel->getActiveSheet()->setCellValue('J4', $ec->_colaborador->cedula);
                 $objPHPExcel->getActiveSheet()->setCellValue('J5', $ec->_procesoevaluacion->_evaluador->nombrecompleto);
                 $objPHPExcel->getActiveSheet()->setCellValue('J6', $ec->_procesoevaluacion->fecha);
-                $objPHPExcel->getActiveSheet()->setCellValue('F48', $ec->accalificacion);
-                $objPHPExcel->getActiveSheet()->setCellValue('G48', $ec->eccalificacion);
+                $objPHPExcel->getActiveSheet()->setCellValue('H50', $ec->accalificacion);
+                $objPHPExcel->getActiveSheet()->setCellValue('I50', $ec->eccalificacion);
 
-                 $i = '50';  
+                 $i = '52';  
 
                  foreach($meritos as $merito)
                  {
@@ -911,6 +911,7 @@ class ProcesoevaluacionController extends Controller
                              ->setCellValue('J'.$i, $merito->calificacion);
 
                       $objPHPExcel->getActiveSheet()->getRowDimension($i)->setRowHeight(15);
+                      $objPHPExcel->setActiveSheetIndex()->getStyle('E'.$i.':J'.$i)->applyFromArray($styleTableBorder);
                       $i++;
 
                  }
@@ -951,7 +952,7 @@ class ProcesoevaluacionController extends Controller
                  }
 
                  $objPHPExcel->setActiveSheetIndex(0)
-                         ->setCellValue('G62', $ec->promedioponderado); 
+                         ->setCellValue('G64', $ec->promedioponderado); 
                 }
                 
                 header('Content-Type: application/excel');
