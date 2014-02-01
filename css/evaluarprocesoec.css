@@ -3,6 +3,12 @@
     width: 1150px;
 }
 
+/*Volver atras*/
+#btnvolveratras{
+     margin-top: 15px;
+}
+
+
 /*Error*/
 .mensajeerror{
     font-style: italic;

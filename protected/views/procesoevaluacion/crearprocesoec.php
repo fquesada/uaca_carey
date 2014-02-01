@@ -41,6 +41,16 @@ if(!$indicadoreditar){
 
 <h3 style="text-align: center"><?php if(!$indicadoreditar) echo "Nuevo proceso EC"; else echo "Editar proceso EC #".$procesoec->id;?></h3>
 
+<?php 
+    if(!$indicadoreditar){
+        echo CHtml::button('Volver atrás', array('id'=>'btnvolveratras','submit' => array('procesoevaluacion/admin'), 'class'=>'sexybutton sexysimple sexylarge'));
+    }
+    else{
+        echo CHtml::button('Volver atrás', array('id'=>'btnvolveratras','submit' => array('procesoevaluacion/adminprocesoec/'.$procesoec->id), 'class'=>'sexybutton sexysimple sexylarge'));
+        
+    }
+?>
+
 <?php echo CHtml::beginForm()?>
 
 <?php 
@@ -59,10 +69,15 @@ if(!$indicadoreditar){
 
 </br>
 <div class="row buttons" style="text-align: center">  
-                <?php if(!$indicadoreditar)
+                <?php if(!$indicadoreditar){
                         echo CHtml::submitButton('Crear proceso EC',array('id'=>'btncrearprocesoEC', 'class'=>'sexybutton sexysimple sexylarge'));
-                   else
+                        echo '</br>';
+                        echo CHtml::button('Volver atrás', array('id'=>'btnvolveratras','submit' => array('procesoevaluacion/admin'), 'class'=>'sexybutton sexysimple sexylarge'));
+                }else{
                         echo CHtml::submitButton('Guardar proceso EC',array('id'=>'btnguardarprocesoEC', 'class'=>'sexybutton sexysimple sexylarge')); 
+                        echo '</br>';
+                        echo CHtml::button('Volver atrás', array('id'=>'btnvolveratras','submit' => array('procesoevaluacion/adminprocesoec/'.$procesoec->id), 'class'=>'sexybutton sexysimple sexylarge'));
+                }
                    ?>
 </div>
 <?php echo CHtml::endForm()?>

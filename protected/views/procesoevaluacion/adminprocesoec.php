@@ -94,4 +94,9 @@ $this->menu=array(
 </table>
     
 </div>
+    <div style="text-align: center"> 
+   <?php
+        echo CHtml::button('Volver atrás', array('id'=>'btnvolveratras','submit' => array('procesoevaluacion/admin'), 'class'=>'sexybutton sexysimple sexylarge'));
+   ?>
+    </div>
 </div>
