@@ -4,12 +4,74 @@
  */
 
 $(document).ready(function() {
+    
+     function restablecerbuscarcolaborador(){
+        $('#puestocolaborador').text('-');                             
+        $('#busquedacolaborador').val('');                                              
+        $('#idcolaborador').val('');                   
+        $('#busquedacolaborador').removeAttr("disabled");
+        $('#btnagregarcolaborador').attr('disabled', 'true');
+        $("#imgborrarcolaborador").hide();
+   }
+   
+   function cantidadcolaboradorestabla(){
+      return $('#tblcolaboradores > tbody tr').length;       
+   }
+   
+   function existeidcolaboradortabla(idcomprobar){
+       var existe = false;
+       $('#tblcolaboradores > tbody tr').each(function(index,columna){
+           var idcolaborador = $(columna).find('td:eq(0)').text();//La columna cero posee el idcolaborador
+           if (idcomprobar == idcolaborador)
+               return existe = true;
+       }            
+       );
+       return existe;           
+   }
+    
+    $("#btnagregarcolaborador").click(function(){         
+       
+       var idevaluador = $('#idevaluador').val();  
+       var cedula = $('#cedulacolaborador').val();
+       var idcolaborador = $('#idcolaborador').val(); 
+       var puesto = $('#puestocolaborador').text(); 
+       var colaborador =  $('#busquedacolaborador').val(); 
+       
+       var urlimagenborrarcolaborador = "../../../images/icons/silk/delete.png";
+       
+       
+       if(idevaluador == idcolaborador){
+           messageerror('El colaborador no puede ser el mismo que el evaluador');
+           restablecerbuscarcolaborador();
+       }
+       else if(cantidadcolaboradorestabla()==0){
+           $('#tblcolaboradores > tbody').append('<tr><td name="idcolaborador" style="display: none">'+idcolaborador+'</td><td name="puesto">'+cedula+'</td><td name="colaborador">'+colaborador+'</td><td name="puesto">'+puesto+'</td><td><img id="borrarcolaborador" style="cursor: pointer; padding-left:5px;" src="'+urlimagenborrarcolaborador+'" alt="Eliminar colaborador"/></td></tr>');     
+           restablecerbuscarcolaborador();
+           ocultarerror($('#tblcolaboradores'));
+       }
+       else if (existeidcolaboradortabla(idcolaborador)){
+           messageerror('El colaborador ya se encuentra seleccionado.');
+           restablecerbuscarcolaborador();
+       }
+       else{
+          $('#tblcolaboradores > tbody').append('<tr><td name="idcolaborador" style="display: none">'+idcolaborador+'</td><td name="puesto">'+cedula+'</td><td name="colaborador">'+colaborador+'</td><td name="puesto">'+puesto+'</td><td><img id="borrarcolaborador" style="cursor: pointer; padding-left:5px;" src="'+urlimagenborrarcolaborador+'" alt="Eliminar colaborador"/></td></tr>'); 
+          restablecerbuscarcolaborador();
+          ocultarerror($('#tblcolaboradores'));
+       }
+
+   });
+    
+    $("#btnbusquedacolaboradores").click(function(){              
+       $("#dialogcolaboradores").dialog("open"); 
+       
+   });
    
    //Proceso crear evaluacion persona
    $("#btncrearprocesoevaluacion").click(function(event){
        event.preventDefault();
+       $(this).attr("disabled", "disabled");
        
-      if(validar($('#txtdescripcion')) && validar($('#id'))){       
+      if(validar($('#txtdescripcion')) && validar($('#id')) && validar($('#periodo'))){       
        $.ajax({
                     type: "POST",
                     url: "Crear",               
@@ -46,6 +108,8 @@ $(document).ready(function() {
                 mostrarerror($('#txtdescripcion'));
            if(!validar($('#id')))
                 mostrarerror($('#colaborador'));
+            if(!validar($('#periodo')))
+                mostrarerror($('#periodo'));
       }
    });
    
@@ -54,6 +118,7 @@ $(document).ready(function() {
        var data = {};
         data['txtdescripcion'] = $("#txtdescripcion").val();
         data['id'] = $("#id").val();
+        data['periodo'] = $("#periodo").val();
     
         return data;
    }

@@ -32,7 +32,7 @@ class ProcesoEDController extends Controller
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('crear','report','update','admin','AgregarPersonas','AgregarPersona','AutocompleteEvaluado',
+				'actions'=>array('crear','report','update','admin','Admined','AdminEva','AgregarPersona','AutocompleteEvaluado',
                                                     'HabilidadesEspeciales','InfoPonderacion', 'delete', 'reporteevaluacioncompetencias', 'DataReporteEvaluacionCompetencias'),
 				'users'=>array('@'),
 			),
@@ -46,21 +46,39 @@ class ProcesoEDController extends Controller
 		);
 	}
         
-        public function actionAgregarPersonas($id)
+        public function actionAdmined($id)
         {
-            $procesoevaluacion = Procesoevaluacion::model()->findByPk($id);                         
-            
+            $procesoevaluacion = Procesoevaluacion::model()->find('id='.$id.' AND tipo=2');
+           
             if(isset($procesoevaluacion))
             {            
-                $dataProvider =new CActiveDataProvider('Evaluacioncompetencias',array('criteria'=>array(
+                $evaluaciones =new CActiveDataProvider('evaluaciondesempeno',array('criteria'=>array(
                     'condition'=>'procesoevaluacion='.$id)));            
 
-                $this->render('agregarpersonas',array(
-                            'model'=>$procesoevaluacion,'dataProvider'=>$dataProvider
+                $this->render('admined',array(
+                            'model'=>$procesoevaluacion,'evaluaciones'=>$evaluaciones
                     ));
             }
             else
                 $this->redirect(array('admin'));
+            
+        }
+        
+        public function actionAdminEva($id)
+        {
+            $procesoevaluacion = Procesoevaluacion::model()->find('id='.$id.' AND tipo=2');
+           
+            if(isset($procesoevaluacion))
+            {            
+                $evaluaciones =new CActiveDataProvider('evaluaciondesempeno',array('criteria'=>array(
+                    'condition'=>'procesoevaluacion='.$id)));            
+
+                $this->render('admineva',array(
+                            'model'=>$procesoevaluacion,'evaluaciones'=>$evaluaciones
+                    ));
+            }
+            else
+                $this->redirect(array('admineva'));
             
         }
         
@@ -115,18 +133,11 @@ class ProcesoEDController extends Controller
                 $keyword=strtr($keyword, array('%'=>'\%', '_'=>'\_'));
                                
                 $dataReader = Yii::app()->db->createCommand(
-                        'SELECT c.cedula,c.nombre,c.apellido1,c.apellido2, c.id '.
-                        'FROM colaborador c '.                        
-                        'WHERE CONCAT_WS(" ", c.nombre, c.apellido1, c.apellido2 ) like "%'.$keyword.'%" AND c.estado = 1;'
-                        )->query(); 
-                
-                $dataReaderPos = Yii::app()->db->createCommand(
-                        'SELECT c.cedula,c.nombre,c.apellido1,c.apellido2, c.id '.
-                        'FROM postulante c '.                        
+                        'SELECT c.cedula,c.nombre,c.apellido1,c.apellido2, c.id, p.nombre as "puesto" '.
+                        'FROM colaborador c INNER JOIN historicopuesto hp on c.id = hp.colaborador and hp.puestoactual = 1 INNER JOIN puesto p  ON hp.puesto = p.id '.                        
                         'WHERE CONCAT_WS(" ", c.nombre, c.apellido1, c.apellido2 ) like "%'.$keyword.'%" AND c.estado = 1;'
                         )->query(); 
                                 
-
                 $return_array = array();
                 if($dataReader->count() == 0)
                 {
@@ -137,25 +148,17 @@ class ProcesoEDController extends Controller
                 }
                 else{ 
                     foreach($dataReader as $row){ 
+                        
                         $nombrecompleto = $row['nombre'].' '.$row['apellido1'].' '.$row['apellido2'];
                         $return_array[] = array(
-                        'label'=>'<div style="font-size:x-small">Cédula: '.$row['cedula'].'</div>'.'<div>'.$nombrecompleto.'</div>',
+                        'label'=>'<div style="font-size:x-small">Puesto: '.$row['puesto'].'</div>'.'<div>'.$nombrecompleto.'</div>',
                         'value'=>$nombrecompleto, 
                         'id'=>$row['id'],
-                         'cedula'=>$row['cedula'],                        
+                         'cedula'=>$row['cedula'],   
+                         'puesto'=>$row['puesto'],
                             'tipo'=>1,                        
                         );
-                    }
-                    foreach($dataReaderPos as $row){ 
-                        $nombrecompleto = $row['nombre'].' '.$row['apellido1'].' '.$row['apellido2'];
-                        $return_array[] = array(
-                        'label'=>'<div style="font-size:x-small">Cédula: '.$row['cedula'].'</div>'.'<div>'.$nombrecompleto.'</div>',
-                        'value'=>$nombrecompleto, 
-                        'id'=>$row['id'],
-                         'cedula'=>$row['cedula'],                        
-                            'tipo'=>0,                        
-                        );
-                    }
+                    }                    
                 }
                 echo CJSON::encode($return_array);
             }
@@ -178,7 +181,7 @@ class ProcesoEDController extends Controller
 	 * Creates a new model.
 	 * If creation is successful, the browser will be redirected to the 'view' page.
 	 */
-	public function actionCreate()
+	public function actionCreate()//BORRAR
 	{
 		$model=new Procesoevaluacion;
 
@@ -203,13 +206,15 @@ class ProcesoEDController extends Controller
             {                
                 $descripcion = $_POST['txtdescripcion'];
                 $evaluador = CommonFunctions::stringtonumber($_POST['id']);
+                $periodo = CommonFunctions::stringtonumber($_POST['periodo']);
                 
                 $evaluaciond = new Procesoevaluacion();
                 
                 $evaluaciond->descripcion = $descripcion;
                 $evaluaciond->evaluador = $evaluador; 
-                $evaluaciond->estado = 1; //Preguntar
-                $evaluaciond->tipo = 1; //Preguntar
+                $evaluaciond->estado = 1;
+                $evaluaciond->tipo = 2;
+                $evaluaciond->periodo = $periodo;
                 $evaluaciond->fecha = CommonFunctions::datenow();                                                                                                
                 
                 $transaction = Yii::app()->db->beginTransaction();
@@ -310,7 +315,7 @@ class ProcesoEDController extends Controller
 	 */
 	public function actionAdmin()
 	{
-            $model = Procesoevaluacion::model()->search();                
+            $ec = Procesoevaluacion::model()->obtenerevaluaciondesempeno();                
             $filtersForm=new FiltersForm;
 
             if (isset($_GET['FiltersForm']))
@@ -318,7 +323,7 @@ class ProcesoEDController extends Controller
             
             $this->layout='column1';
             $this->render('admin',array(
-                'model' => $filtersForm->filter($model),
+                'ec' => $filtersForm->filter($ec),
                 'filtersForm' => $filtersForm,
             ));
 	}

@@ -126,4 +126,38 @@ class Procesoevaluacion  extends CActiveRecord
 
             return $dataProvider;
         }
+        
+        
+        public function obtenerevaluaciondesempeno(){
+            $connection=Yii::app()->db;
+            $sql=  "SELECT pe.id, pe.descripcion, p.nombre as periodo, DATE_FORMAT(pe.fecha, '%d/%m/%Y') AS fecha, CONCAT(c.nombre,' ',c.apellido1,' ',c.apellido2) AS evaluador,(CASE WHEN pe.estado = 1 THEN 'En proceso' ELSE 'Finalizado' END) as estado                   
+                    FROM procesoevaluacion pe
+                    INNER JOIN periodo p
+                    ON (pe.periodo = p.id)
+                    INNER JOIN colaborador c
+                    ON (pe.evaluador = c.id)
+                    WHERE pe.tipo = 2
+                    AND pe.estado <> 0;"; 
+            $command=$connection->createCommand($sql);
+            $ec = $command->queryAll();
+            $dataProvider = new CArrayDataProvider($ec,array(
+            'keyField'=>'id',
+            'id'=>'procesoevaluaciongrid',
+            'sort'=>array(
+                'attributes'=>array(
+                    'descripcion',
+                    'periodo',
+                    'fecha',                    
+                    'evaluador',                       
+                    'estado',
+                    ),
+                ),
+                'pagination'=>array(
+                    'pageSize'=>15,
+                ),
+            ));
+            return $dataProvider;
+        }
+        
+        
 }

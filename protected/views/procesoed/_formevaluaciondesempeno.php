@@ -16,6 +16,14 @@ Yii::app()->clientScript->registerScript('autocomplete', '
 <div class="form">
     <p>Campos con * son obligatorios.</p> 
     
+    
+    <div class="row">
+            <?php echo CHtml::label('Periodo *', 'periodo');
+                 echo CHtml::dropDownList('periodo','', CHtml::listData(Periodo::model()->findAll(), 'id', 'nombre'), array('empty'=>'Elija el periodo', 'id'=>'periodo'));           
+                    ?>
+            <div id="periodoerror" class="errorprocesoevaluacion">Debe seleccionar un periodo</div>
+    </div>
+    
     <div class="row">
             <?php echo CHtml::label('Descripcion de proceso *', 'descripcion');?>
             <?php echo CHtml::textArea('txtdescripcion','', array('id'=>'txtdescripcion', 'rows' => '3', 'cols' => '40', 'maxlength' => '90'));?>                    
