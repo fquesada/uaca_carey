@@ -13,3 +13,15 @@
     margin-top: 15px;
     margin-bottom: 15px;
 }
+
+.btnbusquedacolaboradores{
+   display: none; 
+}
+
+.ddlcargadepartamento{
+    display: none; 
+}
+
+.opcionescargacolaborador{
+    /*display: none;*/
+}

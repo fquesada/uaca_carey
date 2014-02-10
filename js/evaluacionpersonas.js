@@ -298,7 +298,11 @@ $(document).ready(function() {
         $('#idevaluador').val('');                    
         $('#busquedaevaluador').removeAttr("disabled");
         $("#imgborrarevaluador").hide();
-        $('#btnbusquedacolaboradores').attr('disabled', 'true');
+        
+        $('#opcionescargacolaborador').css('display', 'none');	
+        $('#btnbusquedacolaboradores').css('display', 'none');	
+        $('#ddlcargadepartamento').css('display', 'none');	
+        
         $('#tblcolaboradores > tbody > tr').remove()
    });
    
@@ -438,4 +442,71 @@ $(document).ready(function() {
 //                                           ),
 //    }
  }
+ 
+ /*Logica de carga de Colaboradores*/
+ 
+ $("[value='masiva']").on("click",function(){ 
+        $('#btnbusquedacolaboradores').css('display', 'none');	
+        $('#ddlcargadepartamento').css('display', 'none');
+        $('#tblcolaboradores > tbody > tr').remove()
+        cargamasivacolaboradores($('#idevaluador').val());        
+ });
+ 
+  $("[value='departamento']").on("click",function(){ 
+        $('#ddlcargadepartamento').show();
+        $('#btnbusquedacolaboradores').css('display', 'none');	
+        $('#tblcolaboradores > tbody > tr').remove()
+ });
+ 
+  $("[value='individual']").on("click",function(){         
+        
+        $('#btnbusquedacolaboradores').show();
+        $('#btnbusquedacolaboradores').removeAttr('disabled');
+        $('#ddlcargadepartamento').css('display', 'none');
+        $('#tblcolaboradores > tbody > tr').remove()
+ });
+    
+ function cargamasivacolaboradores(idevaluador){     
+      $.ajax({
+                    type: "POST",
+                    url: "cargamasiva",                    
+                    data: {'idevaluador' : idevaluador},
+                    dataType: 'json',
+                    error: function (jqXHR, textStatus){
+                        if (jqXHR.status === 0) {                            
+                            messageerror("Problema de red, contacte al administrador de sistemas.");
+                        } else if (jqXHR.status == 404) {
+                            messagewarning("Solicitud no encontrada.");
+                        } else if (jqXHR.status == 500) {
+                            messageerror("Error 500. Ha ocurrido un problema con el servidor, contacte al administrador de sistemas.");
+                        } else if (textStatus === 'parsererror') {
+                            messagewarning("Ha ocurrido un inconveniente, intente nuevamente.");
+                        } else if (textStatus === 'timeout') {
+                            messageerror("Tiempo de espera excedido, intente nuevamente.");
+                        } else if (textStatus === 'abort') {
+                            messageerror("Se ha abortado la solicitud, intente nuevamente");
+                        } else {
+                            messageerror("Error desconocido, contacte al administrador de sistemas.");                            
+                        }
+                    },
+                    success: function(datos){
+                        if(datos.value == "error")
+                             messagewarning(datos.mensaje);
+                        else
+                            agregarcolaboradortabla(datos);
+                           
+                    }
+        });
+ }
+ 
+ function agregarcolaboradortabla(arraycolaborador){
+    var urlimagenborrarcolaborador = "../../images/icons/silk/delete.png";
+    for (var i=0;i<arraycolaborador.length;i++)
+    {     
+        $('#tblcolaboradores > tbody').append('<tr><td name="idcolaborador" style="display: none">'+arraycolaborador[i].idcolaborador+'</td><td name="cedula">'+arraycolaborador[i].cedula+'</td><td name="colaborador">'+arraycolaborador[i].nombre+'</td><td name="puesto">'+arraycolaborador[i].puesto+'</td><td><img id="borrarcolaborador" style="cursor: pointer; padding-left:5px;" src="'+urlimagenborrarcolaborador+'" alt="Eliminar colaborador"/></td></tr>');    
+    }
+ }
+ 
+ /*Fin Logica de carga de Colaboradores*/
+ 
 });
