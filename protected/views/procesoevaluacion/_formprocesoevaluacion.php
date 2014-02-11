@@ -91,8 +91,8 @@
     </fieldset>
  
     <div id="opcionescargacolaborador" class="opcionescargacolaborador">
-         <?php echo CHtml::label("Seleccione el tipo de carga de Colaboradores a evaluar", 'lblopcionescarga',array('id'=>'lblopcionescarga'));?>
-         <input id="cbmasiva" type="radio" name="tipocarga" value="masiva">Carga Masiva (Todos los colaboradores de la empresa)</input>        
+         <?php echo CHtml::label("Seleccione el tipo de carga de Colaboradores *", 'lblopcionescarga',array('id'=>'lblopcionescarga'));?>
+         <input id="cbmasiva" type="radio" name="tipocarga" value="masiva">Carga Masiva (Todos los colaboradores)</input>        
          <input id="cbdepartamento" type="radio" name="tipocarga" value="departamento">Departamento</input>     
          <input id="cbindividual" type="radio" name="tipocarga" value="individual">Individual</input>     
     </div>
@@ -106,6 +106,8 @@
                         $('#btnbusquedacolaboradores').css('display', 'none');	                                                                   
                        
            ");
+           
+           echo '<div id="cargaajax"></div>';
         }
         echo '<button  id="btnbusquedacolaboradores" type="button" class="sexybutton sexysimple" disabled="disabled"><span class="add">Buscar colaborador(es)</span></button>';
        ?>

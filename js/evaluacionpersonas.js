@@ -465,14 +465,25 @@ $(document).ready(function() {
         $('#ddlcargadepartamento').css('display', 'none');
         $('#tblcolaboradores > tbody > tr').remove()
  });
+ 
+ $('#ddlcargadepartamento').change(function(){               
+        $('#tblcolaboradores > tbody > tr').remove()
+        var iddepartamento = $('#ddlcargadepartamento').val();
+        if(!(iddepartamento == ""))
+            cargadepartamentocolaboradores(iddepartamento, $('#idevaluador').val());
+ });       
+ 
     
  function cargamasivacolaboradores(idevaluador){     
+      $('#cargaajax').html('<img src="../../images/ajax-loader.gif">');
+      
       $.ajax({
                     type: "POST",
                     url: "cargamasiva",                    
                     data: {'idevaluador' : idevaluador},
                     dataType: 'json',
                     error: function (jqXHR, textStatus){
+                        $('#cargaajax > img').remove();
                         if (jqXHR.status === 0) {                            
                             messageerror("Problema de red, contacte al administrador de sistemas.");
                         } else if (jqXHR.status == 404) {
@@ -490,6 +501,45 @@ $(document).ready(function() {
                         }
                     },
                     success: function(datos){
+                        $('#cargaajax > img').remove();
+                        if(datos.value == "error")
+                             messagewarning(datos.mensaje);
+                        else
+                            agregarcolaboradortabla(datos);
+                           
+                    }
+        });
+ }
+ 
+ function cargadepartamentocolaboradores (idepartamento, idevaluador){
+      $('#cargaajax').html('<img src="../../images/ajax-loader.gif">');
+      $.ajax({
+                    type: "POST",
+                    url: "cargadepartamento",                    
+                    data: {'idevaluador' : idevaluador,
+                           'iddepartamento' : idepartamento
+                          },
+                    dataType: 'json',
+                    error: function (jqXHR, textStatus){
+                        $('#cargaajax > img').remove();
+                        if (jqXHR.status === 0) {                            
+                            messageerror("Problema de red, contacte al administrador de sistemas.");
+                        } else if (jqXHR.status == 404) {
+                            messagewarning("Solicitud no encontrada.");
+                        } else if (jqXHR.status == 500) {
+                            messageerror("Error 500. Ha ocurrido un problema con el servidor, contacte al administrador de sistemas.");
+                        } else if (textStatus === 'parsererror') {
+                            messagewarning("Ha ocurrido un inconveniente, intente nuevamente.");
+                        } else if (textStatus === 'timeout') {
+                            messageerror("Tiempo de espera excedido, intente nuevamente.");
+                        } else if (textStatus === 'abort') {
+                            messageerror("Se ha abortado la solicitud, intente nuevamente");
+                        } else {
+                            messageerror("Error desconocido, contacte al administrador de sistemas.");                            
+                        }
+                    },
+                    success: function(datos){
+                        $('#cargaajax > img').remove();
                         if(datos.value == "error")
                              messagewarning(datos.mensaje);
                         else
@@ -500,6 +550,7 @@ $(document).ready(function() {
  }
  
  function agregarcolaboradortabla(arraycolaborador){
+    ocultarerror($('#tblcolaboradores'));
     var urlimagenborrarcolaborador = "../../images/icons/silk/delete.png";
     for (var i=0;i<arraycolaborador.length;i++)
     {     
