@@ -33,7 +33,7 @@ class ProcesoevaluacionController extends Controller
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
 				'actions'=>array('CrearProcesoEC','AdminProcesoEC','EditarProcesoEC','EliminarProcesoEC','EvaluarProcesoEC','EnvioCorreoEC','GuardarEvaluacionEC','update','admin','AgregarPersonas','AgregarPersona','AutocompleteEvaluado',
-                                                    'HabilidadesEspeciales','InfoPonderacion', 'delete', 'reporteevaluacioncompetencias', 'DataReporteEvaluacionCompetencias', 'vistaprueba','CrearReporteEC','ReporteEC'),
+                                                    'HabilidadesEspeciales','InfoPonderacion', 'delete', 'reporteevaluacioncompetencias', 'DataReporteEvaluacionCompetencias', 'vistaprueba','CrearReporteEC','ReporteEC','CargaMasiva','CargaDepartamento'),
 				'users'=>array('@'),
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -185,7 +185,61 @@ class ProcesoevaluacionController extends Controller
             }
         }
         
+        public function actionCargaMasiva(){            
+            $idevaluador = CommonFunctions::stringtonumber($_POST['idevaluador']);
+            $dataReader = Yii::app()->db->createCommand(
+                        'SELECT c.cedula,c.nombre,c.apellido1,c.apellido2, c.id, p.nombre as "puesto" '.
+                        'FROM colaborador c INNER JOIN historicopuesto hp on c.id = hp.colaborador and hp.puestoactual = 1 INNER JOIN puesto p  ON hp.puesto = p.id '.                        
+                        'WHERE c.id <> '.$idevaluador.' and c.estado = 1 ORDER BY c.apellido1;'
+                        )->query();
+            $return_array = array();            
+            if($dataReader->count() == 0){
+                    $return_array['value'] = 'error';
+                    $return_array['mensaje'] = 'Ha ocurrido un inconveniente al intentar cargar masivamente los colaboradores. Intente nuevamente';                  
+            }
+            else{
+                foreach($dataReader as $row){                         
+                            $nombrecompleto = $row['nombre'].' '.$row['apellido1'].' '.$row['apellido2'];
+                            $return_array[] = array(                       
+                            'nombre'=>$nombrecompleto, 
+                            'idcolaborador'=>$row['id'],
+                            'cedula'=>$row['cedula'],   
+                            'puesto'=>$row['puesto'],
+                            'tipo'=>1,      //CLEAN CODE                  
+                            );
+                }
+            }
+            echo CJSON::encode($return_array);
+        }
         
+        public function actionCargaDepartamento(){
+            $iddepartamento = CommonFunctions::stringtonumber($_POST['iddepartamento']);
+            $idevaluador = CommonFunctions::stringtonumber($_POST['idevaluador']);
+            
+            $dataReader = Yii::app()->db->createCommand(
+                        'SELECT c.cedula,c.nombre,c.apellido1,c.apellido2, c.id, p.nombre as "puesto" '.
+                        'FROM colaborador c INNER JOIN historicopuesto hp on c.id = hp.colaborador and hp.puestoactual = 1 INNER JOIN puesto p  ON hp.puesto = p.id '.                        
+                        'WHERE c.id <> '.$idevaluador.' and hp.unidadnegocio = '.$iddepartamento.' and c.estado = 1 ORDER BY c.apellido1;'
+                        )->query();
+            $return_array = array();            
+            if($dataReader->count() == 0){
+                    $return_array['value'] = 'error';
+                    $return_array['mensaje'] = 'Ha ocurrido un inconveniente al intentar cargar masivamente los colaboradores. Intente nuevamente';                  
+            }
+            else{
+                foreach($dataReader as $row){                         
+                            $nombrecompleto = $row['nombre'].' '.$row['apellido1'].' '.$row['apellido2'];
+                            $return_array[] = array(                       
+                            'nombre'=>$nombrecompleto, 
+                            'idcolaborador'=>$row['id'],
+                            'cedula'=>$row['cedula'],   
+                            'puesto'=>$row['puesto'],
+                            'tipo'=>1,      //CLEAN CODE                  
+                            );
+                }
+            }
+            echo CJSON::encode($return_array);
+        }
 
 	/**
 	 * Displays a particular model.

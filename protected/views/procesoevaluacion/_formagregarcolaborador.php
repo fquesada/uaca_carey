@@ -4,11 +4,6 @@
 /* @var $indicadoreditar Indicador Editar*/
 ?>
 
-<div>                    
-<button  id="btnbusquedacolaboradores" type="button" class="sexybutton sexysimple" disabled="disabled"><span class="add">Buscar colaborador(es)</span></button>
-</div>
-</br>
-</br>
 
 <?php
 //Este script sobreescribe el Jquery Autocomplete para permitir render HTML sobre los datos del json

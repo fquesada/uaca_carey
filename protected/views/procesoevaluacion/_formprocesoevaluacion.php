@@ -50,7 +50,7 @@
                         $('#puestoevaluador').text(ui.item['puesto']);                                                              
                         $('#idevaluador').val(ui.item['id']); 
                         $('#imgborrarevaluador').show();
-                        $('#btnbusquedacolaboradores').removeAttr('disabled'); 
+                        $('#opcionescargacolaborador').show(); 
 
                      }
 
@@ -90,5 +90,31 @@
     </div>   
     </fieldset>
  
-      
+    <div id="opcionescargacolaborador" class="opcionescargacolaborador">
+         <?php echo CHtml::label("Seleccione el tipo de carga de Colaboradores *", 'lblopcionescarga',array('id'=>'lblopcionescarga'));?>
+         <input id="cbmasiva" type="radio" name="tipocarga" value="masiva">Carga Masiva (Todos los colaboradores)</input>        
+         <input id="cbdepartamento" type="radio" name="tipocarga" value="departamento">Departamento</input>     
+         <input id="cbindividual" type="radio" name="tipocarga" value="individual">Individual</input>     
+    </div>
+    
+    
+    
+    <div>
+        <?php if(!$indicadoreditar) {
+           echo CHtml::dropDownList('unidadnegocio','unidadnegocio',CHtml::listData(Unidadnegocio::model()->findAll('estado=1'), 'id', 'nombre'), array('empty' => 'Seleccione Departamento', 'id' => 'ddlcargadepartamento', 'class' => 'ddlcargadepartamento')); 
+           Yii::app()->clientScript->registerScript('nomostrarbtnbusquedacolaboradores', "
+                        $('#btnbusquedacolaboradores').css('display', 'none');	                                                                   
+                       
+           ");
+           
+           echo '<div id="cargaajax"></div>';
+        }
+        echo '<button  id="btnbusquedacolaboradores" type="button" class="sexybutton sexysimple" disabled="disabled"><span class="add">Buscar colaborador(es)</span></button>';
+       ?>
+        
+        
+  
+    </div>
+    </br>
+    </br>  
 </div>
