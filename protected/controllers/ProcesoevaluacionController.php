@@ -224,7 +224,8 @@ class ProcesoevaluacionController extends Controller
             $return_array = array();            
             if($dataReader->count() == 0){
                     $return_array['value'] = 'error';
-                    $return_array['mensaje'] = 'Ha ocurrido un inconveniente al intentar cargar masivamente los colaboradores. Intente nuevamente';                  
+                    $return_array['mensaje'] = 'Ha ocurrido un inconveniente al intentar cargar los colaboradores de este departamento. 
+                        No existen colaboradores para este departamento o el Evaluador es el único colaborador de este departamento';                  
             }
             else{
                 foreach($dataReader as $row){                         

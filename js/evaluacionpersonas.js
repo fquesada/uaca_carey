@@ -454,6 +454,7 @@ $(document).ready(function() {
  
   $("[value='departamento']").on("click",function(){ 
         $('#ddlcargadepartamento').show();
+        $('#ddlcargadepartamento').prop('selectedIndex', 0);
         $('#btnbusquedacolaboradores').css('display', 'none');	
         $('#tblcolaboradores > tbody > tr').remove()
  });
