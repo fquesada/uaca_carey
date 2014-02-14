@@ -2,7 +2,8 @@ $(document).ready(function() {
     
     //Guardar proceso de editar EC
     $("#btnguardarprocesoEC").click(function(event){
-        event.preventDefault();
+        event.preventDefault();      
+        
         var idprocesoec = $('#idprocesoec').val();
         
         if(!validar($('#ddlperiodo'))){     
@@ -15,12 +16,14 @@ $(document).ready(function() {
            mostrarerror($('#tblcolaboradores'));
        }
        else{
+           $('#btnguardarprocesoEC').attr('disabled', 'true');
            $.ajax({
                     type: "POST",
                     url: "../editarprocesoec/"+idprocesoec,
                     data: obtenerdatoscrearproceso(),
                     dataType: 'json',
                     error: function (jqXHR, textStatus){
+                        $('#btnguardarprocesoEC').removeAttr('disabled');
                         if (jqXHR.status === 0) {                            
                             messageerror("Problema de red, contacte al administrador de sistemas.");
                         } else if (jqXHR.status == 404) {
@@ -37,7 +40,7 @@ $(document).ready(function() {
                             messageerror("Error desconocido, contacte al administrador de sistemas.");                            
                         }
                     },
-                    success: function(datos){
+                    success: function(datos){                        
                         if(datos.resultado)
                             messagesuccess(datos.mensaje, datos.url);              
                         else
@@ -49,7 +52,7 @@ $(document).ready(function() {
    
    //Crear Proceso de Evaluacion Competencias
    $("#btncrearprocesoEC").click(function(event){
-       event.preventDefault();
+       event.preventDefault();       
        
        if(!validar($('#ddlperiodo'))){     
             mostrarerror($('#ddlperiodo'));}
@@ -60,13 +63,15 @@ $(document).ready(function() {
        else if (cantidadcolaboradorestabla()== 0){
            mostrarerror($('#tblcolaboradores'));
        }
-       else{
+       else{         
+       $('#btncrearprocesoEC').attr('disabled', 'true');
        $.ajax({
                     type: "POST",
                     url: "CrearProcesoEC",
                     data: obtenerdatoscrearproceso(),
                     dataType: 'json',
                     error: function (jqXHR, textStatus){
+                        $('#btncrearprocesoEC').removeAttr('disabled');
                         if (jqXHR.status === 0) {                            
                             messageerror("Problema de red, contacte al administrador de sistemas.");
                         } else if (jqXHR.status == 404) {
@@ -83,7 +88,7 @@ $(document).ready(function() {
                             messageerror("Error desconocido, contacte al administrador de sistemas.");                            
                         }
                     },
-                    success: function(datos){
+                    success: function(datos){                       
                         if(datos.resultado)
                             messagesuccess(datos.mensaje, datos.url);              
                         else
@@ -101,7 +106,7 @@ $(document).ready(function() {
   
     function obtenerdatoscrearpersona(){             
     var data = {};
-    data['proceso'] = $("#txtdescripcion").val();
+    data['proceso'] = $.trim($("#txtdescripcion").val());
     data['puesto'] = $("#ddlpuesto").val(); 
 
     if(cantidadhabilidades() > 0){
@@ -193,7 +198,7 @@ $(document).ready(function() {
     }
    
    function validar(elemento){
-       if($(elemento).val() == '' || $(elemento).val()=='-')
+       if($.trim($(elemento).val()) == '' || $(elemento).val()=='-')
            return false;
        else
            return true;
@@ -371,7 +376,7 @@ $(document).ready(function() {
 
     function obtenerdatoscrearproceso(){             
     var data = {};    
-    data['nombreproceso'] = $("#txtdescripcion").val();
+    data['nombreproceso'] = $.trim($("#txtdescripcion").val());
     data['idevaluador'] = $("#idevaluador").val(); 
     data['periodo'] = $('#ddlperiodo').val();
     data['colaboradores'] = obtenercolaboradoresevaluar();    
