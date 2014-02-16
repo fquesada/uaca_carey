@@ -169,10 +169,10 @@ $(document).ready(function() {
     function validarcalificacionhabilidadesnoequivalentes(){
         var valido = true;      
         $("#tblhabilidadnoequivalente > tbody > tr").each(function(index, fila) {
-            if($(fila).find('#tfmetodovariablenoquivalente').val()===""){
+            if(validarfilacalificacionhabilidadesnoequivalentes(fila)){
                 return true;
             }else{                           
-                if($(fila).find('#tfmetodovariablenoquivalente').val() == '' || $(fila).find('#tfvariablenoquivalente').val() == '' || $(fila).find(('#ddlcompetencia')).val() == '' || $(fila).find('#ddlpuesto1').val() == '' || $(fila).find('#ddlpuesto2').val() == '')
+                if($.trim($(fila).find('#tfmetodovariablenoquivalente').val()) == '' || $.trim($(fila).find('#tfvariablenoquivalente').val()) == '' || $(fila).find(('#ddlcompetencia')).val() == '' || $(fila).find('#ddlpuntajenoequivalente').val() == '' || $(fila).find('#ddlpuesto1').val() == '' || $(fila).find('#ddlpuesto2').val() == '')
                 {
                     valido = false;
                     mostrarerrornoequivalente($('#habilidadnoequivalenteerror'));                         
@@ -180,6 +180,25 @@ $(document).ready(function() {
             }
         });
         return valido;
+    }
+    
+    function validarfilacalificacionhabilidadesnoequivalentes(fila){
+        var valido = true;
+        if($.trim($(fila).find('#tfmetodovariablenoquivalente').val()) != ''){
+            valido = false;
+        }else if($.trim($(fila).find('#tfvariablenoquivalente').val()) != ''){
+            valido = false;
+        }else if($(fila).find(('#ddlcompetencia')).val() != ''){
+            valido = false;
+        }else if($(fila).find('#ddlpuntajenoequivalente').val() != ''){
+             valido = false;
+        }        
+        else if ($(fila).find('#ddlpuesto1').val() != ''){
+            valido = false;
+        }else if ($(fila).find('#ddlpuesto2').val() != ''){
+            valido = false;
+        }            
+        return valido;    
     }
     
     function obtenerdatosguardarproceso(){             

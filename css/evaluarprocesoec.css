@@ -98,6 +98,10 @@
     width: 430px;
 }
 
+.tblassessmentcenter tbody th{
+    text-align: center;
+}
+
 
 /*Tabla Meritos*/
 .ptitulomeritos{
@@ -306,4 +310,10 @@
     font-size: 30px;
     font-weight: bold;
     color: #033E6B;
+}
+
+.span_lbl_califacionac{
+    display: inherit;
+    font-size: 10px;
+    width: 225px;
 }
