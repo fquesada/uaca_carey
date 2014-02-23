@@ -245,8 +245,8 @@ $(document).ready(function() {
         var habilidades = {};
         $("#tblhabilidadec > tbody > tr").each(function(index, fila) {		
             var idhabilidad= $(fila).find('td:first').text();            
-            var tipohabilidad= $(fila).find('td:eq(1)').text(); 
-            var metodoseleccionado = $(fila).find('#tfmetodoseleccionado').val()
+            var tipohabilidad= $(fila).find('td:eq(1)').text();
+            var metodoseleccionado = $(fila).find('#ddlmetodoseleccionado').val()
             var variableequivalente = $(fila).find('#tfvariablequivalente').val();
             var calificacionequivalente = $(fila).find('#tfcalificacionvariablequivalente').val();
             var calificacionhabilidad = $(fila).find('#ddlpuntajehabilidades').val();

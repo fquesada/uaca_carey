@@ -26,6 +26,9 @@
                 echo '<td id="errormerito">';
                 echo "El puesto debe poseer meritos para continuar con la evaluacion.";
                 echo '</td>';
+                Yii::app()->clientScript->registerScript('validadormeritos', "
+                        $('#btnguardarec').attr('disabled', 'true');	                                                                                          
+                ");
             } else {
                 foreach ($meritos as $merito) {
                     echo '<tr>';

@@ -35,6 +35,9 @@
                 echo '<td id="errorcompetencia">';
                 echo "El puesto debe poseer habilidades para continuar con la evaluacion.";
                 echo '</td>';
+                Yii::app()->clientScript->registerScript('validadorcompetencias', "
+                        $('#btnguardarec').attr('disabled', 'true');	                                                                                          
+                ");
             } else {
                 foreach ($competenciascore as $competenciacore){
                     echo '<tr>';
@@ -51,7 +54,8 @@
                     echo $competenciacore->descripcion;
                     echo '</td>';
                     echo '<td>';
-                    echo CHtml::textField('metodoseleccionado', '', array('id' => 'tfmetodoseleccionado', 'class' => 'tfmetodoseleccionado'));
+                    echo CHtml::dropDownList('metodoseleccionado', '', CHtml::listData(Metodoseleccionado::model()->findAll('estado=1'), 'metodo', 'metodo'), array('empty' => 'Seleccione el metodo de calificacion', 'id' => 'ddlmetodoseleccionado'));
+                    echo '<p id="ddlmetodoseleccionadoerror"  class="mensajeerror">Debe seleccionar un metodo de calificacion</p>';                    
                     echo '</td>';
                     echo '<td>';
                     echo CHtml::textField('variablequivalente', '', array('id' => 'tfvariablequivalente', 'class' => 'tfvariablequivalente'));
@@ -83,7 +87,8 @@
                     echo $competencia["descripcion"];
                     echo '</td>';
                     echo '<td>';
-                    echo CHtml::textField('metodoseleccionado', '', array('id' => 'tfmetodoseleccionado', 'class' => 'tfmetodoseleccionado'));
+                    echo CHtml::dropDownList('metodoseleccionado', '', CHtml::listData(Metodoseleccionado::model()->findAll('estado=1'), 'metodo', 'metodo'), array('empty' => 'Seleccione el metodo de calificacion', 'id' => 'ddlmetodoseleccionado'));
+                    echo '<p id="ddlmetodoseleccionadoerror"  class="mensajeerror">Debe seleccionar un metodo de calificacion</p>'; 
                     echo '</td>';
                     echo '<td>';
                     echo CHtml::textField('variablequivalente', '', array('id' => 'tfvariablequivalente', 'class' => 'tfvariablequivalente'));
