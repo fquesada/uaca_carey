@@ -889,14 +889,14 @@ class ProcesoevaluacionController extends Controller
                 {
                     
                      $objPHPExcel->setActiveSheetIndex(0)
-                            ->mergeCells('E'.$i.':F'.$i)
-                            ->setCellValue('E'.$i, $merito->_merito->_tipomerito->nombre)
-                            ->setCellValue('H'.$i, $merito->ponderacion)
-                             ->setCellValue('I'.$i, CommonFunctions::ponderaciontoideal($merito->ponderacion))
-                            ->setCellValue('J'.$i, $merito->calificacion);
+                            //->mergeCells('E'.$i.':F'.$i)
+                            ->setCellValue('C'.$i, $merito->_merito->_tipomerito->nombre)
+                            ->setCellValue('G'.$i, $merito->ponderacion)
+                             ->setCellValue('H'.$i, CommonFunctions::ponderaciontoideal($merito->ponderacion))
+                            ->setCellValue('I'.$i, $merito->calificacion);
 
                      $objPHPExcel->getActiveSheet()->getRowDimension($i)->setRowHeight(15);
-                     $objPHPExcel->setActiveSheetIndex()->getStyle('E'.$i.':J'.$i)->applyFromArray($styleTableBorder);
+                     $objPHPExcel->setActiveSheetIndex()->getStyle('C'.$i.':I'.$i)->applyFromArray($styleTableBorder);
                      $i++;
                   
                 }
@@ -908,30 +908,34 @@ class ProcesoevaluacionController extends Controller
                     if ($competencia->tipocompetencia == 1) {
                         
                         $objPHPExcel->setActiveSheetIndex(0)
-                            ->mergeCells('E'.$j.':F'.$j)
-                            ->setCellValue('E'.$j, $competencia->_competenciacore->competencia)
-                            ->setCellValue('G'.$j, $competencia->variablemetodo)
-                            ->setCellValue('H'.$j, $competencia->ponderacion)
-                            ->setCellValue('I'.$j, CommonFunctions::ponderaciontoideal($competencia->ponderacion))
-                            ->setCellValue('J'.$j, $competencia->calificacion);
+                            //->mergeCells('E'.$j.':F'.$j)
+                            ->setCellValue('C'.$j, $competencia->_competenciacore->competencia)
+                            ->setCellValue('D'.$j, $competencia->variablemetodo)
+                            ->setCellValue('E'.$j, $competencia->metodo)
+                            ->setCellValue('F'.$j, $competencia->calificacionvariablemetodo)
+                            ->setCellValue('G'.$j, $competencia->ponderacion)
+                            ->setCellValue('H'.$j, CommonFunctions::ponderaciontoideal($competencia->ponderacion))
+                            ->setCellValue('I'.$j, $competencia->calificacion);
 
                      $objPHPExcel->getActiveSheet()->getRowDimension($j)->setRowHeight(15);
-                     $objPHPExcel->setActiveSheetIndex()->getStyle('E'.$j.':J'.$j)->applyFromArray($styleTableBorder);
+                     $objPHPExcel->setActiveSheetIndex()->getStyle('C'.$j.':I'.$j)->applyFromArray($styleTableBorder);
                      $j++;   
                     }
                     
                     else{
                     
                     $objPHPExcel->setActiveSheetIndex(0)
-                            ->mergeCells('E'.$j.':F'.$j)
-                            ->setCellValue('E'.$j, $competencia->_competencia->competencia)
-                            ->setCellValue('G'.$j, $competencia->variablemetodo)
-                            ->setCellValue('H'.$j, $competencia->ponderacion)
-                            ->setCellValue('I'.$j, CommonFunctions::ponderaciontoideal($competencia->ponderacion))
-                            ->setCellValue('J'.$j, $competencia->calificacion);
+                            //->mergeCells('E'.$j.':F'.$j)
+                            ->setCellValue('C'.$j, $competencia->_competencia->competencia)
+                            ->setCellValue('D'.$j, $competencia->variablemetodo)
+                            ->setCellValue('E'.$j, $competencia->metodo)
+                            ->setCellValue('F'.$j, $competencia->calificacionvariablemetodo)
+                            ->setCellValue('G'.$j, $competencia->ponderacion)
+                            ->setCellValue('H'.$j, CommonFunctions::ponderaciontoideal($competencia->ponderacion))
+                            ->setCellValue('I'.$j, $competencia->calificacion);
 
                      $objPHPExcel->getActiveSheet()->getRowDimension($j)->setRowHeight(15);
-                     $objPHPExcel->setActiveSheetIndex()->getStyle('E'.$j.':J'.$j)->applyFromArray($styleTableBorder);
+                     $objPHPExcel->setActiveSheetIndex()->getStyle('C'.$j.':I'.$j)->applyFromArray($styleTableBorder);
                      $j++;
                     }
                 }
@@ -959,14 +963,14 @@ class ProcesoevaluacionController extends Controller
                  {
 
                       $objPHPExcel->setActiveSheetIndex(0)
-                             ->mergeCells('E'.$i.':F'.$i)
-                             ->setCellValue('E'.$i, $merito->_merito->_tipomerito->nombre)
-                             ->setCellValue('H'.$i, $merito->ponderacion)
-                              ->setCellValue('I'.$i, CommonFunctions::ponderaciontoideal($merito->ponderacion))
-                             ->setCellValue('J'.$i, $merito->calificacion);
+                             //->mergeCells('E'.$i.':F'.$i)
+                             ->setCellValue('C'.$i, $merito->_merito->_tipomerito->nombre)
+                             ->setCellValue('G'.$i, $merito->ponderacion)
+                              ->setCellValue('H'.$i, CommonFunctions::ponderaciontoideal($merito->ponderacion))
+                             ->setCellValue('I'.$i, $merito->calificacion);
 
                       $objPHPExcel->getActiveSheet()->getRowDimension($i)->setRowHeight(15);
-                      $objPHPExcel->setActiveSheetIndex()->getStyle('E'.$i.':J'.$i)->applyFromArray($styleTableBorder);
+                      $objPHPExcel->setActiveSheetIndex()->getStyle('C'.$i.':I'.$i)->applyFromArray($styleTableBorder);
                       $i++;
 
                  }
@@ -978,30 +982,34 @@ class ProcesoevaluacionController extends Controller
                      if ($competencia->tipocompetencia == 1) {
 
                          $objPHPExcel->setActiveSheetIndex(0)
-                             ->mergeCells('E'.$j.':F'.$j)
-                             ->setCellValue('E'.$j, $competencia->_competenciacore->competencia)
-                             ->setCellValue('G'.$j, $competencia->variablemetodo)
-                             ->setCellValue('H'.$j, $competencia->ponderacion)
-                             ->setCellValue('I'.$j, CommonFunctions::ponderaciontoideal($competencia->ponderacion))
-                             ->setCellValue('J'.$j, $competencia->calificacion);
+                             //->mergeCells('E'.$j.':F'.$j)
+                             ->setCellValue('C'.$j, $competencia->_competenciacore->competencia)
+                             ->setCellValue('D'.$j, $competencia->variablemetodo)
+                             ->setCellValue('E'.$j, $competencia->metodo)
+                             ->setCellValue('F'.$j, $competencia->calificacionvariablemetodo)
+                             ->setCellValue('G'.$j, $competencia->ponderacion)
+                             ->setCellValue('H'.$j, CommonFunctions::ponderaciontoideal($competencia->ponderacion))
+                             ->setCellValue('I'.$j, $competencia->calificacion);
 
                       $objPHPExcel->getActiveSheet()->getRowDimension($j)->setRowHeight(15);
-                      $objPHPExcel->setActiveSheetIndex()->getStyle('E'.$j.':J'.$j)->applyFromArray($styleTableBorder);
+                      $objPHPExcel->setActiveSheetIndex()->getStyle('C'.$j.':I'.$j)->applyFromArray($styleTableBorder);
                       $j++;   
                      }
                      
                      else{
 
                      $objPHPExcel->setActiveSheetIndex(0)
-                             ->mergeCells('E'.$j.':F'.$j)
-                             ->setCellValue('E'.$j, $competencia->_competencia->competencia)
-                             ->setCellValue('G'.$j, $competencia->variablemetodo)
-                             ->setCellValue('H'.$j, $competencia->ponderacion)
-                             ->setCellValue('I'.$j, CommonFunctions::ponderaciontoideal($competencia->ponderacion))
-                             ->setCellValue('J'.$j, $competencia->calificacion);
+                             //->mergeCells('E'.$j.':F'.$j)
+                             ->setCellValue('C'.$j, $competencia->_competencia->competencia)
+                             ->setCellValue('D'.$j, $competencia->variablemetodo)
+                             ->setCellValue('E'.$j, $competencia->metodo)
+                             ->setCellValue('F'.$j, $competencia->calificacionvariablemetodo)
+                             ->setCellValue('G'.$j, $competencia->ponderacion)
+                             ->setCellValue('H'.$j, CommonFunctions::ponderaciontoideal($competencia->ponderacion))
+                             ->setCellValue('I'.$j, $competencia->calificacion);
 
                       $objPHPExcel->getActiveSheet()->getRowDimension($j)->setRowHeight(15);
-                      $objPHPExcel->setActiveSheetIndex()->getStyle('E'.$j.':J'.$j)->applyFromArray($styleTableBorder);
+                      $objPHPExcel->setActiveSheetIndex()->getStyle('C'.$j.':I'.$j)->applyFromArray($styleTableBorder);
                       $j++;
                      }
                  }
