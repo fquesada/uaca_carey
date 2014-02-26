@@ -176,6 +176,7 @@ class Puesto extends CActiveRecord
                     LEFT JOIN competencia c
                     ON (pc.competencia = c.id)                    
                     WHERE pc.puesto = :idpuesto
+                    AND c.tipocompetencia = 2
                     AND c.estado = 1"; 
             $command=$connection->createCommand($sql);
             $command->bindParam(":idpuesto",$idpuesto);
@@ -184,6 +185,25 @@ class Puesto extends CActiveRecord
                 return false;
             else
                 return  $competencias;
+        }
+        
+        public function getcompetenciascoreactuales(){ 
+            $idpuesto = $this->id;
+            $connection=Yii::app()->db;
+            $sql=  "SELECT pc.ponderacion, c.*                
+                    FROM puestocompetencia pc
+                    LEFT JOIN competencia c
+                    ON (pc.competencia = c.id)                    
+                    WHERE pc.puesto = :idpuesto
+                    AND c.tipocompetencia = 1
+                    AND c.estado = 1"; 
+            $command=$connection->createCommand($sql);
+            $command->bindParam(":idpuesto",$idpuesto);
+            $competenciascore = $command->queryAll();
+            if(is_null($competenciascore))
+                return false;
+            else
+                return  $competenciascore;
         }
                 
 }

@@ -1,7 +1,6 @@
 <?php
 /* @var $this ProcesoEvaluacionController */
 /* @var $ec EvaluacionCompetencias */
-/* @var $competenciascore Competenciascore */
 
 ?>
 
@@ -24,6 +23,7 @@
         <tbody>
             <?php
             $competencias = $ec->_puesto->competenciasactuales;
+            $competenciascore = $ec->_puesto->competenciascoreactuales;
             if (!$competencias) {
                 echo '<tr>';
                 echo '<td id="idcompetencia">';
@@ -42,16 +42,16 @@
                 foreach ($competenciascore as $competenciacore){
                     echo '<tr>';
                     echo '<td id="idcompetencia">';
-                    echo $competenciacore->id;
+                    echo $competenciacore["id"];
                     echo '</td>';
                     echo '<td id="tipocompetencia">';
                     echo "core";
                     echo '</td>';
                     echo '<td>';
-                    echo $competenciacore->competencia." (Core)";
+                    echo $competenciacore["competencia"]." (Core)";
                     echo '</td>';
                     echo '<td>';
-                    echo $competenciacore->descripcion;
+                    echo $competenciacore["descripcion"];
                     echo '</td>';
                     echo '<td>';
                     echo CHtml::dropDownList('metodoseleccionado', '', CHtml::listData(Metodoseleccionado::model()->findAll('estado=1'), 'metodo', 'metodo'), array('empty' => 'Seleccione el metodo de calificacion', 'id' => 'ddlmetodoseleccionado'));
@@ -68,7 +68,7 @@
                     echo '<p id="ddlpuntajehabilidadeserror"  class="mensajeerror">Debe seleccionar una calificacion</p>';
                     echo '</td>';
                     echo '<td id="ponderacion">';
-                    echo $competenciacore->ponderacion;
+                    echo $competenciacore["ponderacion"];
                     echo '</td>';
                     echo '</tr>';
                 }                

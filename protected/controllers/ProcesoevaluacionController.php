@@ -458,10 +458,8 @@ class ProcesoevaluacionController extends Controller
             $this->layout='column1';
             $ec = Evaluacioncompetencias::model()->findByPk($id);
             $puntaje = Puntaje::model()->obtenerpuntajesactivos();
-            $competenciascore = Competenciacore::model()->obtenercompetenciascoreactivos();
             $this->render('evaluarprocesoec',array(
-                            'ec'=>$ec,'puntaje'=>$puntaje,'competenciascore'=>$competenciascore
-            ));
+                            'ec'=>$ec,'puntaje'=>$puntaje));
         }
         
         public function actionGuardarEvaluacionEC() {
@@ -905,25 +903,6 @@ class ProcesoevaluacionController extends Controller
                 
                 foreach($competencias as $competencia)
                 {
-                    if ($competencia->tipocompetencia == 1) {
-                        
-                        $objPHPExcel->setActiveSheetIndex(0)
-                            //->mergeCells('E'.$j.':F'.$j)
-                            ->setCellValue('C'.$j, $competencia->_competenciacore->competencia)
-                            ->setCellValue('D'.$j, $competencia->variablemetodo)
-                            ->setCellValue('E'.$j, $competencia->metodo)
-                            ->setCellValue('F'.$j, $competencia->calificacionvariablemetodo)
-                            ->setCellValue('G'.$j, $competencia->ponderacion)
-                            ->setCellValue('H'.$j, CommonFunctions::ponderaciontoideal($competencia->ponderacion))
-                            ->setCellValue('I'.$j, $competencia->calificacion);
-
-                     $objPHPExcel->getActiveSheet()->getRowDimension($j)->setRowHeight(15);
-                     $objPHPExcel->setActiveSheetIndex()->getStyle('C'.$j.':I'.$j)->applyFromArray($styleTableBorder);
-                     $j++;   
-                    }
-                    
-                    else{
-                    
                     $objPHPExcel->setActiveSheetIndex(0)
                             //->mergeCells('E'.$j.':F'.$j)
                             ->setCellValue('C'.$j, $competencia->_competencia->competencia)
@@ -937,7 +916,6 @@ class ProcesoevaluacionController extends Controller
                      $objPHPExcel->getActiveSheet()->getRowDimension($j)->setRowHeight(15);
                      $objPHPExcel->setActiveSheetIndex()->getStyle('C'.$j.':I'.$j)->applyFromArray($styleTableBorder);
                      $j++;
-                    }
                 }
                 
                 $objPHPExcel->setActiveSheetIndex(0)
@@ -979,25 +957,6 @@ class ProcesoevaluacionController extends Controller
 
                  foreach($competencias as $competencia)
                  {
-                     if ($competencia->tipocompetencia == 1) {
-
-                         $objPHPExcel->setActiveSheetIndex(0)
-                             //->mergeCells('E'.$j.':F'.$j)
-                             ->setCellValue('C'.$j, $competencia->_competenciacore->competencia)
-                             ->setCellValue('D'.$j, $competencia->variablemetodo)
-                             ->setCellValue('E'.$j, $competencia->metodo)
-                             ->setCellValue('F'.$j, $competencia->calificacionvariablemetodo)
-                             ->setCellValue('G'.$j, $competencia->ponderacion)
-                             ->setCellValue('H'.$j, CommonFunctions::ponderaciontoideal($competencia->ponderacion))
-                             ->setCellValue('I'.$j, $competencia->calificacion);
-
-                      $objPHPExcel->getActiveSheet()->getRowDimension($j)->setRowHeight(15);
-                      $objPHPExcel->setActiveSheetIndex()->getStyle('C'.$j.':I'.$j)->applyFromArray($styleTableBorder);
-                      $j++;   
-                     }
-                     
-                     else{
-
                      $objPHPExcel->setActiveSheetIndex(0)
                              //->mergeCells('E'.$j.':F'.$j)
                              ->setCellValue('C'.$j, $competencia->_competencia->competencia)
@@ -1011,7 +970,6 @@ class ProcesoevaluacionController extends Controller
                       $objPHPExcel->getActiveSheet()->getRowDimension($j)->setRowHeight(15);
                       $objPHPExcel->setActiveSheetIndex()->getStyle('C'.$j.':I'.$j)->applyFromArray($styleTableBorder);
                       $j++;
-                     }
                  }
 
                  $objPHPExcel->setActiveSheetIndex(0)

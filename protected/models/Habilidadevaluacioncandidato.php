@@ -16,7 +16,6 @@
  *
  * The followings are the available model relations:
  * @property Competencia $_competencia
- * @property Competenciacore $_competenciacore
  * @property Evaluacioncompetencias $_evaluacioncandidato
  */
 class Habilidadevaluacioncandidato extends CActiveRecord
@@ -64,8 +63,7 @@ class Habilidadevaluacioncandidato extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'_competencia' => array(self::BELONGS_TO, 'Competencia', 'competencia'),
-                        '_competenciacore' => array(self::BELONGS_TO, 'Competenciacore', 'competencia'),
+			'_competencia' => array(self::BELONGS_TO, 'Competencia', 'competencia'),                      
 			'_evaluacioncandidato' => array(self::BELONGS_TO, 'Evaluacioncompetencias', 'evaluacioncandidato'),			
 		);
 	}
