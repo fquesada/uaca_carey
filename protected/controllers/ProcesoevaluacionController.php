@@ -932,8 +932,9 @@ class ProcesoevaluacionController extends Controller
                      $objPHPExcel->getActiveSheet()->setCellValue('G4', $ec->_colaborador->cedula);
                      $objPHPExcel->getActiveSheet()->setCellValue('G5', $ec->_procesoevaluacion->_evaluador->nombrecompleto);
                      $objPHPExcel->getActiveSheet()->setCellValue('G6', $ec->_procesoevaluacion->fecha);
-                     $objPHPExcel->getActiveSheet()->setCellValue('G50', $ec->accalificacion);
-                     $objPHPExcel->getActiveSheet()->setCellValue('H50', $ec->eccalificacion);
+                     $objPHPExcel->getActiveSheet()->setCellValue('D51', $ec->accalificacion);
+                     $objPHPExcel->getActiveSheet()->setCellValue('E51', $ec->eccalificacion);
+                     $objPHPExcel->getActiveSheet()->setCellValue('B36', $ec->acdetalle);
 
                       $i = '54';  
 
@@ -1040,8 +1041,9 @@ class ProcesoevaluacionController extends Controller
                      $objPHPExcel->getActiveSheet()->setCellValue('G4', $ec->_colaborador->cedula);
                      $objPHPExcel->getActiveSheet()->setCellValue('G5', $ec->_procesoevaluacion->_evaluador->nombrecompleto);
                      $objPHPExcel->getActiveSheet()->setCellValue('G6', $ec->_procesoevaluacion->fecha);
-                     $objPHPExcel->getActiveSheet()->setCellValue('G50', $ec->accalificacion);
-                     $objPHPExcel->getActiveSheet()->setCellValue('H50', $ec->eccalificacion);
+                     $objPHPExcel->getActiveSheet()->setCellValue('D51', $ec->accalificacion);
+                     $objPHPExcel->getActiveSheet()->setCellValue('E51', $ec->eccalificacion);
+                     $objPHPExcel->getActiveSheet()->setCellValue('B36', $ec->acdetalle);
 
                       $i = '54';  
 
