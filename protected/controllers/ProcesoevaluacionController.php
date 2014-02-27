@@ -875,11 +875,11 @@ class ProcesoevaluacionController extends Controller
 
                     $objPHPExcel->setActiveSheetIndex(0);  //set first sheet as active
 
-                    $objPHPExcel->getActiveSheet()->setCellValue('D4', $ec->_colaborador->nombrecompleto); 
-                    $objPHPExcel->getActiveSheet()->setCellValue('D5', $ec->_puesto->nombre);
-                    $objPHPExcel->getActiveSheet()->setCellValue('H4', $ec->_colaborador->cedula);
-                    $objPHPExcel->getActiveSheet()->setCellValue('H5', $ec->_procesoevaluacion->_evaluador->nombrecompleto);
-                    $objPHPExcel->getActiveSheet()->setCellValue('H6', $ec->_procesoevaluacion->fecha);
+                    $objPHPExcel->getActiveSheet()->setCellValue('C4', $ec->_colaborador->nombrecompleto); 
+                    $objPHPExcel->getActiveSheet()->setCellValue('C5', $ec->_puesto->nombre);
+                    $objPHPExcel->getActiveSheet()->setCellValue('G4', $ec->_colaborador->cedula);
+                    $objPHPExcel->getActiveSheet()->setCellValue('G5', $ec->_procesoevaluacion->_evaluador->nombrecompleto);
+                    $objPHPExcel->getActiveSheet()->setCellValue('G6', $ec->_procesoevaluacion->fecha);
 
                      $i = '35';  
 
@@ -927,11 +927,11 @@ class ProcesoevaluacionController extends Controller
 
                      $objPHPExcel->setActiveSheetIndex(0);  //set first sheet as active
 
-                     $objPHPExcel->getActiveSheet()->setCellValue('D4', $ec->_colaborador->nombrecompleto); 
-                     $objPHPExcel->getActiveSheet()->setCellValue('D5', $ec->_puesto->nombre);
-                     $objPHPExcel->getActiveSheet()->setCellValue('H4', $ec->_colaborador->cedula);
-                     $objPHPExcel->getActiveSheet()->setCellValue('H5', $ec->_procesoevaluacion->_evaluador->nombrecompleto);
-                     $objPHPExcel->getActiveSheet()->setCellValue('H6', $ec->_procesoevaluacion->fecha);
+                     $objPHPExcel->getActiveSheet()->setCellValue('C4', $ec->_colaborador->nombrecompleto); 
+                     $objPHPExcel->getActiveSheet()->setCellValue('C5', $ec->_puesto->nombre);
+                     $objPHPExcel->getActiveSheet()->setCellValue('G4', $ec->_colaborador->cedula);
+                     $objPHPExcel->getActiveSheet()->setCellValue('G5', $ec->_procesoevaluacion->_evaluador->nombrecompleto);
+                     $objPHPExcel->getActiveSheet()->setCellValue('G6', $ec->_procesoevaluacion->fecha);
                      $objPHPExcel->getActiveSheet()->setCellValue('G50', $ec->accalificacion);
                      $objPHPExcel->getActiveSheet()->setCellValue('H50', $ec->eccalificacion);
 
@@ -983,11 +983,11 @@ class ProcesoevaluacionController extends Controller
 
                     $objPHPExcel->setActiveSheetIndex(0);  //set first sheet as active
 
-                    $objPHPExcel->getActiveSheet()->setCellValue('D4', $ec->_colaborador->nombrecompleto); 
-                    $objPHPExcel->getActiveSheet()->setCellValue('D5', $ec->_puesto->nombre);
-                    $objPHPExcel->getActiveSheet()->setCellValue('H4', $ec->_colaborador->cedula);
-                    $objPHPExcel->getActiveSheet()->setCellValue('H5', $ec->_procesoevaluacion->_evaluador->nombrecompleto);
-                    $objPHPExcel->getActiveSheet()->setCellValue('H6', $ec->_procesoevaluacion->fecha);
+                    $objPHPExcel->getActiveSheet()->setCellValue('C4', $ec->_colaborador->nombrecompleto); 
+                    $objPHPExcel->getActiveSheet()->setCellValue('C5', $ec->_puesto->nombre);
+                    $objPHPExcel->getActiveSheet()->setCellValue('G4', $ec->_colaborador->cedula);
+                    $objPHPExcel->getActiveSheet()->setCellValue('G5', $ec->_procesoevaluacion->_evaluador->nombrecompleto);
+                    $objPHPExcel->getActiveSheet()->setCellValue('G6', $ec->_procesoevaluacion->fecha);
 
                      $i = '35';  
 
@@ -1035,11 +1035,11 @@ class ProcesoevaluacionController extends Controller
 
                      $objPHPExcel->setActiveSheetIndex(0);  //set first sheet as active
 
-                     $objPHPExcel->getActiveSheet()->setCellValue('D4', $ec->_colaborador->nombrecompleto); 
-                     $objPHPExcel->getActiveSheet()->setCellValue('D5', $ec->_puesto->nombre);
-                     $objPHPExcel->getActiveSheet()->setCellValue('H4', $ec->_colaborador->cedula);
-                     $objPHPExcel->getActiveSheet()->setCellValue('H5', $ec->_procesoevaluacion->_evaluador->nombrecompleto);
-                     $objPHPExcel->getActiveSheet()->setCellValue('H6', $ec->_procesoevaluacion->fecha);
+                     $objPHPExcel->getActiveSheet()->setCellValue('C4', $ec->_colaborador->nombrecompleto); 
+                     $objPHPExcel->getActiveSheet()->setCellValue('C5', $ec->_puesto->nombre);
+                     $objPHPExcel->getActiveSheet()->setCellValue('G4', $ec->_colaborador->cedula);
+                     $objPHPExcel->getActiveSheet()->setCellValue('G5', $ec->_procesoevaluacion->_evaluador->nombrecompleto);
+                     $objPHPExcel->getActiveSheet()->setCellValue('G6', $ec->_procesoevaluacion->fecha);
                      $objPHPExcel->getActiveSheet()->setCellValue('G50', $ec->accalificacion);
                      $objPHPExcel->getActiveSheet()->setCellValue('H50', $ec->eccalificacion);
 
@@ -1094,6 +1094,7 @@ class ProcesoevaluacionController extends Controller
                 $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');             
                 $objWriter->setIncludeCharts(TRUE);                        
                 $objWriter->save('php://output');
+                exit();
               
                        
         }
