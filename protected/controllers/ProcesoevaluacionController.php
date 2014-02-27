@@ -854,7 +854,6 @@ class ProcesoevaluacionController extends Controller
                require_once( dirname(__FILE__) . '/../models/Puesto.php');
                require_once( dirname(__FILE__) . '/../models/Colaborador.php');
                require_once( dirname(__FILE__) . '/../models/Procesoevaluacion.php');
-               require_once( dirname(__FILE__) . '/../models/Competenciacore.php');
                require_once( dirname(__FILE__) . '/../models/Competencia.php');
                require_once( dirname(__FILE__) . '/../models/Tipomerito.php');
                include($phpExcelPath . DIRECTORY_SEPARATOR . 'Classes'. DIRECTORY_SEPARATOR .'PHPExcel.php');                      
@@ -869,112 +868,224 @@ class ProcesoevaluacionController extends Controller
                      )
                  ),
              );
-               
-               if ($ec->acindicador == 0) {
-               $objPHPExcel = $objReader->load($phpExcelPath. DIRECTORY_SEPARATOR ."templates". DIRECTORY_SEPARATOR ."EvaluacionPorCompetenciasTemplate.xlsx");
-
-               $objPHPExcel->setActiveSheetIndex(0);  //set first sheet as active
-
-               $objPHPExcel->getActiveSheet()->setCellValue('E4', $ec->_colaborador->nombrecompleto); 
-               $objPHPExcel->getActiveSheet()->setCellValue('E5', $ec->_puesto->nombre);
-               $objPHPExcel->getActiveSheet()->setCellValue('J4', $ec->_colaborador->cedula);
-               $objPHPExcel->getActiveSheet()->setCellValue('J5', $ec->_procesoevaluacion->_evaluador->nombrecompleto);
-               $objPHPExcel->getActiveSheet()->setCellValue('J6', $ec->_procesoevaluacion->fecha);
-               
-                $i = '32';  
-                
-                foreach($meritos as $merito)
+               if (count($competencias) == 7) //Las 4 competencias CORE más 3 normales.
                 {
-                    
+                   if ($ec->acindicador == 0) {
+                    $objPHPExcel = $objReader->load($phpExcelPath. DIRECTORY_SEPARATOR ."templates". DIRECTORY_SEPARATOR ."EvaluacionPorCompetenciasTemplate.xlsx");
+
+                    $objPHPExcel->setActiveSheetIndex(0);  //set first sheet as active
+
+                    $objPHPExcel->getActiveSheet()->setCellValue('D4', $ec->_colaborador->nombrecompleto); 
+                    $objPHPExcel->getActiveSheet()->setCellValue('D5', $ec->_puesto->nombre);
+                    $objPHPExcel->getActiveSheet()->setCellValue('H4', $ec->_colaborador->cedula);
+                    $objPHPExcel->getActiveSheet()->setCellValue('H5', $ec->_procesoevaluacion->_evaluador->nombrecompleto);
+                    $objPHPExcel->getActiveSheet()->setCellValue('H6', $ec->_procesoevaluacion->fecha);
+
+                     $i = '35';  
+
+                     foreach($meritos as $merito)
+                     {
+
+                          $objPHPExcel->setActiveSheetIndex(0)
+                                 //->mergeCells('E'.$i.':F'.$i)
+                                 ->setCellValue('B'.$i, $merito->_merito->_tipomerito->nombre)
+                                 ->setCellValue('F'.$i, $merito->ponderacion)
+                                  ->setCellValue('G'.$i, CommonFunctions::ponderaciontoideal($merito->ponderacion))
+                                 ->setCellValue('H'.$i, $merito->calificacion);
+
+                          $objPHPExcel->getActiveSheet()->getRowDimension($i)->setRowHeight(15);
+                          $objPHPExcel->setActiveSheetIndex()->getStyle('B'.$i.':H'.$i)->applyFromArray($styleTableBorder);
+                          $i++;
+
+                     }
+
+                     $j=$i;
+
+                     foreach($competencias as $competencia)
+                     {
+                         $objPHPExcel->setActiveSheetIndex(0)
+                                 //->mergeCells('E'.$j.':F'.$j)
+                                 ->setCellValue('B'.$j, $competencia->_competencia->competencia)
+                                 ->setCellValue('C'.$j, $competencia->variablemetodo)
+                                 ->setCellValue('D'.$j, $competencia->metodo)
+                                 ->setCellValue('E'.$j, $competencia->calificacionvariablemetodo)
+                                 ->setCellValue('F'.$j, $competencia->ponderacion)
+                                 ->setCellValue('G'.$j, CommonFunctions::ponderaciontoideal($competencia->ponderacion))
+                                 ->setCellValue('H'.$j, $competencia->calificacion);
+
+                          $objPHPExcel->getActiveSheet()->getRowDimension($j)->setRowHeight(15);
+                          $objPHPExcel->setActiveSheetIndex()->getStyle('B'.$j.':H'.$j)->applyFromArray($styleTableBorder);
+                          $j++;
+                     }
+
                      $objPHPExcel->setActiveSheetIndex(0)
-                            //->mergeCells('E'.$i.':F'.$i)
-                            ->setCellValue('C'.$i, $merito->_merito->_tipomerito->nombre)
-                            ->setCellValue('G'.$i, $merito->ponderacion)
-                             ->setCellValue('H'.$i, CommonFunctions::ponderaciontoideal($merito->ponderacion))
-                            ->setCellValue('I'.$i, $merito->calificacion);
+                             ->setCellValue('E49', $ec->promedioponderado); 
+                    }
 
-                     $objPHPExcel->getActiveSheet()->getRowDimension($i)->setRowHeight(15);
-                     $objPHPExcel->setActiveSheetIndex()->getStyle('C'.$i.':I'.$i)->applyFromArray($styleTableBorder);
-                     $i++;
-                  
-                }
-                
-                $j=$i;
-                
-                foreach($competencias as $competencia)
-                {
-                    $objPHPExcel->setActiveSheetIndex(0)
-                            //->mergeCells('E'.$j.':F'.$j)
-                            ->setCellValue('C'.$j, $competencia->_competencia->competencia)
-                            ->setCellValue('D'.$j, $competencia->variablemetodo)
-                            ->setCellValue('E'.$j, $competencia->metodo)
-                            ->setCellValue('F'.$j, $competencia->calificacionvariablemetodo)
-                            ->setCellValue('G'.$j, $competencia->ponderacion)
-                            ->setCellValue('H'.$j, CommonFunctions::ponderaciontoideal($competencia->ponderacion))
-                            ->setCellValue('I'.$j, $competencia->calificacion);
+                    else {
+                     $objPHPExcel = $objReader->load($phpExcelPath. DIRECTORY_SEPARATOR ."templates". DIRECTORY_SEPARATOR ."EvaluacionPorCompetenciasTemplate_AC.xlsx");
 
-                     $objPHPExcel->getActiveSheet()->getRowDimension($j)->setRowHeight(15);
-                     $objPHPExcel->setActiveSheetIndex()->getStyle('C'.$j.':I'.$j)->applyFromArray($styleTableBorder);
-                     $j++;
-                }
-                
-                $objPHPExcel->setActiveSheetIndex(0)
-                        ->setCellValue('G44', $ec->promedioponderado); 
-               }
-               
-               else {
-                $objPHPExcel = $objReader->load($phpExcelPath. DIRECTORY_SEPARATOR ."templates". DIRECTORY_SEPARATOR ."EvaluacionPorCompetenciasTemplate_AC.xlsx");
+                     $objPHPExcel->setActiveSheetIndex(0);  //set first sheet as active
 
-                $objPHPExcel->setActiveSheetIndex(0);  //set first sheet as active
+                     $objPHPExcel->getActiveSheet()->setCellValue('D4', $ec->_colaborador->nombrecompleto); 
+                     $objPHPExcel->getActiveSheet()->setCellValue('D5', $ec->_puesto->nombre);
+                     $objPHPExcel->getActiveSheet()->setCellValue('H4', $ec->_colaborador->cedula);
+                     $objPHPExcel->getActiveSheet()->setCellValue('H5', $ec->_procesoevaluacion->_evaluador->nombrecompleto);
+                     $objPHPExcel->getActiveSheet()->setCellValue('H6', $ec->_procesoevaluacion->fecha);
+                     $objPHPExcel->getActiveSheet()->setCellValue('G50', $ec->accalificacion);
+                     $objPHPExcel->getActiveSheet()->setCellValue('H50', $ec->eccalificacion);
 
-                $objPHPExcel->getActiveSheet()->setCellValue('E4', $ec->_colaborador->nombrecompleto); 
-                $objPHPExcel->getActiveSheet()->setCellValue('E5', $ec->_puesto->nombre);
-                $objPHPExcel->getActiveSheet()->setCellValue('J4', $ec->_colaborador->cedula);
-                $objPHPExcel->getActiveSheet()->setCellValue('J5', $ec->_procesoevaluacion->_evaluador->nombrecompleto);
-                $objPHPExcel->getActiveSheet()->setCellValue('J6', $ec->_procesoevaluacion->fecha);
-                $objPHPExcel->getActiveSheet()->setCellValue('H50', $ec->accalificacion);
-                $objPHPExcel->getActiveSheet()->setCellValue('I50', $ec->eccalificacion);
+                      $i = '54';  
 
-                 $i = '52';  
+                      foreach($meritos as $merito)
+                      {
 
-                 foreach($meritos as $merito)
-                 {
+                           $objPHPExcel->setActiveSheetIndex(0)
+                                  //->mergeCells('E'.$i.':F'.$i)
+                                  ->setCellValue('B'.$i, $merito->_merito->_tipomerito->nombre)
+                                  ->setCellValue('F'.$i, $merito->ponderacion)
+                                   ->setCellValue('G'.$i, CommonFunctions::ponderaciontoideal($merito->ponderacion))
+                                  ->setCellValue('H'.$i, $merito->calificacion);
+
+                           $objPHPExcel->getActiveSheet()->getRowDimension($i)->setRowHeight(15);
+                           $objPHPExcel->setActiveSheetIndex()->getStyle('B'.$i.':H'.$i)->applyFromArray($styleTableBorder);
+                           $i++;
+
+                      }
+
+                      $j=$i;
+
+                      foreach($competencias as $competencia)
+                      {
+                          $objPHPExcel->setActiveSheetIndex(0)
+                                  //->mergeCells('E'.$j.':F'.$j)
+                                  ->setCellValue('B'.$j, $competencia->_competencia->competencia)
+                                  ->setCellValue('C'.$j, $competencia->variablemetodo)
+                                  ->setCellValue('D'.$j, $competencia->metodo)
+                                  ->setCellValue('E'.$j, $competencia->calificacionvariablemetodo)
+                                  ->setCellValue('F'.$j, $competencia->ponderacion)
+                                  ->setCellValue('G'.$j, CommonFunctions::ponderaciontoideal($competencia->ponderacion))
+                                  ->setCellValue('H'.$j, $competencia->calificacion);
+
+                           $objPHPExcel->getActiveSheet()->getRowDimension($j)->setRowHeight(15);
+                           $objPHPExcel->setActiveSheetIndex()->getStyle('B'.$j.':H'.$j)->applyFromArray($styleTableBorder);
+                           $j++;
+                      }
 
                       $objPHPExcel->setActiveSheetIndex(0)
-                             //->mergeCells('E'.$i.':F'.$i)
-                             ->setCellValue('C'.$i, $merito->_merito->_tipomerito->nombre)
-                             ->setCellValue('G'.$i, $merito->ponderacion)
-                              ->setCellValue('H'.$i, CommonFunctions::ponderaciontoideal($merito->ponderacion))
-                             ->setCellValue('I'.$i, $merito->calificacion);
-
-                      $objPHPExcel->getActiveSheet()->getRowDimension($i)->setRowHeight(15);
-                      $objPHPExcel->setActiveSheetIndex()->getStyle('C'.$i.':I'.$i)->applyFromArray($styleTableBorder);
-                      $i++;
-
-                 }
-
-                 $j=$i;
-
-                 foreach($competencias as $competencia)
-                 {
-                     $objPHPExcel->setActiveSheetIndex(0)
-                             //->mergeCells('E'.$j.':F'.$j)
-                             ->setCellValue('C'.$j, $competencia->_competencia->competencia)
-                             ->setCellValue('D'.$j, $competencia->variablemetodo)
-                             ->setCellValue('E'.$j, $competencia->metodo)
-                             ->setCellValue('F'.$j, $competencia->calificacionvariablemetodo)
-                             ->setCellValue('G'.$j, $competencia->ponderacion)
-                             ->setCellValue('H'.$j, CommonFunctions::ponderaciontoideal($competencia->ponderacion))
-                             ->setCellValue('I'.$j, $competencia->calificacion);
-
-                      $objPHPExcel->getActiveSheet()->getRowDimension($j)->setRowHeight(15);
-                      $objPHPExcel->setActiveSheetIndex()->getStyle('C'.$j.':I'.$j)->applyFromArray($styleTableBorder);
-                      $j++;
-                 }
-
-                 $objPHPExcel->setActiveSheetIndex(0)
-                         ->setCellValue('G64', $ec->promedioponderado); 
+                              ->setCellValue('E68', $ec->promedioponderado); 
+                     }
                 }
+                else 
+                {
+                    if ($ec->acindicador == 0) {
+                    $objPHPExcel = $objReader->load($phpExcelPath. DIRECTORY_SEPARATOR ."templates". DIRECTORY_SEPARATOR ."EvaluacionPorCompetenciasTemplate2.xlsx");
+
+                    $objPHPExcel->setActiveSheetIndex(0);  //set first sheet as active
+
+                    $objPHPExcel->getActiveSheet()->setCellValue('D4', $ec->_colaborador->nombrecompleto); 
+                    $objPHPExcel->getActiveSheet()->setCellValue('D5', $ec->_puesto->nombre);
+                    $objPHPExcel->getActiveSheet()->setCellValue('H4', $ec->_colaborador->cedula);
+                    $objPHPExcel->getActiveSheet()->setCellValue('H5', $ec->_procesoevaluacion->_evaluador->nombrecompleto);
+                    $objPHPExcel->getActiveSheet()->setCellValue('H6', $ec->_procesoevaluacion->fecha);
+
+                     $i = '35';  
+
+                     foreach($meritos as $merito)
+                     {
+
+                          $objPHPExcel->setActiveSheetIndex(0)
+                                 //->mergeCells('E'.$i.':F'.$i)
+                                 ->setCellValue('B'.$i, $merito->_merito->_tipomerito->nombre)
+                                 ->setCellValue('F'.$i, $merito->ponderacion)
+                                  ->setCellValue('G'.$i, CommonFunctions::ponderaciontoideal($merito->ponderacion))
+                                 ->setCellValue('H'.$i, $merito->calificacion);
+
+                          $objPHPExcel->getActiveSheet()->getRowDimension($i)->setRowHeight(15);
+                          $objPHPExcel->setActiveSheetIndex()->getStyle('B'.$i.':H'.$i)->applyFromArray($styleTableBorder);
+                          $i++;
+
+                     }
+
+                     $j=$i;
+
+                     foreach($competencias as $competencia)
+                     {
+                         $objPHPExcel->setActiveSheetIndex(0)
+                                 //->mergeCells('E'.$j.':F'.$j)
+                                 ->setCellValue('B'.$j, $competencia->_competencia->competencia)
+                                 ->setCellValue('C'.$j, $competencia->variablemetodo)
+                                 ->setCellValue('D'.$j, $competencia->metodo)
+                                 ->setCellValue('E'.$j, $competencia->calificacionvariablemetodo)
+                                 ->setCellValue('F'.$j, $competencia->ponderacion)
+                                 ->setCellValue('G'.$j, CommonFunctions::ponderaciontoideal($competencia->ponderacion))
+                                 ->setCellValue('H'.$j, $competencia->calificacion);
+
+                          $objPHPExcel->getActiveSheet()->getRowDimension($j)->setRowHeight(15);
+                          $objPHPExcel->setActiveSheetIndex()->getStyle('B'.$j.':H'.$j)->applyFromArray($styleTableBorder);
+                          $j++;
+                     }
+
+                     $objPHPExcel->setActiveSheetIndex(0)
+                             ->setCellValue('E49', $ec->promedioponderado); 
+                    }
+
+                    else {
+                     $objPHPExcel = $objReader->load($phpExcelPath. DIRECTORY_SEPARATOR ."templates". DIRECTORY_SEPARATOR ."EvaluacionPorCompetenciasTemplate_AC2.xlsx");
+
+                     $objPHPExcel->setActiveSheetIndex(0);  //set first sheet as active
+
+                     $objPHPExcel->getActiveSheet()->setCellValue('D4', $ec->_colaborador->nombrecompleto); 
+                     $objPHPExcel->getActiveSheet()->setCellValue('D5', $ec->_puesto->nombre);
+                     $objPHPExcel->getActiveSheet()->setCellValue('H4', $ec->_colaborador->cedula);
+                     $objPHPExcel->getActiveSheet()->setCellValue('H5', $ec->_procesoevaluacion->_evaluador->nombrecompleto);
+                     $objPHPExcel->getActiveSheet()->setCellValue('H6', $ec->_procesoevaluacion->fecha);
+                     $objPHPExcel->getActiveSheet()->setCellValue('G50', $ec->accalificacion);
+                     $objPHPExcel->getActiveSheet()->setCellValue('H50', $ec->eccalificacion);
+
+                      $i = '54';  
+
+                      foreach($meritos as $merito)
+                      {
+
+                           $objPHPExcel->setActiveSheetIndex(0)
+                                  //->mergeCells('E'.$i.':F'.$i)
+                                  ->setCellValue('B'.$i, $merito->_merito->_tipomerito->nombre)
+                                  ->setCellValue('F'.$i, $merito->ponderacion)
+                                   ->setCellValue('G'.$i, CommonFunctions::ponderaciontoideal($merito->ponderacion))
+                                  ->setCellValue('H'.$i, $merito->calificacion);
+
+                           $objPHPExcel->getActiveSheet()->getRowDimension($i)->setRowHeight(15);
+                           $objPHPExcel->setActiveSheetIndex()->getStyle('B'.$i.':H'.$i)->applyFromArray($styleTableBorder);
+                           $i++;
+
+                      }
+
+                      $j=$i;
+
+                      foreach($competencias as $competencia)
+                      {
+                          $objPHPExcel->setActiveSheetIndex(0)
+                                  //->mergeCells('E'.$j.':F'.$j)
+                                  ->setCellValue('B'.$j, $competencia->_competencia->competencia)
+                                  ->setCellValue('C'.$j, $competencia->variablemetodo)
+                                  ->setCellValue('D'.$j, $competencia->metodo)
+                                  ->setCellValue('E'.$j, $competencia->calificacionvariablemetodo)
+                                  ->setCellValue('F'.$j, $competencia->ponderacion)
+                                  ->setCellValue('G'.$j, CommonFunctions::ponderaciontoideal($competencia->ponderacion))
+                                  ->setCellValue('H'.$j, $competencia->calificacion);
+
+                           $objPHPExcel->getActiveSheet()->getRowDimension($j)->setRowHeight(15);
+                           $objPHPExcel->setActiveSheetIndex()->getStyle('B'.$j.':H'.$j)->applyFromArray($styleTableBorder);
+                           $j++;
+                      }
+
+                      $objPHPExcel->setActiveSheetIndex(0)
+                              ->setCellValue('E68', $ec->promedioponderado); 
+                     }
+                }
+                
+                   
                 
                 header('Content-Type: application/excel');
                 header('Content-Disposition: attachment;filename="ReporteEC_'.$colaborador->nombrecompleto.'.xlsx"');
@@ -984,6 +1095,6 @@ class ProcesoevaluacionController extends Controller
                 $objWriter->setIncludeCharts(TRUE);                        
                 $objWriter->save('php://output');
               
-                   
+                       
         }
 }
