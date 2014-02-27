@@ -974,7 +974,7 @@ class ProcesoevaluacionController extends Controller
                       }
 
                       $objPHPExcel->setActiveSheetIndex(0)
-                              ->setCellValue('E68', $ec->promedioponderado); 
+                              ->setCellValue('E71', $ec->promedioponderado); 
                      }
                 }
                 else 
@@ -1083,7 +1083,7 @@ class ProcesoevaluacionController extends Controller
                       }
 
                       $objPHPExcel->setActiveSheetIndex(0)
-                              ->setCellValue('E68', $ec->promedioponderado); 
+                              ->setCellValue('E71', $ec->promedioponderado); 
                      }
                 }
                 
