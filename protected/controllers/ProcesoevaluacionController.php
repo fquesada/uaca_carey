@@ -934,9 +934,9 @@ class ProcesoevaluacionController extends Controller
                      $objPHPExcel->getActiveSheet()->setCellValue('G6', $ec->_procesoevaluacion->fecha);
                      $objPHPExcel->getActiveSheet()->setCellValue('D51', $ec->accalificacion);
                      $objPHPExcel->getActiveSheet()->setCellValue('E51', $ec->eccalificacion);
-                     $objPHPExcel->getActiveSheet()->setCellValue('B36', $ec->acdetalle);
+                     $objPHPExcel->getActiveSheet()->setCellValue('D53', $ec->acdetalle);
 
-                      $i = '54';  
+                      $i = '57';  
 
                       foreach($meritos as $merito)
                       {
@@ -1043,9 +1043,9 @@ class ProcesoevaluacionController extends Controller
                      $objPHPExcel->getActiveSheet()->setCellValue('G6', $ec->_procesoevaluacion->fecha);
                      $objPHPExcel->getActiveSheet()->setCellValue('D51', $ec->accalificacion);
                      $objPHPExcel->getActiveSheet()->setCellValue('E51', $ec->eccalificacion);
-                     $objPHPExcel->getActiveSheet()->setCellValue('B36', $ec->acdetalle);
+                     $objPHPExcel->getActiveSheet()->setCellValue('D53', $ec->acdetalle);
 
-                      $i = '54';  
+                      $i = '57';  
 
                       foreach($meritos as $merito)
                       {
