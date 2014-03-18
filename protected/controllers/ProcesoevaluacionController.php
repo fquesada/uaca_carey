@@ -486,16 +486,16 @@ class ProcesoevaluacionController extends Controller
                 if ($assessmentcenter['indicadorac'] == "true") {
                     $calificacionac = CommonFunctions::stringtonumber($assessmentcenter['calificacionac']); 
                     $calificacionec = $ec->calificacionec($meritos, $habilidades, $calificacionac, true);
-                    $promedioecac = $ec->promedioecac($calificacionec);
-                    $promedioac = $ec->promedioac($calificacionac); 
-                    $promedioponderado = $ec->promedioponderadoacec($promedioecac, $promedioac);
+//                    $promedioecac = $ec->promedioecac($calificacionec);
+//                    $promedioac = $ec->promedioac($calificacionac); 
+//                    $promedioponderado = $ec->promedioponderadoacec($promedioecac, $promedioac);
                     $ec->eccalificacion = $calificacionec;
                     $ec->accalificacion = $calificacionac;
-                    $ec->promedioac = $promedioac;
+//                    $ec->promedioac = $promedioac;// Esto esta repetido con acalificacion
                     $ec->acdetalle = $assessmentcenter['detalleac'];
                     $ec->acindicador = 1; //CLEAN CODE - PONER EN VARIABLES GLOBALES
-                    $ec->promedioec = $promedioecac;
-                    $ec->promedioponderado = $promedioponderado;
+//                    $ec->promedioec = $promedioecac;    // Esto esta repetido con ecalificacion               
+                    $ec->promedioponderado = $calificacionec;
                 }
                 else{
                     $calificacionec = $ec->calificacionec($meritos, $habilidades, 0, false);
