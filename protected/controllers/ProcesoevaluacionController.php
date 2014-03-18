@@ -937,11 +937,10 @@ class ProcesoevaluacionController extends Controller
                      $objPHPExcel->getActiveSheet()->setCellValue('G4', $ec->_colaborador->cedula);
                      $objPHPExcel->getActiveSheet()->setCellValue('G5', $ec->_procesoevaluacion->_evaluador->nombrecompleto);
                      $objPHPExcel->getActiveSheet()->setCellValue('G6', $ec->_procesoevaluacion->fecha);
-                     $objPHPExcel->getActiveSheet()->setCellValue('D51', $ec->accalificacion);
-                     $objPHPExcel->getActiveSheet()->setCellValue('E51', $ec->eccalificacion);
-                     $objPHPExcel->getActiveSheet()->setCellValue('D53', $ec->acdetalle);
+                     $objPHPExcel->getActiveSheet()->setCellValue('D34', $ec->accalificacion);
+                     $objPHPExcel->getActiveSheet()->setCellValue('D35', $ec->acdetalle);
 
-                      $i = '57';  
+                      $i = '39';  
 
                       foreach($meritos as $merito)
                       {
@@ -979,7 +978,7 @@ class ProcesoevaluacionController extends Controller
                       }
 
                       $objPHPExcel->setActiveSheetIndex(0)
-                              ->setCellValue('E71', $ec->promedioponderado); 
+                              ->setCellValue('E53', $ec->promedioponderado); 
                      }
                 }
                 else 
@@ -1046,11 +1045,10 @@ class ProcesoevaluacionController extends Controller
                      $objPHPExcel->getActiveSheet()->setCellValue('G4', $ec->_colaborador->cedula);
                      $objPHPExcel->getActiveSheet()->setCellValue('G5', $ec->_procesoevaluacion->_evaluador->nombrecompleto);
                      $objPHPExcel->getActiveSheet()->setCellValue('G6', $ec->_procesoevaluacion->fecha);
-                     $objPHPExcel->getActiveSheet()->setCellValue('D51', $ec->accalificacion);
-                     $objPHPExcel->getActiveSheet()->setCellValue('E51', $ec->eccalificacion);
-                     $objPHPExcel->getActiveSheet()->setCellValue('D53', $ec->acdetalle);
+                     $objPHPExcel->getActiveSheet()->setCellValue('D34', $ec->accalificacion);
+                     $objPHPExcel->getActiveSheet()->setCellValue('D35', $ec->acdetalle);
 
-                      $i = '57';  
+                      $i = '39';  
 
                       foreach($meritos as $merito)
                       {
@@ -1088,7 +1086,7 @@ class ProcesoevaluacionController extends Controller
                       }
 
                       $objPHPExcel->setActiveSheetIndex(0)
-                              ->setCellValue('E71', $ec->promedioponderado); 
+                              ->setCellValue('E53', $ec->promedioponderado); 
                      }
                 }
                 
