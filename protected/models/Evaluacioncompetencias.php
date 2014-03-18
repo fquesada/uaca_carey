@@ -278,8 +278,7 @@ class Evaluacioncompetencias extends CActiveRecord {
             return $dataspider;
     }
     
-    public function promedioponderadoec($meritos, $habilidades){        
-        
+    public function calificacionec($meritos, $habilidades,$calificacionac, $indicadorac){
         $dividendo = 0;
         $divisor = 0;
         
@@ -288,7 +287,14 @@ class Evaluacioncompetencias extends CActiveRecord {
             $divisor = $divisor + CommonFunctions::stringtonumber($merito["ponderacion"]);           
         }
         
-        foreach ($habilidades as $habilidad) {
+        foreach ($habilidades as $habilidad) {            
+            if($indicadorac){
+                if($habilidad["tipohabilidad"]== "core"){
+                    $notacore = CommonFunctions::stringtonumber($habilidad["calificacionhabilidad"]) * 0.40 + $calificacionac * 0.60;
+                    $habilidad["calificacionhabilidad"] = $notacore;
+                }            
+            }
+            
             $dividendo = $dividendo + CommonFunctions::stringtonumber($habilidad["calificacionhabilidad"]) *  CommonFunctions::stringtonumber($habilidad["ponderacion"]);
             $divisor = $divisor + CommonFunctions::stringtonumber($habilidad["ponderacion"]);           
         }
@@ -298,11 +304,11 @@ class Evaluacioncompetencias extends CActiveRecord {
         else        
             $promedioponderado = $dividendo / $divisor;
         
-        return $promedioponderado;        
-    }    
+        return $promedioponderado;  
+    }
     
-    public function promedioec($meritos, $habilidades){
-        return ($this->promedioponderadoec($meritos, $habilidades) * 0.40);//CLEAN CODE poner en Variables Globales o BD        
+    public function promedioecac($promedioec){
+        return ($promedioec * 0.40);//CLEAN CODE poner en Variables Globales o BD 
     }
     
     public function promedioac($calificacionac){

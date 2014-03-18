@@ -8,7 +8,7 @@
  * @property integer $competencia
  * @property integer $evaluacioncandidato
  * @property string $metodo
- * @property integer $calificacion
+ * @property double $calificacion
  * @property integer $ponderacion
  * @property integer $tipocompetencia
  * @property string $variablemetodo
@@ -47,7 +47,8 @@ class Habilidadevaluacioncandidato extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('competencia, evaluacioncandidato, calificacion, ponderacion, tipocompetencia', 'required'),
-			array('competencia, evaluacioncandidato, calificacion, tipocompetencia', 'numerical', 'integerOnly'=>true),
+			array('competencia, evaluacioncandidato, tipocompetencia', 'numerical', 'integerOnly'=>true),
+                        array('calificacion', 'numerical'),
 			array('metodo, variablemetodo, calificacionvariablemetodo', 'length', 'max'=>250),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
@@ -111,4 +112,8 @@ class Habilidadevaluacioncandidato extends CActiveRecord
 			'criteria'=>$criteria,
 		));
 	}
+        
+        public function actualizarcalificacioncoreac($calificacioncore, $accalificacion){
+            return $calificacioncore * 0.40 + $accalificacion * 0.60;
+        }
 }

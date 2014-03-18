@@ -484,27 +484,27 @@ class ProcesoevaluacionController extends Controller
                 }
                 
                 if ($assessmentcenter['indicadorac'] == "true") {
-                    $calificacionac = CommonFunctions::stringtonumber($assessmentcenter['calificacionac']);
-                    $promediohabilidadmerito = $ec->promedioec($meritos, $habilidades);
-                    $promedioac = $ec->promedioac($calificacionac);
-                    $promedioponderado = $ec->promedioponderadoacec($promediohabilidadmerito, $promedioac);
-                    $ec->eccalificacion = $ec->promedioponderadoec($meritos, $habilidades);
+                    $calificacionac = CommonFunctions::stringtonumber($assessmentcenter['calificacionac']); 
+                    $calificacionec = $ec->calificacionec($meritos, $habilidades, $calificacionac, true);
+//                    $promedioecac = $ec->promedioecac($calificacionec);
+//                    $promedioac = $ec->promedioac($calificacionac); 
+//                    $promedioponderado = $ec->promedioponderadoacec($promedioecac, $promedioac);
+                    $ec->eccalificacion = $calificacionec;
                     $ec->accalificacion = $calificacionac;
-                    $ec->promedioac = $promedioac;
+//                    $ec->promedioac = $promedioac;// Esto esta repetido con acalificacion
                     $ec->acdetalle = $assessmentcenter['detalleac'];
                     $ec->acindicador = 1; //CLEAN CODE - PONER EN VARIABLES GLOBALES
-                    $ec->promedioec = $promediohabilidadmerito;
+//                    $ec->promedioec = $promedioecac;    // Esto esta repetido con ecalificacion               
+                    $ec->promedioponderado = $calificacionec;
                 }
                 else{
-                    
-                    $promedioponderado = $ec->promedioponderadoec($meritos, $habilidades);
-                    $ec->eccalificacion = $promedioponderado;
-                    $ec->promedioec = $promedioponderado;
-                    }
-
-                $ec->fechaevaluacion = CommonFunctions::datenow();
+                    $calificacionec = $ec->calificacionec($meritos, $habilidades, 0, false);
+                    $ec->eccalificacion = $calificacionec;
+                    $ec->promedioec = $calificacionec;                    
+                    $ec->promedioponderado = $calificacionec;
+                }
                 $ec->estado = 2; //CLEAN CODE - PONER EN VARIABLES GLOBALES
-                $ec->promedioponderado = $promedioponderado;
+                $ec->fechaevaluacion = CommonFunctions::datenow();               
                 
                 $link = Links::model()->findByPk($ec->links);
                 $link->estado = 0;                
@@ -536,13 +536,18 @@ class ProcesoevaluacionController extends Controller
                         $habilidadevaluacioncandidato = new Habilidadevaluacioncandidato();
                         $habilidadevaluacioncandidato->evaluacioncandidato = $ec->id;
                         if ($habilidad["tipohabilidad"] == "core") { //CLEAN CODE COLOCAR EN VARIABLES GLOBALES
-                            $habilidadevaluacioncandidato->competencia = CommonFunctions::stringtonumber($habilidad["idhabilidad"]);
+                            if($assessmentcenter['indicadorac'] == "true"){
+                                $calificacioncore = $habilidadevaluacioncandidato->actualizarcalificacioncoreac(CommonFunctions::stringtonumber($habilidad["calificacionhabilidad"]), CommonFunctions::stringtonumber($assessmentcenter['calificacionac']));
+                                $habilidadevaluacioncandidato->calificacion = $calificacioncore;
+                            } 
+                            else
+                                $habilidadevaluacioncandidato->calificacion = CommonFunctions::stringtonumber($habilidad["calificacionhabilidad"]);                   
                             $habilidadevaluacioncandidato->tipocompetencia = 1; //CLEAN CODE COLOCAR EN VARIABLES GLOBALES
-                        } else {
-                            $habilidadevaluacioncandidato->competencia = CommonFunctions::stringtonumber($habilidad["idhabilidad"]);
+                        } else {                            
                             $habilidadevaluacioncandidato->tipocompetencia = 2; //CLEAN CODE COLOCAR EN VARIABLES GLOBALES
-                        }
-                        $habilidadevaluacioncandidato->calificacion = CommonFunctions::stringtonumber($habilidad["calificacionhabilidad"]);
+                            $habilidadevaluacioncandidato->calificacion = CommonFunctions::stringtonumber($habilidad["calificacionhabilidad"]);
+                        }       
+                        $habilidadevaluacioncandidato->competencia = CommonFunctions::stringtonumber($habilidad["idhabilidad"]);
                         $habilidadevaluacioncandidato->ponderacion = CommonFunctions::stringtonumber($habilidad["ponderacion"]);
                         $habilidadevaluacioncandidato->metodo = $habilidad["metodoseleccionado"];
                         $habilidadevaluacioncandidato->variablemetodo = $habilidad["variableequivalente"];
