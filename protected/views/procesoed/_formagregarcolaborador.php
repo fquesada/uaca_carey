@@ -4,9 +4,6 @@
 /* @var $indicadoreditar Indicador Editar*/
 ?>
 </br>
-<div>                    
-<button  id="btnbusquedacolaboradores" type="button" class="sexybutton sexysimple" ><span class="add">Buscar colaborador(es)</span></button>
-</div>
 </br>
 </br>
 
@@ -109,7 +106,7 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array(
   </thead>  
   <tbody>   
       <?php      
-      if(!isset($evaluaciones))
+      if($indicadoreditar)
           foreach ($evaluaciones as $ec) {
               echo '<tr>';
               echo '<td name="idcolaborador" style="display: none">';

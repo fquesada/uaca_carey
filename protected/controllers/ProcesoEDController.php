@@ -2,6 +2,7 @@
 
 class ProcesoEDController extends Controller
 {
+    
 	/**
 	 * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
 	 * using two-column layout. See 'protected/views/layouts/column2.php'.
@@ -33,7 +34,7 @@ class ProcesoEDController extends Controller
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
 				'actions'=>array('crear','report','update','admin','Admined','AdminEva','AgregarPersona','AutocompleteEvaluado',
-                                                    'HabilidadesEspeciales','InfoPonderacion', 'delete', 'reporteevaluacioncompetencias', 'DataReporteEvaluacionCompetencias'),
+                                                    'HabilidadesEspeciales','InfoPonderacion', 'delete', 'reporteevaluacioncompetencias', 'DataReporteEvaluacionCompetencias','CargaMasiva','CargaDepartamento'),
 				'users'=>array('@'),
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -46,7 +47,7 @@ class ProcesoEDController extends Controller
 		);
 	}
         
-        public function actionAdmined($id)
+       /* public function actionAdmined($id)
         {
             $procesoevaluacion = Procesoevaluacion::model()->find('id='.$id.' AND tipo=2');
            
@@ -62,7 +63,23 @@ class ProcesoEDController extends Controller
             else
                 $this->redirect(array('admin'));
             
+        }*/
+        
+         public function actionAdminED($id){    
+            
+            $procesoed = Procesoevaluacion::model()->findByAttributes(array('id'=>$id,'tipo'=>2));
+             
+            if(isset($procesoed))
+            {                            
+                $this->render('admined',array(
+                            'procesoed'=>$procesoed,
+                ));       
+            }     
+           else
+                $this->redirect(array('admin'));
         }
+        
+        
         
         public function actionAdminEva($id)
         {
@@ -203,40 +220,65 @@ class ProcesoEDController extends Controller
         public function actionCrear(){            
                         
             if(Yii::app()->request->isAjaxRequest)
-            {                
-                $descripcion = $_POST['txtdescripcion'];
-                $evaluador = CommonFunctions::stringtonumber($_POST['id']);
-                $periodo = CommonFunctions::stringtonumber($_POST['periodo']);
+            {               
+                //VALORAR PONER UN VALIDADOR ISSET TANTO DE VARIABLES DEL PROCESO COMO DE COLABORADORES
+                $nombreproceso = $_POST['nombreproceso'];
+                $idevaluador = CommonFunctions::stringtonumber($_POST['idevaluador']);
+                $periodo = CommonFunctions::stringtonumber($_POST['periodo']);         
                 
-                $evaluaciond = new Procesoevaluacion();
+                $procesoevaluacion = new Procesoevaluacion();  
                 
-                $evaluaciond->descripcion = $descripcion;
-                $evaluaciond->evaluador = $evaluador; 
-                $evaluaciond->estado = 1;
-                $evaluaciond->tipo = 2;
-                $evaluaciond->periodo = $periodo;
-                $evaluaciond->fecha = CommonFunctions::datenow();                                                                                                
+                $procesoevaluacion->fecha = CommonFunctions::datenow(); 
+                $procesoevaluacion->evaluador = $idevaluador;
+                $procesoevaluacion->descripcion = $nombreproceso;
+                $procesoevaluacion->estado = 1;
+                $procesoevaluacion->tipo = 2; //MIGRAR VARIABLES GLOBALES CLEAN CODE
+                $procesoevaluacion->periodo = $periodo;
                 
                 $transaction = Yii::app()->db->beginTransaction();
                 
-                $saveresult = $evaluaciond->save();
-                
-                if($saveresult){                    
-                       $transaction->commit();
-                       $response = array('result' => true,'value' => "Se guardó con éxito el proceso");
-                       echo CJSON::encode($response);   
-                       Yii::app()->end();
-                    }else{
+                $resultadoguardarbd = $procesoevaluacion->save();                
+                               
+                if($resultadoguardarbd){
+                    foreach ($_POST['colaboradores'] as $index => $idcolaborador){
+                            
+                            $evaluaciondesempeno = new Evaluaciondesempeno();
+                            $evaluaciondesempeno->procesoevaluacion = $procesoevaluacion->id;
+                            $colaborador = Colaborador::model()->findByPk($idcolaborador);
+                            $evaluaciondesempeno->puesto = $colaborador->getidpuestoactual(); //CLEAN CODE
+                            $evaluaciondesempeno->colaborador = $colaborador->id;                            
+                            $evaluaciondesempeno->save();
+
+                            $link = new Links();
+                            $link->url = $evaluaciondesempeno->id; //FALTA FUNCION HASH                          
+                            $link->save();
+
+                            $evaluaciondesempeno->links = $link->id;
+                            $resultadoguardarbd =  $evaluaciondesempeno->save();
+                            if(!$resultadoguardarbd){                    
+                                    $transaction->rollback();
+                                    $response = array('resultado' => false,'mensaje' => "Ha ocurrido un inconveniente al intentar guardar el proceso: ".$procesoevaluacion->descripcion);              
+                                    echo CJSON::encode($response); 
+                                    Yii::app()->end();
+                            }
+                    }                                    
+                   $transaction->commit();
+                   $response = array('resultado' => true,'mensaje' => "Se guardó con éxito el proceso: ".$procesoevaluacion->descripcion, 'url' => Yii::app()->getBaseUrl(true).'/index.php/procesoed/admin/'.$procesoevaluacion->id);                  
+                   echo CJSON::encode($response);   
+                   Yii::app()->end();                                   
+                }
+                else{
                         $transaction->rollback();
-                        $response = array('result' => false,'value' => "Ha ocurrido un inconveniente al intentar guardar el proceso".$saveresult); 
-                        echo CJSON::encode($response); 
+                        $response = array('resultado' => false,'mensaje' => "Ha ocurrido un inconveniente al intentar guardar el proceso: ".$procesoevaluacion->descripcion);              
+                        echo CJSON::encode($response);                        
                         Yii::app()->end();
-                    } 
-                                                                          
+                }           
             }
             
-            
-            $this->render('crear');
+            $editar = false;
+            $this->render('crear',array(
+			'indicadoreditar' => $editar,
+            )); 
         }
         
         public function actionHabilidadesEspeciales(){
@@ -440,5 +482,69 @@ class ProcesoEDController extends Controller
            
             //spl_autoload_register(array('YiiBase','autoload'));
       }
+      
+      
+     ///Replicado
+      
+      public function actionCargaMasiva(){            
+            $idevaluador = CommonFunctions::stringtonumber($_POST['idevaluador']);
+            $dataReader = Yii::app()->db->createCommand(
+                        'SELECT c.cedula,c.nombre,c.apellido1,c.apellido2, c.id, p.nombre as "puesto" '.
+                        'FROM colaborador c INNER JOIN historicopuesto hp on c.id = hp.colaborador and hp.puestoactual = 1 INNER JOIN puesto p  ON hp.puesto = p.id '.                        
+                        'WHERE c.id <> '.$idevaluador.' and c.estado = 1 ORDER BY c.apellido1;'
+                        )->query();
+            $return_array = array();            
+            if($dataReader->count() == 0){
+                    $return_array['value'] = 'error';
+                    $return_array['mensaje'] = 'Ha ocurrido un inconveniente al intentar cargar masivamente los colaboradores. Intente nuevamente';                  
+            }
+            else{
+                foreach($dataReader as $row){                         
+                            $nombrecompleto = $row['nombre'].' '.$row['apellido1'].' '.$row['apellido2'];
+                            $return_array[] = array(                       
+                            'nombre'=>$nombrecompleto, 
+                            'idcolaborador'=>$row['id'],
+                            'cedula'=>$row['cedula'],   
+                            'puesto'=>$row['puesto'],
+                            'tipo'=>1,      //CLEAN CODE                  
+                            );
+                }
+            }
+            echo CJSON::encode($return_array);
+        }
+        
+        public function actionCargaDepartamento(){
+            $iddepartamento = CommonFunctions::stringtonumber($_POST['iddepartamento']);
+            $idevaluador = CommonFunctions::stringtonumber($_POST['idevaluador']);
+            
+            $dataReader = Yii::app()->db->createCommand(
+                        'SELECT c.cedula,c.nombre,c.apellido1,c.apellido2, c.id, p.nombre as "puesto" '.
+                        'FROM colaborador c INNER JOIN historicopuesto hp on c.id = hp.colaborador and hp.puestoactual = 1 INNER JOIN puesto p  ON hp.puesto = p.id '.                        
+                        'WHERE c.id <> '.$idevaluador.' and hp.unidadnegocio = '.$iddepartamento.' and c.estado = 1 ORDER BY c.apellido1;'
+                        )->query();
+            $return_array = array();            
+            if($dataReader->count() == 0){
+                    $return_array['value'] = 'error';
+                    $return_array['mensaje'] = 'Ha ocurrido un inconveniente al intentar cargar los colaboradores de este departamento. 
+                        No existen colaboradores para este departamento o el Evaluador es el único colaborador de este departamento';                  
+            }
+            else{
+                foreach($dataReader as $row){                         
+                            $nombrecompleto = $row['nombre'].' '.$row['apellido1'].' '.$row['apellido2'];
+                            $return_array[] = array(                       
+                            'nombre'=>$nombrecompleto, 
+                            'idcolaborador'=>$row['id'],
+                            'cedula'=>$row['cedula'],   
+                            'puesto'=>$row['puesto'],
+                            'tipo'=>1,      //CLEAN CODE                  
+                            );
+                }
+            }
+            echo CJSON::encode($return_array);
+        }
+///FIN REPLICADO
+        
+        
+        
         
 }

@@ -67,6 +67,7 @@ class Procesoevaluacion  extends CActiveRecord
 		// class name for the relations automatically generated below.
 		return array(
 			'_evaluacionescompetencias' => array(self::HAS_MANY, 'Evaluacioncompetencias', 'procesoevaluacion'),
+                        '_evaluacionesdesempeno' => array(self::HAS_MANY, 'Evaluaciondesempeno', 'procesoevaluacion'),
                         'procesoevaluacion' => array(self::HAS_MANY, 'Procesoevaluacion', 'procesoevaluacion'),					
 			'_habilidadesespecial' => array(self::HAS_MANY, 'Habilidadespecial', 'procesoevaluacion'),
 			'_habilidadesespecialevaluada' => array(self::HAS_MANY, 'Habilidadespecialevaluada', 'procesoevaluacion'),
@@ -93,7 +94,7 @@ class Procesoevaluacion  extends CActiveRecord
 		);
 	}
             //AJUSTAR LA CONSULTA A LOS NUEVOS NOMBRES DE BD
-       public function search(){
+     /*  public function search(){
             $connection=Yii::app()->db;
             $sql=   "SELECT procesoevaluacion.id, procesoevaluacion.descripcion, DATE_FORMAT(procesoevaluacion.fecha, '%d-%m-%Y') AS fecha,
                     colaborador.nombre AS creador,puesto.nombre AS puesto, (CASE WHEN procesoevaluacion.estado = 1 THEN 'En proceso' ELSE 'Finalizado' END) as estado                                        
@@ -125,7 +126,7 @@ class Procesoevaluacion  extends CActiveRecord
             ));
 
             return $dataProvider;
-        }
+        }*/
         
         
         public function obtenerevaluaciondesempeno(){
@@ -159,5 +160,25 @@ class Procesoevaluacion  extends CActiveRecord
             return $dataProvider;
         }
         
+        public function getEstadoProceso() {
+        if ($this->estado == 1)
+            return 'En proceso';
+        else if ($this->estado == 2)
+            return 'Finalizado';
+      }
+      
+       public function getFechaProcesoFormato(){
+          $fechasinformato = strtotime($this->fecha);          
+          $fechaconformato = date('d/m/Y', $fechasinformato);          
+          return $fechaconformato;
+       }
+       
+       public function getTipoEvaluado() {
+        $estado = 'Interno';
+        if ($this->tipo == 0)
+            $estado = 'Externo';
+
+        return $estado;
+    }
         
 }

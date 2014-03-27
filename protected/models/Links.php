@@ -96,4 +96,14 @@ class Links extends CActiveRecord
             'criteria'=>$criteria,
         ));
     }
+    
+    public function getfechaultimoenvioformato() {
+        if (is_null($this->fechaultimoenvio))
+            return "-- / -- / ----";
+        else {
+            $fechasinformato = strtotime($this->fechaultimoenvio);
+            $fechaconformato = date('d-m-Y', $fechasinformato);
+            return $fechaconformato;
+        }
+    }
 }

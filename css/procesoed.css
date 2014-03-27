@@ -1,0 +1,38 @@
+/*Seccion mensajes error*/
+.errorevaluacionpersona{
+    font-style: italic;
+    font-size: 12px;
+    color: #EE0000;
+    text-align: left;
+    font-weight: normal;
+    margin-bottom: 10px;
+    visibility: hidden;        
+}
+
+#btnvolveratras{
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+.btnbusquedacolaboradores{
+   display: none; 
+}
+
+.ddlcargadepartamento{
+    display: none; 
+}
+
+.opcionescargacolaborador{
+    display: none;
+    margin-top: 30px;
+    margin-bottom: 15px;
+}
+
+.opcionescargacolaborador label{
+    margin-bottom: 10px;
+}
+
+.opcionescargacolaborador input{
+    margin-right: 3px;
+}
+

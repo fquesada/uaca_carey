@@ -136,4 +136,35 @@ class Evaluaciondesempeno extends CActiveRecord
 			'criteria'=>$criteria,
 		));
 	}
+        
+          public function getEstadoEvaluacionIndicador() {
+        if ($this->estado == 1) //CLEAN CODE VARIABLES GLOBALES
+            return false;
+        else if ($this->estado == 2)
+            return true;
+    }
+    
+    public function getfechaevaluacionecformato() {
+        if (is_null($this->fechaevaluacion))
+            return "-- / -- / ----";
+        else {
+            $fechasinformato = strtotime($this->fechaevaluacion);
+            $fechaconformato = date('d-m-Y', $fechasinformato);
+            return $fechaconformato;
+        }
+    }
+    
+    public function getNombreEvaluado() {
+        if ($this->tipo == 1)
+            return Colaborador::model()->findByPk($this->evaluado)->nombrecompleto;
+        else
+            return Postulante::model()->findByPk($this->evaluado)->nombrecompleto;
+    }
+
+    public function getEstadoEvaluacionDescripcion() {
+        if ($this->estado == 1)
+            return 'Pendiente';
+        else if ($this->estado == 2)
+            return 'Evaluado';
+    }
 }
