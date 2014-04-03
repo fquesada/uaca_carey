@@ -72,7 +72,7 @@ class ProcesoEDController extends Controller
             if(isset($procesoed))
             {                            
                 $this->render('admined',array(
-                            'procesoed'=>$procesoed,
+                            'evaluacion'=>$procesoed,
                 ));       
             }     
            else
