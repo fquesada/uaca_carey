@@ -1,6 +1,6 @@
 <?php
 /* @var $this ProcesoEvaluacionController */
-/* @var $procesoed ProcesoEvaluacion */
+/* @var $evaluacion ProcesoEvaluacion */
 
 Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/admined.js');
 Yii::app()->clientScript->registerCssFile(Yii::app()->baseUrl.'/css/admined.css');//CLEAN CODE
@@ -15,28 +15,28 @@ $this->menu=array(
 );
 ?>
 
-<h3 style="text-align: center">Gestionar Proceso ED #<?php echo $procesoed->id;?></h3>
+<h3 style="text-align: center">Gestionar Proceso ED #<?php echo $evaluacion->id;?></h3>
 
 <div>
 <?php $this->widget('zii.widgets.CDetailView', array(
-	'data'=>$procesoed,
+	'data'=>$evaluacion,
 	'attributes'=>array(
                 array(
-                        'label' => $procesoed->getAttributeLabel('fecha'),
-                        'value' => $procesoed->FechaProcesoFormato,
+                        'label' => $evaluacion->getAttributeLabel('fecha'),
+                        'value' => $evaluacion->FechaProcesoFormato,
                 ),                               
                 array(
-                        'label' => $procesoed->_periodo->getAttributeLabel('periodo'),
-                        'value' => $procesoed->_periodo->nombre,
+                        'label' => $evaluacion->_periodo->getAttributeLabel('periodo'),
+                        'value' => $evaluacion->_periodo->nombre,
                 ),
                 'descripcion',
                 array(
-                        'label' => $procesoed->getAttributeLabel('evaluador'),
-                        'value' => $procesoed->_evaluador->nombrecompleto,
+                        'label' => $evaluacion->getAttributeLabel('evaluador'),
+                        'value' => $evaluacion->_evaluador->nombrecompleto,
                 ),   
                 array(
-                        'label' => $procesoed->getAttributeLabel('estado'),
-                        'value' => $procesoed->EstadoProceso,
+                        'label' => $evaluacion->getAttributeLabel('estado'),
+                        'value' => $evaluacion->EstadoProceso,
                 ),                
 	),
 )); ?>
@@ -70,7 +70,7 @@ $this->menu=array(
   </thead>  
   <tbody>
       <?php
-    foreach($procesoed->_evaluacionesdesempeno as $ed){
+    foreach($evaluacion->_evaluacionesdesempeno as $ed){
         echo '<tr>';
         echo '<th style="display: none" id="idec">'; echo $ed->id; echo '</th>';
         echo '<th>'; echo $ed->_colaborador->cedula; echo '</th>';

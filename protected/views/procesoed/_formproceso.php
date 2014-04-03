@@ -1,6 +1,6 @@
 <?php
 /* @var $this ProcesoEDController */
-/* @var $procesoed ProcesoED */
+/* @var $evaluacion ProcesoED */
 /* @var $indicadoreditar Indicador Editar*/
 ?>
 
@@ -12,7 +12,7 @@
             <?php if(!$indicadoreditar)    
                     echo CHtml::dropDownList('ddlperiodo','', CHtml::listData(Periodo::model()->findAll(), 'id', 'nombre'), array('empty'=>'Elija el periodo', 'id'=>'ddlperiodo'));
                   else
-                    echo CHtml::dropDownList('ddlperiodo',$procesoed ->periodo, CHtml::listData(Periodo::model()->findAll(), 'id', 'nombre'), array('empty'=>'Elija el periodo', 'id'=>'ddlperiodo'));  
+                    echo CHtml::dropDownList('ddlperiodo',$evaluacion ->periodo, CHtml::listData(Periodo::model()->findAll(), 'id', 'nombre'), array('empty'=>'Elija el periodo', 'id'=>'ddlperiodo'));  
                       ?>       
             <div id="ddlperiodoerror" class="errorevaluacionpersona">Debe seleccionar un periodo</div>
     </div> 
@@ -22,7 +22,7 @@
             <?php if(!$indicadoreditar)   
                     echo CHtml::textArea('txtareadescripcion','', array('id'=>'txtdescripcion', 'rows' => '3', 'cols' => '40', 'maxlength' => '90'));
                 else
-                    echo CHtml::textArea('txtareadescripcion',$procesoed->descripcion, array('id'=>'txtdescripcion', 'rows' => '3', 'cols' => '40', 'maxlength' => '90'));
+                    echo CHtml::textArea('txtareadescripcion',$evaluacion->descripcion, array('id'=>'txtdescripcion', 'rows' => '3', 'cols' => '40', 'maxlength' => '90'));
             ?>                    
             <div id="txtdescripcionerror" class="errorevaluacionpersona">Debe ingresar el nombre del proceso.</div>
     </div>
@@ -41,7 +41,7 @@
                 ),
             ));
             ?>
-            <div id="ddlperiodoerror" class="errorevaluacionpersona">Debe seleccionar un periodo</div>
+            <div id="ddlfechaerror" class="errorevaluacionpersona">Debe seleccionar un periodo</div>
     </div>
     
     <fieldset>
@@ -77,7 +77,7 @@
                 ));
             }
             else{
-                echo CHtml::textField('colaborador', $procesoed->_evaluador->nombrecompleto, array('id' => 'busquedaevaluador','size'=>'30'));
+                echo CHtml::textField('colaborador', $evaluacion->_evaluador->nombrecompleto, array('id' => 'busquedaevaluador','size'=>'30'));
                 Yii::app()->clientScript->registerScript('activarevaluador', "
                         $('#busquedaevaluador').attr('disabled', 'true');	                                                                   
                         $('#btnbusquedacolaboradores').removeAttr('disabled'); 
@@ -94,7 +94,7 @@
             <?php if(!$indicadoreditar)  
                     echo CHtml::label('-', 'puesto',array('id'=>'puestoevaluador','name'=>'puesto')); 
                   else
-                    echo CHtml::label($procesoed->_evaluador->nombrepuestoactual, 'puesto',array('id'=>'puestoevaluador','name'=>'puesto'));
+                    echo CHtml::label($evaluacion->_evaluador->nombrepuestoactual, 'puesto',array('id'=>'puestoevaluador','name'=>'puesto'));
             ?>
         
     </div>
@@ -103,7 +103,7 @@
             <?php if(!$indicadoreditar) 
                     echo CHtml::hiddenField('idevaluador', '-',array('id'=>'idevaluador','name'=>'id')); 
                   else 
-                    echo CHtml::hiddenField('idevaluador', $procesoed->evaluador,array('id'=>'idevaluador','name'=>'id')); 
+                    echo CHtml::hiddenField('idevaluador', $evaluacion->evaluador,array('id'=>'idevaluador','name'=>'id')); 
             ?>        
     </div>   
     </fieldset>

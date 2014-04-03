@@ -60,6 +60,8 @@ $(document).ready(function() {
             mostrarerror($('#ddlperiodo'));}
        else if (!validar($('#txtdescripcion'))){
             mostrarerror($('#txtdescripcion'));}
+        else if (!validar($('#fecha'))){
+           mostrarerror($('#fecha'));}
        else if (!validar($('#busquedaevaluador'))){
            mostrarerror($('#busquedaevaluador'));}
        else if (cantidadcolaboradorestabla()== 0){
@@ -105,6 +107,7 @@ $(document).ready(function() {
     var data = {};
     data['proceso'] = $.trim($("#txtdescripcion").val());
     data['puesto'] = $("#ddlpuesto").val(); 
+    data['fecha'] = $("#fecha").val(); 
 
     if(cantidadhabilidades() > 0){
         var habilidades = {};

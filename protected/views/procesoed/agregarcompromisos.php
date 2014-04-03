@@ -1,6 +1,6 @@
 <?php
 /* @var $this ProcesoEvaluacionController */
-/* @var $procesoed ProcesoEvaluacion */
+/* @var $evaluacion ProcesoEvaluacion */
 
 Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/admined.js');
 Yii::app()->clientScript->registerCssFile(Yii::app()->baseUrl.'/css/admined.css');//CLEAN CODE
@@ -15,29 +15,33 @@ $this->menu=array(
 );
 ?>
 
-<h3 style="text-align: center">Agregar compromisos<?php echo $procesoed->id;?></h3>
+<h3 style="text-align: center">Agregar compromisos<?php echo $evaluacion->id;?></h3>
 
 <div>
 <?php $this->widget('zii.widgets.CDetailView', array(
-	'data'=>$procesoed,
+	'data'=>$evaluacion,
 	'attributes'=>array(
                 array(
-                        'label' => $procesoed->getAttributeLabel('fecha'),
-                        'value' => $procesoed->FechaProcesoFormato,
+                        'label' => $evaluacion->getAttributeLabel('fecha'),
+                        'value' => $evaluacion->fechaevaluacion,
                 ),                               
                 array(
-                        'label' => $procesoed->_periodo->getAttributeLabel('periodo'),
-                        'value' => $procesoed->_periodo->nombre,
-                ),
-                'descripcion',
-                array(
-                        'label' => $procesoed->getAttributeLabel('evaluador'),
-                        'value' => $procesoed->_evaluador->nombrecompleto,
+                        'label' => $evaluacion->_puesto->getAttributeLabel('puesto'),
+                        'value' => $evaluacion->_puesto->nombre,
                 ),   
                 array(
-                        'label' => $procesoed->getAttributeLabel('estado'),
-                        'value' => $procesoed->EstadoProceso,
+                        'label' => $evaluacion->_colaborador->getAttributeLabel('colaborador'),
+                        'value' => $evaluacion->_colaborador->nombrecompleto,
                 ),                
 	),
 )); ?>
 </div>
+
+<?php echo CHtml::beginForm('','post',array('id'=>'formcompromisos'))?>
+<?php echo $this->renderPartial('_formnuevoscompromisos', array('model'=>$evaluacion)); ?>
+
+<div class="content_section_submit">        
+                  <?php echo CHtml::submitButton('Guardar Compromisos',array('id'=>'btncompromiso', 'class'=>'sexybutton sexysimple sexylarge')); ?>                  
+</div>
+
+<?php echo CHtml::endForm()?>

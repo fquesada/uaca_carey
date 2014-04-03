@@ -33,7 +33,7 @@ class ProcesoEDController extends Controller
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('crear','report','update','admin','Admined','AdminEva','AgregarPersona','AutocompleteEvaluado',
+				'actions'=>array('crear','report','update','admin','Admined','AdminEva','AgregarPersona','AutocompleteEvaluado','AgregarCompromisos',
                                                     'HabilidadesEspeciales','InfoPonderacion', 'delete', 'reporteevaluacioncompetencias', 'DataReporteEvaluacionCompetencias','CargaMasiva','CargaDepartamento'),
 				'users'=>array('@'),
 			),
@@ -98,6 +98,51 @@ class ProcesoEDController extends Controller
                 $this->redirect(array('admineva'));
             
         }
+        
+        public function actionAgregarCompromisos($id)
+        {
+            $evaluacion = Evaluaciondesempeno::model()->find('id='.$id);
+           
+            if(isset($evaluacion))
+            {                     
+
+                $this->render('agregarcompromisos',array(
+                            'evaluacion'=>$evaluacion
+                    ));
+            }
+            else
+                $this->redirect(array('admineva'));
+            
+        }
+        
+        protected function obtenerpuntualizaciones($idpuesto){
+
+            $puesto = Puesto::model()->findByPk($idpuesto);
+
+            $html = '';
+
+            $html .= '<table class="table_ingreso_competencias" id="tblpuntualizaciones">';
+            $html .= '<thead>';
+            $html .= '<tr>';
+            $html .= '<th>Puntualización</th>';
+            $html .= '<th>Indicador</th>';
+            $html .= '<th>Compromiso</th>';                   
+            $html .= '</tr>';
+            $html .= '</thead>';
+            $html .= '<tbody>';
+            foreach($puesto->_puntualizaciones as $puntualizacion)
+                    {
+                            $html .= '<tr>';
+                                $html .= '<td class="data_puntualizacion_column">'. $puntualizacion->puntualizacion ."</td>";
+                                $html .= '<td class="data_indicador_column">'. $puntualizacion->indicadorpuntualizacion ."</td>";
+                                $html .= '<td class="textarea_column"><textarea name="puntualizacion['.$puntualizacion->id.']"></textarea></td>';
+                            $html .= '</tr>';
+                    }   
+            $html .= '</tbody>';
+            $html .= '</table>';
+
+            return $html;
+    }
         
         public function actionAgregarPersona()
         {
@@ -224,11 +269,11 @@ class ProcesoEDController extends Controller
                 //VALORAR PONER UN VALIDADOR ISSET TANTO DE VARIABLES DEL PROCESO COMO DE COLABORADORES
                 $nombreproceso = $_POST['nombreproceso'];
                 $idevaluador = CommonFunctions::stringtonumber($_POST['idevaluador']);
-                $periodo = CommonFunctions::stringtonumber($_POST['periodo']);         
+                $fechaevaluacion = CommonFunctions::datephptomysql($_POST['fecha']);         
                 
                 $procesoevaluacion = new Procesoevaluacion();  
                 
-                $procesoevaluacion->fecha = CommonFunctions::datenow(); 
+                $procesoevaluacion->fecha = CommonFunctions::datenow();                 
                 $procesoevaluacion->evaluador = $idevaluador;
                 $procesoevaluacion->descripcion = $nombreproceso;
                 $procesoevaluacion->estado = 1;
@@ -244,6 +289,7 @@ class ProcesoEDController extends Controller
                             
                             $evaluaciondesempeno = new Evaluaciondesempeno();
                             $evaluaciondesempeno->procesoevaluacion = $procesoevaluacion->id;
+                            $evaluaciondesempeno->fechaevaluacion = $fechaevaluacion;
                             $colaborador = Colaborador::model()->findByPk($idcolaborador);
                             $evaluaciondesempeno->puesto = $colaborador->getidpuestoactual(); //CLEAN CODE
                             $evaluaciondesempeno->colaborador = $colaborador->id;                            
