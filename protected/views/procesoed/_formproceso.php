@@ -31,7 +31,7 @@
             <?php echo CHtml::label('Fecha evaluación *', 'fecha');?>
           <?php
             $this->widget('zii.widgets.jui.CJuiDatePicker',array(
-                'name'=>'datepicker',
+                'name'=>'fecha',
                 // additional javascript options for the date picker plugin
                 'options'=>array(
                     'showAnim'=>'slide',//'slide','fold','slideDown','fadeIn','blind','bounce','clip','drop'

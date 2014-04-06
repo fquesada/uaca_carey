@@ -379,6 +379,7 @@ $(document).ready(function() {
     data['nombreproceso'] = $.trim($("#txtdescripcion").val());
     data['idevaluador'] = $("#idevaluador").val(); 
     data['periodo'] = $('#ddlperiodo').val();
+    data['fecha'] = $('#fecha').val();
     data['colaboradores'] = obtenercolaboradoresevaluar();  
     return data;
    }
