@@ -4,7 +4,8 @@
             <tbody>
                 <tr>
                     <td class="label_column"><label for="ddlperiodo">Período de la evaluación</label></td>
-                    <td class="data_column"><?php echo CHtml::dropDownList('periodo', 'periodo',CHtml::listData(Periodo::model()->findAll(), 'id', 'nombre'), array('empty'=>'Elija un periodo', 'id'=>'ddlperiodo')) ?></td>                    
+                    <td class="data_column"><?php echo CHtml::dropDownList('periodo', 'periodo',CHtml::listData(Periodo::model()->findAll(), 'id', 'nombre'), array('empty'=>'Elija un periodo', 'id'=>'ddlperiodo')) ?> <div class="errored" id="ddlperiodoerror">  Debe seleccionar un periodo</div></td>
+                    
                 </tr>                  
                 <tr>
                     <td class="label_column"><label for="dpfecha">Fecha de la evaluación</label></td>
@@ -21,17 +22,15 @@
                             'buttonImage'=>Yii::app()->baseUrl.'/images/icons/silk/calendar.png',
                             'buttonImageOnly' => true,
                             'onClose' => "js:function(dateText, inst){
-                                        $('#dpfecha').siblings('.errorcalificacion').remove();
-                                        if(dateText == ''){
-                                             $('#dpfecha').parent().append('<div class=\"errorcalificacion\">Seleccione una fecha.</div>'); 
-                                        }                                   
+                                        $('#dpfechaerror').hide();
+                                                                         
                                 }",
                         ),
                         'htmlOptions'=>array(                            
                             'readonly' => 'readonly',
                             'style'=>'width: 118px; text-align: center'
                         ),
-                    ));?></td>
+                    ));?> <div class="errored" id="dpfechaerror">  Debe seleccionar una fecha</div></td>
                 </tr>                  
             </tbody>
         </table>  

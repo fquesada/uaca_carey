@@ -2,19 +2,22 @@
 /* @var $this ProcesoEvaluacionController */
 /* @var $evaluacion ProcesoEvaluacion */
 
-Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/admined.js');
+Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/procesoed.js');
+Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/jquery.placeholder.min.js');
 Yii::app()->clientScript->registerCssFile(Yii::app()->baseUrl.'/css/admined.css');//CLEAN CODE
+Yii::app()->clientScript->registerCssFile(Yii::app()->baseUrl.'/css/procesoed.css');
+
 
 $this->breadcrumbs=array(
 	'EC'=>array('admin'),
-	'Gestionar proceso EC',
+	'Agregar Compromisos',
 );
 $this->menu=array(
 	array('label'=>'Lista de Procesos ED' , 'url'=>array('admin')),	
 );
 ?>
 
-<h3 style="text-align: center">Agregar compromisos<?php echo $evaluacion->id;?></h3>
+<h3 style="text-align: center">Agregar compromisos <?php echo $evaluacion->id;?></h3>
 
 <div>
 <?php $this->widget('zii.widgets.CDetailView', array(
@@ -40,7 +43,7 @@ $this->menu=array(
 <?php echo $this->renderPartial('_formnuevoscompromisos', array('model'=>$evaluacion)); ?>
 
 <div class="content_section_submit">        
-                  <?php echo CHtml::submitButton('Guardar Compromisos',array('id'=>'btncompromiso', 'class'=>'sexybutton sexysimple sexylarge')); ?>                  
+                  <?php echo CHtml::submitButton('Crear proceso ED',array('id'=>'btncompromisos', 'class'=>'sexybutton sexysimple sexylarge'));  ?>                  
 </div>
 
 <?php echo CHtml::endForm()?>

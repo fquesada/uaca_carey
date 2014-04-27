@@ -2,6 +2,95 @@
 $(document).ready(function() {
     
     
+    $("#btncompromisos").click(function(event){
+       event.preventDefault();       
+       
+       console.log(obtenerdatoscompromisos());
+       console.log(validarpuntualizaciones());
+       
+       if(!validar($('#ddlperiodo'))){     
+            mostrarerror($('#ddlperiodo'));}
+        else if (!validar($('#dpfecha'))){
+           mostrarerror($('#dpfecha'));}
+       else if (!validarcompromisos()){
+           mostrarerrorcompromisos();}
+       else{ 
+       $('#btncompromisos').prop('disabled', true);
+       $.ajax({
+                    type: 'POST',
+                    url: 'agregarcompromisos',
+                    data: obtenerdatoscompromisos(),
+                    dataType: 'json',
+                    error: function (jqXHR, textStatus){
+                        $('#btncompromisos').prop('disabled', false);
+                        if (jqXHR.status === 0) {                            
+                            messageerror("Problema de red, contacte al administrador de sistemas.");
+                        } else if (jqXHR.status == 404) {
+                            messagewarning("Solicitud no encontrada.");
+                        } else if (jqXHR.status == 500) {
+                            messageerror("Error 500. Ha ocurrido un problema con el servidor, contacte al administrador de sistemas.");
+                        } else if (textStatus === 'parsererror') {
+                            messagewarning("Ha ocurrido un inconveniente, intente nuevamente.");
+                        } else if (textStatus === 'timeout') {
+                            messageerror("Tiempo de espera excedido, intente nuevamente.");
+                        } else if (textStatus === 'abort') {
+                            messageerror("Se ha abortado la solicitud, intente nuevamente");
+                        } else {
+                            messageerror("Error desconocido, contacte al administrador de sistemas.");                            
+                        }
+                    },
+                    success: function(datos){                       
+                        if(datos.resultado)
+                            messagesuccess(datos.mensaje, datos.url);              
+                        else
+                            messageerror(datos.mensaje);
+                    }
+        });}
+
+   });
+    
+   function obtenerdatoscompromisos(){
+       var data = {};
+       data['puesto'] = $("#ddlperiodo").val(); 
+       data['fecha'] = $("#dpfecha").val();
+       data['compromisos'] = obtenercompromisos();
+       return data;
+   }
+   
+   
+   function obtenercompromisos(){                 
+       var indicadores = Array();
+        $("#tblpuntualizaciones > tbody > tr").each(function(index, fila) {		            
+            var idpuntualizacion = $(fila).find('td:eq(0)').text();
+            var indicador = $('#'+idpuntualizacion+'-val').val();
+            indicadores[idpuntualizacion] = indicador;
+        });
+        return indicadores;
+   }
+   
+   function validarcompromisos(){ 
+       var respuesta = true;
+        $("#tblpuntualizaciones > tbody > tr").each(function(index, fila) {
+            var idpuntualizacion = $(fila).find('td:eq(0)').text();
+            var indicador = $('#'+idpuntualizacion+'-val').val().trim();
+            if(indicador.length < 10)
+                respuesta = false;
+        });
+        return respuesta;
+   }
+   
+   
+   function mostrarerrorcompromisos(){        
+        $("#tblpuntualizaciones > tbody > tr").each(function(index, fila) {
+            var idpuntualizacion = $(fila).find('td:eq(0)').text();
+            var indicador = $('#'+idpuntualizacion+'-val').val().trim();
+            if(indicador.length < 10)
+                $('#puntualizacion'+idpuntualizacion+'error').css('visibility', 'visible')
+        });        
+   }
+    
+    
+    
     //Guardar proceso de editar ED
     $("#btnguardarprocesoed").click(function(event){
         event.preventDefault();      
@@ -76,6 +165,7 @@ $(document).ready(function() {
                     data: obtenerdatoscrearproceso(),
                     dataType: 'json',
                     error: function (jqXHR, textStatus){
+                        console.log(jqXHR.statusText);
                         $('#btncrearprocesoed').prop('disabled', false);
                         if (jqXHR.status === 0) {                            
                             messageerror("Problema de red, contacte al administrador de sistemas.");

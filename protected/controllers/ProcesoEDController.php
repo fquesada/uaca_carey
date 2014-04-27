@@ -101,17 +101,72 @@ class ProcesoEDController extends Controller
         
         public function actionAgregarCompromisos($id)
         {
-            $evaluacion = Evaluaciondesempeno::model()->find('id='.$id);
-           
-            if(isset($evaluacion))
-            {                     
+            if(Yii::app()->request->isAjaxRequest)
+            {
+                if(isset($_POST['compromisos'])&& isset($_POST['periodo'])&& isset($_POST['fechaevaluacion'])){ 
+                     $valoresevaluacion = $_SESSION['dataevaluacion'];
+                     
+                    $evaluacion = Evaluaciondesempeno::model()->findByPk($id);
+                                                            
+                    $evaluacion->fecharegistrocompromiso = $this->fechaphptomysql(date('d-m-Y'));
+                    $evaluacion->fechaevaluacion = $this->fechaphptomysql($_POST['fechaevaluacion']);                    
+                    $evaluacion->comentariocompromisos = trim($_POST['comentario']);
+                    $evaluacion->periodo = $_POST['periodo'];
 
-                $this->render('agregarcompromisos',array(
-                            'evaluacion'=>$evaluacion
-                    ));
+
+                    $compromisos = array();                
+                    foreach ($_POST['compromisos'] as $id => $value) {
+                        $compromisos[] = array(
+                            'idpuntualizacion' => $id,
+                            'compromiso' => $value,
+                        );                            
+                    }
+
+                    $transaction = Yii::app()->db->beginTransaction();                       
+
+                    $result = $evaluacion->save();                        
+                    $idevaluacion = $evaluacion->id;
+
+                    if($result){                        
+                        foreach($compromisos as $compromiso)
+                        {
+                            $nuevocompromiso = new Compromiso;
+                            $nuevocompromiso->evaluacion = $idevaluacion;
+                            $nuevocompromiso->puntualizacion = $compromiso['idpuntualizacion'];
+                            $nuevocompromiso->compromiso = $compromiso['compromiso'];
+                            $result = $nuevocompromiso->save();
+                        }
+                        if($result)
+                        {                                
+                            $transaction->commit();
+                            Yii::app()->user->setFlash('exito', 'Se ha ingresado correctamente los compromisos del colaborador '.$valoresevaluacion['nombrecolaborador']);
+                            $this->redirect(array('view','id'=>$evaluacion->id));
+                        }
+                        else{
+                            $transaction->rollBack();                  
+                             Yii::app()->user->setFlash('warning', 'Lo sentimos, ha ocurrido un problema al intentar guardar los compromisos del colaborador '.$valoresevaluacion['nombrecolaborador']);
+                        }
+                    }
+                    else{
+                        $transaction->rollBack();                  
+                          Yii::app()->user->setFlash('warning', 'Lo sentimos, ha ocurrido un problema al intentar guardar los compromisos del colaborador '.$valoresevaluacion['nombrecolaborador']);
+                    }
+                }
             }
             else
-                $this->redirect(array('admineva'));
+            {
+                $evaluacion = Evaluaciondesempeno::model()->find('id='.$id);
+
+                if(isset($evaluacion))
+                {                     
+
+                    $this->render('agregarcompromisos',array(
+                                'evaluacion'=>$evaluacion
+                        ));
+                }
+                else
+                    $this->redirect(array('admineva'));
+            }
             
         }
         
@@ -124,18 +179,20 @@ class ProcesoEDController extends Controller
             $html .= '<table class="table_ingreso_competencias" id="tblpuntualizaciones">';
             $html .= '<thead>';
             $html .= '<tr>';
+            $html .= '<th>ID</th>';
             $html .= '<th>Puntualización</th>';
             $html .= '<th>Indicador</th>';
-            $html .= '<th>Compromiso</th>';                   
+            $html .= '<th>Compromiso</th>'; 
             $html .= '</tr>';
             $html .= '</thead>';
             $html .= '<tbody>';
             foreach($puesto->_puntualizaciones as $puntualizacion)
                     {
                             $html .= '<tr>';
+                                $html .= '<td class="data_id_column">'. $puntualizacion->id ."</td>";
                                 $html .= '<td class="data_puntualizacion_column">'. $puntualizacion->puntualizacion ."</td>";
                                 $html .= '<td class="data_indicador_column">'. $puntualizacion->indicadorpuntualizacion ."</td>";
-                                $html .= '<td class="textarea_column"><textarea name="puntualizacion['.$puntualizacion->id.']"></textarea></td>';
+                                $html .= '<td class="textarea_column"><textarea name="puntualizacion['.$puntualizacion->id.']"  id='.$puntualizacion->id.'-val'.'></textarea> <div id="puntualizacion'.$puntualizacion->id.'error" class="errored">Ingrese un compromiso, mayor de 10 caracteres.</div> </td>';
                             $html .= '</tr>';
                     }   
             $html .= '</tbody>';
@@ -269,7 +326,9 @@ class ProcesoEDController extends Controller
                 //VALORAR PONER UN VALIDADOR ISSET TANTO DE VARIABLES DEL PROCESO COMO DE COLABORADORES
                 $nombreproceso = $_POST['nombreproceso'];
                 $idevaluador = CommonFunctions::stringtonumber($_POST['idevaluador']);
-                $fechaevaluacion = CommonFunctions::datephptomysql($_POST['fecha']);         
+                $fechaevaluacion = CommonFunctions::datephptomysql($_POST['fecha']);  
+                $periodo = $_POST['periodo'];
+                $evaluados = $_POST['colaboradores'];
                 
                 $procesoevaluacion = new Procesoevaluacion();  
                 
@@ -282,11 +341,13 @@ class ProcesoEDController extends Controller
                 
                 $transaction = Yii::app()->db->beginTransaction();
                 
-                $resultadoguardarbd = $procesoevaluacion->save();                
+                $resultadoguardarbd = $procesoevaluacion->save();  
+                
                                
                 if($resultadoguardarbd){
-                    foreach ($_POST['colaboradores'] as $index => $idcolaborador){
-                            
+                    foreach ($evaluados as $index => $idcolaborador){
+                    
+                            //ERROR
                             $evaluaciondesempeno = new Evaluaciondesempeno();
                             $evaluaciondesempeno->procesoevaluacion = $procesoevaluacion->id;
                             $evaluaciondesempeno->fechaevaluacion = $fechaevaluacion;
@@ -311,20 +372,22 @@ class ProcesoEDController extends Controller
                    $transaction->commit();
                    $response = array('resultado' => true,'mensaje' => "Se guardó con éxito el proceso: ".$procesoevaluacion->descripcion, 'url' => Yii::app()->getBaseUrl(true).'/index.php/procesoed/admin/'.$procesoevaluacion->id);                  
                    echo CJSON::encode($response);   
-                   Yii::app()->end();                                   
+                   Yii::app()->end(); 
+                                                   
                 }
                 else{
                         $transaction->rollback();
                         $response = array('resultado' => false,'mensaje' => "Ha ocurrido un inconveniente al intentar guardar el proceso: ".$procesoevaluacion->descripcion);              
                         echo CJSON::encode($response);                        
                         Yii::app()->end();
-                }           
+                } 
+                           
             }
             
-            $editar = false;
+            
             $this->render('crear',array(
-			'indicadoreditar' => $editar,
-            )); 
+			'indicadoreditar' => false,
+            ));  
         }
         
         public function actionHabilidadesEspeciales(){

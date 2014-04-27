@@ -35,9 +35,11 @@
                 // additional javascript options for the date picker plugin
                 'options'=>array(
                     'showAnim'=>'slide',//'slide','fold','slideDown','fadeIn','blind','bounce','clip','drop'
+                    'dateFormat'=>'dd-mm-yy',
                 ),
                 'htmlOptions'=>array(
                     'style'=>'height:20px;',
+                    'readonly'=>'readonly', 
                 ),
             ));
             ?>
