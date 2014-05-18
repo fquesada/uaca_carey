@@ -11,7 +11,7 @@ $this->pageTitle=Yii::app()->name;
     </div>
     <div class="Menu">
 <!--           <a href="../colaborador/admin" class="btn">Colaborador</a>-->
-           <a href="#" class="btn">Colaborador</a>
+           <a href="../colaborador/admin" class="btn">Colaborador</a>
            <a href="../competencia/admin" class="btn">Competencia</a>          
 <!--           <a href="../origenevaluacion/admin" class="btn">Origen de Evaluación</a>-->
            <a href="#" class="btn">Origen de Evaluación</a>

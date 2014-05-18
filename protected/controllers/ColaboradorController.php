@@ -36,7 +36,7 @@ class ColaboradorController extends Controller
 				'users'=>array('@'),
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
-				'actions'=>array('admin','delete'),
+				'actions'=>array('admin','delete','Gestionpuesto'),
 				'users'=>array('admin'),
 			),
 			array('deny',  // deny all users
@@ -181,6 +181,17 @@ class ColaboradorController extends Controller
                 echo CHtml::tag('option',
                             array('value'=>'0'),CHtml::encode('No existen puestos en esa unidad.'),true);
             }
+        }
+        
+        public function actionGestionpuesto($id)
+        {
+            $model=$this->loadModel($id);
+            
+            //if(!$model->equals(NULL)){
+                $this->render('gestionpuesto',array('model'=>$model));
+            //}
+            //else
+                //$this->render('addpuesto',array('model'=>$model));
         }
 
         /**

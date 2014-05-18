@@ -22,14 +22,6 @@
 	<?php echo CHtml::encode($data->apellido2); ?>
 	<br />
 
-	<b><?php echo CHtml::encode($data->getAttributeLabel('unidadnegocio')); ?>:</b>
-	<?php echo CHtml::encode($data->unidadnegocio); ?>
-	<br />
-	
-<!--	<b><?php echo CHtml::encode($data->getAttributeLabel('puesto')); ?>:</b>
-	<?php echo CHtml::encode($data->puesto); ?>
-	<br />-->
-
 	
 
 </div>

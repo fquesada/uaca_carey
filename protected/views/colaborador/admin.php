@@ -29,10 +29,20 @@ Puede ingresar opcionalmente un operador comparativo (<b>&lt;</b>, <b>&lt;=</b>,
 		'nombre',
 		'apellido1',
 		'apellido2',
-		'unidadnegocio',
-		'puesto',
+                'nombreunidadnegocioactual',
+                'nombrepuestoactual',
 		array(
 			'class'=>'CButtonColumn',
+                        'htmlOptions'=>array('width'=>'90'),
+                        'template'=>'{gestionpuesto}{view}{update}{delete}',
+                        'buttons'=>array(
+                            'gestionpuesto'=>array(
+                                'label'=>'Gestionar puesto',
+                                'imageUrl'=>Yii::app()->request->baseUrl.'/images/icons/silk/wrench.png',
+                                'url'=>'Yii::app()->createUrl("colaborador/gestionpuesto", array("id"=>$data->id))'
+                                
+                            )                          
+                        )
 		),
 	),
 )); ?>

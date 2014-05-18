@@ -80,12 +80,14 @@ class Colaborador extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'cedula' => 'Cedula',
+			'cedula' => 'Cédula',
 			'nombre' => 'Nombre',
 			'apellido1' => 'Primer Apellido',
 			'apellido2' => 'Segundo Apellido',
 			'estado' => 'Estado',	
                         'correo' => 'Correo',
+                        'nombrepuestoactual'=>'Puesto',
+                        'nombreunidadnegocioactual'=>'Unidad de Negocio',
 		);
 	}
 
@@ -112,24 +114,6 @@ class Colaborador extends CActiveRecord
 			'criteria'=>$criteria,
 		));
 	}
-        
-        //Posiblemente esta funcion ya no sirva
-        public function getNombreUnidadNegocio(){
-            $unidadsel = Unidadnegocio::model()->findAllByAttributes(array('id'=>$this->unidadnegocio));
-            foreach ($unidadsel as $unidadnegocio){
-                $resultado = $unidadnegocio->nombre;
-            }
-            return $resultado;
-        }
-        
-        //Posiblemente esta funcion ya no sirva
-        public function getNombrePuesto(){
-            $puestosel = Puesto::model()->findAllByAttributes(array('id'=>$this->puesto));
-            foreach ($puestosel as $puesto){
-                $resultado = $puesto->nombre;
-            }
-            return $resultado;
-        }
         
         public function getnombrecompleto(){            
             if(isset($this->_nombrecompleto)) {
@@ -169,6 +153,27 @@ class Colaborador extends CActiveRecord
                 return false;
              else           
                 return $unidadnegocio->nombre;
+        }
+        
+        public function add($idunidadnegocio)
+        {
+            $criteria = new CDbCriteria;
+            
+            $criteria->compare('nombre',$this->nombre,true);
+            $criteria->compare('codigo',$this->codigo,true);	
+            
+            $criteria->addcolumncondition(array('estado'=>'1'));
+            
+            $unidadpuesto = UnidadNegocioPuesto::model()->findAllByAttributes(array('unidadnegocio' => $idunidadnegocio));
+            
+            $existentes = $this->obtenerArrayColumna($unidadpuesto,'puesto');
+            
+            $criteria->addNotInCondition('id', $existentes);
+                        
+            return new CActiveDataProvider($this, array(
+			//'keyAttribute'=>'id',
+                        'criteria'=>$criteria             
+		));
         }
 }
 

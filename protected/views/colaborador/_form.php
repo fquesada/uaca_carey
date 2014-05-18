@@ -44,26 +44,6 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->baseUrl . '/css/sexybutton
 		<?php echo $form->error($model,'apellido2'); ?>
 	</div>
 
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'unidadnegocio'); ?>
-		<?php echo $form->dropDownList($model,'unidadnegocio', CHtml::listData(UnidadNegocio::model()->findAllByAttributes(array('estado' => '1')),'id','nombre'),array('empty' => 'Seleccione una unidad de negocio',
-                            'ajax'=> array('type'=>'POST',
-                                                            'url'=>CController::createUrl('colaborador/getpuestos'),
-                                                            'update'=> '#'.CHtml::activeId($model,'puesto'),
-                                                            
-                                                            )
-                                                      )
-                            ); ?>
-                <?php echo $form->error($model,'unidadnegocio'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'puesto'); ?>
-		<?php echo $form->dropDownList($model,'puesto',CHtml::listData(Puesto::model()->findAllByAttributes(array('estado' => '1')),'id','nombre'),array('empty'=>'Seleccione un puesto')) ?>
-                <?php echo $form->error($model,'puesto'); ?>
-        </div>
-
 	<div class="row buttons">
 		<?php echo CHtml::submitButton($model->isNewRecord ? 'Crear' : 'Actualizar', array('class'=>'sexybutton sexysimple sexylarge'));?>
 	</div>
