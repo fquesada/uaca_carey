@@ -19,6 +19,7 @@ $this->menu=array(
 
 <h3 style="text-align: center">Agregar compromisos <?php echo $evaluacion->id;?></h3>
 
+<?php echo CHtml::hiddenField('idevaluacion', $evaluacion->id,array('id'=>'idevaluacion','name'=>'idevaluacion')); ?>
 <div>
 <?php $this->widget('zii.widgets.CDetailView', array(
 	'data'=>$evaluacion,

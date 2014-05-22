@@ -102,18 +102,17 @@ class ProcesoEDController extends Controller
         public function actionAgregarCompromisos($id)
         {
             if(Yii::app()->request->isAjaxRequest)
-            {
-                if(isset($_POST['compromisos'])&& isset($_POST['periodo'])&& isset($_POST['fechaevaluacion'])){ 
-                     $valoresevaluacion = $_SESSION['dataevaluacion'];
+            {                 
+              
+                if(isset($_POST['fecha'])&& isset($_POST['compromisos'])){                    
                      
-                    $evaluacion = Evaluaciondesempeno::model()->findByPk($id);
-                                                            
-                    $evaluacion->fecharegistrocompromiso = $this->fechaphptomysql(date('d-m-Y'));
-                    $evaluacion->fechaevaluacion = $this->fechaphptomysql($_POST['fechaevaluacion']);                    
+                    $evaluacion = Evaluaciondesempeno::model()->findByPk($id);                    
+
+                                                           
+                    $evaluacion->fecharegistrocompromiso = CommonFunctions::datephptomysql(date('d-m-Y'));;
+                    $evaluacion->fechaevaluacion = CommonFunctions::datephptomysql($_POST['fecha']);                    
                     $evaluacion->comentariocompromisos = trim($_POST['comentario']);
-                    $evaluacion->periodo = $_POST['periodo'];
-
-
+                 
                     $compromisos = array();                
                     foreach ($_POST['compromisos'] as $id => $value) {
                         $compromisos[] = array(
@@ -124,8 +123,10 @@ class ProcesoEDController extends Controller
 
                     $transaction = Yii::app()->db->beginTransaction();                       
 
-                    $result = $evaluacion->save();                        
+                    $result = true;//$evaluacion->save();                        
                     $idevaluacion = $evaluacion->id;
+                    
+                   
 
                     if($result){                        
                         foreach($compromisos as $compromiso)
@@ -134,24 +135,35 @@ class ProcesoEDController extends Controller
                             $nuevocompromiso->evaluacion = $idevaluacion;
                             $nuevocompromiso->puntualizacion = $compromiso['idpuntualizacion'];
                             $nuevocompromiso->compromiso = $compromiso['compromiso'];
-                            $result = $nuevocompromiso->save();
+                            $result = true;//$nuevocompromiso->save();
                         }
                         if($result)
                         {                                
                             $transaction->commit();
-                            Yii::app()->user->setFlash('exito', 'Se ha ingresado correctamente los compromisos del colaborador '.$valoresevaluacion['nombrecolaborador']);
-                            $this->redirect(array('view','id'=>$evaluacion->id));
+                            $response = array('resultado' => true,'mensaje' => "Se ha ingresado correctamente los compromisos del colaborador", 'url' => Yii::app()->getBaseUrl(true).'/index.php/procesoed/admined/'.$evaluacion->procesoevaluacion);
                         }
                         else{
-                            $transaction->rollBack();                  
-                             Yii::app()->user->setFlash('warning', 'Lo sentimos, ha ocurrido un problema al intentar guardar los compromisos del colaborador '.$valoresevaluacion['nombrecolaborador']);
+                            $transaction->rollBack(); 
+                             $response = array('resultado' => false,'mensaje' => "Lo sentimos, ha ocurrido un problema al intentar guardar los compromisos del colaborador", 'url' => Yii::app()->getBaseUrl(true).'/index.php/procesoed/');                             
                         }
+                        echo CJSON::encode($response); //NO LO ENVIA DE NUEVO A LA VISTA  
+                        
                     }
                     else{
                         $transaction->rollBack();                  
-                          Yii::app()->user->setFlash('warning', 'Lo sentimos, ha ocurrido un problema al intentar guardar los compromisos del colaborador '.$valoresevaluacion['nombrecolaborador']);
+                          $response = array('resultado' => false,'mensaje' => "Lo sentimos, ha ocurrido un problema al intentar guardar los compromisos del colaborador", 'url' => Yii::app()->getBaseUrl(true).'/index.php/procesoed/');                             
+                          echo CJSON::encode($response); //NO LO ENVIA DE NUEVO A LA VISTA  
+                          Yii::app()->end(); 
                     }
+                    
                 }
+                else{
+                                         
+                          $response = array('resultado' => false,'mensaje' => "Lo sentimos, ha ocurrido un problema al intentar guardar los compromisos del colaborador", 'url' => Yii::app()->getBaseUrl(true).'/index.php/procesoed/');                             
+                          echo CJSON::encode($response); //NO LO ENVIA DE NUEVO A LA VISTA  
+                          Yii::app()->end(); 
+                    }
+                    
             }
             else
             {
@@ -179,7 +191,7 @@ class ProcesoEDController extends Controller
             $html .= '<table class="table_ingreso_competencias" id="tblpuntualizaciones">';
             $html .= '<thead>';
             $html .= '<tr>';
-            $html .= '<th>ID</th>';
+            $html .= '<th >ID</th>';
             $html .= '<th>Puntualización</th>';
             $html .= '<th>Indicador</th>';
             $html .= '<th>Compromiso</th>'; 
@@ -192,7 +204,7 @@ class ProcesoEDController extends Controller
                                 $html .= '<td class="data_id_column">'. $puntualizacion->id ."</td>";
                                 $html .= '<td class="data_puntualizacion_column">'. $puntualizacion->puntualizacion ."</td>";
                                 $html .= '<td class="data_indicador_column">'. $puntualizacion->indicadorpuntualizacion ."</td>";
-                                $html .= '<td class="textarea_column"><textarea name="puntualizacion['.$puntualizacion->id.']"  id='.$puntualizacion->id.'-val'.'></textarea> <div id="puntualizacion'.$puntualizacion->id.'error" class="errored">Ingrese un compromiso, mayor de 10 caracteres.</div> </td>';
+                                $html .= '<td class="textarea_column"><textarea name="puntualizacion['.$puntualizacion->id.']"  id='.$puntualizacion->id.'-val'.'>Mi compromiso</textarea> <div id="puntualizacion'.$puntualizacion->id.'error" class="errored">Ingrese un compromiso, mayor de 10 caracteres.</div> </td>';
                             $html .= '</tr>';
                     }   
             $html .= '</tbody>';

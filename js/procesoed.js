@@ -5,8 +5,10 @@ $(document).ready(function() {
     $("#btncompromisos").click(function(event){
        event.preventDefault();       
        
+       var idevaluacion = $('#idevaluacion').val();
+       
        console.log(obtenerdatoscompromisos());
-       console.log(validarpuntualizaciones());
+       console.log(validarcompromisos());
        
        if(!validar($('#ddlperiodo'))){     
             mostrarerror($('#ddlperiodo'));}
@@ -18,7 +20,7 @@ $(document).ready(function() {
        $('#btncompromisos').prop('disabled', true);
        $.ajax({
                     type: 'POST',
-                    url: 'agregarcompromisos',
+                    url: idevaluacion,
                     data: obtenerdatoscompromisos(),
                     dataType: 'json',
                     error: function (jqXHR, textStatus){
@@ -39,7 +41,8 @@ $(document).ready(function() {
                             messageerror("Error desconocido, contacte al administrador de sistemas.");                            
                         }
                     },
-                    success: function(datos){                       
+                    success: function(datos){  
+                        console.log(datos);
                         if(datos.resultado)
                             messagesuccess(datos.mensaje, datos.url);              
                         else
@@ -51,9 +54,10 @@ $(document).ready(function() {
     
    function obtenerdatoscompromisos(){
        var data = {};
-       data['puesto'] = $("#ddlperiodo").val(); 
+       data['periodo'] = $("#ddlperiodo").val(); 
        data['fecha'] = $("#dpfecha").val();
        data['compromisos'] = obtenercompromisos();
+       data['comentario'] = $("#txtcomment").val();
        return data;
    }
    
