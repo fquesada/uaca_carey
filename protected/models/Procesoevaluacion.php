@@ -14,7 +14,7 @@
  *
  * The followings are the available model relations:
  * @property Evaluacioncompetencias[] $_evaluacionescompetencias
- * @property Evaluaciondesempeno[] $_evaluaciondesempeno
+ * @property Procesoevaluacion[] $_procesoevaluacion
  * @property Colaborador $_evaluador
  * @property Periodo $_periodo
  * @property Habilidadespecial[] $_habilidadesespecial
@@ -66,8 +66,9 @@ class Procesoevaluacion  extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'_evaluacionescompetencias' => array(self::HAS_MANY, 'Evaluacioncompetencias', 'procesoevaluacion', 'condition'=>'estado <> 0',),
-                        '_evaluaciondesempenos' => array(self::HAS_MANY, 'Evaluaciondesempeno', 'procesoevaluacion'),					
+			'_evaluacionescompetencias' => array(self::HAS_MANY, 'Evaluacioncompetencias', 'procesoevaluacion'),
+                        '_evaluacionesdesempeno' => array(self::HAS_MANY, 'Evaluaciondesempeno', 'procesoevaluacion'),
+                        'procesoevaluacion' => array(self::HAS_MANY, 'Procesoevaluacion', 'procesoevaluacion'),					
 			'_habilidadesespecial' => array(self::HAS_MANY, 'Habilidadespecial', 'procesoevaluacion'),
 			'_habilidadesespecialevaluada' => array(self::HAS_MANY, 'Habilidadespecialevaluada', 'procesoevaluacion'),
 			'_vacantes' => array(self::HAS_MANY, 'Vacante', 'procesoevaluacion'),
@@ -84,7 +85,7 @@ class Procesoevaluacion  extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'fecha' => 'Fecha creacion',
+			'fecha' => 'Fecha',
 			'evaluador' => 'Evaluador',
 			'estado' => 'Estado',
 			'descripcion' => 'Descripcion',
@@ -92,8 +93,43 @@ class Procesoevaluacion  extends CActiveRecord
                         'periodo' => 'Periodo',
 		);
 	}
+            //AJUSTAR LA CONSULTA A LOS NUEVOS NOMBRES DE BD
+     /*  public function search(){
+            $connection=Yii::app()->db;
+            $sql=   "SELECT procesoevaluacion.id, procesoevaluacion.descripcion, DATE_FORMAT(procesoevaluacion.fecha, '%d-%m-%Y') AS fecha,
+                    colaborador.nombre AS creador,puesto.nombre AS puesto, (CASE WHEN procesoevaluacion.estado = 1 THEN 'En proceso' ELSE 'Finalizado' END) as estado                                        
+                    FROM procesoevaluacion                    
+                    INNER JOIN colaborador
+                    ON (procesoevaluacion.evaluador = colaborador.id)
+                    INNER JOIN evaluaciondesempeno
+                    ON (procesoevaluacion.id = evaluaciondesempeno.procesoevaluacion)
+                    INNER JOIN puesto
+                    ON (evaluaciondesempeno.puesto = puesto.id)"; 
+            $command=$connection->createCommand($sql);
+            $models = $command->queryAll();
 
-       public function obtenerevaluacioncompetencias(){//CLEAN CODE
+            $dataProvider = new CArrayDataProvider($models,array(
+            'keyField'=>'id',
+            'id'=>'procesoevaluaciongrid',
+            'sort'=>array(
+                'attributes'=>array(
+                    'descripcion',
+                    'fecha',
+                    'creador',
+                    'puesto',                       
+                    'estado',
+                    ),
+                ),
+                'pagination'=>array(
+                    'pageSize'=>10,
+                ),
+            ));
+
+            return $dataProvider;
+        }*/
+        
+        
+        public function obtenerevaluaciondesempeno(){
             $connection=Yii::app()->db;
             $sql=  "SELECT pe.id, pe.descripcion, p.nombre as periodo, DATE_FORMAT(pe.fecha, '%d/%m/%Y') AS fecha, CONCAT(c.nombre,' ',c.apellido1,' ',c.apellido2) AS evaluador,(CASE WHEN pe.estado = 1 THEN 'En proceso' ELSE 'Finalizado' END) as estado                   
                     FROM procesoevaluacion pe
@@ -101,7 +137,7 @@ class Procesoevaluacion  extends CActiveRecord
                     ON (pe.periodo = p.id)
                     INNER JOIN colaborador c
                     ON (pe.evaluador = c.id)
-                    WHERE pe.tipo = 1
+                    WHERE pe.tipo = 2
                     AND pe.estado <> 0;"; 
             $command=$connection->createCommand($sql);
             $ec = $command->queryAll();
@@ -124,7 +160,7 @@ class Procesoevaluacion  extends CActiveRecord
             return $dataProvider;
         }
         
-       public function getEstadoProceso() {
+        public function getEstadoProceso() {
         if ($this->estado == 1)
             return 'En proceso';
         else if ($this->estado == 2)
@@ -136,7 +172,7 @@ class Procesoevaluacion  extends CActiveRecord
           $fechaconformato = date('d/m/Y', $fechasinformato);          
           return $fechaconformato;
        }
-     
+       
        public function getTipoEvaluado() {
         $estado = 'Interno';
         if ($this->tipo == 0)
@@ -144,6 +180,5 @@ class Procesoevaluacion  extends CActiveRecord
 
         return $estado;
     }
-
-           
+        
 }
