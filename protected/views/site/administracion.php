@@ -18,9 +18,9 @@ $this->pageTitle=Yii::app()->name;
    </div>
     <div class="Menu">
 <!--           <a href="../periodo/admin" class="btn">Período</a>-->
-           <a href="#" class="btn">Período</a>
+           <a href="../periodo/admin" class="btn">Período</a>
 <!--           <a href="../postulante/admin" class="btn">Postulante</a>-->
-           <a href="#" class="btn">Postulante</a>
+           <a href="../postulante/admin" class="btn">Postulante</a>
            <a href="../puesto/admin" class="btn">Puesto</a>
    </div>
      <div class="Menu">
