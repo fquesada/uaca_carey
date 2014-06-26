@@ -24,11 +24,11 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->baseUrl . '/css/sexybutton
 		<?php echo $form->textField($model,'nombre',array('size'=>45,'maxlength'=>90)); ?>
 		<?php echo $form->error($model,'nombre'); ?>
 	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'descripcion'); ?>
-		<?php echo $form->textArea($model,'descripcion',array('style'=>'width:285px; height:100px;')); ?>
-		<?php echo $form->error($model,'descripcion'); ?>
+        
+        <div class="row">
+		<?php echo $form->labelEx($model,'codgio'); ?>
+		<?php echo $form->textField($model,'codigo',array('size'=>45,'maxlength'=>90)); ?>
+		<?php echo $form->error($model,'codigo'); ?>
 	</div>
 
 <!--	<div class="row">

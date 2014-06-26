@@ -41,10 +41,10 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->baseUrl . '/css/sexybutton
 		<?php echo $form->hiddenField($model,'empresa',array('value'=>1)); ?>
 	</div>
         
-        <div class="row">
+      <!--  <div class="row">
                 <?php echo $form->labelEx($model,'colaborador'); ?>
                 <?php echo $form->dropDownList($model,'colaborador', CHtml::listData(Colaborador::model()->findAll(),'id','nombre'),array('empty' => 'Selecione un colaborador')); ?>
-        </div>
+        </div> -->
         
 	<div class="row buttons">
 		<?php echo CHtml::submitButton($model->isNewRecord ? 'Crear' : 'Guardar', array('class'=>'sexybutton sexysimple sexylarge')); ?>

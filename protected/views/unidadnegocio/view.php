@@ -21,6 +21,6 @@ $this->menu=array(
 	'data'=>$model,
 	'attributes'=>array(
 		'nombre',
-		'descripcion',
+		'codigo',
 	),
 )); ?>
