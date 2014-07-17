@@ -1,7 +1,10 @@
 <?php
-/* @var $this ColaboradorController */
-/* @var $model Colaborador */
-/* @var $form CActiveForm */
+/* @var $model Colaborador 
+ * @var $historico Historicopuesto
+ * @var $indicador Boolean
+ * @var $ingresos Int
+ */
+
 ?>
 
 <?php
@@ -19,69 +22,47 @@
         'Gestionar puesto'
     );
     ?>
-    <h1>Puesto Actual</h1>
-    
-    <?php $this->widget('zii.widgets.CDetailView', array(
+    <h1>Colaborador</h1>
+    <?php
+        $this->widget('zii.widgets.CDetailView', array(
             'data'=>$model,
             'attributes'=>array(
-                    'nombreunidadnegocioactual',
-                    'nombrepuestoactual',		
+                    'nombrecompleto',		
             ),
-    )); ?>
-
-    <h1>Nuevo Puesto</h1>
-    
-    <?php
-    $unidadnegocio = new Unidadnegocio();
-    $puesto = new Puesto();
+          )); 
     ?>
-
-     <?php echo CHtml::beginForm('','POST',array('id'=>'formpeso', 'onkeypress'=>'return event.keyCode != 13;'))?> 
- 
- <?php $this->widget('zii.widgets.grid.CGridView', array(
-	'id'=>'competenciaexistente-grid',
-        'dataProvider'=>$competencia->addcompetencia($model->id),
-        'template'=>"{pager}\n{items}\n{pager}\n{summary}",
-        'filter'=>$filterForm,
-	'columns'=>array(
-                array(
-                    'id' => 'compselect',
-                    'class' => 'CCheckBoxColumn',
-                ),
-                array(
-                    'name'=>'competencia',
-                    'header'=>'Competencia'
-                ),
-                array(
-                    'name'=>'descripcion',
-                    'header'=>'Descripción'
-                )
-	),
-    )); ?>
- 
-    <h1>Paso 2: Peso de la competencia</h1>
-    <h5>Elija el peso que desea agregarle a la competencia anteriormente seleccionado y presione el botón "Asociar".</h5>
-
-     <?php $this->widget('zii.widgets.grid.CGridView', array(
-	'id'=>'peso-grid',
-        'dataProvider'=>$ponderacion->search(),
-        'template'=>"{pager}\n{items}\n{pager}\n{summary}",
-	'columns'=>array(
-                array(
-                    'id' => 'peso',
-                    'class' => 'CCheckBoxColumn',
-                ),
-		'valor',
-		'descripcion',
-	),
-    )); ?> 
     
     <br></br>
-        
-    <?php echo CHtml::submitButton('Asociar',array('submit'=>'../savecompetencia', 'class'=>'sexybutton sexysimple sexylarge'));?>
-
-     <?php echo CHtml::endForm()?>
-
     
+    <h1>Puesto Actual</h1>
+    
+    <?php
+    
+    //Verifica si el colaborador cuenta un puesto ya asignado.
+    if($indicador){
+        echo $this->renderPartial('_puestoactual', array('model'=>$model)); 
+    }
+    else
+        echo 'El colaborador no cuenta con un puesto asignado. Complete el siguiente formulario para asignarle un puesto al colaborador en cuestión';
+        
+    ?>
+       
 
+    <br></br>
+    <br></br>
+    
+    <h2>Seleccione el nuevo puesto</h2>
+    <?php echo $this->renderPartial('_formpuestonuevo', array('model'=>$historico, 'colaborador'=>$model, 'indicador'=>$indicador, 'ingresos'=>$ingresos)); ?>
+
+
+     <?php if(Yii::app()->user->hasFlash('error')):?>
+     <script type="text/javascript">
+          new Messi('<?php echo Yii::app()->user->getFlash('error'); ?>',
+            { title: 'Error',
+                titleClass: 'error',
+                autoclose: '4000',
+                modal:true
+            });
+     </script>
+     <?php endif;?>
     

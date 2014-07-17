@@ -205,6 +205,10 @@ class Puesto extends CActiveRecord
             else
                 return  $competenciascore;
         }
+        
+        public function getname(){
+            return $this->nombre;
+        }
                 
 }
 

@@ -43,6 +43,12 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->baseUrl . '/css/sexybutton
 		<?php echo $form->textField($model,'apellido2',array('size'=>20,'maxlength'=>45)); ?>
 		<?php echo $form->error($model,'apellido2'); ?>
 	</div>
+        
+        <div class="row">
+		<?php echo $form->labelEx($model,'correo'); ?>
+		<?php echo $form->textField($model,'correo',array('size'=>20,'maxlength'=>45)); ?>
+		<?php echo $form->error($model,'correo'); ?>
+	</div>
 
 	<div class="row buttons">
 		<?php echo CHtml::submitButton($model->isNewRecord ? 'Crear' : 'Actualizar', array('class'=>'sexybutton sexysimple sexylarge'));?>

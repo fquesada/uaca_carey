@@ -88,6 +88,7 @@ class Colaborador extends CActiveRecord
                         'correo' => 'Correo',
                         'nombrepuestoactual'=>'Puesto',
                         'nombreunidadnegocioactual'=>'Unidad de Negocio',
+                        'nombrecompleto'=>'Nombre Completo'
 		);
 	}
 
@@ -121,6 +122,11 @@ class Colaborador extends CActiveRecord
             }            
             $this->_nombrecompleto = $this->nombre." ".$this->apellido1." ".$this->apellido2;
             return $this->_nombrecompleto;            
+        }
+        
+        public function getregistrohistoricoactual($idcolaborador){
+            $historicopuesto = Historicopuesto::model()->findByAttributes(array('colaborador' => $colaborador), 'puestoactual=1');
+            return $historicopuesto;
         }
         
         public function getidpuestoactual(){

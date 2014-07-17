@@ -73,10 +73,10 @@ class Historicopuesto extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'fechadesignacion' => 'Fechadesignacion',
+			'fechadesignacion' => 'Fecha de Designación',
 			'colaborador' => 'Colaborador',
-                        'puestoactual' => 'Puestoactual',
-			'unidadnegocio' => 'Unidadnegocio',
+                        'puestoactual' => 'Puesto actual',
+			'unidadnegocio' => 'Unidad negocio',
 			'puesto' => 'Puesto',
 		);
 	}
@@ -103,4 +103,22 @@ class Historicopuesto extends CActiveRecord
 			'criteria'=>$criteria,
 		));
 	}
+        
+        public function getnombrepuesto(){
+            $idpuesto = $this->puesto;
+            $puesto = Puesto::model()->findByPk($idpuesto);
+            if(is_null($puesto))
+                return false;
+             else           
+                return $puesto->nombre;
+        }
+        
+        public function getnombreunidad(){
+            $idunidadnegocio = $this->unidadnegocio;
+            $unidadnegocio = Unidadnegocio::model()->findByPk($idunidadnegocio);
+            if(is_null($unidadnegocio))
+                return false;
+             else           
+                return $unidadnegocio->nombre;
+        }
 }

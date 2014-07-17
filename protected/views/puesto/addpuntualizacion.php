@@ -44,7 +44,7 @@
     <?php echo CHtml::link('Crear puntualización', "",
             array(
                 'style'=>'cursor: pointer; text-decoration: underline;',
-                'onclick'=>"{addPuntualizacion(); $('#dialogPuntualizacion').dialog('open');}"
+                'onclick'=>"{addPuntualizacion(); $('#dialogPuntualizacion').dialog('open');}" // Llama a la función de JavaScript definida abajo
                 )
             );
     ?>

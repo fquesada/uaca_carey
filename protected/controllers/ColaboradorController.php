@@ -36,7 +36,7 @@ class ColaboradorController extends Controller
 				'users'=>array('@'),
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
-				'actions'=>array('admin','delete','Gestionpuesto'),
+				'actions'=>array('admin','delete','Gestionpuesto','elegirpuesto','actualizarpuesto','asignarpuesto'),
 				'users'=>array('admin'),
 			),
 			array('deny',  // deny all users
@@ -187,11 +187,91 @@ class ColaboradorController extends Controller
         {
             $model=$this->loadModel($id);
             
-            //if(!$model->equals(NULL)){
-                $this->render('gestionpuesto',array('model'=>$model));
-            //}
-            //else
-                //$this->render('addpuesto',array('model'=>$model));
+            //relacion siempre esta dando TRUE, hay que corregirlo
+            //$relacion = $model->getActiveRelation('_colaboradoreshistoricopuesto');
+            
+            $historicopuesto = Historicopuesto::model()->findByAttributes(array('colaborador' => $model->id), 'puestoactual=1'); 
+            
+            $historico = Historicopuesto::model();
+            
+            if($historicopuesto == NULL){
+                $this->render('gestionpuesto',array('model'=>$model,'historico'=>$historico,'indicador'=>FALSE, 'ingresos'=>1));
+                
+            }
+            else{
+                $this->render('gestionpuesto',array('model'=>$model,'historico'=>$historico, 'indicador'=>TRUE, 'ingresos'=>1));
+                
+            }
+        }
+        
+        public function actionActualizarpuesto($idcolaborador){
+            
+           $colaborador = $this->loadModel($idcolaborador);
+           $historicopuestonuevo = new Historicopuesto;
+                  
+           if(empty($_POST['Historicopuesto']['unidadnegocio']) && empty($_POST['Historicopuesto']['puesto'])){
+               
+                    Yii::app()->user->setFlash('error','Se debe completar los datos solicitados para realizar la actualización del puesto.');
+                    $this->render('gestionpuesto',array('model'=>$colaborador,'historico'=>$historicopuestonuevo,'indicador'=>TRUE, 'ingresos'=>2));
+
+           }
+           else{
+
+                       $historicopuestonuevo->fechadesignacion = date("Y-m-d");
+                       $historicopuestonuevo->colaborador = $colaborador->id;
+                       $historicopuestonuevo->puestoactual = "1";
+                       $historicopuestonuevo->unidadnegocio = $_POST['Historicopuesto']['unidadnegocio'];
+                       $historicopuestonuevo->puesto = $_POST['Historicopuesto']['puesto'];
+                       
+                       $historicopuesto = Historicopuesto::model()->findByAttributes(array('colaborador' => $colaborador->id), 'puestoactual=1');    
+                   
+                       $historicopuesto->puestoactual = "0";
+
+                       //Modifica el puesto anterior para que deje de ser el actual y guarda en base el nuevo registro 
+                       //de historicopuesto, que a partir de ahora sera el puesto del colaborador en cuestion
+                        if($historicopuestonuevo->save()&& $historicopuesto->save()){
+                          
+                            Yii::app()->user->setFlash('success','El puesto ' .$historicopuestonuevo->nombrepuesto. ' de la unidad de negocio '.$historicopuestonuevo->nombreunidad.' fue asignado correctamente a '. $colaborador->nombrecompleto);
+                            $this->redirect(array('admin'));
+                        }
+                      else{
+                          
+                            $historicopuestonuevo = new Historicopuesto;
+                            Yii::app()->user->setFlash('error','Ocurrio un error al actualizar el puesto de '. $colaborador->nombrecompleto);
+                            $this->render('gestionpuesto',array('model'=>$colaborador,'historico'=>$historicopuestonuevo,'indicador'=>TRUE, 'ingresos'=>2));
+                   }
+           }
+        }
+        
+        public function actionAsignarpuesto($idcolaborador){
+            
+            $colaborador = $this->loadModel($idcolaborador);
+            $historicopuestonuevo = new Historicopuesto;
+            
+            if(empty($_POST['Historicopuesto']['unidadnegocio']) && empty($_POST['Historicopuesto']['puesto'])){
+
+                Yii::app()->user->setFlash('error','Se debe completar los datos solicitados para realizar la actualización del puesto.');
+                $this->render('gestionpuesto',array('model'=>$colaborador,'historico'=>$historicopuestonuevo,'indicador'=>FALSE, 'ingresos'=>2));
+           }
+           else{
+            
+                $historicopuestonuevo->fechadesignacion = date("Y-m-d");
+                $historicopuestonuevo->colaborador = $colaborador->id;
+                $historicopuestonuevo->puestoactual = "1";
+                $historicopuestonuevo->unidadnegocio = $_POST['Historicopuesto']['unidadnegocio'];
+                $historicopuestonuevo->puesto = $_POST['Historicopuesto']['puesto'];
+
+                if($historicopuestonuevo->save()){
+                    Yii::app()->user->setFlash('success','El puesto ' .$historicopuestonuevo->nombrepuesto. ' de la unidad de negocio '.$historicopuestonuevo->nombreunidad.' fue asignado correctamente a '. $colaborador->nombrecompleto);
+                    $this->redirect(array('admin'));
+                }
+                else{
+                    $historicopuestonuevo = new Historicopuesto;
+                    Yii::app()->user->setFlash('error','Ocurrio un error al ingresar el puesto de '. $colaborador->nombrecompleto);
+                    $this->render('gestionpuesto',array('model'=>$colaborador,'historico'=>$historicopuestonuevo,'indicador'=>FALSE, 'ingresos'=>2));
+                }
+            
+            }
         }
 
         /**
