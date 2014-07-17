@@ -73,7 +73,7 @@ class UsuarioController extends Controller
 		if(isset($_POST['Usuario']))
 		{
 			$model->attributes=$_POST['Usuario'];
-                        $model->confirmacion= $_POST['Usuario']['confirmacion'];
+                        //$model->confirmacion= $_POST['Usuario']['confirmacion'];
                         $model->password = crypt($model->password, $model->getsalt());
                         $model->confirmarPassword = crypt($model->confirmarPassword, $model->getsalt());
                         $model->fechacreacion = CommonFunctions::datenow();
@@ -83,7 +83,7 @@ class UsuarioController extends Controller
                         $idusuario = $model->id;
                         $idcolaborador = $_POST['Usuario']['colaborador'];
                        
-                       if($model->confirmacion == 'S')
+                       /*if($model->confirmacion == 'S')
                        {
                             if($resultado)
                                 {
@@ -103,9 +103,9 @@ class UsuarioController extends Controller
                                 $transaction->rollBack();
                                 }
                             }
-                       }
+                       }*/
                 
-                       else if($resultado){
+                       /*else*/ if($resultado){
                          $transaction->commit();
                          $this->redirect(array('view','id'=>$model->id));
                        }
@@ -212,6 +212,7 @@ class UsuarioController extends Controller
 		$model->unsetAttributes();  // clear any default values
 		if(isset($_GET['Usuario']))
 			$model->attributes=$_GET['Usuario'];
+                        $model->estado = '1';
 
 		$this->render('admin',array(
 			'model'=>$model,

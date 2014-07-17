@@ -56,7 +56,7 @@ return $( "<li></li>" )
 		<?php echo $form->hiddenField($model,'empresa',array('value'=>1)); ?>
 	</div>
         
-        <div class="row">                
+       <!-- <div class="row">                
                 <?php echo $form->checkbox($model,'confirmacion',array('value'=>'S','uncheckValue'=>'N')); ?> <b>Asignar usuario del sistema a un colaborador.</b><?php echo CHtml::image(Yii::app()->request->baseUrl."/images/icons/silk/help.png", "Ayuda usuario colaborador", array("id"=>"imgcolaboradorhelp", "style" => "padding-left:5px; cursor:pointer")) ?>
 	</div>
         
@@ -80,7 +80,7 @@ return $( "<li></li>" )
                       'htmlOptions'=>array('size'=>'30'),
                     ));
                 ?>
-        </div>
+        </div> -->
         
          <div class="row">
             <?php echo $form->hiddenField($model,'colaborador',array('id'=>'pk')); ?>

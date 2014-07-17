@@ -26,7 +26,7 @@
             'data'=>$model,
             'attributes'=>array(
                     'nombre',
-                    'descripcion'		
+                    'codigo'		
             ),
     )); ?>
     
@@ -55,11 +55,11 @@
                 ),
 		'codigo',
                 'nombre',
-		'descripcion',
+		
                 
 	),
     )); ?>
-      <?php echo CHtml::submitButton('Asociar',array('submit'=>'../save', 'class'=>'sexybutton sexysimple sexylarge'));?>
+      <?php echo CHtml::submitButton('Asociar',array('submit'=>'../unidadnegocio/save', 'class'=>'sexybutton sexysimple sexylarge'));?>
 
      
      <?php echo CHtml::endForm()?>
@@ -86,10 +86,7 @@
                         'name'=>'NombrePuesto',
                         'header'=>'Nombre'
                     ),
-                    array(
-                        'name'=>'DescripcionPuesto',
-                        'header'=>'Descripción'
-                    ),
+                    
                     array(
                             'class'=>'CButtonColumn',
                             'htmlOptions'=>array('width'=>'20'),
