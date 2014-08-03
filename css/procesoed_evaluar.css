@@ -1,0 +1,197 @@
+/*Seccion compromisos*/
+.table_evaluacion_compromisos{
+    border-collapse: collapse; 
+    border-spacing: 0; 
+    width: auto; 
+    margin: 20px auto 0px auto; 
+    table-layout: fixed;   
+}
+
+.table_evaluacion_compromisos thead th{
+    background-color: #033E6B;
+    color: #FFFFFF;
+    text-align: center;   
+    padding: 4px 10px 4px 5px;
+}
+
+.table_evaluacion_compromisos tbody{
+     border-top: 10px solid white; 
+/*     trick que permite hacer margin en un tbody*/
+}
+
+.table_evaluacion_compromisos tr:hover{
+    background-color: #ECF1EF;
+}
+
+.table_evaluacion_compromisos td{    
+    vertical-align: top;
+    text-align: justify;
+    font-size: 12px;
+}
+
+.table_evaluacion_compromisos td.data_column{
+    width: 250px;
+}
+
+.table_evaluacion_compromisos td.data_compromiso_column{            
+    width: 250px;
+    font-family: Arial, Helvetica, sans-serif;  
+    font-weight: bold;
+}
+
+.table_evaluacion_compromisos td.ddl_column{    
+    width: auto;
+    padding: 0;
+    vertical-align: top;    
+}
+
+.table_evaluacion_compromisos tfoot tr:hover{
+    background-color: #C1CDCD;
+}
+
+.table_evaluacion_compromisos tfoot td{        
+    padding: 25px 10px 25px 0px; 
+    font-size: 12px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bold;
+    font-style: normal;
+    vertical-align: middle;
+    text-align: right;
+    
+}
+
+.table_evaluacion_compromisos tfoot td.promedio_column{
+    text-align: center;
+    font-size: 16px;    
+}
+
+/*Seccion competencias*/
+
+.table_evaluacion_competencias{
+    border-collapse: collapse; 
+    border-spacing: 0; 
+    width: auto; margin: 20px auto 0px auto; 
+    table-layout: fixed;
+}
+
+.table_evaluacion_competencias thead th{
+    background-color: #033E6B;
+    color: #FFFFFF;
+    text-align: center;   
+    padding: 4px 10px 4px 5px;
+}
+
+.table_evaluacion_competencias tbody{
+     border-top: 10px solid white; 
+/*     trick que permite hacer margin en un tbody*/
+}
+
+.table_evaluacion_competencias tr:hover{
+    background-color: #ECF1EF;
+}
+
+.table_evaluacion_competencias td{    
+    vertical-align: top;
+    text-align: justify;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.table_evaluacion_competencias td.data_column{
+    width: 500px;
+    font-weight: normal;
+}
+
+.table_evaluacion_competencias td.ddl_column{    
+    width: auto;
+    padding: 0;
+    vertical-align: top;    
+}
+
+.table_evaluacion_competencias tfoot tr:hover{
+    background-color: #C1CDCD;
+}
+
+.table_evaluacion_competencias tfoot td{        
+    padding: 25px 10px 25px 0px; 
+    font-size: 12px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bold;
+    font-style: normal;
+    vertical-align: middle;
+    text-align: right;
+    
+}
+
+.table_evaluacion_competencias tfoot td.promedio_column{
+    text-align: center;
+    font-size: 16px;    
+}
+
+/*Seccion resultado evaluacion*/
+.table_evaluacion_resultado{
+    width: auto;
+    float: left;
+    border: 1px solid black;
+    margin: 0 50px 0 18%;
+}
+
+.table_evaluacion_resultado tbody td{    
+    border: 1px solid black;
+    background-color: #FFFFFD;
+    font-weight: bold;
+}
+
+.table_evaluacion_resultado tfoot td{
+     border: 1px solid black;
+     font-style: normal;
+}
+
+.table_evaluacion_resultado tfoot td.label_column{
+    background-color: #FFFFFD;
+    font-weight: bold;
+}
+
+#compromisosnivel, #competenciasnivel, #evaluacion, #rango{
+    text-align: center;
+}
+
+/*Seccion informacion rango*/
+.table_evaluacion_rango {
+    border: 1px solid black;
+    width : auto;
+}
+
+.table_evaluacion_rango thead th{
+    border: 1px solid black;
+    background-color: #033E6B;
+    color: #FFFFFF;
+    text-align: center;   
+    padding: 4px 10px 4px 5px;
+}
+
+.table_evaluacion_rango td{
+    border: 1px solid black;
+}
+
+.table_evaluacion_rango td.label_column{    
+    background-color: #FFFFFD;
+    font-weight: bold;
+}
+
+
+.insuficiente{background-color: #FF0000;color: #141414; font-family: Arial, Helvetica, sans-serif;}
+.mejora{background-color: #FFFF00; color: #141414; font-family: Arial, Helvetica, sans-serif;}
+.esperado{background-color: #66CD00; color: #141414; font-family: Arial, Helvetica, sans-serif;}
+.sobresaliente{background-color: #008B8B; color: #141414; font-family: Arial, Helvetica, sans-serif;}
+.superior{background-color: #1E90FF; color: #141414; font-family: Arial, Helvetica, sans-serif;}
+
+/*Seccion mensajes error*/
+.errorcalificacion{
+    font-style: italic;
+    font-size: 12px;
+    color: #EE0000;
+    text-align: center;
+    font-weight: normal;
+}
+
