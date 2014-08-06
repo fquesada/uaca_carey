@@ -56,7 +56,7 @@ class Evaluaciondesempeno extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(			
-                        array('colaborador, puesto, fechaevaluacion, procesoevaluacion', 'required'),
+                        array('colaborador, puesto, procesoevaluacion', 'required'),
 			array('colaborador, puesto, estadoevaluacion, links, procesoevaluacion, estado', 'numerical', 'integerOnly'=>true),
 			array('promediocompromisos, promediocompetencias, promedioevaluacion', 'numerical'),
 			array('comentariocompromisos, comentarioevaluacion', 'length', 'max'=>800),
@@ -143,13 +143,37 @@ class Evaluaciondesempeno extends CActiveRecord
             return false;
         else if ($this->estado == 2)
             return true;
-    }
+        }
 
         public function getfechaevaluacionecformato() {
             if (is_null($this->fechaevaluacion))
                 return "-- / -- / ----";
             else {
                 $fechasinformato = strtotime($this->fechaevaluacion);
+                $fechaconformato = date('d-m-Y', $fechasinformato);
+                return $fechaconformato;
+            }
+        }
+        
+        public function getEstadoCompromisos(){
+            if (is_null($this->fecharegistrocompromiso))
+                return "Pendiente";
+            else
+                return "Registrado";            
+        }
+        
+        public function getEstadoIndicadorCompromisos(){
+            if (is_null($this->fecharegistrocompromiso))
+                return false;
+            else
+                return true;            
+        }
+        
+        public function getFechaRegistroCompromisoFormato() {
+            if (is_null($this->fecharegistrocompromiso))
+                return "-- / -- / ----";
+            else {
+                $fechasinformato = strtotime($this->fecharegistrocompromiso);
                 $fechaconformato = date('d-m-Y', $fechasinformato);
                 return $fechaconformato;
             }

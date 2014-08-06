@@ -1,0 +1,27 @@
+.divcolaboradoresevaluados{
+    margin-top: 40px;
+}
+
+.tblcolaboradoresevaluados {
+    font-size: 11px;
+}
+
+.tblcolaboradoresevaluados #thcompromisos{
+    text-align: center;
+}
+
+.tblcolaboradoresevaluados #thevaluacion{
+    text-align: center;
+}
+
+.tblcolaboradoresevaluados #thcomunicado{
+    text-align: center;
+}
+
+.tblcolaboradoresevaluados #trencabezados th{
+    text-align: center;
+}
+
+.tdcontadorenvios {
+    text-align: center;
+}

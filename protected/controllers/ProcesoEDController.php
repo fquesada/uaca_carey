@@ -1,4 +1,4 @@
-<?php
+    <?php
 
 class ProcesoEDController extends Controller
 {
@@ -38,7 +38,8 @@ class ProcesoEDController extends Controller
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
 				'actions'=>array('crear','report','update','admin','Admined','AdminEva','AgregarPersona','AutocompleteEvaluado','AgregarCompromisos',
-                                                    'HabilidadesEspeciales','InfoPonderacion', 'delete', 'reporteevaluacioncompetencias', 'DataReporteEvaluacionCompetencias','CargaMasiva','CargaDepartamento'),
+                                                    'HabilidadesEspeciales','InfoPonderacion', 'delete', 'reporteevaluacioncompetencias', 'DataReporteEvaluacionCompetencias','CargaMasiva','CargaDepartamento',
+                                                'adminprocesoed'),
 				'users'=>array('@'),
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -68,6 +69,14 @@ class ProcesoEDController extends Controller
                 $this->redirect(array('admin'));
             
         }*/
+        
+        public function actionAdminProcesoED($id){
+            
+            $procesoed = Procesoevaluacion::model()->findByPk($id);
+            $this->render('adminprocesoed',array(
+			'procesoed'=>$procesoed,
+            ));
+        }
         
          public function actionAdminED($id){    
             
@@ -341,8 +350,7 @@ class ProcesoEDController extends Controller
             {               
                 //VALORAR PONER UN VALIDADOR ISSET TANTO DE VARIABLES DEL PROCESO COMO DE COLABORADORES
                 $nombreproceso = $_POST['nombreproceso'];
-                $idevaluador = CommonFunctions::stringtonumber($_POST['idevaluador']);
-                $fechaevaluacion = CommonFunctions::datephptomysql($_POST['fecha']);  
+                $idevaluador = CommonFunctions::stringtonumber($_POST['idevaluador']);               
                 $periodo = $_POST['periodo'];
                 $evaluados = $_POST['colaboradores'];
                 
@@ -366,7 +374,7 @@ class ProcesoEDController extends Controller
                             //ERROR
                             $evaluaciondesempeno = new Evaluaciondesempeno();
                             $evaluaciondesempeno->procesoevaluacion = $procesoevaluacion->id;
-                            $evaluaciondesempeno->fechaevaluacion = $fechaevaluacion;
+                            $evaluaciondesempeno->fecharegistroevaluacion = CommonFunctions::datenow(); 
                             $colaborador = Colaborador::model()->findByPk($idcolaborador);
                             $evaluaciondesempeno->puesto = $colaborador->getidpuestoactual(); //CLEAN CODE
                             $evaluaciondesempeno->colaborador = $colaborador->id;                            
@@ -386,7 +394,7 @@ class ProcesoEDController extends Controller
                             }
                     }                                    
                    $transaction->commit();
-                   $response = array('resultado' => true,'mensaje' => "Se guardó con éxito el proceso: ".$procesoevaluacion->descripcion, 'url' => Yii::app()->getBaseUrl(true).'/index.php/procesoed/admin/'.$procesoevaluacion->id);                  
+                   $response = array('resultado' => true,'mensaje' => "Se guardó con éxito el proceso: ".$procesoevaluacion->descripcion, 'url' => Yii::app()->getBaseUrl(true).'/index.php/procesoed/adminprocesoed/'.$procesoevaluacion->id);                  
                    echo CJSON::encode($response);   
                    Yii::app()->end(); 
                                                    
@@ -635,7 +643,7 @@ class ProcesoEDController extends Controller
             echo CJSON::encode($return_array);
         }
         
-        public function actionCargaDepartamento(){
+      public function actionCargaDepartamento(){
             $iddepartamento = CommonFunctions::stringtonumber($_POST['iddepartamento']);
             $idevaluador = CommonFunctions::stringtonumber($_POST['idevaluador']);
             
@@ -666,6 +674,23 @@ class ProcesoEDController extends Controller
         }
 ///FIN REPLICADO
         
+       
+        public function actionRegistrarCompromisosED(){
+            
+            if(Yii::app()->request->isAjaxRequest){
+                 $id = CommonFunctions::stringtonumber($_POST['id']);                
+                 $ed = Evaluaciondesempeno::model()->findByPk($id);
+                 $idlink = $ed->links;
+                 $link = Links::model()->findByPk($idlink);
+                 $link->contadorenvios = $link->contadorenvios + 1;
+                 $link->fechaultimoenvio = CommonFunctions::datenow();
+                 $link->save();
+                 
+                 $response = array('url' => Yii::app()->getBaseUrl(true).'/index.php/procesoevaluacion/AgregarCompromisos/'.$id);               
+                 echo CJSON::encode($response);                        
+                 Yii::app()->end();
+            }
+        }
         
         
         

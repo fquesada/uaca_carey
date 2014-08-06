@@ -452,7 +452,7 @@ class ProcesoevaluacionController extends Controller
                  Yii::app()->end();
             }
         }
-        
+               
         public function actionEvaluarProcesoEC($id){
             
             $this->layout='column1';

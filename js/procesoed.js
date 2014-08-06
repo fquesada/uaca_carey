@@ -152,9 +152,7 @@ $(document).ready(function() {
        if(!validar($('#ddlperiodo'))){     
             mostrarerror($('#ddlperiodo'));}
        else if (!validar($('#txtdescripcion'))){
-            mostrarerror($('#txtdescripcion'));}
-        else if (!validar($('#fecha'))){
-           mostrarerror($('#fecha'));}
+            mostrarerror($('#txtdescripcion'));}       
        else if (!validar($('#busquedaevaluador'))){
            mostrarerror($('#busquedaevaluador'));}
        else if (cantidadcolaboradorestabla()== 0){
@@ -472,8 +470,7 @@ $(document).ready(function() {
     var data = {};    
     data['nombreproceso'] = $.trim($("#txtdescripcion").val());
     data['idevaluador'] = $("#idevaluador").val(); 
-    data['periodo'] = $('#ddlperiodo').val();
-    data['fecha'] = $('#fecha').val();
+    data['periodo'] = $('#ddlperiodo').val();    
     data['colaboradores'] = obtenercolaboradoresevaluar();  
     return data;
    }

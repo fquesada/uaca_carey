@@ -27,25 +27,6 @@
             <div id="txtdescripcionerror" class="errorevaluacionpersona">Debe ingresar el nombre del proceso.</div>
     </div>
     
-     <div class="row">
-            <?php echo CHtml::label('Fecha evaluación *', 'fecha');?>
-          <?php
-            $this->widget('zii.widgets.jui.CJuiDatePicker',array(
-                'name'=>'fecha',
-                // additional javascript options for the date picker plugin
-                'options'=>array(
-                    'showAnim'=>'slide',//'slide','fold','slideDown','fadeIn','blind','bounce','clip','drop'
-                    'dateFormat'=>'dd-mm-yy',
-                ),
-                'htmlOptions'=>array(
-                    'style'=>'height:20px;',
-                    'readonly'=>'readonly', 
-                ),
-            ));
-            ?>
-            <div id="ddlfechaerror" class="errorevaluacionpersona">Debe seleccionar un periodo</div>
-    </div>
-    
     <fieldset>
             <legend>Búsqueda de Colaborador por nombre</legend>
     <div class="row">

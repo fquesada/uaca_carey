@@ -48,7 +48,7 @@ $this->breadcrumbs=array(
                 array(
 			'class'=>'CButtonColumn',
                         'htmlOptions'=>array('width'=>'90'),
-                        'template'=>'{adminprocesoec}{editar}{eliminar}',                                                
+                        'template'=>'{adminprocesoed}{editar}{eliminar}',                                                
                         //'deleteButtonUrl'=>'Yii::app()->controller->createUrl("#", array("id"=>$data["id"]))',
                         //'deleteButtonLabel' => 'Eliminar Proceso', 
                         //'deleteButtonImageUrl'=>Yii::app()->request->baseUrl.'/images/icons/silk/decline.png',                          
@@ -71,10 +71,10 @@ $this->breadcrumbs=array(
                             }
                             }',*/
                         'buttons'=>array(                            
-                            'adminprocesoec'=> array(
+                            'adminprocesoed'=> array(
                                 'label'=>'Gestionar Proceso ED',
                                 'imageUrl'=>Yii::app()->request->baseUrl.'/images/icons/silk/door_in.png',
-                                'url'=>'Yii::app()->createUrl("procesoed/admin", array("id"=>$data["id"]))'
+                                'url'=>'Yii::app()->createUrl("procesoed/adminprocesoed", array("id"=>$data["id"]))'
                             ),
                             'editar'=> array(
                                 'label'=>'Editar Proceso ED',
