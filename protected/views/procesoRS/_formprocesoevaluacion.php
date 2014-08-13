@@ -49,22 +49,29 @@
                 // additional javascript options for the date picker plugin
                 'options'=>array(
                     'showAnim'=>'slide',//'slide','fold','slideDown','fadeIn','blind','bounce','clip','drop'
+                    'dateFormat'=>'dd-mm-yy',
+                    'value'=>date('dd-mm-yy'),
+                    //'maxDate'=> CommonFunctions::datenow(),
                 ),
             ));
-            ?>                    
+            ?>                  
             <div id="fechareclutamientoerror" class="errorevaluacionpersona">Debe ingresar una fecha de reclutamiento.</div>
     </div>
     
     
     <div class="row">
-            <?php echo CHtml::label('Fecha Seleccion *', 'fechaseleccion');?>          
+            <?php echo CHtml::label('Fecha Selección *', 'fechaseleccion');?>          
             <?php 
             $this->widget('zii.widgets.jui.CJuiDatePicker',array(
                 'name'=>'fechaseleccion',
                 'id'=>'fechaseleccion',
+                
                 // additional javascript options for the date picker plugin
                 'options'=>array(
                     'showAnim'=>'slide',//'slide','fold','slideDown','fadeIn','blind','bounce','clip','drop'
+                    'dateFormat'=>'dd-mm-yy',
+                    'value'=>date('dd-mm-yy'),
+                    //'minDate'=> CommonFunctions::datenow(),
                 ),
             ));
             ?>                    
@@ -103,13 +110,13 @@
                   'htmlOptions'=>array('size'=>'30'),
                 ));
             }
-         /*   else{
+            else{
                 echo CHtml::textField('colaborador', $procesoec->_evaluador->nombrecompleto, array('id' => 'busquedaevaluador','size'=>'30'));
                 Yii::app()->clientScript->registerScript('activarevaluador', "
                         $('#busquedaevaluador').attr('disabled', 'true');	                                                                   
                         $('#btnbusquedacolaboradores').removeAttr('disabled'); 
                 ");
-            }   */               
+            }                 
         
             ?>                   
             <?php echo CHtml::image(Yii::app()->request->baseUrl."/images/icons/silk/decline.png", "Borrar Colaborador seleccionado", 

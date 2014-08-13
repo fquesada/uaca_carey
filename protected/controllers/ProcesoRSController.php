@@ -579,8 +579,8 @@ class ProcesoRSController extends Controller
                 $vacante = new Vacante();
                 $vacante->puesto = $puesto;
                 $vacante->procesoevaluacion = $procesoevaluacion->id;
-                $vacante->fechareclutamiento = CommonFunctions::datenow(); //Corregir
-                $vacante->fechaseleccion = CommonFunctions::datenow(); //Corregir
+                $vacante->fechareclutamiento = $fechareclutamiento;
+                $vacante->fechaseleccion = $fechaseleccion;
                 $vacante->periodo = $periodo;
                 
                 $vacante->save();
@@ -630,81 +630,6 @@ class ProcesoRSController extends Controller
         }
         
         
-        
-        public function actionTestECV(){
-            
-            
-                //VALORAR PONER UN VALIDADOR ISSET TANTO DE VARIABLES DEL PROCESO COMO DE COLABORADORES
-                $nombreproceso = 'proceso X';
-                $idevaluador = CommonFunctions::stringtonumber('2');
-                $periodo = CommonFunctions::stringtonumber('1');         
-                $puesto = CommonFunctions::stringtonumber('3');  
-                $fechareclutamiento = '';         
-                $fechaseleccion = '';  
-                $postulantes = array( 0 => array(0=>'3004',1=>'Orlando'));
-                
-               
-                $procesoevaluacion = new Procesoevaluacion();                
-                $procesoevaluacion->fecha = CommonFunctions::datenow(); 
-                $procesoevaluacion->evaluador = $idevaluador;
-                $procesoevaluacion->descripcion = $nombreproceso;
-                $procesoevaluacion->tipo = 2; //MIGRAR VARIABLES GLOBALES CLEAN CODE
-                $procesoevaluacion->periodo = $periodo;
-                
-                
-                $transaction = Yii::app()->db->beginTransaction();
-                
-                $resultadoguardarbd = $procesoevaluacion->save(); 
-                
-                $vacante = new Vacante();
-                $vacante->puesto = $puesto;
-                $vacante->procesoevaluacion = $procesoevaluacion->id;
-                $vacante->fechareclutamiento = CommonFunctions::datenow(); //Corregir
-                $vacante->fechaseleccion = CommonFunctions::datenow(); //Corregir
-                $vacante->periodo = $periodo;
-                
-                $vacante->save();
-                              
-                if($resultadoguardarbd){
-                    foreach ($postulantes as $index => $nuevopostulante){
-                        
-                            $postulante = new Postulante();
-                            $postulante->cedula = CommonFunctions::stringtonumber($nuevopostulante[0]);
-                            $postulante->nombre = $nuevopostulante[1];
-                            $postulante->apellido1 = $nuevopostulante[1];
-                            $postulante->apellido2 = $nuevopostulante[1];
-                            $postulante->estado = 1;
-                            $postulante->save();
-                            
-                            
-                            $evaluacioncompetencias = new Evaluacioncompetencias();
-                            $evaluacioncompetencias->procesoevaluacion = $procesoevaluacion->id;
-                            $evaluacioncompetencias->puesto = $vacante->puesto;
-                            $evaluacioncompetencias->colaborador = $postulante->id;                            
-                            $evaluacioncompetencias->save();
-
-                            $link = new Links();
-                            $link->url = $evaluacioncompetencias->id; //FALTA FUNCION HASH                          
-                            $link->save();
-
-                            $evaluacioncompetencias->links = $link->id;
-                            $resultadoguardarbd =  $evaluacioncompetencias->save();
-                            
-                            if(!$resultadoguardarbd){                    
-                                    $transaction->rollback();
-                                    $response = array('resultado' => false,'mensaje' => "Ha ocurrido un inconveniente al intentar guardar el proceso: ".$procesoevaluacion->descripcion);              
-                                    echo CJSON::encode($response); 
-                                    Yii::app()->end();
-                            }
-                    }                                    
-                   $transaction->commit();
-                   $response = array('resultado' => true,'mensaje' => "Se guardó con éxito el proceso: ".$procesoevaluacion->descripcion, 'url' => Yii::app()->getBaseUrl(true).'/index.php/procesoevaluacion/adminprocesoec/'.$procesoevaluacion->id);                  
-                   echo CJSON::encode($response);   
-                   Yii::app()->end();                                   
-                }
-            
-        }
-        
         public function actionAdminProcesoECV($id){    
             
             $procesoecv = Procesoevaluacion::model()->findByPk($id);
@@ -713,21 +638,29 @@ class ProcesoRSController extends Controller
             ));       
         }
         
-        public function actionEditarProcesoEC($id){
+        public function actionEditarProcesoECV($id){
             
             if(Yii::app()->request->isAjaxRequest)
             {                 
-                $nombreproceso = $_POST['nombreproceso'];                
-                $periodo = CommonFunctions::stringtonumber($_POST['periodo']); 
-                $colaboradores = $_POST['colaboradores'];
+                $nombreproceso = $_POST['nombreproceso'];
+                
+                $periodo = CommonFunctions::stringtonumber($_POST['periodo']);                        
+                $fechareclutamiento = $_POST['fechareclutamiento'];         
+                $fechaseleccion = $_POST['fechaseleccion'];
+                $postulantes = $_POST['postulantes'];
                 
                 $procesoevaluacion = Procesoevaluacion::model()->findByPk($id);                
                 $evaluacioncompetenciaactual = $procesoevaluacion->_evaluacionescompetencias;
+                $vacante = Vacante::model()->findByAttributes(array('procesoevaluacion'=>$procesoevaluacion->id));
                 
                 $transaction = Yii::app()->db->beginTransaction();                
                 
                 $procesoevaluacion->descripcion = $nombreproceso;
                 $procesoevaluacion->periodo = $periodo;
+                
+                $vacante->fechareclutamiento = $fechareclutamiento;
+                $vacante->fechaseleccion = $fechaseleccion;
+                
                 $resultadoguardarbd =  $procesoevaluacion->save();
                 if(!$resultadoguardarbd){                    
                     $transaction->rollback();
@@ -736,10 +669,10 @@ class ProcesoRSController extends Controller
                     Yii::app()->end();
                 }else{               
                 
-                    foreach ($colaboradores as $index => $idcolaborador) {                    
+                    foreach ($postulante as $index => $idpostulante) {                    
                         $indicadoragregarec = true;                                        
                         foreach ($evaluacioncompetenciaactual as $ec) {
-                            if(CommonFunctions::stringtonumber($idcolaborador) == $ec->colaborador){                                                       
+                            if(CommonFunctions::stringtonumber($idpostulante) == $ec->colaborador){                                                       
                                $indicadoragregarec = false; 
                                break 1;
                             }                        
@@ -747,7 +680,7 @@ class ProcesoRSController extends Controller
                         if($indicadoragregarec){
                                 $evaluacioncompetencias = new Evaluacioncompetencias();
                                 $evaluacioncompetencias->procesoevaluacion = $procesoevaluacion->id;
-                                $colaborador = Colaborador::model()->findByPk($idcolaborador);
+                                $colaborador = Colaborador::model()->findByPk($idpostulante);
                                 $evaluacioncompetencias->puesto = $colaborador->getidpuestoactual(); //CLEAN CODE
                                 $evaluacioncompetencias->colaborador = $colaborador->id;                            
                                 $evaluacioncompetencias->save();
@@ -769,8 +702,8 @@ class ProcesoRSController extends Controller
                     
                     foreach ($evaluacioncompetenciaactual as $ec){                    
                         $indicadorborrarec = true;                                        
-                        foreach ($colaboradores as $index => $idcolaborador) {
-                            if(CommonFunctions::stringtonumber($idcolaborador) == $ec->colaborador){                                                       
+                        foreach ($postulante as $index => $idpostulante) {
+                            if(CommonFunctions::stringtonumber($idpostulante) == $ec->colaborador){                                                       
                                $indicadorborrarec = false; 
                                break 1;
                             }                        

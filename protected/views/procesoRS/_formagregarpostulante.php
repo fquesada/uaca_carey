@@ -87,28 +87,25 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array(
   </thead>  
   <tbody>   
       <?php
-     /* if($indicadoreditar){
+      if($indicadoreditar){
           foreach ($procesoec->_evaluacionescompetencias as $ec) {
+              $postulante = Vacante::findbyPk($ec->id);
               echo '<tr>';
               echo '<td name="idcolaborador" style="display: none">';
-              echo $ec->colaborador;
+              echo $postulante->id;
               echo '</td>';
               echo '<td name="cedula">';
-              echo $ec->_colaborador->cedula;
+              echo $postulante->cedula;
               echo '</td>';
               echo '<td name="colaborador">';
-              echo $ec->_colaborador->nombrecompleto;
-              echo '</td>';
-              echo '<td name="puesto">';
-              echo $ec->_colaborador->nombrepuestoactual;
-              echo '</td>';
+              echo $postulante->nombrecompleto;
               echo '<td>';
               echo CHtml::image(Yii::app()->request->baseUrl."/images/icons/silk/delete.png", "Eliminar colaborador", 
                     array("id"=>"borrarcolaborador", "style" => "padding-left:5px; cursor:pointer;"));       
               echo '</td>';
               echo '</tr>';
           }
-      }*/
+      }
       ?>
   </tbody>
 </table>
