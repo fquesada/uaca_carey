@@ -56,7 +56,7 @@
                     'showAnim'=>'slide',//'slide','fold','slideDown','fadeIn','blind','bounce','clip','drop'
                     'dateFormat'=>'dd-mm-yy',
                     'value'=>date('dd-mm-yy'),
-                    'minDate'=> CommonFunctions::datenow(),
+                    //'minDate'=> date('dd-mm-yy'),
                     'readonly'=>true,
                     'htmlOptions'=>array('readonly'=>"readonly"),
                     
@@ -82,7 +82,7 @@
                     'showAnim'=>'slide',//'slide','fold','slideDown','fadeIn','blind','bounce','clip','drop'
                     'dateFormat'=>'dd-mm-yy',
                     'value'=>date('dd-mm-yy'),
-                    'minDate'=> CommonFunctions::datenow(),
+                    //'minDate'=> CommonFunctions::datenow(),
                 ),
             ));
             ?>                    
@@ -146,8 +146,8 @@
     <div class="row">                  
             <?php if(!$indicadoreditar) 
                     echo CHtml::hiddenField('idevaluador', '-',array('id'=>'idevaluador','name'=>'id')); 
-                  //else 
-                    //echo CHtml::hiddenField('idevaluador', $procesoec->evaluador,array('id'=>'idevaluador','name'=>'id')); 
+                  else 
+                    echo CHtml::hiddenField('idevaluador', $procesoec->evaluador,array('id'=>'idevaluador','name'=>'id')); 
             ?>        
     </div>   
     </fieldset>

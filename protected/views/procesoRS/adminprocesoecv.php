@@ -62,7 +62,7 @@ $this->menu=array(
       <th></th>       
       <th colspan="2" id="thevaluacion">Evaluacion</th> 
       <th colspan="2"  id="thcomunicado">Comunicado</th>
-      <th></th>
+      
     </tr>
     <tr id="trencabezados">
       <th style="display: none">idec</th>      
@@ -72,7 +72,7 @@ $this->menu=array(
       <th>Estado</th> 
       <th>Fecha Evaluacion</th>       
       <th>Cant. Envios</th>
-      <th>Fecha Ultimo Envio</th>
+      
       <th>Acciones</th>
     </tr>    
   </thead>  
@@ -87,11 +87,11 @@ $this->menu=array(
         echo '<th>'; echo $postulante->nombrecompleto; echo '</th>';
         echo '<th>'; echo $vacante->_puesto->nombre; echo '</th>';
         echo '<th>'; echo $ec->estadoevaluaciondescripcion; echo '</th>';
-        echo '<th>'; echo $ec->fechaevaluacionecformato; echo '</th>';
+//        echo '<th>'; echo $ec->fechaevaluacionecformato; echo '</th>';
         echo '<th class="tdcontadorenvios">'; echo $ec->_links->contadorenvios; echo '</th>';
         echo '<th>'; echo $ec->_links->fechaultimoenvioformato; echo '</th>';       
         echo '<th>';
-        $imgcorreo=CHtml::image(Yii::app()->request->baseUrl.'/images/icons/silk/email_go.png', 'Enviar correo', array("id"=>"imgenviarcorreo", "cursor:pointer;"));
+        $imgcorreo=CHtml::image(Yii::app()->request->baseUrl.'/images/icons/silk/email_go.png', 'Enviar correo', array("cursor:pointer;"));
         if(!$ec->estadoevaluacionindicador)
         echo CHtml::link($imgcorreo, Yii::app()->getBaseUrl(true).'/index.php/procesors/evaluarprocesoecv/'. CommonFunctions::encrypt($ec->id));
         $imgreporte=CHtml::image(Yii::app()->request->baseUrl.'/images/icons/silk/chart_pie.png', 'Generar reporte', array("id"=>"imggenerarreporte", "cursor:pointer;"));        
@@ -135,10 +135,14 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array(
     
     <?php
     foreach($procesoecv->_evaluacionescompetencias as $ec){
-        echo 'Cédula: '.$ec->_colaborador->cedula. '<br/>';
-        echo 'Nombre: '.$ec->_colaborador->nombrecompleto. '<br/>';
-        echo 'Puesto: '.$ec->_colaborador->nombrepuestoactual. '<br/>';
-        echo '<a href="'.Yii::app()->getBaseUrl(true).'/index.php/procesoevaluacion/evaluarprocesoecv/'. CommonFunctions::encrypt($ec->id).'">'.'Ir a evaluación'.'</a>';
+        $postulante = Postulante::model()->findByPk($ec->colaborador);
+        $vacante = Vacante::model()->findByAttributes(array('procesoevaluacion'=>$procesoecv->id));
+        
+        
+        echo 'Cédula: '.$postulante->cedula. '<br/>';
+        echo 'Nombre: '.$postulante->nombrecompleto. '<br/>';
+        echo 'Puesto: '.$vacante->_puesto->nombre. '<br/>';
+        echo '<a href="'.Yii::app()->getBaseUrl(true).'/index.php/procesors/evaluarprocesoecv/'. CommonFunctions::encrypt($ec->id).'">'.'Ir a evaluación'.'</a>';
         echo '<hr>';
     }
     ?>

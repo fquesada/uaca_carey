@@ -25,7 +25,7 @@ class ProcesoRSController extends Controller
 	{       //CLEAN CODE GUARDAR Y EVALUAR PROCESO DEBE ESTAR ACCESO PARA TODOS
 		return array(
 			array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('index','view','AdminProcesoECV','admin','EditarProcesoECV'),
+				'actions'=>array('index','view','Test'),
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
@@ -579,8 +579,8 @@ class ProcesoRSController extends Controller
                 $vacante = new Vacante();
                 $vacante->puesto = $puesto;
                 $vacante->procesoevaluacion = $procesoevaluacion->id;
-                $vacante->fechareclutamiento = $fechareclutamiento;
-                $vacante->fechaseleccion = $fechaseleccion;
+                $vacante->fechareclutamiento = CommonFunctions::datephptomysql($fechareclutamiento);
+                $vacante->fechaseleccion = CommonFunctions::datephptomysql($fechaseleccion);
                 $vacante->periodo = $periodo;
                 
                 $vacante->save();
@@ -638,6 +638,13 @@ class ProcesoRSController extends Controller
             ));       
         }
         
+        
+        
+        public function actionTest(){
+                $nombreproceso = $_GET['nombreproceso'];
+                
+        }
+        
         public function actionEditarProcesoECV($id){
             
             if(Yii::app()->request->isAjaxRequest)
@@ -658,10 +665,11 @@ class ProcesoRSController extends Controller
                 $procesoevaluacion->descripcion = $nombreproceso;
                 $procesoevaluacion->periodo = $periodo;
                 
-                $vacante->fechareclutamiento = $fechareclutamiento;
-                $vacante->fechaseleccion = $fechaseleccion;
+                $vacante->fechareclutamiento = CommonFunctions::datephptomysql($fechareclutamiento);
+                $vacante->fechaseleccion = CommonFunctions::datephptomysql($fechaseleccion);
+                $puesto = $vacante->puesto;
                 
-                $resultadoguardarbd =  $procesoevaluacion->save();
+                $resultadoguardarbd =  $procesoevaluacion->save() && $vacante->save();
                 if(!$resultadoguardarbd){                    
                     $transaction->rollback();
                     $response = array('resultado' => false,'mensaje' => "Ha ocurrido un inconveniente al intentar guardar los cambios del proceso: ".$procesoevaluacion->descripcion);              
@@ -670,18 +678,17 @@ class ProcesoRSController extends Controller
                 }else{               
                 
                     foreach ($postulantes as $index => $nuevopostulante) {                    
-                        $indicadoragregarec = true;                
-                            if(CommonFunctions::stringtonumber($nuevopostulante[0]) != 0){                                                       
-                               $indicadoragregarec = false; 
-                               break 1;                    
+                        $indicadoragregarec = false;                
+                            if(CommonFunctions::stringtonumber($nuevopostulante[4]) == 0){                                                       
+                               $indicadoragregarec = true;                  
                             }
                         if($indicadoragregarec){
                             
                                 $postulante = new Postulante();
-                                $postulante->cedula = CommonFunctions::stringtonumber($nuevopostulante[1]);
-                                $postulante->nombre = $nuevopostulante[2];
-                                $postulante->apellido1 = $nuevopostulante[3];
-                                $postulante->apellido2 = $nuevopostulante[4];
+                                $postulante->cedula = CommonFunctions::stringtonumber($nuevopostulante[0]);
+                                $postulante->nombre = $nuevopostulante[1];
+                                $postulante->apellido1 = $nuevopostulante[2];
+                                $postulante->apellido2 = $nuevopostulante[3];
                                 $postulante->estado = 1;
                                 $postulante->save();
                             
@@ -708,9 +715,9 @@ class ProcesoRSController extends Controller
                     }
                     
                     foreach ($evaluacioncompetenciaactual as $ec){                    
-                        $indicadorborrarec = false;                                        
+                        $indicadorborrarec = true;                                        
                         foreach ($postulantes as $index => $postulante) {
-                            if(CommonFunctions::stringtonumber($postulante[0]) == $ec->colaborador){                                                       
+                            if(CommonFunctions::stringtonumber($postulante[4]) == $ec->colaborador){                                                       
                                $indicadorborrarec = false; 
                                break 1;
                             }                        
@@ -762,9 +769,9 @@ class ProcesoRSController extends Controller
         }
                
         public function actionEvaluarProcesoECV($id){
-            
+            $idnuevo = CommonFunctions::decrypt($id);
             $this->layout='column1';
-            $ec = Evaluacioncompetencias::model()->findByPk($id);
+            $ec = Evaluacioncompetencias::model()->findByPk($idnuevo);
             $puntaje = Puntaje::model()->obtenerpuntajesactivos();
             $this->render('evaluarprocesoecv',array(
                             'ec'=>$ec,'puntaje'=>$puntaje));
