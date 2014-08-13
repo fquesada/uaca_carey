@@ -1200,8 +1200,7 @@ class ProcesoRSController extends Controller
         
          public function actionCrearReporteECV(){
            if(Yii::app()->request->isAjaxRequest){
-           $id = CommonFunctions::stringtonumber($_POST['id']);                
-           $ec = Evaluacioncompetencias::model()->findByPk($id); 
+           $id = CommonFunctions::stringtonumber($_POST['id']);  
            $response = array('url' => Yii::app()->getBaseUrl(true).'/index.php/procesors/reporteecv/'.$id);               
            echo CJSON::encode($response);                        
            Yii::app()->end();
@@ -1211,7 +1210,8 @@ class ProcesoRSController extends Controller
         public function actionReporteECV($id) {
                           
                 $ec = Evaluacioncompetencias::model()->findByPk($id);  
-                $colaborador = Colaborador::model()->findByPk($ec->colaborador);
+                $postulante = Postulante::model()->findByPk($ec->colaborador);
+                $vacante = Vacante::model()->findByAttributes(array('procesoevaluacion'=>$ec->_procesoevaluacion->id));
                 $competencias = $ec->_habilidadesevaluacioncandidato;
                 $meritos = $ec->_meritosevaluacioncandidato;
                 
@@ -1247,9 +1247,9 @@ class ProcesoRSController extends Controller
 
                     $objPHPExcel->setActiveSheetIndex(0);  //set first sheet as active
 
-                    $objPHPExcel->getActiveSheet()->setCellValue('C4', $ec->_colaborador->nombrecompleto); 
-                    $objPHPExcel->getActiveSheet()->setCellValue('C5', $ec->_puesto->nombre);
-                    $objPHPExcel->getActiveSheet()->setCellValue('G4', $ec->_colaborador->cedula);
+                    $objPHPExcel->getActiveSheet()->setCellValue('C4', $postulante->nombrecompleto); 
+                    $objPHPExcel->getActiveSheet()->setCellValue('C5', $vacante->_puesto->nombre);
+                    $objPHPExcel->getActiveSheet()->setCellValue('G4', $postulante->cedula);
                     $objPHPExcel->getActiveSheet()->setCellValue('G5', $ec->_procesoevaluacion->_evaluador->nombrecompleto);
                     $objPHPExcel->getActiveSheet()->setCellValue('G6', $ec->_procesoevaluacion->fecha);
 
@@ -1460,7 +1460,7 @@ class ProcesoRSController extends Controller
                    
                 
                 header('Content-Type: application/excel');
-                header('Content-Disposition: attachment;filename="ReporteEC_'.$colaborador->nombrecompleto.'.xlsx"');
+                header('Content-Disposition: attachment;filename="ReporteEC_'.$postulante->nombrecompleto.'.xlsx"');
                 header('Cache-Control: max-age=0');
                 
                 $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');             

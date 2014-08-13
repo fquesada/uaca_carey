@@ -3,7 +3,7 @@
 /* @var $ec EvaluacionCompetencias*/
 /* @var $puntaje Puntaje*/
 $postulante = Postulante::model()->findByPk($ec->colaborador);
-        $vacante = Vacante::model()->findByAttributes(array('procesoevaluacion'=>$ec->_procesoevaluacion->id));
+$vacante = Vacante::model()->findByAttributes(array('procesoevaluacion'=>$ec->_procesoevaluacion->id));
 ?>
 
 <div id="divencabezadoec" class="divencabezadoec">
