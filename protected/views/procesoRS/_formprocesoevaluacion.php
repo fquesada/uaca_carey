@@ -52,7 +52,7 @@
                 ),
             ));
             ?>                    
-            <div id="txtdescripcionerror" class="errorevaluacionpersona">Debe ingresar el nombre del proceso.</div>
+            <div id="fechareclutamientoerror" class="errorevaluacionpersona">Debe ingresar una fecha de reclutamiento.</div>
     </div>
     
     
@@ -68,7 +68,7 @@
                 ),
             ));
             ?>                    
-            <div id="txtdescripcionerror" class="errorevaluacionpersona">Debe ingresar el nombre del proceso.</div>
+            <div id="fechaseleccionerror" class="errorevaluacionpersona">Debe ingresar una fecha de selección.</div>
     </div>
     
     <fieldset>
@@ -103,13 +103,13 @@
                   'htmlOptions'=>array('size'=>'30'),
                 ));
             }
-            else{
+         /*   else{
                 echo CHtml::textField('colaborador', $procesoec->_evaluador->nombrecompleto, array('id' => 'busquedaevaluador','size'=>'30'));
                 Yii::app()->clientScript->registerScript('activarevaluador', "
                         $('#busquedaevaluador').attr('disabled', 'true');	                                                                   
                         $('#btnbusquedacolaboradores').removeAttr('disabled'); 
                 ");
-            }                  
+            }   */               
         
             ?>                   
             <?php echo CHtml::image(Yii::app()->request->baseUrl."/images/icons/silk/decline.png", "Borrar Colaborador seleccionado", 
@@ -120,16 +120,16 @@
             <?php  echo CHtml::label('Puesto', 'puesto'); ?>            
             <?php if(!$indicadoreditar)  
                     echo CHtml::label('-', 'puesto',array('id'=>'puestoevaluador','name'=>'puesto')); 
-                  else
-                    echo CHtml::label($procesoec->_evaluador->nombrepuestoactual, 'puesto',array('id'=>'puestoevaluador','name'=>'puesto'));
+                  //else
+                    //echo CHtml::label($procesoec->_evaluador->nombrepuestoactual, 'puesto',array('id'=>'puestoevaluador','name'=>'puesto'));
             ?>
         
     </div>
     <div class="row">                  
             <?php if(!$indicadoreditar) 
                     echo CHtml::hiddenField('idevaluador', '-',array('id'=>'idevaluador','name'=>'id')); 
-                  else 
-                    echo CHtml::hiddenField('idevaluador', $procesoec->evaluador,array('id'=>'idevaluador','name'=>'id')); 
+                  //else 
+                    //echo CHtml::hiddenField('idevaluador', $procesoec->evaluador,array('id'=>'idevaluador','name'=>'id')); 
             ?>        
     </div>   
     </fieldset>

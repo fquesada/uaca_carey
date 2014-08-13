@@ -27,7 +27,7 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array(
         'autoOpen'=>false,
         'modal'=>true,
         'width'=>375,
-        'height'=>250,
+        'height'=>375,
         'resizable' => false,
         'draggable' => false,
         'beforeClose' => 'js:function(){$("#divpostulante").hide();}',
@@ -45,13 +45,25 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array(
     </div>
     <div class="row">        
             <?php  echo CHtml::label('Nombre', 'nombrepostulante'); ?>            
-            <?php echo CHtml::textField('txtnombrepostulante','', array('id'=>'nombrepostulante')); ?>
+            <?php echo CHtml::textField('txtnombrepostulante','', array('id'=>'txtnombrepostulante')); ?>
         
     </div>
-            
+        
+    <div class="row">        
+            <?php  echo CHtml::label('Primer Apellido', 'apellido1postulante'); ?>            
+            <?php echo CHtml::textField('txtapellido1postulante','', array('id'=>'txtapellido1postulante')); ?>
+        
+    </div>
+    <div class="row">        
+            <?php  echo CHtml::label('Segundo Apellido', 'apellido2postulante'); ?>            
+            <?php echo CHtml::textField('txtapellido2postulante','', array('id'=>'txtapellido2postulante')); ?>
+        
+    </div>
+        
+        <div id="ddlpostulanteerror" class="errorevaluacionpersona">El campo cédula debe ser un número y todos los campos son requeridos.</div>
         </br>        
     <div class="row buttons">                    
-        <button  id="btnagregarpostulante" type="button" class="sexybutton sexysimple" disabled="disabled"><span class="accept">Agregar colaborador</span></button>
+        <button  id="btnagregarpostulante" type="button" class="sexybutton sexysimple"><span class="accept">Agregar colaborador</span></button>
     </div>
            
     </div>
@@ -61,9 +73,10 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array(
 <?php $this->endWidget();?>
 
 
+
 <div>
     
-<table border="1" id="tblpostulante">
+<table border="1" id="tblpostulantes">
   <thead>
     <tr>
       <th style="display: none">id</th>
@@ -99,7 +112,7 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array(
       ?>
   </tbody>
 </table>
-    
+  <div id="tblpostulanteserror" class="errorevaluacionpersona">Debe agregar al menos un postulante</div>  
 </div>
-<div id="tblcolaboradoreserror" class="errorevaluacionpersona">Debe agregar al menos un colaborador</div>
+
 

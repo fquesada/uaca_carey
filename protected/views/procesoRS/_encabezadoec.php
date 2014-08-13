@@ -2,15 +2,16 @@
 /* @var $this ProcesoEvaluacionController */
 /* @var $ec EvaluacionCompetencias*/
 /* @var $puntaje Puntaje*/
+$postulante = Postulante::model()->findByPk($ec->colaborador);
+        $vacante = Vacante::model()->findByAttributes(array('procesoevaluacion'=>$ec->_procesoevaluacion->id));
 ?>
 
 <div id="divencabezadoec" class="divencabezadoec">
     <p class="pencabezadoec">Informacion evaluación</p>
     <p style="display:none"><?php echo CHtml::label($ec->id, 'idec', array('id'=>'lblidec'))?></p>
-    <p> <b>Colaborador:</b> <?php echo $ec->_colaborador->nombrecompleto?> </p>
-    <p> <b>Cedula:</b> <?php echo $ec->_colaborador->cedula?> </p>   
-    <p> <b>Puesto:</b> <?php echo $ec->_colaborador->nombrepuestoactual?> </p>
-    <p> <b>Departamento:</b> <?php echo $ec->_colaborador->nombreunidadnegocioactual?> </p>
+    <p> <b>Colaborador:</b> <?php echo $postulante->nombrecompleto?> </p>
+    <p> <b>Cedula:</b> <?php echo $postulante->cedula?> </p>   
+    <p> <b>Puesto:</b> <?php echo $vacante->_puesto->nombre?> </p>   
     <p> <b>Evaluador:</b> <?php echo $ec->_procesoevaluacion->_evaluador->nombrecompleto?> </p>
     <p> <b>Periodo:</b> <?php echo $ec->_procesoevaluacion->_periodo->nombre ?> </p>
 </div>

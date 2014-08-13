@@ -276,10 +276,6 @@ $(document).ready(function() {
        if(!validar($(this)))          
            mostrarerror($(this));     
    });
-   $('#ddlpuesto').focusout(function(){
-       if(!validar($(this)))          
-           mostrarerror($(this));     
-   });
    $('#ddlperiodo').focusin(function(){
         ocultarerror($(this)); 
    });
@@ -734,20 +730,23 @@ $(document).ready(function() {
             mostrarerror($('#ddlperiodo'));}
        else if (!validar($('#txtdescripcion'))){
             mostrarerror($('#txtdescripcion'));}
-       else if (!validar($('#busquedaevaluador'))){
-           mostrarerror($('#busquedaevaluador'));}
-       else if (cantidadcolaboradorestabla()== 0){
-           mostrarerror($('#tblcolaboradores'));
+       else if (!validar($('#fechareclutamiento'))){
+            mostrarerror($('#fechareclutamiento'));}
+       else if (!validar($('#fechaseleccion'))){
+            mostrarerror($('#fechaseleccion'));}
+       else if (cantidadpostulantestabla() == 0){
+           mostrarerror($('#tblpostulantes'));
        }
        else{         
        $('#btncrearprocesoECV').attr('disabled', 'true');
+       
        $.ajax({
                     type: "POST",
                     url: "CrearProcesoECV",
-                    data: obtenerdatoscrearproceso(),
+                    data: obtenerdatoscrearprocesoECV(),
                     dataType: 'json',
                     error: function (jqXHR, textStatus){
-                        $('#btncrearprocesoEC').removeAttr('disabled');
+                        $('#btncrearprocesoECV').removeAttr('disabled');
                         if (jqXHR.status === 0) {                            
                             messageerror("Problema de red, contacte al administrador de sistemas.");
                         } else if (jqXHR.status == 404) {
@@ -770,36 +769,50 @@ $(document).ready(function() {
                         else
                             messageerror(datos.mensaje);
                     }
-        });}
+        });
+        }
    });
  
- $("#btnagregarcolaborador").click(function(){         
+ $("#btnagregarpostulante").click(function(){         
        
-       var idevaluador = $('#idevaluador').val();  
-       var cedula = $('#cedulapostulante').val();
-       var idpostulante = $('#idpostulante').val();   
+       $('#ddlpostulanteerror').css('visibility', 'hidden');
+       
+       var cedula = $('#cedulapostulante');
+       var nombre = $('#txtnombrepostulante');   
+       var apellido1 = $('#txtapellido1postulante'); 
+       var apellido2 = $('#txtapellido2postulante'); 
        if ($('#indicadoreditar').val() == "true")
            var urlimagenborrarcolaborador = "../../../images/icons/silk/delete.png";
        else
            var urlimagenborrarcolaborador = "../../images/icons/silk/delete.png";
        
+       
+      
+      if(!validar(cedula) || isNaN(cedula.val()) ||  !validar(nombre) || !validar(apellido1)  || !validar(apellido2))
+        $('#ddlpostulanteerror').css('visibility', 'visible');
+      else
+      {
+      var nombrecompleto = nombre.val()+' '+apellido1.val()+' '+apellido2.val();
       
        if(cantidadcolaboradorestabla()==0){
-           $('#tblpostulante > tbody').append('<tr><td name="idcolaborador" style="display: none">'+idcolaborador+'</td><td name="puesto">'+cedula+'</td><td name="colaborador">'+colaborador+'</td><td name="puesto">'+puesto+'</td><td><img id="borrarcolaborador" style="cursor: pointer; padding-left:5px;" src="'+urlimagenborrarcolaborador+'" alt="Eliminar colaborador"/></td></tr>');     
-           restablecerbuscarcolaborador();
-           ocultarerror($('#tblpostulante'));
+           $('#tblpostulantes > tbody').append('<tr><td name="cedula">'+cedula.val()+'</td><td name="nombre" style="display: none">'+nombre.val()+'</td><td name="apellido1" style="display: none">'+apellido1.val()+'</td><td name="apellido2" style="display: none">'+apellido2.val()+'</td><td name="nombrecompleto">'+nombrecompleto+'</td><td><img id="borrarcolaborador" style="cursor: pointer; padding-left:5px;" src="'+urlimagenborrarcolaborador+'" alt="Eliminar colaborador"/></td></tr>');     
+           $('#ddlpostulantes')
+           
        }
-       else if (existeidcolaboradortabla(idcolaborador)){
-           messageerror('El colaborador ya se encuentra seleccionado.');
-           restablecerbuscarcolaborador();
+       else if (existepostulantestabla(cedula)){
+           messageerror('El postulante ya fue agregado.');
        }
        else{
-          $('#tblpostulante > tbody').append('<tr><td name="idcolaborador" style="display: none">'+idcolaborador+'</td><td name="puesto">'+cedula+'</td><td name="colaborador">'+colaborador+'</td><td name="puesto">'+puesto+'</td><td><img id="borrarcolaborador" style="cursor: pointer; padding-left:5px;" src="'+urlimagenborrarcolaborador+'" alt="Eliminar colaborador"/></td></tr>'); 
-          restablecerbuscarcolaborador();
-          ocultarerror($('#tblpostulante'));
+         $('#tblpostulantes > tbody').append('<tr><td name="cedula">'+cedula+'</td><td name="nombre">'+nombrecompleto+'</td><td><img id="borrarcolaborador" style="cursor: pointer; padding-left:5px;" src="'+urlimagenborrarcolaborador+'" alt="Eliminar colaborador"/></td></tr>');     
+          $('#ddlpostulanteserror').css('visibility', 'hidden');
        }
-
+       
+       restableceragregarpostulante();
+       }
+       
+       ocultarerror($('#tblpostulantes'));
    });
+   
  
  
     $("#btnbusquedapostulantes").click(function(){       
@@ -809,6 +822,80 @@ $(document).ready(function() {
        //infoponderacion();
    });
  
- 
+ function existepostulantestabla(idcomprobar){
+       var existe = false;
+       $('#tblpostulantes > tbody tr').each(function(index,columna){
+           var idpostulante = $(columna).find('td:eq(0)').text();//La columna cero posee el idcolaborador
+           if (idcomprobar == idpostulante)
+               return existe = true;
+       }            
+       );
+       return existe;           
+   }
+   
+   
+   function restableceragregarpostulante(){
+        $('#cedulapostulante').val('');                                              
+        $('#txtnombrepostulante').val('');       
+        $('#txtapellido1postulante').val('');       
+        $('#txtapellido2postulante').val('');
+   }
+   
+   function cantidadpostulantestabla(){
+      return $('#tblpostulantes > tbody tr').length;       
+   }
+   
+   /*
+    $('#fechareclutamiento').focusout(function(){
+       if(!validar($(this)))          
+           mostrarerror($(this));     
+   });
+   $('#fechareclutamiento').focusin(function(){
+        ocultarerror($(this)); 
+   });   
+   
+   
+   $('#fechaseleccion').focusin(function(){
+        ocultarerror($(this)); 
+   });   
+    $('#fechaseleccion').focusout(function(){
+       if(!validar($(this)))          
+           mostrarerror($(this));     
+   });*/
+   
+   
+   $('#ddlpuesto').focusin(function(){
+        ocultarerror($(this)); 
+   });
+   $('#ddlpuesto').focusout(function(){
+       if(!validar($(this)))          
+           mostrarerror($(this));     
+   });
+   
+   
+   function obtenerdatoscrearprocesoECV(){             
+    var data = {};    
+    data['puesto'] = $.trim($("#ddlpuesto").val());
+    data['fechareclutamiento'] = $.trim($("#fechareclutamiento").val());
+    data['fechaseleccion'] = $.trim($("#fechaseleccion").val());
+    data['nombreproceso'] = $.trim($("#txtdescripcion").val());
+    data['idevaluador'] = $("#idevaluador").val(); 
+    data['periodo'] = $('#ddlperiodo').val();
+    data['postulantes'] = obtenerpostulantesECV();    
+    return data;
+   }
+   
+    function obtenerpostulantesECV(){                 
+       var postulantes = Array();
+        $("#tblpostulantes > tbody > tr").each(function(index, fila) {		
+            var cedulapostulante = $(fila).find('td:eq(0)').text();	            
+            var nombre = $(fila).find('td:eq(1)').text();
+            var apellido1 = $(fila).find('td:eq(2)').text();
+            var apellido2 = $(fila).find('td:eq(3)').text();
+            postulantes[index] = new Array(cedulapostulante, nombre, apellido1, apellido2);
+            
+        });
+        return postulantes;
+   }
  
 });

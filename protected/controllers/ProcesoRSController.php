@@ -29,8 +29,8 @@ class ProcesoRSController extends Controller
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('CrearProcesoECV','AdminProcesoEC','EditarProcesoEC','EliminarProcesoEC','EvaluarProcesoEC','EnvioCorreoEC','GuardarEvaluacionEC','update','admin','AgregarPersonas','AgregarPersona','AutocompleteEvaluado',
-                                                    'HabilidadesEspeciales','InfoPonderacion', 'delete', 'reporteevaluacioncompetencias', 'DataReporteEvaluacionCompetencias', 'vistaprueba','CrearReporteEC','ReporteEC','CargaMasiva','CargaDepartamento'),
+				'actions'=>array('CrearProcesoECV','AdminProcesoECV','EditarProcesoECV','EliminarProcesoECV','EvaluarProcesoECV','EnvioCorreoECV','GuardarEvaluacionECV','update','admin','AgregarPersonas','AgregarPersona','AutocompleteEvaluado',
+                                                    'HabilidadesEspeciales','InfoPonderacion', 'delete', 'reporteevaluacioncompetencias', 'DataReporteEvaluacionCompetencias', 'vistaprueba','CrearReporteECV','ReporteECV','CargaMasiva','CargaDepartamento'),
 				'users'=>array('@'),
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -549,6 +549,7 @@ class ProcesoRSController extends Controller
 		));
 	}
         
+        
         public function actionCrearProcesoECV(){            
                         
             if(Yii::app()->request->isAjaxRequest)
@@ -557,26 +558,49 @@ class ProcesoRSController extends Controller
                 $nombreproceso = $_POST['nombreproceso'];
                 $idevaluador = CommonFunctions::stringtonumber($_POST['idevaluador']);
                 $periodo = CommonFunctions::stringtonumber($_POST['periodo']);         
+                $puesto = CommonFunctions::stringtonumber($_POST['puesto']);  
+                $fechareclutamiento = $_POST['fechareclutamiento'];         
+                $fechaseleccion = $_POST['fechaseleccion'];
+                $postulantes = $_POST['postulantes'];
                 
+               
                 $procesoevaluacion = new Procesoevaluacion();                
                 $procesoevaluacion->fecha = CommonFunctions::datenow(); 
                 $procesoevaluacion->evaluador = $idevaluador;
                 $procesoevaluacion->descripcion = $nombreproceso;
-                $procesoevaluacion->tipo = 1; //MIGRAR VARIABLES GLOBALES CLEAN CODE
+                $procesoevaluacion->tipo = 2; //MIGRAR VARIABLES GLOBALES CLEAN CODE
                 $procesoevaluacion->periodo = $periodo;
+                
                 
                 $transaction = Yii::app()->db->beginTransaction();
                 
-                $resultadoguardarbd = $procesoevaluacion->save();                
-                               
+                $resultadoguardarbd = $procesoevaluacion->save(); 
+                
+                $vacante = new Vacante();
+                $vacante->puesto = $puesto;
+                $vacante->procesoevaluacion = $procesoevaluacion->id;
+                $vacante->fechareclutamiento = CommonFunctions::datenow(); //Corregir
+                $vacante->fechaseleccion = CommonFunctions::datenow(); //Corregir
+                $vacante->periodo = $periodo;
+                
+                $vacante->save();
+                              
                 if($resultadoguardarbd){
-                    foreach ($_POST['colaboradores'] as $index => $idcolaborador){
+                    foreach ($postulantes as $index => $nuevopostulante){
+                        
+                            $postulante = new Postulante();
+                            $postulante->cedula = CommonFunctions::stringtonumber($nuevopostulante[0]);
+                            $postulante->nombre = $nuevopostulante[1];
+                            $postulante->apellido1 = $nuevopostulante[2];
+                            $postulante->apellido2 = $nuevopostulante[3];
+                            $postulante->estado = 1;
+                            $postulante->save();
+                            
                             
                             $evaluacioncompetencias = new Evaluacioncompetencias();
                             $evaluacioncompetencias->procesoevaluacion = $procesoevaluacion->id;
-                            $colaborador = Colaborador::model()->findByPk($idcolaborador);
-                            $evaluacioncompetencias->puesto = $colaborador->getidpuestoactual(); //CLEAN CODE
-                            $evaluacioncompetencias->colaborador = $colaborador->id;                            
+                            $evaluacioncompetencias->puesto = $vacante->puesto;
+                            $evaluacioncompetencias->colaborador = $postulante->id;                            
                             $evaluacioncompetencias->save();
 
                             $link = new Links();
@@ -585,6 +609,87 @@ class ProcesoRSController extends Controller
 
                             $evaluacioncompetencias->links = $link->id;
                             $resultadoguardarbd =  $evaluacioncompetencias->save();
+                            
+                            if(!$resultadoguardarbd){                    
+                                    $transaction->rollback();
+                                    $response = array('resultado' => false,'mensaje' => "Ha ocurrido un inconveniente al intentar guardar el proceso: ".$procesoevaluacion->descripcion);              
+                                    echo CJSON::encode($response); 
+                                    Yii::app()->end();
+                            }
+                    }                                    
+                   $transaction->commit();
+                   $response = array('resultado' => true,'mensaje' => "Se guardó con éxito el proceso: ".$procesoevaluacion->descripcion, 'url' => Yii::app()->getBaseUrl(true).'/index.php/procesors/adminprocesoecv/'.$procesoevaluacion->id);                  
+                   echo CJSON::encode($response);   
+                   Yii::app()->end();                                   
+                }
+            }
+            $editar = false;
+            $this->render('crearprocesoecv',array(
+			'indicadoreditar' => $editar,
+            ));      
+        }
+        
+        
+        
+        public function actionTestECV(){
+            
+            
+                //VALORAR PONER UN VALIDADOR ISSET TANTO DE VARIABLES DEL PROCESO COMO DE COLABORADORES
+                $nombreproceso = 'proceso X';
+                $idevaluador = CommonFunctions::stringtonumber('2');
+                $periodo = CommonFunctions::stringtonumber('1');         
+                $puesto = CommonFunctions::stringtonumber('3');  
+                $fechareclutamiento = '';         
+                $fechaseleccion = '';  
+                $postulantes = array( 0 => array(0=>'3004',1=>'Orlando'));
+                
+               
+                $procesoevaluacion = new Procesoevaluacion();                
+                $procesoevaluacion->fecha = CommonFunctions::datenow(); 
+                $procesoevaluacion->evaluador = $idevaluador;
+                $procesoevaluacion->descripcion = $nombreproceso;
+                $procesoevaluacion->tipo = 2; //MIGRAR VARIABLES GLOBALES CLEAN CODE
+                $procesoevaluacion->periodo = $periodo;
+                
+                
+                $transaction = Yii::app()->db->beginTransaction();
+                
+                $resultadoguardarbd = $procesoevaluacion->save(); 
+                
+                $vacante = new Vacante();
+                $vacante->puesto = $puesto;
+                $vacante->procesoevaluacion = $procesoevaluacion->id;
+                $vacante->fechareclutamiento = CommonFunctions::datenow(); //Corregir
+                $vacante->fechaseleccion = CommonFunctions::datenow(); //Corregir
+                $vacante->periodo = $periodo;
+                
+                $vacante->save();
+                              
+                if($resultadoguardarbd){
+                    foreach ($postulantes as $index => $nuevopostulante){
+                        
+                            $postulante = new Postulante();
+                            $postulante->cedula = CommonFunctions::stringtonumber($nuevopostulante[0]);
+                            $postulante->nombre = $nuevopostulante[1];
+                            $postulante->apellido1 = $nuevopostulante[1];
+                            $postulante->apellido2 = $nuevopostulante[1];
+                            $postulante->estado = 1;
+                            $postulante->save();
+                            
+                            
+                            $evaluacioncompetencias = new Evaluacioncompetencias();
+                            $evaluacioncompetencias->procesoevaluacion = $procesoevaluacion->id;
+                            $evaluacioncompetencias->puesto = $vacante->puesto;
+                            $evaluacioncompetencias->colaborador = $postulante->id;                            
+                            $evaluacioncompetencias->save();
+
+                            $link = new Links();
+                            $link->url = $evaluacioncompetencias->id; //FALTA FUNCION HASH                          
+                            $link->save();
+
+                            $evaluacioncompetencias->links = $link->id;
+                            $resultadoguardarbd =  $evaluacioncompetencias->save();
+                            
                             if(!$resultadoguardarbd){                    
                                     $transaction->rollback();
                                     $response = array('resultado' => false,'mensaje' => "Ha ocurrido un inconveniente al intentar guardar el proceso: ".$procesoevaluacion->descripcion);              
@@ -597,25 +702,14 @@ class ProcesoRSController extends Controller
                    echo CJSON::encode($response);   
                    Yii::app()->end();                                   
                 }
-                else{
-                        $transaction->rollback();
-                        $response = array('resultado' => false,'mensaje' => "Ha ocurrido un inconveniente al intentar guardar el proceso: ".$procesoevaluacion->descripcion);              
-                        echo CJSON::encode($response);                        
-                        Yii::app()->end();
-                }           
-            }
             
-            $editar = false;
-            $this->render('crearprocesoecv',array(
-			'indicadoreditar' => $editar,
-            ));       
         }
         
-        public function actionAdminProcesoEC($id){    
+        public function actionAdminProcesoECV($id){    
             
-            $procesoec = Procesoevaluacion::model()->findByPk($id);
-            $this->render('adminprocesoec',array(
-			'procesoec'=>$procesoec,
+            $procesoecv = Procesoevaluacion::model()->findByPk($id);
+            $this->render('adminprocesoecv',array(
+			'procesoecv'=>$procesoecv,
             ));       
         }
         
@@ -709,7 +803,7 @@ class ProcesoRSController extends Controller
             
         }
         
-        public function actionEnvioCorreoEC(){
+        public function actionEnvioCorreoECV(){
             
             if(Yii::app()->request->isAjaxRequest){
                  $id = CommonFunctions::stringtonumber($_POST['id']);                
@@ -720,22 +814,22 @@ class ProcesoRSController extends Controller
                  $link->fechaultimoenvio = CommonFunctions::datenow();
                  $link->save();
                  
-                 $response = array('url' => Yii::app()->getBaseUrl(true).'/index.php/procesoevaluacion/evaluarprocesoec/'.$id);               
+                 $response = array('url' => Yii::app()->getBaseUrl(true).'/index.php/procesors/evaluarprocesoecv/'.$id);               
                  echo CJSON::encode($response);                        
                  Yii::app()->end();
             }
         }
                
-        public function actionEvaluarProcesoEC($id){
+        public function actionEvaluarProcesoECV($id){
             
             $this->layout='column1';
             $ec = Evaluacioncompetencias::model()->findByPk($id);
             $puntaje = Puntaje::model()->obtenerpuntajesactivos();
-            $this->render('evaluarprocesoec',array(
+            $this->render('evaluarprocesoecv',array(
                             'ec'=>$ec,'puntaje'=>$puntaje));
         }
         
-        public function actionGuardarEvaluacionEC() {
+        public function actionGuardarEvaluacionECV() {
 
             if (Yii::app()->request->isAjaxRequest) {
 
@@ -855,7 +949,7 @@ class ProcesoRSController extends Controller
                     }
 
                     $transaction->commit();
-                    $response = array('resultado' => true, 'mensaje' => "Se guardó con éxito la evaluacion", 'url' => Yii::app()->getBaseUrl(true) . '/index.php/procesoevaluacion/adminprocesoec/' . $ec->procesoevaluacion);
+                    $response = array('resultado' => true, 'mensaje' => "Se guardó con éxito la evaluacion", 'url' => Yii::app()->getBaseUrl(true) . '/index.php/procesors/adminprocesoecv/' . $ec->procesoevaluacion);
                     echo CJSON::encode($response);
                     Yii::app()->end();
                 } else {
@@ -960,7 +1054,7 @@ class ProcesoRSController extends Controller
 	 */
 	public function actionAdmin()
 	{
-            $ec = Procesoevaluacion::model()->obtenerevaluacioncompetencias();                
+            $ec = Procesoevaluacion::model()->obtenerevaluacioncompetencias(2);                
             $filtersForm=new FiltersForm;
 
             if (isset($_GET['FiltersForm']))
@@ -968,7 +1062,7 @@ class ProcesoRSController extends Controller
             
             $this->layout='column1';
             $this->render('admin',array(
-                'ec' => $filtersForm->filter($ec),
+                'ecv' => $filtersForm->filter($ec),
                 'filtersForm' => $filtersForm,
             ));
 	}
@@ -1104,17 +1198,17 @@ class ProcesoRSController extends Controller
            
         }   
         
-         public function actionCrearReporteEC(){
+         public function actionCrearReporteECV(){
            if(Yii::app()->request->isAjaxRequest){
            $id = CommonFunctions::stringtonumber($_POST['id']);                
            $ec = Evaluacioncompetencias::model()->findByPk($id); 
-           $response = array('url' => Yii::app()->getBaseUrl(true).'/index.php/procesoevaluacion/reporteec/'.$id);               
+           $response = array('url' => Yii::app()->getBaseUrl(true).'/index.php/procesors/reporteecv/'.$id);               
            echo CJSON::encode($response);                        
            Yii::app()->end();
             }
         }
         
-        public function actionReporteEC($id) {
+        public function actionReporteECV($id) {
                           
                 $ec = Evaluacioncompetencias::model()->findByPk($id);  
                 $colaborador = Colaborador::model()->findByPk($ec->colaborador);

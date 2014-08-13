@@ -2,41 +2,41 @@
 /* @var $this ProcesoEvaluacionController */
 /* @var $procesoec ProcesoEvaluacion */
 
-Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/adminprocesoec.js');
-Yii::app()->clientScript->registerCssFile(Yii::app()->baseUrl.'/css/adminprocesoec.css');//CLEAN CODE
+Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/adminprocesoecv.js');
+Yii::app()->clientScript->registerCssFile(Yii::app()->baseUrl.'/css/adminprocesoecv.css');//CLEAN CODE
 
 $this->breadcrumbs=array(
-	'EC'=>array('admin'),
-	'Gestionar proceso EC',
+	'ECV'=>array('admin'),
+	'Gestionar proceso ECV',
 );
 $this->menu=array(
-	array('label'=>'Lista de Procesos EC' , 'url'=>array('admin')),	
-        array('label'=>'Editar Proceso EC' , 'url'=>array('editarprocesoec', 'id'=>$procesoec->id)),	
+	array('label'=>'Lista de Procesos ECV' , 'url'=>array('admin')),	
+        array('label'=>'Editar Proceso ECV' , 'url'=>array('editarprocesoecv', 'id'=>$procesoecv->id)),	
 );
 ?>
 
-<h3 style="text-align: center">Gestionar Proceso EC #<?php echo $procesoec->id;?></h3>
+<h3 style="text-align: center">Gestionar Proceso ECV #<?php echo $procesoecv->id;?></h3>
 
 <div>
 <?php $this->widget('zii.widgets.CDetailView', array(
-	'data'=>$procesoec,
+	'data'=>$procesoecv,
 	'attributes'=>array(
                 array(
-                        'label' => $procesoec->getAttributeLabel('fecha'),
-                        'value' => $procesoec->FechaProcesoFormato,
+                        'label' => $procesoecv->getAttributeLabel('fecha'),
+                        'value' => $procesoecv->FechaProcesoFormato,
                 ),                               
                 array(
-                        'label' => $procesoec->_periodo->getAttributeLabel('periodo'),
-                        'value' => $procesoec->_periodo->nombre,
+                        'label' => $procesoecv->_periodo->getAttributeLabel('periodo'),
+                        'value' => $procesoecv->_periodo->nombre,
                 ),
                 'descripcion',
                 array(
-                        'label' => $procesoec->getAttributeLabel('evaluador'),
-                        'value' => $procesoec->_evaluador->nombrecompleto,
+                        'label' => $procesoecv->getAttributeLabel('evaluador'),
+                        'value' => $procesoecv->_evaluador->nombrecompleto,
                 ),   
                 array(
-                        'label' => $procesoec->getAttributeLabel('estado'),
-                        'value' => $procesoec->EstadoProceso,
+                        'label' => $procesoecv->getAttributeLabel('estado'),
+                        'value' => $procesoecv->EstadoProceso,
                 ),                
 	),
 )); ?>
@@ -59,7 +59,7 @@ $this->menu=array(
     <tr id="trencabezados">
       <th style="display: none">idec</th>      
       <th>Cedula</th> 
-      <th>Colaborador</th>
+      <th>Postulante</th>
       <th>Puesto</th> 
       <th>Estado</th> 
       <th>Fecha Evaluacion</th>       
@@ -70,12 +70,14 @@ $this->menu=array(
   </thead>  
   <tbody>
       <?php
-    foreach($procesoec->_evaluacionescompetencias as $ec){
+    foreach($procesoecv->_evaluacionescompetencias as $ec){
+        $postulante = Postulante::model()->findByPk($ec->colaborador);
+        $vacante = Vacante::model()->findByAttributes(array('procesoevaluacion'=>$procesoecv->id));
         echo '<tr>';
         echo '<th style="display: none" id="idec">'; echo $ec->id; echo '</th>';
-        echo '<th>'; echo $ec->_colaborador->cedula; echo '</th>';
-        echo '<th>'; echo $ec->_colaborador->nombrecompleto; echo '</th>';
-        echo '<th>'; echo $ec->_colaborador->nombrepuestoactual; echo '</th>';
+        echo '<th>'; echo $postulante->cedula; echo '</th>';
+        echo '<th>'; echo $postulante->nombrecompleto; echo '</th>';
+        echo '<th>'; echo $vacante->_puesto->nombre; echo '</th>';
         echo '<th>'; echo $ec->estadoevaluaciondescripcion; echo '</th>';
         echo '<th>'; echo $ec->fechaevaluacionecformato; echo '</th>';
         echo '<th class="tdcontadorenvios">'; echo $ec->_links->contadorenvios; echo '</th>';
@@ -96,7 +98,7 @@ $this->menu=array(
 </div>
     <div style="text-align: center"> 
    <?php
-        echo CHtml::button('Volver atrás', array('id'=>'btnvolveratras','submit' => array('procesoevaluacion/admin'), 'class'=>'sexybutton sexysimple sexylarge'));
+        echo CHtml::button('Volver atrás', array('id'=>'btnvolveratras','submit' => array('procesors/admin'), 'class'=>'sexybutton sexysimple sexylarge'));
    ?>
     </div>
 </div>

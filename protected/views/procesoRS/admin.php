@@ -4,19 +4,19 @@
 Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/evaluacionpersonas.js');//CLEAN CODE
 
 $this->breadcrumbs=array(	
-	'Evaluación de Competencias (EC)',
+	'Evaluación de Competencias (ECV)',
 );
 ?>
 
-<h3 style="text-align: center">Evaluación de Competencias (EC)</h3>
+<h3 style="text-align: center">Evaluación de Competencias (ECV)</h3>
 
-<?php echo CHtml::beginForm($this->createUrl('procesoevaluacion/crearprocesoec'),'post', array('id'=>'formcrearprocesoec'))?>                      
-<button  id="btnformcrearprocesoec" type="submit" class="sexybutton sexysimple"><span class="add">Nuevo proceso EC</span></button>
+<?php echo CHtml::beginForm($this->createUrl('procesors/crearprocesoecv'),'post', array('id'=>'formcrearprocesoec'))?>                      
+<button  id="btnformcrearprocesoec" type="submit" class="sexybutton sexysimple"><span class="add">Nuevo proceso ECV</span></button>
 <?php echo CHtml::endForm()?>
 
 <?php $this->widget('zii.widgets.grid.CGridView', array(
 	'id'=>'procesoevaluacion-grid',
-	'dataProvider'=>$ec,
+	'dataProvider'=>$ecv,
         'template' => '{summary}{pager}<br/>{items}{pager}',
 	'filter'=>$filtersForm,    
 	'columns'=>array(
@@ -49,42 +49,22 @@ $this->breadcrumbs=array(
 			'class'=>'CButtonColumn',
                         'htmlOptions'=>array('width'=>'90'),
                         'template'=>'{adminprocesoec}{editar}{eliminar}',                                                
-                        //'deleteButtonUrl'=>'Yii::app()->controller->createUrl("#", array("id"=>$data["id"]))',
-                        //'deleteButtonLabel' => 'Eliminar Proceso', 
-                        //'deleteButtonImageUrl'=>Yii::app()->request->baseUrl.'/images/icons/silk/decline.png',                          
-                        //'deleteConfirmation'=>'js:alert("")',
-                        /*'afterDelete'=>'function(link,success,data){ 
-                            if(success) {
-                                new Messi(data,
-                                { title: "Exito.",
-                                    titleClass: "success",
-                                    autoclose: "4000",
-                                    modal:true
-                                });
-                            }else{
-                                new Messi("",
-                                { title: "Error",
-                                    titleClass: "anim error",
-                                    autoclose: "4000",
-                                    modal:true
-                                });
-                            }
-                            }',*/
+                       
                         'buttons'=>array(                            
                             'adminprocesoec'=> array(
-                                'label'=>'Gestionar Proceso EC',
+                                'label'=>'Gestionar Proceso ECV',
                                 'imageUrl'=>Yii::app()->request->baseUrl.'/images/icons/silk/door_in.png',
-                                'url'=>'Yii::app()->createUrl("procesoevaluacion/adminprocesoec", array("id"=>$data["id"]))'
+                                'url'=>'Yii::app()->createUrl("procesors/adminprocesoecv", array("id"=>$data["id"]))'
                             ),
                             'editar'=> array(
-                                'label'=>'Editar Proceso EC',
+                                'label'=>'Editar Proceso ECV',
                                 'imageUrl'=>Yii::app()->request->baseUrl.'/images/icons/silk/page_edit.png',
-                                'url'=>'Yii::app()->createUrl("procesoevaluacion/editarprocesoec", array("id"=>$data["id"]))'
+                                'url'=>'Yii::app()->createUrl("procesors/editarprocesoecv", array("id"=>$data["id"]))'
                             ),
                             'eliminar'=> array(
-                                'label'=>'Eliminar Proceso EC',
+                                'label'=>'Eliminar Proceso ECV',
                                 'imageUrl'=>Yii::app()->request->baseUrl.'/images/icons/silk/decline.png',                                
-                                'url'=>'Yii::app()->createUrl("procesoevaluacion/eliminarprocesoec", array("id"=>$data["id"]))',
+                                'url'=>'Yii::app()->createUrl("procesors/eliminarprocesoecv", array("id"=>$data["id"]))',
                                 'click'=>"function(){
                                         event.preventDefault();
                                         var url = $(this).attr('href');
