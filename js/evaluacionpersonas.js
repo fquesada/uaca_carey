@@ -795,7 +795,7 @@ $(document).ready(function() {
       var nombrecompleto = nombre.val()+' '+apellido1.val()+' '+apellido2.val();
       
        if(cantidadcolaboradorestabla()==0){
-           $('#tblpostulantes > tbody').append('<tr><td name="cedula">'+cedula.val()+'</td><td name="nombre" style="display: none">'+nombre.val()+'</td><td name="apellido1" style="display: none">'+apellido1.val()+'</td><td name="apellido2" style="display: none">'+apellido2.val()+'</td><td name="nombrecompleto">'+nombrecompleto+'</td><td><img id="borrarcolaborador" style="cursor: pointer; padding-left:5px;" src="'+urlimagenborrarcolaborador+'" alt="Eliminar colaborador"/></td></tr>');     
+           $('#tblpostulantes > tbody').append('<tr><td name="id" style="display: none">0</td><td name="cedula">'+cedula.val()+'</td><td name="nombre" style="display: none">'+nombre.val()+'</td><td name="apellido1" style="display: none">'+apellido1.val()+'</td><td name="apellido2" style="display: none">'+apellido2.val()+'</td><td name="nombrecompleto">'+nombrecompleto+'</td><td><img id="borrarcolaborador" style="cursor: pointer; padding-left:5px;" src="'+urlimagenborrarcolaborador+'" alt="Eliminar colaborador"/></td></tr>');     
            $('#ddlpostulantes')
            
        }
@@ -888,11 +888,12 @@ $(document).ready(function() {
     function obtenerpostulantesECV(){                 
        var postulantes = Array();
         $("#tblpostulantes > tbody > tr").each(function(index, fila) {		
-            var cedulapostulante = $(fila).find('td:eq(0)').text();	            
-            var nombre = $(fila).find('td:eq(1)').text();
-            var apellido1 = $(fila).find('td:eq(2)').text();
-            var apellido2 = $(fila).find('td:eq(3)').text();
-            postulantes[index] = new Array(cedulapostulante, nombre, apellido1, apellido2);
+            var idpostulante = $(fila).find('td:eq(0)').text();
+            var cedulapostulante = $(fila).find('td:eq(1)').text();	            
+            var nombre = $(fila).find('td:eq(2)').text();
+            var apellido1 = $(fila).find('td:eq(3)').text();
+            var apellido2 = $(fila).find('td:eq(4)').text();
+            postulantes[index] = new Array(cedulapostulante, nombre, apellido1, apellido2, idpostulante);
             
         });
         return postulantes;

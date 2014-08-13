@@ -645,6 +645,7 @@ class ProcesoRSController extends Controller
                 $nombreproceso = $_POST['nombreproceso'];
                 
                 $periodo = CommonFunctions::stringtonumber($_POST['periodo']);                        
+                $puesto = CommonFunctions::stringtonumber($_POST['puesto']);                        
                 $fechareclutamiento = $_POST['fechareclutamiento'];         
                 $fechaseleccion = $_POST['fechaseleccion'];
                 $postulantes = $_POST['postulantes'];
@@ -669,20 +670,29 @@ class ProcesoRSController extends Controller
                     Yii::app()->end();
                 }else{               
                 
-                    foreach ($postulante as $index => $idpostulante) {                    
+                    foreach ($postulantes as $index => $nuevopostulante) {                    
                         $indicadoragregarec = true;                                        
                         foreach ($evaluacioncompetenciaactual as $ec) {
-                            if(CommonFunctions::stringtonumber($idpostulante) == $ec->colaborador){                                                       
+                            if(CommonFunctions::stringtonumber($nuevopostulante[4]) == $ec->colaborador){                                                       
                                $indicadoragregarec = false; 
                                break 1;
                             }                        
                         }
                         if($indicadoragregarec){
+                            
+                                $postulante = new Postulante();
+                                $postulante->cedula = CommonFunctions::stringtonumber($nuevopostulante[0]);
+                                $postulante->nombre = $nuevopostulante[1];
+                                $postulante->apellido1 = $nuevopostulante[2];
+                                $postulante->apellido2 = $nuevopostulante[3];
+                                $postulante->estado = 1;
+                                $postulante->save();
+                            
+                            
                                 $evaluacioncompetencias = new Evaluacioncompetencias();
-                                $evaluacioncompetencias->procesoevaluacion = $procesoevaluacion->id;
-                                $colaborador = Colaborador::model()->findByPk($idpostulante);
-                                $evaluacioncompetencias->puesto = $colaborador->getidpuestoactual(); //CLEAN CODE
-                                $evaluacioncompetencias->colaborador = $colaborador->id;                            
+                                $evaluacioncompetencias->procesoevaluacion = $procesoevaluacion->id;                               
+                                $evaluacioncompetencias->puesto = $puesto; //CLEAN CODE
+                                $evaluacioncompetencias->colaborador = $postulante->id;                            
                                 $evaluacioncompetencias->save();
 
                                 $link = new Links();
@@ -728,10 +738,11 @@ class ProcesoRSController extends Controller
                Yii::app()->end();
             }
             
-            $procesoec = Procesoevaluacion::model()->findByPk($id);
+            $procesoecv = Procesoevaluacion::model()->findByPk($id);
+            $vacante = Vacante::model()->findByAttributes(array('procesoevaluacion'=>$procesoecv->id));           
             $editar = true;
-            $this->render('crearprocesoec',array(
-			'procesoec'=>$procesoec,'indicadoreditar' => $editar,
+            $this->render('crearprocesoecv',array(
+			'procesoec'=>$procesoecv, 'vacante'=>$vacante,'indicadoreditar' => $editar,
             ));
             
         }

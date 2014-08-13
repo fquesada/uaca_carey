@@ -13,7 +13,7 @@
             <?php if(!$indicadoreditar)    
                     echo CHtml::dropDownList('ddlpuesto','', CHtml::listData(Puesto::model()->findAll(), 'id', 'nombre'), array('empty'=>'Elija el puesto', 'id'=>'ddlpuesto'));
                   else
-                    echo CHtml::dropDownList('ddlpuesto',$vacante->puesto, CHtml::listData(Puesto::model()->findAll(), 'id', 'nombre'), array('empty'=>'Elija el puesto', 'id'=>'ddlpuesto'));  
+                    echo CHtml::dropDownList('ddlpuesto',$vacante->puesto, CHtml::listData(Puesto::model()->findAll(), 'id', 'nombre'), array('empty'=>'Elija el puesto', 'id'=>'ddlpuesto', 'disabled'=>'disabled'));  
                       ?>       
             <div id="ddlpuestoerror" class="errorevaluacionpersona">Debe seleccionar un puesto</div>
     </div> 
@@ -42,7 +42,11 @@
     
     <div class="row">
             <?php echo CHtml::label('Fecha Reclutamiento *', 'fechareclutamiento');?>          
+        
             <?php 
+            $fecha = date('dd-mm-yy');
+            if($indicadoreditar)
+                $fecha = $vacante->fechareclutamiento;
             $this->widget('zii.widgets.jui.CJuiDatePicker',array(
                 'name'=>'fechareclutamiento',
                 'id'=>'fechareclutamiento',
@@ -50,7 +54,7 @@
                 'options'=>array(
                     'showAnim'=>'slide',//'slide','fold','slideDown','fadeIn','blind','bounce','clip','drop'
                     'dateFormat'=>'dd-mm-yy',
-                    'value'=>date('dd-mm-yy'),
+                    'value'=>$fecha,
                     //'maxDate'=> CommonFunctions::datenow(),
                 ),
             ));
@@ -62,15 +66,18 @@
     <div class="row">
             <?php echo CHtml::label('Fecha Selección *', 'fechaseleccion');?>          
             <?php 
+            $fecha = '';
+            if($indicadoreditar)
+                $fecha = CommonFunctions::datemysqltophp ($vacante->fechareclutamiento);
             $this->widget('zii.widgets.jui.CJuiDatePicker',array(
                 'name'=>'fechaseleccion',
                 'id'=>'fechaseleccion',
-                
+                'value'=> $fecha,
                 // additional javascript options for the date picker plugin
                 'options'=>array(
                     'showAnim'=>'slide',//'slide','fold','slideDown','fadeIn','blind','bounce','clip','drop'
                     'dateFormat'=>'dd-mm-yy',
-                    'value'=>date('dd-mm-yy'),
+                    'value'=>date('dd-mm-yy')
                     //'minDate'=> CommonFunctions::datenow(),
                 ),
             ));
@@ -127,8 +134,8 @@
             <?php  echo CHtml::label('Puesto', 'puesto'); ?>            
             <?php if(!$indicadoreditar)  
                     echo CHtml::label('-', 'puesto',array('id'=>'puestoevaluador','name'=>'puesto')); 
-                  //else
-                    //echo CHtml::label($procesoec->_evaluador->nombrepuestoactual, 'puesto',array('id'=>'puestoevaluador','name'=>'puesto'));
+                  else
+                    echo CHtml::label($procesoec->_evaluador->nombrepuestoactual, 'puesto',array('id'=>'puestoevaluador','name'=>'puesto'));
             ?>
         
     </div>
