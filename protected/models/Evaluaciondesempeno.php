@@ -80,7 +80,7 @@ class Evaluaciondesempeno extends CActiveRecord
 			'_colaborador' => array(self::BELONGS_TO, 'Colaborador', 'colaborador'),			
 			'_puesto' => array(self::BELONGS_TO, 'Puesto', 'puesto'),
                         '_links' => array(self::BELONGS_TO, 'Links', 'links'),
-                        '_procesoevaluacion' => array(self::BELONGS_TO, 'Procesoevaluacion', 'procesoevaluacion '),
+                        '_procesoevaluacion' => array(self::BELONGS_TO, 'Procesoevaluacion', 'procesoevaluacion'),                      
 		);
 	}
 

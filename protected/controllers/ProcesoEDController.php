@@ -180,13 +180,13 @@ class ProcesoEDController extends Controller
             }
             else
             {
-                $evaluacion = Evaluaciondesempeno::model()->find('id='.$id);
+                $ed = Evaluaciondesempeno::model()->findByPk($id);
 
-                if(isset($evaluacion))
+                if(isset($ed))
                 {                     
-
+                    $this->layout='column1';
                     $this->render('agregarcompromisos',array(
-                                'evaluacion'=>$evaluacion
+                                'ed'=>$ed
                         ));
                 }
                 else

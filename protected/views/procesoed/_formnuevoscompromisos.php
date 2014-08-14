@@ -1,3 +1,58 @@
+<?php
+/* @var $this ProcesoEDController */
+/* @var $ed Evaluaciondesempeno */
+?>
+
+<div class="content_section_evaluacion">
+        <p class="ptitulomeritos">Registro de Compromisos</p>
+        <table id="tblmeritos" class="tblmeritos">
+        <thead>
+            <tr>
+                <th id="idpuntualizacion"></th>
+                <th>Puntualizacion</th>
+                <th>Indicador</th>                
+            </tr>
+        <thead>
+        <tbody>
+        
+        <?php
+                $puntualizaciones = $ed->_puesto->_puntualizaciones;
+                if (!$puntualizaciones) {
+                echo '<tr>';
+                echo '<td id="idpuntualizacion">';                
+                echo '</td>';
+                echo '<td id="errorpuntualizacion">';
+                echo "El puesto debe poseer puntualizaciones para continuar con la evaluacion.";
+                echo '</td>';
+                echo '</tr>';
+                Yii::app()->clientScript->registerScript('validadorpuntualizaciones', "
+                        $('#btncompromisos').attr('disabled', 'true');	                                                                                          
+                ");
+            } else {
+                foreach ($puntualizaciones as $puntualizacion) {
+                    echo '<tr>';
+                    echo '<td id="idpuntualizacion">';
+                    echo $puntualizacion->id;
+                    echo '</td>';
+                    echo '<td>';
+                    echo $puntualizacion->puntualizacion;
+                    echo '</td>';
+                    echo '<td>';
+                    echo $puntualizacion->indicadorpuntualizacion;
+                    echo '</td>';                    
+                    echo '</tr>';
+                }
+            }
+        ?>
+        </tbody>
+    </table>
+        
+        
+        
+        <?php echo CHtml::textArea('comentario','',array('size'=>60,'maxlength'=>300, 'id'=>'txtcomment', 'class' => 'textarea_evaluacion_comentario', 'placeholder' => 'Comentarios adicionales sobre compromisos...')); ?>
+</div>
+
+
 <div class="content_section_evaluacion">
         <h2>Ejecución de la evaluación desempeño</h2>
         <table class="table_ejecucion_evaluacion" id="tblejecucion">
@@ -36,11 +91,4 @@
         </table>  
 </div>
     
-<div class="content_section_evaluacion">
-        <h2>Compromisos</h2>
-        <?php
-                echo $this->obtenerpuntualizaciones($model->puesto);
-        ?>
-        
-        <?php echo CHtml::textArea('comentario','',array('size'=>60,'maxlength'=>300, 'id'=>'txtcomment', 'class' => 'textarea_evaluacion_comentario', 'placeholder' => 'Comentarios adicionales sobre compromisos...')); ?>
-</div>
+

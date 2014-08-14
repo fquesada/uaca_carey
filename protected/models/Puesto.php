@@ -81,7 +81,7 @@ class Puesto extends CActiveRecord
 			'_meritos' => array(self::HAS_MANY, 'Merito', 'puesto'),
                         '_historicopuestos' => array(self::HAS_MANY, 'Historicopuesto', 'puesto'),
 			'_competencias' => array(self::MANY_MANY, 'Competencia', 'puestocompetencia(puesto, competencia)'),
-			'_puntualizaciones' => array(self::MANY_MANY, 'Puntualizacion', 'puestopuntualizacion(puesto, puntualizacion)'),
+			'_puntualizaciones' => array(self::MANY_MANY, 'Puntualizacion', 'puestopuntualizacion(puesto, puntualizacion)','condition'=>'estado <> 0',),
 			'_unidadesnegocio' => array(self::MANY_MANY, 'Unidadnegocio', 'unidadnegociopuesto(puesto, unidadnegocio)'),
 		);
 	}
@@ -209,6 +209,5 @@ class Puesto extends CActiveRecord
         public function getname(){
             return $this->nombre;
         }
-                
 }
 

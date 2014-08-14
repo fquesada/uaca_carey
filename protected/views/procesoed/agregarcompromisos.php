@@ -1,6 +1,6 @@
 <?php
-/* @var $this ProcesoEvaluacionController */
-/* @var $evaluacion ProcesoEvaluacion */
+/* @var $this ProcesoEDController */
+/* @var $ed Evaluaciondesempeno */
 
 Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/procesoed.js');
 Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/jquery.placeholder.min.js');
@@ -9,39 +9,30 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->baseUrl.'/css/procesoed.cs
 
 
 $this->breadcrumbs=array(
-	'EC'=>array('admin'),
+	'Administrar ED'=>array('procesoed/admin'),
+        'Administrar proceso ED'=>array('procesoed/adminprocesoed/'.$ed->procesoevaluacion),
 	'Agregar Compromisos',
 );
-$this->menu=array(
-	array('label'=>'Lista de Procesos ED' , 'url'=>array('admin')),	
-);
+
 ?>
 
-<h3 style="text-align: center">Agregar compromisos <?php echo $evaluacion->id;?></h3>
+<h3 style="text-align: center">Agregar compromisos <?php echo $ed->id;?></h3>
 
-<?php echo CHtml::hiddenField('idevaluacion', $evaluacion->id,array('id'=>'idevaluacion','name'=>'idevaluacion')); ?>
-<div>
-<?php $this->widget('zii.widgets.CDetailView', array(
-	'data'=>$evaluacion,
-	'attributes'=>array(
-                array(
-                        'label' => $evaluacion->getAttributeLabel('fecha'),
-                        'value' => $evaluacion->fechaevaluacion,
-                ),                               
-                array(
-                        'label' => $evaluacion->_puesto->getAttributeLabel('puesto'),
-                        'value' => $evaluacion->_puesto->nombre,
-                ),   
-                array(
-                        'label' => $evaluacion->_colaborador->getAttributeLabel('colaborador'),
-                        'value' => $evaluacion->_colaborador->nombrecompleto,
-                ),                
-	),
-)); ?>
+<div id="divencabezadoec" class="divencabezadoec">
+    <p class="pencabezadoec">Informacion evaluación</p>
+    <p style="display:none"><?php echo CHtml::label($ed->id, 'ided', array('id'=>'lblided'))?></p>
+    <p> <b>Colaborador:</b> <?php echo $ed->_colaborador->nombrecompleto?> </p>
+    <p> <b>Cedula:</b> <?php echo $ed->_colaborador->cedula?> </p>   
+    <p> <b>Puesto:</b> <?php echo $ed->_colaborador->nombrepuestoactual?> </p>
+    <p> <b>Departamento:</b> <?php echo $ed->_colaborador->nombreunidadnegocioactual?> </p>
+    <p> <b>Evaluador:</b> <?php echo $ed->_procesoevaluacion->_evaluador->nombrecompleto?> </p>
+    <p> <b>Periodo:</b> <?php echo $ed->_procesoevaluacion->_periodo->nombre ?> </p>
 </div>
 
+
+
 <?php echo CHtml::beginForm('','post',array('id'=>'formcompromisos'))?>
-<?php echo $this->renderPartial('_formnuevoscompromisos', array('model'=>$evaluacion)); ?>
+<?php echo $this->renderPartial('_formnuevoscompromisos', array('ed'=>$ed)); ?>
 
 <div class="content_section_submit">        
                   <?php echo CHtml::submitButton('Crear proceso ED',array('id'=>'btncompromisos', 'class'=>'sexybutton sexysimple sexylarge'));  ?>                  
