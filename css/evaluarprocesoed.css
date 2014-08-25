@@ -1,0 +1,57 @@
+.table_evaluacion_resultado{
+    width: auto;
+    float: left;
+    border: 1px solid black;
+    margin: 0 50px 0 18%;
+}
+
+.table_evaluacion_resultado tbody td{    
+    border: 1px solid black;
+    background-color: #FFFFFD;
+    font-weight: bold;
+}
+
+.table_evaluacion_resultado tfoot td{
+     border: 1px solid black;
+     font-style: normal;
+}
+
+.table_evaluacion_resultado tfoot td.label_column{
+    background-color: #FFFFFD;
+    font-weight: bold;
+}
+
+#puntualizacionnivel, #competenciasnivel, #evaluacion, #rango{
+    text-align: center;
+}
+
+/*Seccion informacion rango*/
+.table_evaluacion_rango {
+    border: 1px solid black;
+    width : auto;
+}
+
+.table_evaluacion_rango thead th{
+    border: 1px solid black;
+    background-color: #033E6B;
+    color: #FFFFFF;
+    text-align: center;   
+    padding: 4px 10px 4px 5px;
+}
+
+.table_evaluacion_rango td{
+    border: 1px solid black;
+}
+
+.table_evaluacion_rango td.label_column{    
+    background-color: #FFFFFD;
+    font-weight: bold;
+}
+
+
+.insuficiente{background-color: #FF0000;color: #141414; font-family: Arial, Helvetica, sans-serif;}
+.mejora{background-color: #FFFF00; color: #141414; font-family: Arial, Helvetica, sans-serif;}
+.esperado{background-color: #66CD00; color: #141414; font-family: Arial, Helvetica, sans-serif;}
+.sobresaliente{background-color: #008B8B; color: #141414; font-family: Arial, Helvetica, sans-serif;}
+.superior{background-color: #1E90FF; color: #141414; font-family: Arial, Helvetica, sans-serif;}
+

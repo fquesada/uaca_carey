@@ -2,11 +2,9 @@
 /* @var $this ProcesoEDController */
 /* @var $ed Evaluaciondesempeno */
 
-Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/procesoed.js');
+Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/evaluarprocesoed.js');
 Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/jquery.placeholder.min.js');
-Yii::app()->clientScript->registerCssFile(Yii::app()->baseUrl.'/css/admined.css');//CLEAN CODE
-Yii::app()->clientScript->registerCssFile(Yii::app()->baseUrl.'/css/procesoed.css');
-
+Yii::app()->clientScript->registerCssFile(Yii::app()->baseUrl.'/css/evaluarprocesoed.css');
 
 $this->breadcrumbs=array(
 	'Administrar ED'=>array('procesoed/admin'),
@@ -16,7 +14,7 @@ $this->breadcrumbs=array(
 
 ?>
 
-<h3 style="text-align: center">Agregar compromisos <?php echo $ed->id;?></h3>
+<h3 style="text-align: center">Registro ED <?php echo $ed->id;?></h3>
 
 <div id="divencabezadoec" class="divencabezadoec">
     <p class="pencabezadoec">Informacion evaluación</p>
@@ -32,10 +30,13 @@ $this->breadcrumbs=array(
 
 
 <?php echo CHtml::beginForm('','post',array('id'=>'formcompromisos'))?>
-<?php echo $this->renderPartial('_formnuevoscompromisos', array('ed'=>$ed)); ?>
+<?php echo $this->renderPartial('_formcalificarcompromisos', array('ed'=>$ed)); ?>
+<?php echo $this->renderPartial('_formcalificarcompetencias', array('ed'=>$ed)); ?>
+<?php echo $this->renderPartial('_resultadoevaluacion', array('ed'=>$ed)); ?>
+
 
 <div class="content_section_submit">        
-                  <?php echo CHtml::submitButton('Registrar Compromisos',array('id'=>'btncompromisos', 'class'=>'sexybutton sexysimple sexylarge'));  ?>                  
+                  <?php echo CHtml::submitButton('Guardar Evaluacion',array('id'=>'btnguardared', 'class'=>'sexybutton sexysimple sexylarge'));  ?>                  
 </div>
 
 <?php echo CHtml::endForm()?>

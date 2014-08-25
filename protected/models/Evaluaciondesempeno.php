@@ -138,14 +138,31 @@ class Evaluaciondesempeno extends CActiveRecord
 		));
 	}
         
+        public function getEstadoEvaluacionDescripcion() {
+            if ($this->estadoevaluacion == 1)
+                return 'Pendiente';
+            else if ($this->estadoevaluacion == 2)
+                return 'Evaluado';
+        }
+        
         public function getEstadoEvaluacionIndicador() {
-        if ($this->estado == 1) //CLEAN CODE VARIABLES GLOBALES
-            return false;
-        else if ($this->estado == 2)
-            return true;
+            if ($this->estadoevaluacion == 1)
+                return false;
+            else if ($this->estadoevaluacion == 2)
+                return true;
+        }
+        
+        public function getFechaEvaluacionFormato() {
+            if (is_null($this->fecharegistroevaluacion))
+                return "-- / -- / ----";
+            else {
+                $fechasinformato = strtotime($this->fecharegistroevaluacion);
+                $fechaconformato = date('d-m-Y', $fechasinformato);
+                return $fechaconformato;
+            }
         }
 
-        public function getfechaevaluacionecformato() {
+        public function getFechaCompromisoEvaluacionFormato() {
             if (is_null($this->fechaevaluacion))
                 return "-- / -- / ----";
             else {
@@ -155,20 +172,20 @@ class Evaluaciondesempeno extends CActiveRecord
             }
         }
         
-        public function getEstadoCompromisos(){
+        public function getEstadoCompromisosDescripcion(){
             if (is_null($this->fecharegistrocompromiso))
                 return "Pendiente";
             else
                 return "Registrado";            
         }
         
-        public function getEstadoIndicadorCompromisos(){
+        public function getEstadoCompromisosIndicador(){
             if (is_null($this->fecharegistrocompromiso))
                 return false;
             else
                 return true;            
         }
-        
+            
         public function getFechaRegistroCompromisoFormato() {
             if (is_null($this->fecharegistrocompromiso))
                 return "-- / -- / ----";
@@ -186,13 +203,7 @@ class Evaluaciondesempeno extends CActiveRecord
                 return Postulante::model()->findByPk($this->evaluado)->nombrecompleto;
         }
 
-        public function getEstadoEvaluacionDescripcion() {
-            if ($this->estado == 1)
-                return 'Pendiente';
-            else if ($this->estado == 2)
-                return 'Evaluado';
-        }
-
+    
         ///EVALUACION
 
         public function actionEvaluacion($idevaluacion) {
@@ -300,6 +311,56 @@ class Evaluaciondesempeno extends CActiveRecord
 
                 return $html;
             }
+        }
+        
+        public function calificacionCompetencias($competencias) {
+            $dividendo = 0;
+            $divisor = 0;
+
+            foreach ($competencias as $competencia) {
+
+                if (!$competencia["calificacion"] == "") {
+                    $dividendo = $dividendo + CommonFunctions::stringtonumber($competencia["calificacion"]) * CommonFunctions::stringtonumber($competencia["ponderacion"]);
+                    $divisor = $divisor + CommonFunctions::stringtonumber($competencia["ponderacion"]);
+                }
+            }
+
+            if ($divisor == 0)
+                $promedio = 0;
+            else
+                $promedio = $dividendo / $divisor;
+
+            return $promedio;
+        }
+
+        public function calificacionPuntualizaciones($puntualizaciones) {
+            $dividendo = 0;
+            $divisor = 0;
+
+            foreach ($puntualizaciones as $puntualizacion) {
+                if (!$puntualizacion["calificacion"] == "") {
+                    $dividendo = $dividendo + CommonFunctions::stringtonumber($puntualizacion["calificacion"]);
+                    $divisor = $divisor + 1;
+                }
+            }
+
+            if ($divisor == 0)
+                $promedio = 0;
+            else
+                $promedio = $dividendo / $divisor;
+
+            return $promedio;
+        }
+        
+        public function califacionED($calificacionpuntualizaciones, $calificacioncompetencias){
+            
+            $calificacionpuntualizaciones = $calificacionpuntualizaciones * 0.80; //Regla de Consultoria - CLEAN CODE - Guardar en BD
+            $calificacioncompetencias = $calificacioncompetencias * 0.20; //Regla de Consultoria - CLEAN CODE - Guardar en BD
+            return $calificacionpuntualizaciones + $calificacioncompetencias;
+        }
+        
+        public function cambiarEDFinalizada(){
+            $this->estadoevaluacion = 2;
         }
 
 }

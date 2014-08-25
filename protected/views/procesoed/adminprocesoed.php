@@ -52,9 +52,8 @@ $this->menu=array(
       <th></th>      
       <th></th> 
       <th></th>       
-      <th colspan="2" id="thcompromisos">Compromisos</th> 
-      <th colspan="2" id="thevaluacion">Evaluacion</th> 
-      <th colspan="2"  id="thcomunicado">Comunicado</th>
+      <th colspan="3" id="thcompromisos">Compromisos</th> 
+      <th colspan="2" id="thevaluacion">Evaluacion</th>       
       <th></th>
     </tr>
     <tr id="trencabezados">
@@ -63,11 +62,10 @@ $this->menu=array(
       <th>Colaborador</th>
       <th>Puesto</th> 
       <th>Estado</th> 
-      <th>Estado Compromiso</th>
-      <th>Fecha Compromiso</th>
-      <th>Fecha Evaluacion</th>       
-      <th>Cant. Envios</th>
-      <th>Fecha Ultimo Envio</th>
+      <th>Fecha Registro de Compromisos</th>
+      <th>Fecha Evaluacion de Compromisos</th>
+      <th>Estado</th>
+      <th>Fecha Evaluacion</th> 
       <th>Acciones</th>
     </tr>    
   </thead>  
@@ -79,19 +77,25 @@ $this->menu=array(
         echo '<th>'; echo $ed->_colaborador->cedula; echo '</th>';
         echo '<th>'; echo $ed->_colaborador->nombrecompleto; echo '</th>';
         echo '<th>'; echo $ed->_colaborador->nombrepuestoactual; echo '</th>';
-        echo '<th>'; echo $ed->EstadoCompromisos; echo '</th>'; 
+        echo '<th>'; echo $ed->EstadoCompromisosDescripcion; echo '</th>'; 
         echo '<th>'; echo $ed->FechaRegistroCompromisoFormato; echo '</th>'; 
-        echo '<th>'; echo $ed->estadoevaluaciondescripcion; echo '</th>';
-        echo '<th>'; echo $ed->fechaevaluacionecformato; echo '</th>';
-        echo '<th class="tdcontadorenvios">'; echo $ed->_links->contadorenvios; echo '</th>';
-        echo '<th>'; echo $ed->FechaRegistroCompromisoFormato; echo '</th>';       
-        echo '<th>';
-        $imgcompromiso=CHtml::image(Yii::app()->request->baseUrl.'/images/icons/silk/user_key.png', 'Registrar Compromisos', array("id"=>"imgregistrarcompromisos", "cursor:pointer;"));
-        if(!$ed->EstadoIndicadorCompromisos)
-        echo CHtml::link($imgcompromiso, array('procesoed/agregarcompromisos/'.$ed->id));        
-        $imgreporte=CHtml::image(Yii::app()->request->baseUrl.'/images/icons/silk/chart_pie.png', 'Generar reporte', array("id"=>"imggenerarreporte", "cursor:pointer;"));        
-        if($ed->estadoevaluacionindicador)
-            echo CHtml::link($imgreporte,'#');
+        echo '<th>'; echo $ed->FechaCompromisoEvaluacionFormato; echo '</th>';         
+        echo '<th>'; echo $ed->EstadoEvaluacionDescripcion; echo '</th>';
+        echo '<th>'; echo $ed->FechaEvaluacionFormato; echo '</th>';           
+        echo '<th>';  
+        if(!$ed->EstadoCompromisosIndicador){
+            $imgingresarcompromiso=CHtml::image(Yii::app()->request->baseUrl.'/images/icons/silk/script_add.png', 'Registrar Compromisos', array("id"=>"imgregistrarcompromisos", "cursor:pointer;"));
+            echo CHtml::link($imgingresarcompromiso, array('procesoed/agregarcompromisos/'.$ed->id));        
+        }else if(!$ed->EstadoEvaluacionIndicador){
+            $imgvercompromiso=CHtml::image(Yii::app()->request->baseUrl.'/images/icons/silk/script_key.png', 'Ver Compromisos', array("id"=>"imgvercompromisos", "cursor:pointer;"));
+            $imgevaluacion=CHtml::image(Yii::app()->request->baseUrl.'/images/icons/silk/award_star_add.png', 'Registrar Evaluacion', array("id"=>"imgregistrarevaluacion", "cursor:pointer;"));        
+            echo CHtml::link($imgvercompromiso, array('procesoed/vercompromisos/'.$ed->id));
+            echo CHtml::link($imgevaluacion,array('procesoed/registrarevaluacion/'.$ed->id));
+        }
+        if($ed->EstadoEvaluacionIndicador){
+           $imgreporte=CHtml::image(Yii::app()->request->baseUrl.'/images/icons/silk/chart_pie.png', 'Generar reporte', array("id"=>"imggenerarreporte", "cursor:pointer;"));        
+           echo CHtml::link($imgreporte,'#');
+        }
         echo'</th>';
         echo '</tr>';
     }?>

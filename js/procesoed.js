@@ -3,24 +3,19 @@ $(document).ready(function() {
     
     
     $("#btncompromisos").click(function(event){
-       event.preventDefault();       
+       event.preventDefault();        
        
-       var idevaluacion = $('#idevaluacion').val();
-       
-       console.log(obtenerdatoscompromisos());
-       console.log(validarcompromisos());
-       
-       if(!validar($('#ddlperiodo'))){     
-            mostrarerror($('#ddlperiodo'));}
-        else if (!validar($('#dpfecha'))){
-           mostrarerror($('#dpfecha'));}
-       else if (!validarcompromisos()){
-           mostrarerrorcompromisos();}
+//       if (!validar($('#dpfecha'))){
+//           mostrarerror($('#dpfecha'));}
+//       else if (!validarcompromisos()){
+//           mostrarerrorcompromisos();}
+       if (false)
+            false;
        else{ 
        $('#btncompromisos').prop('disabled', true);
        $.ajax({
                     type: 'POST',
-                    url: idevaluacion,
+                    url: "../GuardarCompromisos",
                     data: obtenerdatoscompromisos(),
                     dataType: 'json',
                     error: function (jqXHR, textStatus){
@@ -41,8 +36,7 @@ $(document).ready(function() {
                             messageerror("Error desconocido, contacte al administrador de sistemas.");                            
                         }
                     },
-                    success: function(datos){  
-                        console.log(datos);
+                    success: function(datos){                          
                         if(datos.resultado)
                             messagesuccess(datos.mensaje, datos.url);              
                         else
@@ -54,22 +48,22 @@ $(document).ready(function() {
     
    function obtenerdatoscompromisos(){
        var data = {};
-       data['periodo'] = $("#ddlperiodo").val(); 
+       data['ided'] = $("#lblided").text();       
        data['fecha'] = $("#dpfecha").val();
        data['compromisos'] = obtenercompromisos();
-       data['comentario'] = $("#txtcomment").val();
+       data['comentario'] = $("#tacomentario").val();
        return data;
    }
    
    
    function obtenercompromisos(){                 
-       var indicadores = Array();
-        $("#tblpuntualizaciones > tbody > tr").each(function(index, fila) {		            
-            var idpuntualizacion = $(fila).find('td:eq(0)').text();
-            var indicador = $('#'+idpuntualizacion+'-val').val();
-            indicadores[idpuntualizacion] = indicador;
+       var compromisos = Array();
+        $("#tblcompromisos > tbody > tr").each(function(index, fila) {		            
+            var idpuntualizacion= $(fila).find('td:first').text(); 
+            var compromiso= $(fila).find('#tacompromiso').val();  
+            compromisos[index] = {"idpuntualizacion":idpuntualizacion,"compromiso":compromiso};
         });
-        return indicadores;
+        return compromisos;
    }
    
    function validarcompromisos(){ 

@@ -3,14 +3,15 @@
 /* @var $ed Evaluaciondesempeno */
 ?>
 
-<div class="content_section_evaluacion">
-        <p class="ptitulomeritos">Registro de Compromisos</p>
-        <table id="tblmeritos" class="tblmeritos">
+<div class="content_section_registrocompromisos">
+        <p class="ptitulocompromisos">Registro de Compromisos</p>
+        <table id="tblcompromisos" class="tblcompromisos">
         <thead>
             <tr>
                 <th id="idpuntualizacion"></th>
                 <th>Puntualizacion</th>
-                <th>Indicador</th>                
+                <th>Indicador</th>
+                <th>Compromiso</th>                
             </tr>
         <thead>
         <tbody>
@@ -39,7 +40,10 @@
                     echo '</td>';
                     echo '<td>';
                     echo $puntualizacion->indicadorpuntualizacion;
-                    echo '</td>';                    
+                    echo '</td>';
+                    echo '<td>';
+                    echo CHtml::textArea('compromiso', '', array('id' => 'tacompromiso', 'class' => 'tacompromiso','placeholder' => 'Ingrese el compromiso'));
+                    echo '</td>';
                     echo '</tr>';
                 }
             }
@@ -47,24 +51,16 @@
         </tbody>
     </table>
         
-        
-        
-        <?php echo CHtml::textArea('comentario','',array('size'=>60,'maxlength'=>300, 'id'=>'txtcomment', 'class' => 'textarea_evaluacion_comentario', 'placeholder' => 'Comentarios adicionales sobre compromisos...')); ?>
+</div>        
+<div>   <?php echo CHtml::label("Comentarios Adicionales","", array('id' => 'lblcomentarioadicionales'))?>
+        <?php echo CHtml::textArea('comentario','',array('size'=>60,'maxlength'=>300, 'id'=>'tacomentario', 'class' => 'tacomentario', 'placeholder' => 'Comentarios adicionales sobre compromisos...')); ?>
 </div>
 
 
-<div class="content_section_evaluacion">
-        <h2>Ejecución de la evaluación desempeño</h2>
-        <table class="table_ejecucion_evaluacion" id="tblejecucion">
-            <tbody>
-                <tr>
-                    <td class="label_column"><label for="ddlperiodo">Período de la evaluación</label></td>
-                    <td class="data_column"><?php echo CHtml::dropDownList('periodo', 'periodo',CHtml::listData(Periodo::model()->findAll(), 'id', 'nombre'), array('empty'=>'Elija un periodo', 'id'=>'ddlperiodo')) ?> <div class="errored" id="ddlperiodoerror">  Debe seleccionar un periodo</div></td>
-                    
-                </tr>                  
-                <tr>
-                    <td class="label_column"><label for="dpfecha">Fecha de la evaluación</label></td>
-                    <td class="data_column"><?php $this->widget('zii.widgets.jui.CJuiDatePicker', array(
+<div class="content_section_fechaevaluacion">
+    <p class="ptitulofechaevaluacion">Fecha de Revision de los Compromisos</p>        
+                   <label for="dpfecha">Fecha de Revision</label> 
+                   <?php $this->widget('zii.widgets.jui.CJuiDatePicker', array(
                         'id' => 'dpfecha',
                         'name' => 'fechaevaluacion',                        
                         'language' => 'es',
@@ -85,10 +81,11 @@
                             'readonly' => 'readonly',
                             'style'=>'width: 118px; text-align: center'
                         ),
-                    ));?> <div class="errored" id="dpfechaerror">  Debe seleccionar una fecha</div></td>
-                </tr>                  
-            </tbody>
-        </table>  
+                    ));?> 
+                    <div class="errored" id="divfechaerror">  Debe seleccionar una fecha
+                    </div>
+                             
+     
 </div>
     
 
