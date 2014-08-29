@@ -1,4 +1,73 @@
 $(document).ready(function() {
+    
+    //Compromisos
+     $("#btncompromisos").click(function(event){
+       event.preventDefault();        
+       
+       ocultarerrorcompromisos();
+       if (!validarcompromisos()){           
+           messagewarning("Existen compromisos sin definir.");
+       }  
+       else if (!validar($('#dpFecha'))){
+          mostrarerrorfecha($('#dpFecha'));
+          messagewarning("Debe ingresar la fecha de evaluacion de los compromisos.");
+       }           
+       else{ 
+       $('#btncompromisos').prop('disabled', true);
+       $.ajax({
+                    type: 'POST',
+                    url: "../GuardarCompromisos",
+                    data: obtenerdatoscompromisos(),
+                    dataType: 'json',
+                    error: function (jqXHR, textStatus){
+                        $('#btncompromisos').prop('disabled', false);
+                        if (jqXHR.status === 0) {                            
+                            messageerror("Problema de red, contacte al administrador de sistemas.");
+                        } else if (jqXHR.status == 404) {
+                            messagewarning("Solicitud no encontrada.");
+                        } else if (jqXHR.status == 500) {
+                            messageerror("Error 500. Ha ocurrido un problema con el servidor, contacte al administrador de sistemas.");
+                        } else if (textStatus === 'parsererror') {
+                            messagewarning("Ha ocurrido un inconveniente, intente nuevamente.");
+                        } else if (textStatus === 'timeout') {
+                            messageerror("Tiempo de espera excedido, intente nuevamente.");
+                        } else if (textStatus === 'abort') {
+                            messageerror("Se ha abortado la solicitud, intente nuevamente");
+                        } else {
+                            messageerror("Error desconocido, contacte al administrador de sistemas.");                            
+                        }
+                    },
+                    success: function(datos){                          
+                        if(datos.resultado)
+                            messagesuccess(datos.mensaje, datos.url);              
+                        else
+                            messageerror(datos.mensaje);
+                    }
+        });}
+
+   });
+    
+   function obtenerdatoscompromisos(){
+       var data = {};
+       data['ided'] = $("#lblided").text();       
+       data['fecha'] = $("#dpFecha").val();
+       data['compromisos'] = obtenercompromisos();
+       data['comentario'] = $("#tacomentario").val();
+       return data;
+   }   
+   
+   function obtenercompromisos(){                 
+       var compromisos = Array();
+        $("#tblCompromisos > tbody > tr").each(function(index, fila) {		            
+            var idpuntualizacion= $(fila).find('td:first').text(); 
+            var compromiso= $(fila).find('#tacompromiso').val();  
+            compromisos[index] = {"idPuntualizacion":idpuntualizacion,"compromiso":compromiso};
+        });
+        return compromisos;
+   }
+    
+    
+    
 
     //Guardar Evaluacion Desempeño
     $("#btnguardared").click(function(event){
@@ -167,6 +236,31 @@ $(document).ready(function() {
     function ocultarerror(elemento){       
         $(elemento).next().hide();
     }
+    
+    
+    ///COMPROMISOS VALIDACIONES
+    function mostrarerrorfecha(elemento){
+       $(elemento).next().next().show();
+   }
+   
+    function validarcompromisos(){
+    var valido = true;      
+        $("#tblCompromisos > tbody > tr").each(function(index, fila) {                                 
+            if($.trim($(fila).find('#tacompromiso').val()) == '')
+            {
+                valido = false;
+                mostrarerror($(fila).find('#tacompromiso'));                         
+            }
+        });
+    return valido;   
+   }
+   
+    function ocultarerrorcompromisos(){
+            $("#tblCompromisos > tbody > tr").each(function(index, fila) {                                 
+                $(fila).find('#tacompromiso').next().hide();
+            });
+        }   
+    
     
     function messagesuccess(message, url){         
         new Messi(message, 

@@ -31,7 +31,7 @@ class ProcesoEDController extends Controller {
                 'users' => array('*'),
             ),
             array('allow', // allow authenticated user to perform 'create' and 'update' actions
-                'actions' => array('crear', 'report', 'update', 'admin', 'Admined', 'AdminEva', 'AgregarPersona', 'AutocompleteEvaluado', 'AgregarCompromisos',
+                'actions' => array('crear', 'report', 'update', 'admin', 'Admined', 'EliminarProcesoED','AdminEva', 'AgregarPersona', 'AutocompleteEvaluado', 'AgregarCompromisos',
                     'HabilidadesEspeciales', 'InfoPonderacion', 'delete', 'reporteevaluacioncompetencias', 'DataReporteEvaluacionCompetencias', 'CargaMasiva', 'CargaDepartamento',
                     'adminprocesoed', 'GuardarCompromisos', 'RegistrarEvaluacion', 'GuardarEvaluacionED', 'ActualizarCalificacionED'),
                 'users' => array('@'),
@@ -45,6 +45,7 @@ class ProcesoEDController extends Controller {
             ),
         );
     }
+    
     public function actionAdminProcesoED($id) {
 
         $procesoed = Procesoevaluacion::model()->findByPk($id);
@@ -52,6 +53,23 @@ class ProcesoEDController extends Controller {
             'procesoed' => $procesoed,
         ));
     }
+    
+    public function actionEliminarProcesoED($id){            
+             if (Yii::app()->request->isAjaxRequest) {
+            
+                $id = CommonFunctions::stringtonumber($id);
+                $procesoec = Procesoevaluacion::model()->findByPk($id);
+                $procesoec->estado = 0;
+                $resultadoguardarbd = $procesoec->save();
+                if($resultadoguardarbd)
+                 $response = array('resultado' => true, 'mensaje' => "Se elimino correctamente el proceso.");
+                else
+                 $response = array('resultado' => false, 'mensaje' => "Ha ocurrido un inconveniente al intentar eliminar el proceso");
+                
+                echo CJSON::encode($response);
+                Yii::app()->end();          
+             }
+        }
 
     public function actionAdminED($id) {
 
@@ -108,24 +126,16 @@ class ProcesoEDController extends Controller {
                 if (isset($_POST['comentario']))
                     $evaluacion->comentariocompromisos = trim($_POST['comentario']);
 
-                $compromisos = array();
-                foreach ($_POST['compromisos'] as $compromiso) {
-                    $compromisos[] = array(
-                        'idpuntualizacion' => $compromiso["idpuntualizacion"],
-                        'compromiso' => $compromiso["compromiso"],
-                    );
-                }
-
                 $transaction = Yii::app()->db->beginTransaction();
 
                 $result = $evaluacion->save();
 
                 if ($result) {
                     $idevaluacion = $evaluacion->id;
-                    foreach ($compromisos as $compromiso) {
+                     foreach ($_POST['compromisos'] as $compromiso) { 
                         $nuevocompromiso = new Compromiso;
                         $nuevocompromiso->evaluacion = $idevaluacion;
-                        $nuevocompromiso->puntualizacion = $compromiso['idpuntualizacion'];
+                        $nuevocompromiso->puntualizacion = $compromiso['idPuntualizacion'];
                         $nuevocompromiso->compromiso = $compromiso['compromiso'];
                         $result = $nuevocompromiso->save();
                     }

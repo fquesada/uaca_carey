@@ -3,12 +3,12 @@
 /* @var $ed Evaluaciondesempeno */
 ?>
 
-<div class="content_section_registrocompromisos">
-        <p class="ptitulocompromisos">Registro de Compromisos</p>
-        <table id="tblcompromisos" class="tblcompromisos">
+<div class="divRegistroCompromisos">
+        <p class="pTituloCompromisos">Registro de Compromisos</p>
+        <table id="tblCompromisos" class="tblCompromisos">
         <thead>
             <tr>
-                <th id="idpuntualizacion"></th>
+                <th id="idPuntualizacion"></th>
                 <th>Puntualizacion</th>
                 <th>Indicador</th>
                 <th>Compromiso</th>                
@@ -20,9 +20,9 @@
                 $puntualizaciones = $ed->_puesto->_puntualizaciones;
                 if (!$puntualizaciones) {
                 echo '<tr>';
-                echo '<td id="idpuntualizacion">';                
+                echo '<td id="idPuntualizacion">';                
                 echo '</td>';
-                echo '<td id="errorpuntualizacion">';
+                echo '<td id="errorCompromisos">';
                 echo "El puesto debe poseer puntualizaciones para continuar con la evaluacion.";
                 echo '</td>';
                 echo '</tr>';
@@ -32,17 +32,18 @@
             } else {
                 foreach ($puntualizaciones as $puntualizacion) {
                     echo '<tr>';
-                    echo '<td id="idpuntualizacion">';
+                    echo '<td id="idPuntualizacion">';
                     echo $puntualizacion->id;
                     echo '</td>';
-                    echo '<td>';
+                    echo '<td class="puntualizacion">';
                     echo $puntualizacion->puntualizacion;
                     echo '</td>';
-                    echo '<td>';
+                    echo '<td class="indicadorPuntualizacion">';
                     echo $puntualizacion->indicadorpuntualizacion;
                     echo '</td>';
                     echo '<td>';
                     echo CHtml::textArea('compromiso', '', array('id' => 'tacompromiso', 'class' => 'tacompromiso','placeholder' => 'Ingrese el compromiso'));
+                    echo '<p id="tacompromisoerror"  class="mensajeerror">Debe ingresar el compromiso.</p>';
                     echo '</td>';
                     echo '</tr>';
                 }
@@ -51,17 +52,18 @@
         </tbody>
     </table>
         
-</div>        
-<div>   <?php echo CHtml::label("Comentarios Adicionales","", array('id' => 'lblcomentarioadicionales'))?>
-        <?php echo CHtml::textArea('comentario','',array('size'=>60,'maxlength'=>300, 'id'=>'tacomentario', 'class' => 'tacomentario', 'placeholder' => 'Comentarios adicionales sobre compromisos...')); ?>
+</div> 
+
+<div class="divComentariosCompromisos">   
+    <p class="pTituloComentarios">Comentarios Adicionales</p>
+    <?php echo CHtml::textArea('comentario','',array('maxlength'=>300, 'id'=>'tacomentario', 'class' => 'tacomentario', 'placeholder' => 'Comentarios adicionales sobre compromisos...')); ?>
 </div>
 
 
-<div class="content_section_fechaevaluacion">
-    <p class="ptitulofechaevaluacion">Fecha de Revision de los Compromisos</p>        
-                   <label for="dpfecha">Fecha de Revision</label> 
+<div class="divFechaRevision">
+    <p class="pTituloFechaEvaluacion">Fecha de Revision de los Compromisos</p>                          
                    <?php $this->widget('zii.widgets.jui.CJuiDatePicker', array(
-                        'id' => 'dpfecha',
+                        'id' => 'dpFecha',
                         'name' => 'fechaevaluacion',                        
                         'language' => 'es',
                         'options' => array(                            
@@ -73,17 +75,17 @@
                             'buttonImage'=>Yii::app()->baseUrl.'/images/icons/silk/calendar.png',
                             'buttonImageOnly' => true,
                             'onClose' => "js:function(dateText, inst){
-                                        $('#dpfechaerror').hide();
+                                        $('#dpFechaerror').hide();
                                                                          
                                 }",
                         ),
-                        'htmlOptions'=>array(                            
+                        'htmlOptions'=>array(
+                            'class' => 'dpFecha',
                             'readonly' => 'readonly',
                             'style'=>'width: 118px; text-align: center'
                         ),
                     ));?> 
-                    <div class="errored" id="divfechaerror">  Debe seleccionar una fecha
-                    </div>
+                    <p class="mensajeerror" id="dpFechaerror">Debe seleccionar una fecha</p>
                              
      
 </div>

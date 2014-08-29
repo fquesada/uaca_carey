@@ -1,0 +1,138 @@
+/*Container*/
+.container{
+    width: 1150px;
+}
+
+/*Volver atras*/
+#btnvolveratras{
+     margin-top: 15px;
+}
+
+
+/*Error*/
+.mensajeerror{
+    font-style: italic;
+    font-size: 10px;
+    color: #EE0000;
+    margin-top: 5px; 
+    display: none;
+}
+
+/*Encabezado*/
+.divEncabezadoED{
+    text-align: center;
+}
+
+.pEncabezadoED{
+    font-family: times, Times New Roman, times-roman, georgia, serif;
+    font-size: 28px;
+    line-height: 40px;
+    letter-spacing: -1px;color: #444;
+    margin-bottom: 1px;    
+}
+
+.divEncabezadoED p{
+    margin: 0 0 10px 0;    
+}
+
+.divEncabezadoED p b{
+    color: #033E6B;
+}
+
+/*Tabla Compromisos*/
+
+.pTituloCompromisos{
+    font-family: times, Times New Roman, times-roman, georgia, serif;
+    font-size: 24px;
+    line-height: 40px;
+    letter-spacing: -1px;color: #444;
+    margin-bottom: 1px;
+    margin-top: 15px;
+}
+
+.tblCompromisos{
+    border-collapse: collapse; 
+    border-spacing: 0; 
+    width: auto; 
+    margin: 0px auto 0px auto; 
+    table-layout: fixed; 
+}
+
+.tblCompromisos thead th{
+    background-color: #033E6B;
+    color: #FFFFFF;
+    text-align: center;   
+    padding: 4px 10px 8px 5px;
+}
+
+.tblCompromisos #idPuntualizacion{
+    display: none;
+}
+
+.tblCompromisos .puntualizacion{
+    width: auto; 
+}
+
+.tblCompromisos .indicadorPuntualizacion{
+    width: 300px; 
+}
+
+.tblCompromisos .tacompromiso{
+    width: 300px;
+    height: 90px;    
+}
+
+.tblCompromisos #errorCompromisos{
+    color: #EE0000;
+    font-style: italic;
+}
+
+.tblCompromisos tbody{
+     border-top: 10px solid white; 
+/*     trick que permite hacer margin en un tbody*/
+}
+
+.tblCompromisos tr:hover{
+    background-color: #ECF1EF;
+}
+
+.tblCompromisos td{    
+    vertical-align: top;
+    text-align: justify;
+    font-size: 12px;
+}
+
+/*Comentarios Adicionales*/
+.pTituloComentarios{
+    font-family: times, Times New Roman, times-roman, georgia, serif;
+    font-size: 24px;
+    line-height: 40px;
+    letter-spacing: -1px;color: #444;
+    margin-bottom: 1px;
+    margin-top: 15px;
+}
+
+.tacomentario{
+    width: 1095px;
+    height: 55px;
+    padding: 5px;
+}
+
+/*Fecha de Revision Compromisos*/
+.pTituloFechaEvaluacion{
+    font-family: times, Times New Roman, times-roman, georgia, serif;
+    font-size: 24px;
+    line-height: 40px;
+    letter-spacing: -1px;color: #444;
+    margin-bottom: 1px;
+    margin-top: 15px;
+}
+
+.dpFecha{
+    font-family: times, Times New Roman, times-roman, georgia, serif;
+    font-size: 16px;    
+    margin-bottom: 2px;
+}
+
+
+

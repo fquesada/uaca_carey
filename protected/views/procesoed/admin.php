@@ -84,7 +84,7 @@ $this->breadcrumbs=array(
                             'eliminar'=> array(
                                 'label'=>'Eliminar Proceso ED',
                                 'imageUrl'=>Yii::app()->request->baseUrl.'/images/icons/silk/decline.png',                                
-                                'url'=>'Yii::app()->createUrl("procesoed/eliminar", array("id"=>$data["id"]))',
+                                'url'=>'Yii::app()->createUrl("procesoed/eliminarprocesoed", array("id"=>$data["id"]))',
                                 'click'=>"function(){
                                         event.preventDefault();
                                         var url = $(this).attr('href');
