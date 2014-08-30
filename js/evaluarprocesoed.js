@@ -168,7 +168,7 @@ $(document).ready(function() {
         var competencias = {};
         $("#tblcompetencia > tbody > tr").each(function(index, fila) {		
             var idcompetencia= $(fila).find('td:first').text();            
-            var tipocompetencia= $(fila).find('td:eq(1)').text();            
+            var tipocompetencia= $(fila).find('#tipocompetencia').text();            
             var calificacion= $(fila).find('#ddlpuntajecompetencias').val();
             var ponderacion = $(fila).find('td:last').text();
             competencias[index] = {

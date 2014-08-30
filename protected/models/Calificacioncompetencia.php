@@ -7,6 +7,8 @@
  * @property integer $id
  * @property integer $evaluacion
  * @property integer $competencia
+ * @property integer $tipocompetencia
+ * @property integer $ponderacion
  * @property integer $puntaje
  *
  * The followings are the available model relations:
@@ -41,11 +43,11 @@ class Calificacioncompetencia extends CActiveRecord
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('evaluacion, competencia', 'required'),
-            array('evaluacion, competencia, puntaje', 'numerical', 'integerOnly'=>true),
+            array('evaluacion, competencia, tipocompetencia, ponderacion, puntaje', 'required'),
+            array('evaluacion, competencia, tipocompetencia, ponderacion, puntaje', 'numerical', 'integerOnly'=>true),
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
-            array('id, evaluacion, competencia, puntaje', 'safe', 'on'=>'search'),
+            array('id, evaluacion, competencia, tipocompetencia, ponderacion, puntaje', 'safe', 'on'=>'search'),
         );
     }
 
@@ -71,6 +73,8 @@ class Calificacioncompetencia extends CActiveRecord
             'id' => 'ID',
             'evaluacion' => 'Evaluacion',
             'competencia' => 'Competencia',
+            'tipocompetencia' => 'Tipo Competencia',
+            'ponderacion' => 'Ponderacion',
             'puntaje' => 'Puntaje',
         );
     }
@@ -89,6 +93,8 @@ class Calificacioncompetencia extends CActiveRecord
         $criteria->compare('id',$this->id);
         $criteria->compare('evaluacion',$this->evaluacion);
         $criteria->compare('competencia',$this->competencia);
+        $criteria->compare('tipocompetencia',$this->tipocompetencia);
+        $criteria->compare('ponderacion',$this->ponderacion);
         $criteria->compare('puntaje',$this->puntaje);
 
         return new CActiveDataProvider($this, array(

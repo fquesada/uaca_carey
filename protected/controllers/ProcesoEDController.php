@@ -217,8 +217,11 @@ class ProcesoEDController extends Controller {
                             $nuevacompetencia->evaluacion = $ided;
                             $nuevacompetencia->competencia = $competencia['idcompetencia'];
                             $nuevacompetencia->puntaje = $competencia['calificacion'];
-                            //$nuevacompetencia->tipocompetencia = $competencia['tipocompetencia']; Agregar en BD
-                            //$nuevacompetencia->ponderacion = $competencia['ponderacion']; Agregar en BD                               
+                            if($competencia['tipocompetencia'] == "core")
+                                $nuevacompetencia->tipocompetencia = 1;
+                            else
+                                $nuevacompetencia->tipocompetencia = 2;
+                            $nuevacompetencia->ponderacion = $competencia['ponderacion'];
                             $result = $nuevacompetencia->save();
                         }
                         if ($result) {
