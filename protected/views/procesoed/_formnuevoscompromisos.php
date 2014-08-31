@@ -42,7 +42,7 @@
                     echo $puntualizacion->indicadorpuntualizacion;
                     echo '</td>';
                     echo '<td>';
-                    echo CHtml::textArea('compromiso', '', array('id' => 'tacompromiso', 'class' => 'tacompromiso','placeholder' => 'Ingrese el compromiso'));
+                    echo CHtml::textArea('compromiso', '', array('id' => 'tacompromiso', 'class' => 'tacompromiso','placeholder' => 'Ingrese el compromiso', 'maxlength'=>800));
                     echo '<p id="tacompromisoerror"  class="mensajeerror">Debe ingresar el compromiso.</p>';
                     echo '</td>';
                     echo '</tr>';

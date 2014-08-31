@@ -9,15 +9,16 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->baseUrl.'/css/evaluarproce
 $this->breadcrumbs=array(
 	'Administrar ED'=>array('procesoed/admin'),
         'Administrar proceso ED'=>array('procesoed/adminprocesoed/'.$ed->procesoevaluacion),
-	'Agregar Compromisos',
+	'Evaluación de Desempeño',
 );
 
 ?>
 
-<h3 style="text-align: center">Registro ED <?php echo $ed->id;?></h3>
+<?php echo CHtml::button('Volver atrás', array('id'=>'btnvolveratras','submit' => array('procesoed/adminprocesoed/'.$ed->procesoevaluacion), 'class'=>'sexybutton sexysimple sexylarge')); ?>
 
-<div id="divencabezadoec" class="divencabezadoec">
-    <p class="pencabezadoec">Informacion evaluación</p>
+<div id="divEncabezadoED" class="divEncabezadoED">
+    <p class="pEncabezadoED">Evaluación de Desempeño (ED)</p>
+    <p class="pEncabezadoED">Informacion evaluación</p>
     <p style="display:none"><?php echo CHtml::label($ed->id, 'ided', array('id'=>'lblided'))?></p>
     <p> <b>Colaborador:</b> <?php echo $ed->_colaborador->nombrecompleto?> </p>
     <p> <b>Cedula:</b> <?php echo $ed->_colaborador->cedula?> </p>   
@@ -25,6 +26,8 @@ $this->breadcrumbs=array(
     <p> <b>Departamento:</b> <?php echo $ed->_colaborador->nombreunidadnegocioactual?> </p>
     <p> <b>Evaluador:</b> <?php echo $ed->_procesoevaluacion->_evaluador->nombrecompleto?> </p>
     <p> <b>Periodo:</b> <?php echo $ed->_procesoevaluacion->_periodo->nombre ?> </p>
+    <p> <b>Fecha Registro Compromisos:</b> <?php echo $ed->FechaRegistroCompromisoFormato?> </p>  
+    <p> <b>Fecha Evaluacion Compromisos:</b> <?php echo $ed->FechaCompromisoEvaluacionFormato?> </p>  
 </div>
 
 
@@ -35,7 +38,7 @@ $this->breadcrumbs=array(
 <?php echo $this->renderPartial('_resultadoevaluacion', array('ed'=>$ed)); ?>
 
 
-<div class="content_section_submit">        
+<div class="row buttons" style="text-align: center">       
                   <?php echo CHtml::submitButton('Guardar Evaluacion',array('id'=>'btnguardared', 'class'=>'sexybutton sexysimple sexylarge'));  ?>                  
 </div>
 

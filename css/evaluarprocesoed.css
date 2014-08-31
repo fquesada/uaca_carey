@@ -1,8 +1,240 @@
+/*Container*/
+.container{
+    width: 1150px;
+}
+
+/*Volver atras*/
+#btnvolveratras{
+     margin-top: 15px;
+}
+
+/*Error*/
+.mensajeerror{
+    font-style: italic;
+    font-size: 10px;
+    color: #EE0000;
+    margin-top: 5px; 
+    display: none;
+}
+
+/*Encabezado*/
+.divEncabezadoED{
+    text-align: center;
+}
+
+.pEncabezadoED{
+    font-family: times, Times New Roman, times-roman, georgia, serif;
+    font-size: 28px;
+    line-height: 40px;
+    letter-spacing: -1px;color: #444;
+    margin-bottom: 1px;    
+}
+
+.divEncabezadoED p{
+    margin: 0 0 10px 0;    
+}
+
+.divEncabezadoED p b{
+    color: #033E6B;
+}
+
+/*Tabla Compromisos*/
+
+.pTituloCompromisos{
+    font-family: times, Times New Roman, times-roman, georgia, serif;
+    font-size: 24px;
+    line-height: 40px;
+    letter-spacing: -1px;color: #444;
+    margin-bottom: 1px;
+    margin-top: 15px;
+}
+
+.tblcompromisos{
+    width: 1110px;
+    border-collapse: collapse; 
+    border-spacing: 0;     
+    margin: 0px auto 0px auto; 
+}
+
+.tblcompromisos thead th{
+    background-color: #033E6B;
+    color: #FFFFFF;
+    text-align: center;   
+    padding: 4px 10px 8px 5px;
+}
+
+.tblcompromisos #idcompromiso{
+    display: none;
+}
+
+.tblcompromisos .puntualizacion{
+    width: 300px;  
+}
+
+.tblcompromisos .indicadorPuntualizacion{
+    width: 300px; 
+}
+
+.tblcompromisos .compromiso{
+    width: 330px;      
+}
+
+.tblcompromisos .calificacioncompromiso{
+    width: auto;  
+}
+
+.tblcompromisos #errorCompromisos{
+    color: #EE0000;
+    font-style: italic;
+}
+
+.tblcompromisos tbody{
+     border-top: 10px solid white; 
+/*     trick que permite hacer margin en un tbody*/
+}
+
+.tblcompromisos tr:hover{
+    background-color: #ECF1EF;
+}
+
+.tblcompromisos td{    
+    vertical-align: top;
+    text-align: justify;
+    font-size: 12px;
+}
+
+/*Seccion Promedio  Compromisos*/
+.promediocompromisos{
+    text-align: right;
+    font-size: 28px;
+    font-family: times, Times New Roman, times-roman, georgia, serif;
+}
+
+.promediocompromisos p{
+    margin-right: 20px;
+    margin-bottom: 5px;
+}
+
+.promediocompromisos p:hover{
+    background-color: #ECF1EF;
+}
+
+.promediocompromisos span{
+    font-size: 30px;
+    font-weight: bold;
+    color: #033E6B;
+}
+
+/*Tabla Competencias*/
+
+.pTituloCompetencias{
+    font-family: times, Times New Roman, times-roman, georgia, serif;
+    font-size: 24px;
+    line-height: 40px;
+    letter-spacing: -1px;color: #444;
+    margin-bottom: 1px;
+    margin-top: 15px;
+}
+
+.tblcompetencia{
+    width: 1110px;
+    border-collapse: collapse; 
+    border-spacing: 0;     
+    margin: 0px auto 0px auto; 
+}
+
+.tblcompetencia thead th{
+    background-color: #033E6B;
+    color: #FFFFFF;
+    text-align: center;   
+    padding: 4px 10px 8px 5px;
+}
+
+.tblcompetencia #idcompetencia{
+    display: none;
+}
+
+.tblcompetencia #tipocompetencia{
+    display: none;
+}
+
+.tblcompetencia .competencia{
+    width: 300px;  
+}
+
+.tblcompetencia .descripcioncompetencia{
+    width: 300px; 
+}
+
+.tblcompetencia .calificacioncompetencia{
+    width: auto;  
+}
+
+.tblcompetencia #ddlpuntajecompetenciaserror{
+    color: #EE0000;
+    font-style: italic;
+}
+
+.tblcompetencia #ponderacion{
+    display: none;
+}
+
+.tblcompetencia tbody{
+     border-top: 10px solid white; 
+/*     trick que permite hacer margin en un tbody*/
+}
+
+.tblcompetencia tr:hover{
+    background-color: #ECF1EF;
+}
+
+.tblcompetencia td{    
+    vertical-align: top;
+    text-align: justify;
+    font-size: 12px;
+}
+
+/*Seccion Promedio  Competencias*/
+.promediocompetencias{
+    text-align: right;
+    font-size: 28px;
+    font-family: times, Times New Roman, times-roman, georgia, serif;
+}
+
+.promediocompetencias p{
+    margin-right: 20px;
+    margin-bottom: 5px;
+}
+
+.promediocompetencias p:hover{
+    background-color: #ECF1EF;
+}
+
+.promediocompetencias span{
+    font-size: 30px;
+    font-weight: bold;
+    color: #033E6B;
+}
+
+/*Seccion de Resultado de Evaluacion*/
+
+.divevaluacioned{
+    
+}
+
+.pTituloEvaluacion{
+    font-family: times, Times New Roman, times-roman, georgia, serif;
+    font-size: 24px;
+    line-height: 40px;
+    letter-spacing: -1px;color: #444;
+    margin-bottom: 1px;
+    margin-top: 15px;
+}
 .table_evaluacion_resultado{
     width: auto;
     float: left;
     border: 1px solid black;
-    margin: 0 50px 0 18%;
+    margin: 0 50px 0 250px;
 }
 
 .table_evaluacion_resultado tbody td{    
@@ -55,3 +287,23 @@
 .sobresaliente{background-color: #008B8B; color: #141414; font-family: Arial, Helvetica, sans-serif;}
 .superior{background-color: #1E90FF; color: #141414; font-family: Arial, Helvetica, sans-serif;}
 
+/*Comentarios Adicionales*/
+
+.divComentariosEvaluacionED{
+    margin-bottom: 15px;
+}
+
+.pTituloComentarios{
+    font-family: times, Times New Roman, times-roman, georgia, serif;
+    font-size: 24px;
+    line-height: 40px;
+    letter-spacing: -1px;color: #444;
+    margin-bottom: 1px;
+    margin-top: 15px;
+}
+
+.tacomentario{
+    width: 1095px;
+    height: 55px;
+    padding: 5px;    
+}

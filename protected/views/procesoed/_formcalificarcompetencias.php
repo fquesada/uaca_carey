@@ -4,7 +4,7 @@
 ?>
 
 <div id="divcompetencia" class="divcompetencia">
-    <p class="ptitulocompetencia">Calificación de Competencias</p>
+    <p class="pTituloCompetencias">Calificación de Competencias</p>
     <table id="tblcompetencia" class="tblcompetencia">
         <thead>
             <tr>
@@ -43,13 +43,13 @@
                     echo '<td id="tipocompetencia">';
                     echo "core";
                     echo '</td>';
-                    echo '<td>';
+                    echo '<td id="competencia">';
                     echo $competenciacore["competencia"]." (Core)";
                     echo '</td>';
-                    echo '<td>';
+                    echo '<td id="descripcioncompetencia">';
                     echo $competenciacore["descripcion"];
                     echo '</td>';                  
-                    echo '<td>';
+                    echo '<td id="calificacioncompetencia">';
                     echo CHtml::dropDownList('puntajec', 'puntajec', CHtml::listData(Puntaje::model()->findAll('estado=1'), 'valor', 'valor'), array('empty' => 'Seleccione calificacion', 'id' => 'ddlpuntajecompetencias'));
                     echo '<p id="ddlpuntajecompetenciaserror"  class="mensajeerror">Debe seleccionar una calificacion</p>';
                     echo '</td>';
@@ -66,13 +66,13 @@
                     echo '<td id="tipocompetencia">';
                     echo "nocore";
                     echo '</td>';
-                    echo '<td>';
+                    echo '<td id="competencia">';
                     echo $competencia["competencia"];
                     echo '</td>';
-                    echo '<td>';
+                    echo '<td id="descripcioncompetencia">';
                     echo $competencia["descripcion"];
                     echo '</td>';                   
-                    echo '<td>';
+                    echo '<td id="calificacioncompetencia">';
                     echo CHtml::dropDownList('puntajec', 'puntajec', CHtml::listData(Puntaje::model()->findAll('estado=1'), 'valor', 'valor'), array('empty' => 'Seleccione calificacion', 'id' => 'ddlpuntajecompetencias'));
                     echo '<p id="ddlpuntajecompetenciaserror"  class="mensajeerror">Debe seleccionar una calificacion</p>';
                     echo '</td>';

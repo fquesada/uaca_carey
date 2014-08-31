@@ -125,7 +125,8 @@ $(document).ready(function() {
                 messagewarning("Ha ocurrido un inconveniente, intente nuevamente. (Codigo Sistema:"+ jqXHR.status + ")");
             },
             success: function(datos){
-                $('.promediopuntualizacion > p > span').text(datos.puntualizaciones.toPrecision(3));
+                $
+                $('.promediocompromisos > p > span').text(datos.puntualizaciones.toPrecision(3));
                 $('#puntualizacionnivel').text(datos.puntualizaciones.toPrecision(3));
                 $('.promediocompetencias > p > span').text(datos.competencias.toPrecision(3)); 
                 $('#competenciasnivel').text(datos.competencias.toPrecision(3));
@@ -187,7 +188,7 @@ $(document).ready(function() {
         var esperado = 3;
         var mejora = 2 
             
-        $('.table_evaluacion_resultado').css('margin', '0 50px 0 8%');//Conservar la posicion de las tablas                         
+        $('.table_evaluacion_resultado').css('margin', '0 50px 0 180px');//Conservar la posicion de las tablas                         
         $('#rango').removeClass(); 
         $('#rango').empty();
             

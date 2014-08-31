@@ -19,7 +19,7 @@ $this->breadcrumbs=array(
 
 
 
-<div id="divencabezadoec" class="divEncabezadoED">
+<div id="divEncabezadoED" class="divEncabezadoED">
     <p class="pEncabezadoED">Informacion evaluación</p>
     <p style="display:none"><?php echo CHtml::label($ed->id, 'ided', array('id'=>'lblided'))?></p>
     <p> <b>Colaborador:</b> <?php echo $ed->_colaborador->nombrecompleto?> </p>

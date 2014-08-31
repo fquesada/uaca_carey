@@ -3,8 +3,8 @@
 /* @var $ed Evaluaciondesempeno */
 ?>
 
-<div class="content_section_evaluacion">
-  <h2>Resultados de la Evaluación</h2> 
+<div class="divevaluacioned"> 
+  <p class="pTituloEvaluacion">Resultados de la Evaluación</p>
     <table class="table_evaluacion_resultado">
         <tbody>
             <tr>
@@ -60,6 +60,7 @@
     </table> 
 </div>
 
- <div class="content_section_evaluacion">    
-    <?php echo CHtml::textArea('comentario','',array('size'=>300,'maxlength'=>300, 'id'=>'tacomentario', 'class' => 'textarea_evaluacion_comentario', 'placeholder' => 'Comentarios adicionales sobre la evaluación...')); ?>                            
+<div class="divComentariosEvaluacionED">   
+    <p class="pTituloComentarios">Comentarios Adicionales</p>
+    <?php echo CHtml::textArea('comentario','',array('maxlength'=>300, 'id'=>'tacomentario', 'class' => 'tacomentario', 'placeholder' => 'Comentarios adicionales sobre la evaluación...')); ?>
 </div>

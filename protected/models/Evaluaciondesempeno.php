@@ -319,7 +319,7 @@ class Evaluaciondesempeno extends CActiveRecord
 
             foreach ($competencias as $competencia) {
 
-                if (!$competencia["calificacion"] == "") {
+                if (is_numeric($competencia["calificacion"])) {
                     $dividendo = $dividendo + CommonFunctions::stringtonumber($competencia["calificacion"]) * CommonFunctions::stringtonumber($competencia["ponderacion"]);
                     $divisor = $divisor + CommonFunctions::stringtonumber($competencia["ponderacion"]);
                 }
@@ -338,7 +338,7 @@ class Evaluaciondesempeno extends CActiveRecord
             $divisor = 0;
 
             foreach ($puntualizaciones as $puntualizacion) {
-                if (!$puntualizacion["calificacion"] == "") {
+                if (is_numeric($puntualizacion["calificacion"])) {
                     $dividendo = $dividendo + CommonFunctions::stringtonumber($puntualizacion["calificacion"]);
                     $divisor = $divisor + 1;
                 }
