@@ -19,6 +19,7 @@
         'Agregar puntualización'
     );
     ?>
+
     <h1>Puesto</h1>
     
     <?php $this->widget('zii.widgets.CDetailView', array(
@@ -28,6 +29,7 @@
                     'nombre'		
             ),
     )); ?>
+
     
     <?php Yii::app()->session['puesto']=$model->id;?>
     
@@ -120,6 +122,12 @@
                     ),
 	),
     )); ?>
+ 
+    <p></br> </br> </br> </p>
+    <?php
+    echo CHtml::button('Volver atrás', array('id'=>'btnvolveratras','submit' => array('puesto/admin/'), 'class'=>'sexybutton sexysimple sexylarge'));
+    ?>
+    <p></br> </br> </br> </p>
 
      <?php if(Yii::app()->user->hasFlash('success')):?>
      <script type="text/javascript">
