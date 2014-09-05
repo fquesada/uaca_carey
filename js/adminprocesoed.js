@@ -2,11 +2,11 @@ $(document).ready(function() {
 
 $(document).on("click", "#imggenerarreporte", function(event){
         event.preventDefault();
-        var idec = $(this).parents("tr").find('#idec').text();                
+        var ided = $(this).parents("tr").find('#ided').text()                
         $.ajax({
                     type: "POST",
-                    url: "../crearreporteec",
-                    data: {id: idec},
+                    url: "../crearreporteed",
+                    data: {id: ided},
                     dataType: 'json',
                     error: function (jqXHR, textStatus){
                         if (jqXHR.status === 0) {                            
