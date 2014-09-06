@@ -802,6 +802,12 @@ $(document).ready(function() {
    });
  
  
+    $("#btnbusquedapostulantes").click(function(){       
+       limpiarinputshabilidades();
+       $("#divpostulante").show();       
+       $("#dialogpostulante").dialog('open');
+       //infoponderacion();
+   });
  
  
  

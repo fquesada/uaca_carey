@@ -21,13 +21,13 @@ Yii::app()->clientScript->registerScript('formatoautocomplete', '
 
 <?php
 $this->beginWidget('zii.widgets.jui.CJuiDialog', array(
-    'id'=>'dialogcolaboradores',
+    'id'=>'dialogpostulante',
     'options'=>array(
-        'title'=>'Agregar Colaborador',
+        'title'=>'Agregar Postulante',
         'autoOpen'=>false,
         'modal'=>true,
         'width'=>375,
-        'height'=>245,
+        'height'=>250,
         'resizable' => false,
         'draggable' => false,
         'beforeClose' => 'js:function(){$("#divpostulante").hide();}',
@@ -37,47 +37,19 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array(
 
 <div id="divpostulante" style="display: none">    
     <div class="form">        
-    <fieldset>
-            <legend>Búsqueda de Colaborador por nombre</legend>
-    <div class="row">
-            <?php echo CHtml::label('Colaborador', 'buscarcolaborador');?>
-            <?php             
-            $this->widget('zii.widgets.jui.CJuiAutoComplete', array(
-            'attribute'=>'colaborador',
-            'name'=>'colaborador', 
-            'id'=>'busquedacolaborador',
-            'source'=>$this->createUrl('procesoevaluacion/AutocompleteEvaluado'),           
-            'options'=>array(
-                'showAnim'=>'fold',
-                'minLength'=>'2',
-                'select'=>"js: function(event, ui) {                    
-                if(ui.item['value']!='')
-                {
-                    $('#busquedacolaborador').attr('disabled', 'true');                                                              
-                    $('#idcolaborador').val(ui.item['id']);
-                    $('#cedulacolaborador').val(ui.item['cedula']);
-                    $('#btnagregarcolaborador').removeAttr('disabled'); 
-                    $('#imgborrarcolaborador').show();
-                 }                    
-                }",                
-                 ),
-              'htmlOptions'=>array('size'=>'30'),
-            ));
-            ?>                   
-            <?php echo CHtml::image(Yii::app()->request->baseUrl."/images/icons/silk/decline.png", "Borrar Colaborador seleccionado", 
-                    array("id"=>"imgborrarcolaborador", "style" => "padding-left:5px; cursor:pointer; display:none")); ?>
-            <div id="ddlpuestoerror" class="errorevaluacionpersona">Debe seleccionar un puesto</div>
-    </div>  
+    
     <div class="row">        
-            <?php  echo CHtml::label('Puesto', 'puestocolaborador'); ?>            
-            <?php echo CHtml::label('-', 'puesto',array('id'=>'puestocolaborador','name'=>'puesto')); ?>
+            <?php  echo CHtml::label('Cédula', 'cedulapostulante'); ?>            
+            <?php echo CHtml::textField('txtcedulapostulante','', array('id'=>'cedulapostulante')); ?>
         
     </div>
-    <div class="row">                  
-            <?php echo CHtml::hiddenField('id', '-',array('id'=>'idcolaborador','name'=>'idcolaborador')); ?>    
-            <?php echo CHtml::hiddenField('cedula', '-',array('id'=>'cedulacolaborador','name'=>'cedulacolaborador')); ?>
+    <div class="row">        
+            <?php  echo CHtml::label('Nombre', 'nombrepostulante'); ?>            
+            <?php echo CHtml::textField('txtnombrepostulante','', array('id'=>'nombrepostulante')); ?>
+        
     </div>
-    </fieldset>       
+            
+        </br>        
     <div class="row buttons">                    
         <button  id="btnagregarpostulante" type="button" class="sexybutton sexysimple" disabled="disabled"><span class="accept">Agregar colaborador</span></button>
     </div>

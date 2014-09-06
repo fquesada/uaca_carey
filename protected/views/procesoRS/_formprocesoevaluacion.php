@@ -139,7 +139,7 @@
     
     <div>
         <?php
-        echo '<button  id="btnbusquedacolaboradores" type="button" class="sexybutton sexysimple"><span class="add">Agregar Postulante</span></button>';
+        echo '<button  id="btnbusquedapostulantes" type="button" class="sexybutton sexysimple"><span class="add">Agregar Postulante</span></button>';
        ?>
         
         
