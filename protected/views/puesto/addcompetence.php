@@ -19,6 +19,7 @@
         'Agregar competencias'
     );
     ?>
+    
     <h1>Puesto</h1>
     
     <?php $this->widget('zii.widgets.CDetailView', array(
@@ -29,6 +30,11 @@
             ),
     )); ?>
     
+    <p></br> </br> </br> </p>
+    <?php
+    echo CHtml::button('Volver atrás', array('id'=>'btnvolveratras','submit' => array('puesto/admin/'), 'class'=>'sexybutton sexysimple sexylarge'));
+    ?>
+
     <?php Yii::app()->session['puesto']=$model->id;?>
     
     <?php 
@@ -118,6 +124,12 @@
 	),
         'afterAjaxUpdate'=>'js:function(id,data){$.fn.yiiGridView.update("competenciaexistente-grid");}'
     )); ?>
+     
+    <p></br> </br> </br> </p>
+    <?php
+    echo CHtml::button('Volver atrás', array('id'=>'btnvolveratras','submit' => array('puesto/admin/'), 'class'=>'sexybutton sexysimple sexylarge'));
+    ?>
+    <p></br> </br> </br> </p>
 
      <?php if(Yii::app()->user->hasFlash('success')):?>
      <script type="text/javascript">

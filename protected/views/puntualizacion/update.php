@@ -15,6 +15,6 @@ $this->menu=array(
 );
 ?>
 
-<h1>Actualizar Puntualización <?php echo $model->id; ?></h1>
+<h1>Actualizar Puntualización</h1>
 
 <?php echo $this->renderPartial('_form', array('model'=>$model)); ?>
