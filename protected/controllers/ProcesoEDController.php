@@ -736,38 +736,38 @@ class ProcesoEDController extends Controller {
                      
 
                      $objPHPExcel->setActiveSheetIndex(0)
-                             ->setCellValue('D68', $ed->promediocompromisos) 
-                             ->setCellValue('D69', $ed->promediocompetencias)
-                             ->setCellValue('D70', $ed->promedioevaluacion);
+                             ->setCellValue('D64', $ed->promediocompromisos) 
+                             ->setCellValue('D65', $ed->promediocompetencias)
+                             ->setCellValue('D66', $ed->promedioevaluacion);
                      
                      if (0 <= $ed->promedioevaluacion && $ed->promedioevaluacion <= 2){
                          $objPHPExcel->getActiveSheet()
-                             ->setCellValue('D71', 'Desempeño Insuficiente')
-                             ->getStyle('D71')->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)
+                             ->setCellValue('D67', 'Desempeño Insuficiente')
+                             ->getStyle('D67')->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)
                              ->getStartColor()->setRGB('f07d30');
                      }
                      else if (2 < $ed->promedioevaluacion && $ed->promedioevaluacion < 3) {
                          $objPHPExcel->getActiveSheet()
-                             ->setCellValue('D71', 'Oportunidad de mejora')
-                             ->getStyle('D71')->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)
+                             ->setCellValue('D67', 'Oportunidad de mejora')
+                             ->getStyle('D67')->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)
                              ->getStartColor()->setRGB('fefe04');
                      }
                      else if (3 <= $ed->promedioevaluacion && $ed->promedioevaluacion < 4) {
                          $objPHPExcel->getActiveSheet()
-                             ->setCellValue('D71', 'Desempeño Esperado')
-                             ->getStyle('D71')->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)
+                             ->setCellValue('D67', 'Desempeño Esperado')
+                             ->getStyle('D67')->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)
                              ->getStartColor()->setRGB('90d152');
                      }
                      else if (4 <= $ed->promedioevaluacion && $ed->promedioevaluacion < 5) {
                          $objPHPExcel->getActiveSheet()
-                             ->setCellValue('D71', 'Desempeño Sobresaliente')
-                             ->getStyle('D71')->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)
+                             ->setCellValue('D67', 'Desempeño Sobresaliente')
+                             ->getStyle('D67')->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)
                              ->getStartColor()->setRGB('c2d6ec');
                      }
                      else {
                          $objPHPExcel->getActiveSheet()
-                             ->setCellValue('D71', 'Desempeño Superior')
-                             ->getStyle('D71')->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)
+                             ->setCellValue('D67', 'Desempeño Superior')
+                             ->getStyle('D67')->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)
                              ->getStartColor()->setRGB('2d76b5');
                      }
                    }
