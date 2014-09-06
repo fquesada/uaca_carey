@@ -696,7 +696,7 @@ class ProcesoEDController extends Controller {
                     $objPHPExcel->getActiveSheet()->setCellValue('D6', $ed->fecharegistrocompromiso);
                     $objPHPExcel->getActiveSheet()->setCellValue('I4', $ed->_colaborador->cedula);
                     $objPHPExcel->getActiveSheet()->setCellValue('I5', $ed->_procesoevaluacion->_evaluador->nombrecompleto);
-                    $objPHPExcel->getActiveSheet()->setCellValue('I6', $ed->fechaevaluacion);
+                    $objPHPExcel->getActiveSheet()->setCellValue('I6', $ed->fecharegistroevaluacion);
 
                      $i = '35';  
 
@@ -729,7 +729,7 @@ class ProcesoEDController extends Controller {
                                  //->setCellValue('G'.$j, CommonFunctions::ponderaciontoideal($competencia->ponderacion))
                                  //->setCellValue('H'.$j, $competencia->calificacion);
 
-                          $objPHPExcel->getActiveSheet()->getRowDimension($j)->setRowHeight(15);
+                          //$objPHPExcel->getActiveSheet()->getRowDimension($j)->setRowHeight(15);
                           $objPHPExcel->setActiveSheetIndex()->getStyle('E'.$j.':F'.$j)->applyFromArray($styleTableBorder);
                           $j++;
                      }
@@ -782,7 +782,7 @@ class ProcesoEDController extends Controller {
                     $objPHPExcel->getActiveSheet()->setCellValue('D6', $ed->fecharegistrocompromiso);
                     $objPHPExcel->getActiveSheet()->setCellValue('I4', $ed->_colaborador->cedula);
                     $objPHPExcel->getActiveSheet()->setCellValue('I5', $ed->_procesoevaluacion->_evaluador->nombrecompleto);
-                    $objPHPExcel->getActiveSheet()->setCellValue('I6', $ed->fechaevaluacion);
+                    $objPHPExcel->getActiveSheet()->setCellValue('I6', $ed->fecharegistroevaluacion);
 
                      $i = '35';  
 
@@ -815,45 +815,45 @@ class ProcesoEDController extends Controller {
                                  //->setCellValue('G'.$j, CommonFunctions::ponderaciontoideal($competencia->ponderacion))
                                  //->setCellValue('H'.$j, $competencia->calificacion);
 
-                          $objPHPExcel->getActiveSheet()->getRowDimension($j)->setRowHeight(15);
+                          //$objPHPExcel->getActiveSheet()->getRowDimension($j)->setRowHeight(15);
                           $objPHPExcel->setActiveSheetIndex()->getStyle('E'.$j.':F'.$j)->applyFromArray($styleTableBorder);
                           $j++;
                      }
                      
 
                      $objPHPExcel->setActiveSheetIndex(0)
-                             ->setCellValue('D60', $ed->promediocompromisos) 
-                             ->setCellValue('D61', $ed->promediocompetencias)
-                             ->setCellValue('D62', $ed->promedioevaluacion);
+                             ->setCellValue('D64', $ed->promediocompromisos) 
+                             ->setCellValue('D65', $ed->promediocompetencias)
+                             ->setCellValue('D66', $ed->promedioevaluacion);
                      
                      if (0 <= $ed->promedioevaluacion && $ed->promedioevaluacion <= 2){
                          $objPHPExcel->getActiveSheet()
-                             ->setCellValue('D63', 'Desempeño Insuficiente')
-                             ->getStyle('D63')->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)
+                             ->setCellValue('D67', 'Desempeño Insuficiente')
+                             ->getStyle('D67')->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)
                              ->getStartColor()->setRGB('f07d30');
                      }
                      else if (2 < $ed->promedioevaluacion && $ed->promedioevaluacion < 3) {
                          $objPHPExcel->getActiveSheet()
-                             ->setCellValue('D63', 'Oportunidad de mejora')
-                             ->getStyle('D63')->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)
+                             ->setCellValue('D67', 'Oportunidad de mejora')
+                             ->getStyle('D67')->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)
                              ->getStartColor()->setRGB('fefe04');
                      }
                      else if (3 <= $ed->promedioevaluacion && $ed->promedioevaluacion < 4) {
                          $objPHPExcel->getActiveSheet()
-                             ->setCellValue('D63', 'Desempeño Esperado')
-                             ->getStyle('D63')->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)
+                             ->setCellValue('D67', 'Desempeño Esperado')
+                             ->getStyle('D67')->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)
                              ->getStartColor()->setRGB('90d152');
                      }
                      else if (4 <= $ed->promedioevaluacion && $ed->promedioevaluacion < 5) {
                          $objPHPExcel->getActiveSheet()
-                             ->setCellValue('D763', 'Desempeño Sobresaliente')
-                             ->getStyle('D63')->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)
+                             ->setCellValue('D67', 'Desempeño Sobresaliente')
+                             ->getStyle('D67')->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)
                              ->getStartColor()->setRGB('c2d6ec');
                      }
                      else {
                          $objPHPExcel->getActiveSheet()
-                             ->setCellValue('D63', 'Desempeño Superior')
-                             ->getStyle('D63')->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)
+                             ->setCellValue('D67', 'Desempeño Superior')
+                             ->getStyle('D67')->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)
                              ->getStartColor()->setRGB('2d76b5');
                      }                       
                    }
