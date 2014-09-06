@@ -9,21 +9,7 @@ $(document).on("click", "#imggenerarreporte", function(event){
                     data: {id: ided},
                     dataType: 'json',
                     error: function (jqXHR, textStatus){
-                        if (jqXHR.status === 0) {                            
-                            messageerror("Problema de red, contacte al administrador de sistemas.");
-                        } else if (jqXHR.status == 404) {
-                            messagewarning("Solicitud no encontrada.");
-                        } else if (jqXHR.status == 500) {
-                            messageerror("Error 500. Ha ocurrido un problema con el servidor, contacte al administrador de sistemas.");
-                        } else if (textStatus === 'parsererror') {
-                            messagewarning("Ha ocurrido un inconveniente, intente nuevamente.");
-                        } else if (textStatus === 'timeout') {
-                            messageerror("Tiempo de espera excedido, intente nuevamente.");
-                        } else if (textStatus === 'abort') {
-                            messageerror("Se ha abortado la solicitud, intente nuevamente");
-                        } else {
-                            messageerror("Error desconocido, contacte al administrador de sistemas.");                            
-                        }
+                        messagewarning("Ha ocurrido un inconveniente, intente nuevamente. (Codigo Sistema:"+ jqXHR.status + ")");                                  
                     },
                     success: function(datos){
                         window.location.replace(datos.url);
@@ -31,13 +17,30 @@ $(document).on("click", "#imggenerarreporte", function(event){
         })
    });
 
-   function messageerror(message){
+
+$(document).on("click", "#imgvercompromisos", function(event){
+        event.preventDefault();
+        var ided = $(this).parents("tr").find('#ided').text();                
+        $.ajax({
+                    type: "POST",
+                    url: "../CrearReporteCompromisos",
+                    data: {id: ided},
+                    dataType: 'json',
+                    error: function (jqXHR, textStatus){
+                        messagewarning("Ha ocurrido un inconveniente, intente nuevamente. (Codigo Sistema:"+ jqXHR.status + ")");                                  
+                    },
+                    success: function(datos){
+                        window.location.replace(datos.url);
+                    }
+        })
+   });
+
+    function messagewarning(message){
         new Messi(message,
         {   
-            title: 'Alerta', 
-            titleClass: 'anim error',                                 
-            modal:true                                          
+            title: 'Advertencia', 
+            titleClass: 'anim warning',                                 
+            modal:true
         });
     }
-   
    });

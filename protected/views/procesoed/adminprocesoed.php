@@ -89,7 +89,7 @@ $this->menu=array(
         }else if(!$ed->EstadoEvaluacionIndicador){
             $imgvercompromiso=CHtml::image(Yii::app()->request->baseUrl.'/images/icons/silk/script_key.png', 'Ver Compromisos', array("id"=>"imgvercompromisos", "cursor:pointer;"));
             $imgevaluacion=CHtml::image(Yii::app()->request->baseUrl.'/images/icons/silk/award_star_add.png', 'Registrar Evaluacion', array("id"=>"imgregistrarevaluacion", "cursor:pointer;"));        
-            echo CHtml::link($imgvercompromiso, array('procesoed/vercompromisos/'.$ed->id));
+            echo CHtml::link($imgvercompromiso, array('#'));
             echo CHtml::link($imgevaluacion,array('procesoed/registrarevaluacion/'.$ed->id));
         }
         if($ed->EstadoEvaluacionIndicador){

@@ -24,7 +24,7 @@ $(document).ready(function() {
                         messagewarning("Ha ocurrido un inconveniente, intente nuevamente. (Codigo Sistema:"+ jqXHR.status + ")");                                    
                     },
                     success: function(datos){                          
-                        if(datos.resultado)
+                        if(datos.resultado)                            
                             messagesuccess(datos.mensaje, datos.url);              
                         else{
                             $('#btncompromisos').removeAttr('disabled');
@@ -292,7 +292,7 @@ $(document).ready(function() {
             }            
         });
     }
-    
+       
     function messageerror(message){
         new Messi(message,
         {   
