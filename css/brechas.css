@@ -1,0 +1,27 @@
+.divBusquedaColaborador{
+    text-align: center;
+    margin-bottom: 50px;
+    margin-top: 30px;
+   
+}
+.divBusquedaColaborador > label{
+    display: block;
+    padding-right: 120px;
+    margin-bottom: 10px;
+}
+
+.divBusquedaColaborador > input{
+   
+}
+
+.divCargando{
+    display: none;
+    text-align: center;
+    margin-bottom: 50px;
+    margin-top: 50px;
+        
+}
+
+.divCargando > label{
+   float: left;        
+}
