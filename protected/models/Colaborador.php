@@ -211,7 +211,7 @@ class Colaborador extends CActiveRecord
         public function HistoricoEvaluacion($idcolaborador){
             
         $connection = Yii::app()->db;
-        $sql = 'SELECT p.nombre AS "Puesto", un.nombre AS "Unidad Negocio", "EC" AS "Tipo Evaluacion", 
+        $sql = 'SELECT p.nombre AS "Puesto", un.nombre AS "UnidadNegocio", "EC" AS "TipoEvaluacion", 
                 (SELECT CONCAT_WS(" ",ev.nombre, ev.apellido1,ev.apellido2) FROM colaborador ev WHERE ev.id = pe.evaluador) AS "Evaluador",
                 ec.promedioponderado as "Calificacion", ec.id AS "IDEvaluacion", ec.fechaevaluacion AS "FechaEvaluacion"
                 FROM colaborador c INNER JOIN historicopuesto hp on c.id = hp.colaborador 
@@ -221,7 +221,7 @@ class Colaborador extends CActiveRecord
                 INNER JOIN procesoevaluacion pe ON ec.procesoevaluacion = pe.id
                 WHERE c.id = :idcolaborador and ec.estado = 2 and pe.estado = 1
                 UNION
-                SELECT p.nombre AS "Puesto", un.nombre AS "Unidad Negocio", "ED" AS "Tipo Evaluacion", 
+                SELECT p.nombre AS "Puesto", un.nombre AS "UnidadNegocio", "ED" AS "TipoEvaluacion", 
                 (SELECT CONCAT_WS(" ",ev.nombre, ev.apellido1,ev.apellido2) FROM colaborador ev WHERE ev.id = pe.evaluador) AS "Evaluador",
                 ed.promedioevaluacion as "Calificacion", ed.id AS "IDEvaluacion",  ed.fecharegistroevaluacion AS "FechaEvaluacion"
                 FROM colaborador c INNER JOIN historicopuesto hp on c.id = hp.colaborador 
@@ -238,8 +238,13 @@ class Colaborador extends CActiveRecord
 
         if (empty($dataReader))
             return false;
-        else
+        else{
+            foreach ($dataReader as &$fila) {
+                $fecha = $fila["FechaEvaluacion"];
+                $fila["FechaEvaluacion"] = CommonFunctions::datemysqltophp($fecha);
+            }            
             return $dataReader;
+        }
         }
 }
 

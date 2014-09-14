@@ -26,7 +26,7 @@ $this->menu = array(
 );
 ?>
 
-<h3 style="text-align: center">Análisis de Brechas por Colaborador</h3>
+<h3 style="text-align: center">Historial de Evaluaciones</h3>
 
 <div class="divBusquedaColaborador">
     <?php
@@ -41,11 +41,16 @@ $this->menu = array(
             'showAnim' => 'fold',
             'minLength' => '2',
             'select' => "js: function(event, ui) {
-                    if(ui.item['value']!='')
+                    if(ui.item['value']!=''){
                         cargarHistoricoEvaluaciones(ui.item['id']); 
-                    else
-                        $('#divCargando').css('display', 'none');	
-                    }",
+                    }else{
+                        $('#tblEvaluaciones > tbody').html('');
+                        $('#divColaborador').css('display', 'none');
+                        $('#divEvaluaciones').css('display', 'none');
+                        $('#divCargando').css('display', 'none');
+                        $('#divNoEvaluaciones').css('display', 'none');
+                    }
+            }",
         ),
         'htmlOptions' => array('size' => '30'),
     ));
@@ -60,14 +65,36 @@ $this->menu = array(
           echo CHtml::label('Cargando...','')
     ?>
     </div>
+    
+    <div id="divNoEvaluaciones" class="divNoEvaluaciones"></div>
         
     <div id="divColaborador" class="divColaborador">
-    
-    <div>
+        <p>Colaborador:<span id="spColaborador"></span></p>
+        <p>Cedula:<span id="spCedula"></span></p>
+        <p>Puesto:<span id="spPuesto"></span></p>
+        <p>Departamento:<span id="spDepartamento"></span></p>
+        <p>Estado:<span id="spEstado"></span></p>
+    </div>
     
    <div id="divEvaluaciones" class="divEvaluaciones">
-    
-    <div>
+       <table id="tblEvaluaciones" class="tblEvaluaciones">
+           <thead>
+               <tr>
+                   <td id="tdIdEvalacion"></td>
+                   <td>Departamento</td>
+                   <td>Puesto</td>
+                   <td>Tipo Proceso</td>
+                   <td>Fecha Evaluacion</td>
+                   <td>Evaluador</td>                  
+                   <td>Resultado</td>
+                   <td>Reporte</td>
+               </tr>
+           </thead>
+           <tbody>
+               
+           </tbody>
+       </table>
+   </div>
   
 </div>
 

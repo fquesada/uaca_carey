@@ -25,3 +25,23 @@
 .divCargando > label{
    float: left;        
 }
+
+.divColaborador{
+    display: none;
+}
+
+.divEvaluaciones{
+    display: none;
+}
+
+#tdIdEvalacion{
+    display: none;
+}
+
+.divNoEvaluaciones{
+    display: none;
+}
+
+.imgReporte{
+    cursor: pointer;
+}

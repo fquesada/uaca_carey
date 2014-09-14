@@ -361,6 +361,6 @@ class Evaluaciondesempeno extends CActiveRecord
         
         public function cambiarEDFinalizada(){
             $this->estadoevaluacion = 2;
-        }
-
+        }        
+       
 }
