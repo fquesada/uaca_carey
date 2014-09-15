@@ -80,14 +80,14 @@ $this->menu = array(
        <table id="tblEvaluaciones" class="tblEvaluaciones">
            <thead>
                <tr>
-                   <td id="tdIdEvalacion"></td>
-                   <td>Departamento</td>
-                   <td>Puesto</td>
-                   <td>Tipo Proceso</td>
-                   <td>Fecha Evaluacion</td>
-                   <td>Evaluador</td>                  
-                   <td>Resultado</td>
-                   <td>Reporte</td>
+                   <th id="tdIdEvalacion"></th>
+                   <th>Departamento</th>
+                   <th>Puesto</th>
+                   <th>Tipo Proceso</th>
+                   <th>Fecha Evaluacion</th>
+                   <th>Evaluador</th>                  
+                   <th>Resultado</th>
+                   <th>Reporte</th>
                </tr>
            </thead>
            <tbody>
