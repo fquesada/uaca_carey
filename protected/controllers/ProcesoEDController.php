@@ -656,7 +656,7 @@ class ProcesoEDController extends Controller {
                 $compromisos = $ed->_compromisos;
                 $competencias = $ed->_calificacioncompetencias;
                 
-              
+                
                $phpExcelPath = Yii::getPathOfAlias('application.modules.excel');
 
                // Turn off our amazing library autoload 
@@ -676,10 +676,11 @@ class ProcesoEDController extends Controller {
                
                include($phpExcelPath . DIRECTORY_SEPARATOR . 'Classes'. DIRECTORY_SEPARATOR .'PHPExcel.php');                      
 
+               
                $objReader = PHPExcel_IOFactory::createReader('Excel2007');
                $objReader->setIncludeCharts(TRUE);
                
-               $styleTableBorder = array(
+              $styleTableBorder = array(
                  'borders'=>array(
                      'allborders'=>array(
                          'style'=> PHPExcel_Style_Border::BORDER_THIN,
@@ -736,40 +737,42 @@ class ProcesoEDController extends Controller {
                      
 
                      $objPHPExcel->setActiveSheetIndex(0)
-                             ->setCellValue('D64', $ed->promediocompromisos) 
-                             ->setCellValue('D65', $ed->promediocompetencias)
-                             ->setCellValue('D66', $ed->promedioevaluacion);
+                             ->setCellValue('D67', $ed->promediocompromisos) 
+                             ->setCellValue('D68', $ed->promediocompetencias)
+                             ->setCellValue('D69', $ed->promedioevaluacion)
+                             ->SetCellValue ('B62', $ed->comentarioevaluacion);
                      
                      if (0 <= $ed->promedioevaluacion && $ed->promedioevaluacion <= 2){
                          $objPHPExcel->getActiveSheet()
-                             ->setCellValue('D67', 'Desempeño Insuficiente')
-                             ->getStyle('D67')->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)
+                             ->setCellValue('D70', 'Desempeño Insuficiente')
+                             ->getStyle('D70')->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)
                              ->getStartColor()->setRGB('f07d30');
                      }
                      else if (2 < $ed->promedioevaluacion && $ed->promedioevaluacion < 3) {
                          $objPHPExcel->getActiveSheet()
-                             ->setCellValue('D67', 'Oportunidad de mejora')
-                             ->getStyle('D67')->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)
+                             ->setCellValue('D70', 'Oportunidad de mejora')
+                             ->getStyle('D70')->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)
                              ->getStartColor()->setRGB('fefe04');
                      }
                      else if (3 <= $ed->promedioevaluacion && $ed->promedioevaluacion < 4) {
                          $objPHPExcel->getActiveSheet()
-                             ->setCellValue('D67', 'Desempeño Esperado')
-                             ->getStyle('D67')->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)
+                             ->setCellValue('D70', 'Desempeño Esperado')
+                             ->getStyle('D70')->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)
                              ->getStartColor()->setRGB('90d152');
                      }
                      else if (4 <= $ed->promedioevaluacion && $ed->promedioevaluacion < 5) {
                          $objPHPExcel->getActiveSheet()
-                             ->setCellValue('D67', 'Desempeño Sobresaliente')
-                             ->getStyle('D67')->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)
+                             ->setCellValue('D70', 'Desempeño Sobresaliente')
+                             ->getStyle('D70')->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)
                              ->getStartColor()->setRGB('c2d6ec');
                      }
                      else {
                          $objPHPExcel->getActiveSheet()
-                             ->setCellValue('D67', 'Desempeño Superior')
-                             ->getStyle('D67')->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)
+                             ->setCellValue('D70', 'Desempeño Superior')
+                             ->getStyle('D70')->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)
                              ->getStartColor()->setRGB('2d76b5');
                      }
+                     
                    }
                    
                    else {
@@ -824,7 +827,8 @@ class ProcesoEDController extends Controller {
                      $objPHPExcel->setActiveSheetIndex(0)
                              ->setCellValue('D64', $ed->promediocompromisos) 
                              ->setCellValue('D65', $ed->promediocompetencias)
-                             ->setCellValue('D66', $ed->promedioevaluacion);
+                             ->setCellValue('D66', $ed->promedioevaluacion)
+                             ->SetCellValue ('B58', $ed->comentarioevaluacion);
                      
                      if (0 <= $ed->promedioevaluacion && $ed->promedioevaluacion <= 2){
                          $objPHPExcel->getActiveSheet()
@@ -855,17 +859,20 @@ class ProcesoEDController extends Controller {
                              ->setCellValue('D67', 'Desempeño Superior')
                              ->getStyle('D67')->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)
                              ->getStartColor()->setRGB('2d76b5');
-                     }                       
+                     }        
+                     
                    }
+
                 
                 header('Content-Type: application/excel');
                 header('Content-Disposition: attachment;filename="ReporteED_'.$colaborador->nombrecompleto.'.xlsx"');
                 header('Cache-Control: max-age=0');
                 
-                $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');             
-                $objWriter->setIncludeCharts(TRUE);                        
+                $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');    
+                $objWriter->setIncludeCharts(TRUE);
                 $objWriter->save('php://output');
-                exit();     
+                exit(); 
+
                        
         }
 }
