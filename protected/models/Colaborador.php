@@ -96,7 +96,7 @@ class Colaborador extends CActiveRecord
 	 * Retrieves a list of models based on the current search/filter conditions.
 	 * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
 	 */
-	public function search()
+	public function search($condicion)
 	{
 		// Warning: Please modify the following code to remove attributes that
 		// should not be searched.
@@ -110,11 +110,39 @@ class Colaborador extends CActiveRecord
 		$criteria->compare('apellido2',$this->apellido2,true);
 		$criteria->compare('estado',$this->estado);	
                 $criteria->compare('correo',$this->correo,true);
+                
+                if($condicion){
+                    $criteria->addColumnCondition(array('estado'=>'1'));
+                }
+                else
+                    $criteria->addColumnCondition(array('estado'=>'0'));
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
 		));
 	}
+        
+//        public function searchreintegros()
+//	{
+//		// Warning: Please modify the following code to remove attributes that
+//		// should not be searched.
+//
+//		$criteria=new CDbCriteria;
+//
+//		$criteria->compare('id',$this->id);
+//		$criteria->compare('cedula',$this->cedula);
+//		$criteria->compare('nombre',$this->nombre,true);
+//		$criteria->compare('apellido1',$this->apellido1,true);
+//		$criteria->compare('apellido2',$this->apellido2,true);
+//		$criteria->compare('estado',$this->estado);	
+//                $criteria->compare('correo',$this->correo,true);
+//                
+//                $criteria->addColumnCondition(array('estado'=>'0'));
+//
+//		return new CActiveDataProvider($this, array(
+//			'criteria'=>$criteria,
+//		));
+//	}
         
         public function getnombrecompleto(){            
             if(isset($this->_nombrecompleto)) {

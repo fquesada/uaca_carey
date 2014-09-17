@@ -36,7 +36,7 @@ class ColaboradorController extends Controller
 				'users'=>array('@'),
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
-				'actions'=>array('admin','delete','Gestionpuesto','elegirpuesto','actualizarpuesto','asignarpuesto'),
+				'actions'=>array('admin','delete','Gestionpuesto','elegirpuesto','actualizarpuesto','asignarpuesto','activate','reintegrar'),
 				'users'=>array('admin'),
 			),
 			array('deny',  // deny all users
@@ -273,6 +273,32 @@ class ColaboradorController extends Controller
             
             }
         }
+        
+        public function actionActivate()
+	{
+                $model=new Colaborador('search');
+		$model->unsetAttributes();
+
+		$this->render('activate',array(
+			'model'=>$model,
+		));
+	}
+        
+        public function actionReintegrar($id){
+            $model= $this->loadModel($id);
+            $model->estado = '1';
+            $model->save();
+            
+            Yii::app()->user->setFlash('success',$model->nombrecompleto. ' ha sido reactivado/a correctamente.');
+            $model->unsetAttributes();
+            
+            $this->render('admin',array(
+            'model'=>$model,
+            ));
+        }
+        
+
+        
 
         /**
 	 * Returns the data model based on the primary key given in the GET variable.

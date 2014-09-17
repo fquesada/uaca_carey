@@ -25,6 +25,11 @@ $this->menu=array(
 		'pregunta',
 		array(
 			'class'=>'CButtonColumn',
+                        'buttons'=>array(
+                            'update'=>array(
+                                'label'=>'Actualizar',
+                            )
+                        ),
 		),
 	),
 )); ?>

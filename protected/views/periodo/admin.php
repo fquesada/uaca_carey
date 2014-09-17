@@ -29,6 +29,11 @@ Puede ingresar opcionalmente un operador comparativo (<b>&lt;</b>, <b>&lt;=</b>,
 		array(
 			'class'=>'CButtonColumn',
                         'template'=>'{update}{delete}',
+                        'buttons'=>array(
+                            'update'=>array(
+                                'label'=>'Actualizar',
+                            ),
+                        ),
 		),
 	),
 )); ?>

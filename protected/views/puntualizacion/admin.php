@@ -30,6 +30,11 @@ Puede ingresar opcionalmente un operador comparativo (<b>&lt;</b>, <b>&lt;=</b>,
 		array(
 			'class'=>'CButtonColumn',
                         'template'=>'{view}{update}',
+                        'buttons'=>array(
+                            'update'=>array(
+                                'label'=>'Actualizar',
+                            ),
+                        ),
 		),
 	),
 )); ?>

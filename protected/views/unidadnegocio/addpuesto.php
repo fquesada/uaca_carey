@@ -20,6 +20,14 @@
         'Agregar puestos'
     );
     ?>
+
+    <p></br> </br> </br> </p>
+    <?php
+    echo CHtml::button('Volver atrás', array('id'=>'btnvolveratras','submit' => array('unidadnegocio/admin/'), 'class'=>'sexybutton sexysimple sexylarge'));
+    ?>
+        
+    <p></br> </br> </br> </p>
+
     <h1>Unidad de Negocio</h1>
     
     <?php $this->widget('zii.widgets.CDetailView', array(
@@ -100,6 +108,13 @@
 	),
         'afterAjaxUpdate'=>'js:function(id,data){$.fn.yiiGridView.update("puestoexistente-grid");}'
     )); ?>
+     
+    <p></br> </br> </br> </p>
+    <?php
+    echo CHtml::button('Volver atrás', array('id'=>'btnvolveratras','submit' => array('unidadnegocio/admin/'), 'class'=>'sexybutton sexysimple sexylarge'));
+    ?>
+        
+    <p></br> </br> </br> </p>
 
      <?php if(Yii::app()->user->hasFlash('success')):?>
      <script type="text/javascript">
