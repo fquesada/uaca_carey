@@ -33,7 +33,8 @@ class ProcesoevaluacionController extends Controller
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
 				'actions'=>array('CrearProcesoEC','AdminProcesoEC','EditarProcesoEC','EliminarProcesoEC','EvaluarProcesoEC','EnvioCorreoEC','GuardarEvaluacionEC','update','admin','AgregarPersonas','AgregarPersona','AutocompleteEvaluado',
-                                                    'HabilidadesEspeciales','InfoPonderacion', 'delete', 'reporteevaluacioncompetencias', 'DataReporteEvaluacionCompetencias', 'vistaprueba','CrearReporteEC','ReporteEC','CargaMasiva','CargaDepartamento'),
+                                                    'HabilidadesEspeciales','InfoPonderacion', 'delete', 'reporteevaluacioncompetencias', 'DataReporteEvaluacionCompetencias', 'vistaprueba','CrearReporteEC','ReporteEC','CargaMasiva','CargaDepartamento',
+                                                    'ReporteAnalisisEC'),
 				'users'=>array('@'),
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -1102,5 +1103,89 @@ class ProcesoevaluacionController extends Controller
                 exit();
               
                        
+        }
+        
+        public function actionReporteAnalisisEC($fechainicio, $fechafin, $tipoanalisis, $departamentos = array()){
+            
+            $datosreporte = Evaluacioncompetencias::model()->AnalisisEvaluacion($fechainicio, $fechafin, $tipoanalisis, $departamentos);
+            
+            $phpExcelPath = Yii::getPathOfAlias('application.modules.excel');
+
+        // Turn off our amazing library autoload 
+        spl_autoload_unregister(array('YiiBase', 'autoload'));
+
+        include($phpExcelPath . DIRECTORY_SEPARATOR . 'Classes' . DIRECTORY_SEPARATOR . 'PHPExcel.php');
+
+        $objReader = PHPExcel_IOFactory::createReader('Excel2007');
+        //$objReader->setIncludeCharts(TRUE);
+
+        $styleTableBorder = array(
+            'borders' => array(
+                'allborders' => array(
+                    'style' => PHPExcel_Style_Border::BORDER_THIN,
+                )
+            ),
+        );
+        if (count($compromisos) == 4) {
+            $objPHPExcel = $objReader->load($phpExcelPath . DIRECTORY_SEPARATOR . "templates" . DIRECTORY_SEPARATOR . "EvaluaciondeDesempenoCompTemplate.xlsx");
+
+            $objPHPExcel->setActiveSheetIndex(0);  //set first sheet as active
+
+            $objPHPExcel->getActiveSheet()->setCellValue('D4', $ed->_colaborador->nombrecompleto);
+            $objPHPExcel->getActiveSheet()->setCellValue('D5', $ed->_puesto->nombre);
+            $objPHPExcel->getActiveSheet()->setCellValue('D6', CommonFunctions::datemysqltophp($ed->fecharegistrocompromiso));
+            $objPHPExcel->getActiveSheet()->setCellValue('I4', $ed->_colaborador->cedula);
+            $objPHPExcel->getActiveSheet()->setCellValue('I5', $ed->_procesoevaluacion->_evaluador->nombrecompleto);
+            $objPHPExcel->getActiveSheet()->setCellValue('I6', CommonFunctions::datemysqltophp($ed->fechaevaluacion));
+
+            $i = '9';
+
+            foreach ($compromisos as $compromiso) {
+
+                $objPHPExcel->setActiveSheetIndex(0)
+                        //->setCellValue('B'.$i, $merito->_merito->_tipomerito->nombre)
+                        ->setCellValue('A' . $i, $compromiso->_puntualizacion->indicadorpuntualizacion)
+                        ->setCellValue('F' . $i, $compromiso->compromiso);
+
+                $objPHPExcel->getActiveSheet()->getRowDimension($i)->setRowHeight(15);
+                $objPHPExcel->setActiveSheetIndex()->getStyle('A' . $i . ':J' . $i)->applyFromArray($styleTableBorder);
+                $i = $i + 4;
+            }
+        } else {
+            $objPHPExcel = $objReader->load($phpExcelPath . DIRECTORY_SEPARATOR . "templates" . DIRECTORY_SEPARATOR . "EvaluaciondeDesempenoCompTemplate2.xlsx");
+
+            $objPHPExcel->setActiveSheetIndex(0);  //set first sheet as active
+
+            $objPHPExcel->getActiveSheet()->setCellValue('D4', $ed->_colaborador->nombrecompleto);
+            $objPHPExcel->getActiveSheet()->setCellValue('D5', $ed->_puesto->nombre);
+            $objPHPExcel->getActiveSheet()->setCellValue('D6', CommonFunctions::datemysqltophp($ed->fecharegistrocompromiso));
+            $objPHPExcel->getActiveSheet()->setCellValue('I4', $ed->_colaborador->cedula);
+            $objPHPExcel->getActiveSheet()->setCellValue('I5', $ed->_procesoevaluacion->_evaluador->nombrecompleto);
+            $objPHPExcel->getActiveSheet()->setCellValue('I6', CommonFunctions::datemysqltophp($ed->fechaevaluacion));
+
+            $i = '9';
+
+            foreach ($compromisos as $compromiso) {
+
+                $objPHPExcel->setActiveSheetIndex(0)
+                        //->setCellValue('B'.$i, $merito->_merito->_tipomerito->nombre)
+                        ->setCellValue('A' . $i, $compromiso->_puntualizacion->indicadorpuntualizacion)
+                        ->setCellValue('F' . $i, $compromiso->compromiso);
+
+                $objPHPExcel->getActiveSheet()->getRowDimension($i)->setRowHeight(15);
+                $objPHPExcel->setActiveSheetIndex()->getStyle('A' . $i . ':J' . $i)->applyFromArray($styleTableBorder);
+                $i = $i + 4;
+            }
+        }
+
+        header('Content-Type: application/excel');
+        header('Content-Disposition: attachment;filename="ReporteCompromisosED_' . $colaborador->nombrecompleto . '.xlsx"');
+        header('Cache-Control: max-age=0');
+
+        $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
+        //$objWriter->setIncludeCharts(TRUE);                        
+        $objWriter->save('php://output');
+        
+        exit();
         }
 }

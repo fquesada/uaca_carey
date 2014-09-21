@@ -331,6 +331,38 @@ class Evaluacioncompetencias extends CActiveRecord {
     function validarpuntaje($valor, $puntaje){
         //FALTA
     }
+    
+    public function AnalisisEvaluacion($fechainicio, $fechafin, $tipoanalisis, $departamentos = array()){
+         
+        $connection = Yii::app()->db;        
+        
+        if($tipoanalisis == "masiva"){
+            $sql = 'SELECT ec.id, c.cedula,c.nombre,c.apellido1,c.apellido2, p.nombre, un.nombre, (select CONCAT_WS(" ",ev.nombre, ev.apellido1,ev.apellido2) FROM colaborador ev WHERE ev.id = pe.evaluador) as "Evaluador", DATE_FORMAT (ec.fechaevaluacion, "%d/%m/%Y") as "fechaevaluacion", ec.promedioponderado, ec.promedioec, ec.promedioac, ec.eccalificacion, ec.accalificacion, ec.acdetalle, ec.acindicador, per.nombre, DATE_FORMAT (pe.fecha, "%d/%m/%Y") as "fechaproceso", pe.descripcion
+                    FROM colaborador c INNER JOIN historicopuesto hp on c.id = hp.colaborador 
+                    INNER JOIN puesto p  ON hp.puesto = p.id
+                    INNER JOIN unidadnegocio un  ON hp.unidadnegocio = un.id
+                    INNER JOIN evaluacioncompetencias ec ON c.id = ec.colaborador
+                    INNER JOIN procesoevaluacion pe ON ec.procesoevaluacion = pe.id
+                    INNER JOIN periodo per ON pe.periodo = per.id
+                    WHERE ec.estado = 2 AND (ec.fechaevaluacion BETWEEN :fechainicio AND :fechafin)AND pe.estado = 1
+                    ORDER BY fechaevaluacion ASC;
+                ';
+            $command = $connection->createCommand($sql);
+            $command->bindParam(":fechainicio", $fechainicio, PDO::PARAM_STR);
+            $command->bindParam(":fechafin", $fechafin, PDO::PARAM_STR);
+        }
+        else if($tipoanalisis == "departamento"){
+            
+        }
+       
+        $dataReader = $command->queryAll();
+
+        if (empty($dataReader))
+            return false;
+        else{                      
+            return $dataReader;
+        }
+        }
 
 
 }

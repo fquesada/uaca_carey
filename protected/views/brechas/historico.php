@@ -16,7 +16,7 @@ Yii::app()->clientScript->registerScript('autocomplete', '
 );
 
 $this->breadcrumbs = array(
-    'Análisis de Brechas por Colaborador',
+    'Historico de Evaluaciones por Colaborador',
 );
 
 $this->menu = array(

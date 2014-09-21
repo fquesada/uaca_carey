@@ -43,8 +43,8 @@ $this->pageTitle=Yii::app()->name;
        </div>
        <div id="ContenidoB">
            <br>
-           <?php echo CHtml::link('Historial de Evaluaciones',array('brechas/analisiscolaborador'), array("class"=>"boton")); ?>
-           <?php echo CHtml::link('Análisis de Brechas en Competencias',array('brechas/competencias'), array("class"=>"boton")); ?>
+           <?php echo CHtml::link('Historial de Evaluaciones',array('brechas/HistoricoEvaluaciones'), array("class"=>"boton")); ?>
+           <?php echo CHtml::link('Análisis de Brechas en Competencias',array('brechas/AnalisisCompetencias'), array("class"=>"boton")); ?>
            <?php echo CHtml::link('Análisis de Brechas en Desempeño',array('brechas/desempeno'), array("class"=>"boton")); ?>
        </div>
    </div>

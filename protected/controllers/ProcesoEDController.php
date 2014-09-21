@@ -34,7 +34,7 @@ class ProcesoEDController extends Controller {
                 'actions' => array('crear', 'report', 'update', 'admin', 'Admined', 'EliminarProcesoED','AdminEva', 'AgregarPersona', 'AutocompleteEvaluado', 'AgregarCompromisos',
                     'HabilidadesEspeciales', 'InfoPonderacion', 'delete', 'reporteevaluacioncompetencias', 'DataReporteEvaluacionCompetencias', 'CargaMasiva', 'CargaDepartamento',
                     'adminprocesoed', 'GuardarCompromisos', 'RegistrarEvaluacion', 'GuardarEvaluacionED', 'ActualizarCalificacionED', 'CrearReporteED', 'ReporteED', 'CrearReporteCompromisos','ReporteCompromisos',
-                    'DescargaCompromisos'),
+                    'DescargaCompromisos', 'ReporteAnalisisED'),
                 'users' => array('@'),
             ),
             array('allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -733,6 +733,12 @@ class ProcesoEDController extends Controller {
                 exit();     
                        
         }
+        
+     public function actionReporteAnalisisED($fechainicio, $fechafin, $tipoanalisis, $departamentos = array()){
+       
+     }
+        
+        
 /**
      * Lists all models.
      */

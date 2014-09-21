@@ -30,8 +30,8 @@ class BrechasController extends Controller {
                 'users' => array('*'),
             ),
             array('allow', // allow authenticated user to perform 'create' and 'update' actions
-                'actions' => array('AnalisisColaborador', 'competencias', 'brechas', 'AutocompleteColaborador',
-                    'CargarHistoricoEvaluaciones', 'GenerarReporte'),
+                'actions' => array('HistoricoEvaluaciones', 'competencias', 'brechas', 'AutocompleteColaborador',
+                    'CargarHistoricoEvaluaciones', 'GenerarReporteHistorico', 'AnalisisCompetencias', 'GenerarReporteAnalisis'),
                 'users' => array('@'),
             ),
             array('allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -44,39 +44,12 @@ class BrechasController extends Controller {
         );
     }
 
-    public function actionAnalisisColaborador() {
+    /*Metodos de Historico*/
+    
+    public function actionHistoricoEvaluaciones() {
 
-        $this->render('colaborador', array());
-    }
-
-    public function actionAutocompleteColaborador() {
-        if (isset($_GET['term'])) {
-
-            $keyword = $_GET['term'];
-            // escape % and _ characters
-            $keyword = strtr($keyword, array('%' => '\%', '_' => '\_'));
-            $dataReader = Colaborador::model()->BuscarColaborador($keyword, false);
-
-            $return_array = array();
-            if ($dataReader->count() == 0) {
-                $return_array[] = array(
-                    'label' => 'No hay resultados.',
-                    'value' => '',
-                );
-            } else {
-                foreach ($dataReader as $row) {
-
-                    $nombrecompleto = $row['nombre'] . ' ' . $row['apellido1'] . ' ' . $row['apellido2'];
-                    $return_array[] = array(
-                        'label' => '<div style="font-size:x-small">Puesto: ' . $row['puesto'] . '</div>' . '<div>' . $nombrecompleto . '</div>',
-                        'value' => $nombrecompleto,
-                        'id' => $row['id'],
-                    );
-                }
-            }
-            echo CJSON::encode($return_array);
-        }
-    }
+        $this->render('historico', array());
+    }    
 
     public function actionCargarHistoricoEvaluaciones() {
         if (Yii::app()->request->isAjaxRequest) {
@@ -110,7 +83,7 @@ class BrechasController extends Controller {
         }
     }
 
-    public function actionGenerarReporte() {
+    public function actionGenerarReporteHistorico() {
         if (Yii::app()->request->isAjaxRequest) {
             $idEvalacion = CommonFunctions::stringtonumber($_POST['id']);
             $tipoProceso = $_POST['tipo'];
@@ -125,4 +98,69 @@ class BrechasController extends Controller {
             }
         }
     }
+    
+    /*Metodos Analisis Competencias*/
+    
+    public function actionAnalisisCompetencias(){
+        $this->render('analisis', array());
+    }
+    
+    public function actionGenerarReporteAnalisis() {
+        if (Yii::app()->request->isAjaxRequest) {
+            $tipoProceso = $_POST['tipoproceso'];
+            $fechaInicio = CommonFunctions::datephptomysql($_POST['fechainicio']);
+            $fechaFin = CommonFunctions::datephptomysql($_POST['fechafin']);            
+            $tipoAnalisis= $_POST['tipoanalisis'];
+            
+            $departamentos = array();
+            if(isset($_POST['departamentos']))    
+                $departamentos = $_POST['departamentos'];
+            
+            if ($tipoProceso == "ED") {                
+                $url = Yii::app()->createUrl("ProcesoED/ReporteAnalisisED",array("fechainicio"=>$fechaInicio,"fechafin"=>$fechaFin, "tipoanalisis"=>$tipoAnalisis, "departamentos"=>$departamentos));                                
+                $response = array('url' => $url);
+                echo CJSON::encode($response);
+                Yii::app()->end();
+            } else if ($tipoProceso == "EC") {
+                $url = Yii::app()->createUrl("Procesoevaluacion/ReporteAnalisisEC",array("fechainicio"=>$fechaInicio,"fechafin"=>$fechaFin, "tipoanalisis"=>$tipoAnalisis, "departamentos"=>$departamentos));                                
+                $response = array('url' => $url);
+                echo CJSON::encode($response);
+                Yii::app()->end();
+            }
+        }
+    }
+    
+    
+    /*Metodos Generales*/
+    
+    public function actionAutocompleteColaborador() {
+        if (isset($_GET['term'])) {
+
+            $keyword = $_GET['term'];
+            // escape % and _ characters
+            $keyword = strtr($keyword, array('%' => '\%', '_' => '\_'));
+            $dataReader = Colaborador::model()->BuscarColaborador($keyword, false);
+
+            $return_array = array();
+            if ($dataReader->count() == 0) {
+                $return_array[] = array(
+                    'label' => 'No hay resultados.',
+                    'value' => '',
+                );
+            } else {
+                foreach ($dataReader as $row) {
+
+                    $nombrecompleto = $row['nombre'] . ' ' . $row['apellido1'] . ' ' . $row['apellido2'];
+                    $return_array[] = array(
+                        'label' => '<div style="font-size:x-small">Puesto: ' . $row['puesto'] . '</div>' . '<div>' . $nombrecompleto . '</div>',
+                        'value' => $nombrecompleto,
+                        'id' => $row['id'],
+                    );
+                }
+            }
+            echo CJSON::encode($return_array);
+        }
+    }
+    
+    
 }

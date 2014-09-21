@@ -1,5 +1,7 @@
 $(document).ready(function() {
 
+    //Metodos de Historico
+    
     //Metodo para Cargar Historico Evaluaciones
     window.cargarHistoricoEvaluaciones = function (idcolaborador) {        
         $('#tblEvaluaciones > tbody').html('');
@@ -67,7 +69,7 @@ $(document).ready(function() {
         var tipoProceso = $(this).parents("tr").find('#tdTipoProceso').text();
         $.ajax({
                     type: "POST",
-                    url: "GenerarReporte",
+                    url: "GenerarReporteHistorico",
                     data: {id: idEvaluacion, tipo: tipoProceso},
                     dataType: 'json',
                     error: function (jqXHR, textStatus){
@@ -78,7 +80,93 @@ $(document).ready(function() {
                     }
         })
    });
-
+   
+   //Metodos de Analisis Evaluaciones
+   
+     $("#btnGenerarAnalisis").click(function(event){
+        event.preventDefault();   
+        $.ajax({
+                    type: "POST",
+                    url: "GenerarReporteAnalisis",
+                    data: obtenerdatosanalisis(),
+                    dataType: 'json',
+                    error: function (jqXHR, textStatus){
+                        messagewarning("Ha ocurrido un inconveniente, intente nuevamente. (Codigo Sistema:"+ jqXHR.status + ")");                                  
+                    },
+                    success: function(datos){
+                        window.location.replace(datos.url);
+                    }
+        })
+    });
+   
+   function obtenerdatosanalisis(){
+       var data = {};            
+       data['tipoproceso'] = $('#ddlproceso').val();
+       data['fechainicio'] = $("#dpFechaInicio").val();
+       data['fechafin'] = $("#dpFechaFinal").val();
+       data['tipoanalisis'] = $("[name='tipocarga']:checked").val();
+       data['departamentos'] = obtenerDepartamentos();
+       return data;
+   }
+   
+   function obtenerDepartamentos(){
+        var departamentos = [];
+        $("[name='cblDepartamento[]']:checked").each(function() {
+            departamentos.push(this.value);
+        });
+        return departamentos;
+    }
+   
+   $("[value='masiva']").on("click",function(){   
+        $('#Departamentoerror').hide();
+        desmarcarTodosDepartamentos();
+    });
+   
+   $("[value='departamento']").on("click",function(){   
+        $('#Departamentoerror').hide();
+        $('#divDepartamentos').show();
+        $("#dialogDepartamentos").dialog('open');
+    });
+    
+    $("#btnSeleccionDepartamento").click(function(){       
+      validarDepartamentos();
+   });
+   
+  function validarDepartamentos(){   
+       if($("[name='cblDepartamento[]']:checked").length > 0){
+        $("#dialogDepartamentos").dialog('close');
+        $("#divDepartamentos").hide();        
+       }else{        
+         $('#Departamentoerror').show();
+      }
+    }
+   
+    $("#btnMarcarTodosDepartamento").click(function(){       
+        marcarTodosDepartamentos();
+   });
+   
+   $("#btnDesmarcarTodosDepartamento").click(function(){       
+        desmarcarTodosDepartamentos();
+   });
+   
+   function marcarTodosDepartamentos(){
+        $("[name='cblDepartamento[]']").each(function(){
+             if(!this.checked){
+                 $(this).attr('checked','checked');
+             }
+        });
+   }
+   
+   function desmarcarTodosDepartamentos(){
+       $("[name='cblDepartamento[]']").each(function(){
+             if(this.checked){
+                 $(this).removeAttr('checked');
+             }
+        });
+   }
+   
+   
+    
     //MENSAJES
     function messagewarning(message){
         new Messi(message,
