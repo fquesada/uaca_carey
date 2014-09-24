@@ -337,7 +337,7 @@ class Evaluacioncompetencias extends CActiveRecord {
         $connection = Yii::app()->db;        
         
         if($tipoanalisis == "masiva"){
-            $sql = 'SELECT ec.id, c.cedula,c.nombre,c.apellido1,c.apellido2, p.nombre, un.nombre, (select CONCAT_WS(" ",ev.nombre, ev.apellido1,ev.apellido2) FROM colaborador ev WHERE ev.id = pe.evaluador) as "Evaluador", DATE_FORMAT (ec.fechaevaluacion, "%d/%m/%Y") as "fechaevaluacion", ec.promedioponderado, ec.promedioec, ec.promedioac, ec.eccalificacion, ec.accalificacion, ec.acdetalle, ec.acindicador, per.nombre, DATE_FORMAT (pe.fecha, "%d/%m/%Y") as "fechaproceso", pe.descripcion
+            $sql = 'SELECT c.cedula, CONCAT_WS(" ", c.nombre, c.apellido1, c.apellido2) AS "colaborador", p.nombre AS "puesto", un.nombre AS "departamento", (select CONCAT_WS(" ",ev.nombre, ev.apellido1,ev.apellido2) FROM colaborador ev WHERE ev.id = pe.evaluador) AS "evaluador", per.nombre AS "periodo", pe.descripcion, DATE_FORMAT (ec.fechaevaluacion, "%d/%m/%Y") AS "fechaevaluacion", ec.promedioponderado, ec.eccalificacion, ec.acindicador, ec.accalificacion 
                     FROM colaborador c INNER JOIN historicopuesto hp on c.id = hp.colaborador 
                     INNER JOIN puesto p  ON hp.puesto = p.id
                     INNER JOIN unidadnegocio un  ON hp.unidadnegocio = un.id
