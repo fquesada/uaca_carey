@@ -1109,7 +1109,7 @@ class ProcesoevaluacionController extends Controller
             
        $datosreporte = Evaluacioncompetencias::model()->AnalisisEvaluacion($fechainicio, $fechafin, $tipoanalisis, $departamentos);
             
-      $phpExcelPath = Yii::getPathOfAlias('application.modules.excel');
+       $phpExcelPath = Yii::getPathOfAlias('application.modules.excel');
 
         // Turn off our amazing library autoload 
         spl_autoload_unregister(array('YiiBase', 'autoload'));
@@ -1128,25 +1128,33 @@ class ProcesoevaluacionController extends Controller
             $objPHPExcel->getActiveSheet()->setCellValue('B4', CommonFunctions::datemysqltophp($fechainicio));
             $objPHPExcel->getActiveSheet()->setCellValue('B5', CommonFunctions::datemysqltophp($fechafin));
             
-            $i = '8';
-            foreach ($datosreporte as $fila) {
-
+      
+            
+     
+      if(!$datosreporte){
                  $objPHPExcel->setActiveSheetIndex(0)               
-                    ->setCellValue('A'.$i, $fila["cedula"])
-                    ->setCellValue('B'.$i, $fila["colaborador"])
-                    ->setCellValue('C'.$i, $fila["puesto"])
-                    ->setCellValue('D'.$i, $fila["departamento"])
-                    ->setCellValue('E'.$i, $fila["evaluador"])
-                    ->setCellValue('F'.$i, $fila["periodo"])
-                    ->setCellValue('G'.$i, $fila["descripcion"])
-                    ->setCellValue('H'.$i, $fila["fechaevaluacion"])
-                    ->setCellValue('I'.$i, $fila["promedioponderado"])
-                    ->setCellValue('J'.$i, $fila["eccalificacion"])
-                    ->setCellValue('K'.$i, $fila["acindicador"])
-                    ->setCellValue('L'.$i, $fila["accalificacion"]);
-              
-                    $i++;
-           }
+                    ->setCellValue('A6',"No se encontraron evaluaciones para esta(s) unidad(es) de negocio.");
+      }else{
+        $i = '8';      
+        foreach ($datosreporte as $fila) {
+
+                   $objPHPExcel->setActiveSheetIndex(0)               
+                      ->setCellValue('A'.$i, $fila["cedula"])
+                      ->setCellValue('B'.$i, $fila["colaborador"])
+                      ->setCellValue('C'.$i, $fila["puesto"])
+                      ->setCellValue('D'.$i, $fila["departamento"])
+                      ->setCellValue('E'.$i, $fila["evaluador"])
+                      ->setCellValue('F'.$i, $fila["periodo"])
+                      ->setCellValue('G'.$i, $fila["descripcion"])
+                      ->setCellValue('H'.$i, $fila["fechaevaluacion"])
+                      ->setCellValue('I'.$i, $fila["promedioponderado"])
+                      ->setCellValue('J'.$i, $fila["eccalificacion"])
+                      ->setCellValue('K'.$i, $fila["acindicador"])
+                      ->setCellValue('L'.$i, $fila["accalificacion"]);
+
+                      $i++;
+         }           
+       }
 
         header('Content-Type: application/excel');
         header('Content-Disposition: attachment;filename="BrechasResumidoEC.xlsx"');

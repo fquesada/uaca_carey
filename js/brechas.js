@@ -93,8 +93,8 @@ $(document).ready(function() {
                     error: function (jqXHR, textStatus){
                         messagewarning("Ha ocurrido un inconveniente, intente nuevamente. (Codigo Sistema:"+ jqXHR.status + ")");                                  
                     },
-                    success: function(datos){
-                        window.location.replace(datos.url);
+                    success: function(datos){                      
+                            window.location.replace(datos.url);
                     }
         })
     });

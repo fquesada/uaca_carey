@@ -109,28 +109,29 @@ class BrechasController extends Controller {
         if (Yii::app()->request->isAjaxRequest) {
             $tipoProceso = $_POST['tipoproceso'];
             $fechaInicio = CommonFunctions::datephptomysql($_POST['fechainicio']);
-            $fechaFin = CommonFunctions::datephptomysql($_POST['fechafin']);            
-            $tipoAnalisis= $_POST['tipoanalisis'];
-            
+            $fechaFin = CommonFunctions::datephptomysql($_POST['fechafin']);
+            $tipoAnalisis = $_POST['tipoanalisis'];
+
             $departamentos = array();
-            if(isset($_POST['departamentos']))    
-                $departamentos = $_POST['departamentos'];
-            
-            if ($tipoProceso == "ED") {                
-                $url = Yii::app()->createUrl("ProcesoED/ReporteAnalisisED",array("fechainicio"=>$fechaInicio,"fechafin"=>$fechaFin, "tipoanalisis"=>$tipoAnalisis, "departamentos"=>$departamentos));                                
+            if (isset($_POST['departamentos']))
+                $departamentos = implode($_POST['departamentos'], ',');
+            else
+                $tipoAnalisis = "masiva";
+
+            if ($tipoProceso == "ED") {
+                $url = Yii::app()->createUrl("ProcesoED/ReporteAnalisisED", array("fechainicio" => $fechaInicio, "fechafin" => $fechaFin, "tipoanalisis" => $tipoAnalisis, "departamentos" => $departamentos));
                 $response = array('url' => $url);
                 echo CJSON::encode($response);
                 Yii::app()->end();
             } else if ($tipoProceso == "EC") {
-                $url = Yii::app()->createUrl("Procesoevaluacion/ReporteAnalisisEC",array("fechainicio"=>$fechaInicio,"fechafin"=>$fechaFin, "tipoanalisis"=>$tipoAnalisis, "departamentos"=>$departamentos));                                
+                $url = Yii::app()->createUrl("Procesoevaluacion/ReporteAnalisisEC", array("fechainicio" => $fechaInicio, "fechafin" => $fechaFin, "tipoanalisis" => $tipoAnalisis, "departamentos" => $departamentos));
                 $response = array('url' => $url);
                 echo CJSON::encode($response);
                 Yii::app()->end();
             }
         }
     }
-    
-    
+
     /*Metodos Generales*/
     
     public function actionAutocompleteColaborador() {
