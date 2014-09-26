@@ -705,7 +705,7 @@ class ProcesoEDController extends Controller {
                      {
 
                           $objPHPExcel->setActiveSheetIndex(0)
-                                 //->setCellValue('B'.$i, $merito->_merito->_tipomerito->nombre)
+                                 
                                  ->setCellValue('A'.$i, $compromiso->_puntualizacion->indicadorpuntualizacion)
                                  ->setCellValue('F'.$i, $compromiso->compromiso)
                                  ->setCellValue('K'.$i, $compromiso->puntaje);
@@ -721,55 +721,49 @@ class ProcesoEDController extends Controller {
                      foreach($competencias as $competencia)
                      {
                          $objPHPExcel->setActiveSheetIndex(0)
-                                 //->mergeCells('E'.$j.':F'.$j)
+                                 
                                  ->setCellValue('E'.$j, $competencia->_competencia->competencia)
                                  ->setCellValue('F'.$j, $competencia->puntaje);
-                                 //->setCellValue('D'.$j, $competencia->metodo)
-                                 //->setCellValue('E'.$j, $competencia->calificacionvariablemetodo)
-                                 //->setCellValue('F'.$j, $competencia->ponderacion)
-                                 //->setCellValue('G'.$j, CommonFunctions::ponderaciontoideal($competencia->ponderacion))
-                                 //->setCellValue('H'.$j, $competencia->calificacion);
 
-                          //$objPHPExcel->getActiveSheet()->getRowDimension($j)->setRowHeight(15);
                           $objPHPExcel->setActiveSheetIndex()->getStyle('E'.$j.':F'.$j)->applyFromArray($styleTableBorder);
                           $j++;
                      }
-                     
-
                      $objPHPExcel->setActiveSheetIndex(0)
-                             ->setCellValue('D67', $ed->promediocompromisos) 
-                             ->setCellValue('D68', $ed->promediocompetencias)
-                             ->setCellValue('D69', $ed->promedioevaluacion)
-                             ->SetCellValue ('B62', $ed->comentarioevaluacion);
+                             ->setCellValue('D83', $ed->promediocompromisos) 
+                             ->setCellValue('D84', $ed->promediocompetencias)
+                             ->setCellValue('D85', $ed->promedioevaluacion)
+                             ->setCellValue('O70', $ed->promediocompromisos)
+                             ->setCellValue('P71', $ed->promediocompetencias)
+                             ->SetCellValue ('B78', $ed->comentarioevaluacion);
                      
                      if (0 <= $ed->promedioevaluacion && $ed->promedioevaluacion <= 2){
                          $objPHPExcel->getActiveSheet()
-                             ->setCellValue('D70', 'Desempeño Insuficiente')
-                             ->getStyle('D70')->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)
+                             ->setCellValue('D86', 'Desempeño Insuficiente')
+                             ->getStyle('D86')->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)
                              ->getStartColor()->setRGB('f07d30');
                      }
                      else if (2 < $ed->promedioevaluacion && $ed->promedioevaluacion < 3) {
                          $objPHPExcel->getActiveSheet()
-                             ->setCellValue('D70', 'Oportunidad de mejora')
-                             ->getStyle('D70')->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)
+                             ->setCellValue('D86', 'Oportunidad de mejora')
+                             ->getStyle('D86')->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)
                              ->getStartColor()->setRGB('fefe04');
                      }
                      else if (3 <= $ed->promedioevaluacion && $ed->promedioevaluacion < 4) {
                          $objPHPExcel->getActiveSheet()
-                             ->setCellValue('D70', 'Desempeño Esperado')
-                             ->getStyle('D70')->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)
+                             ->setCellValue('D86', 'Desempeño Esperado')
+                             ->getStyle('D86')->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)
                              ->getStartColor()->setRGB('90d152');
                      }
                      else if (4 <= $ed->promedioevaluacion && $ed->promedioevaluacion < 5) {
                          $objPHPExcel->getActiveSheet()
-                             ->setCellValue('D70', 'Desempeño Sobresaliente')
-                             ->getStyle('D70')->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)
+                             ->setCellValue('D86', 'Desempeño Sobresaliente')
+                             ->getStyle('D86')->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)
                              ->getStartColor()->setRGB('c2d6ec');
                      }
                      else {
                          $objPHPExcel->getActiveSheet()
-                             ->setCellValue('D70', 'Desempeño Superior')
-                             ->getStyle('D70')->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)
+                             ->setCellValue('D86', 'Desempeño Superior')
+                             ->getStyle('D86')->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)
                              ->getStartColor()->setRGB('2d76b5');
                      }
                      
@@ -812,52 +806,48 @@ class ProcesoEDController extends Controller {
                                  //->mergeCells('E'.$j.':F'.$j)
                                  ->setCellValue('E'.$j, $competencia->_competencia->competencia)
                                  ->setCellValue('F'.$j, $competencia->puntaje);
-                                 //->setCellValue('D'.$j, $competencia->metodo)
-                                 //->setCellValue('E'.$j, $competencia->calificacionvariablemetodo)
-                                 //->setCellValue('F'.$j, $competencia->ponderacion)
-                                 //->setCellValue('G'.$j, CommonFunctions::ponderaciontoideal($competencia->ponderacion))
-                                 //->setCellValue('H'.$j, $competencia->calificacion);
 
-                          //$objPHPExcel->getActiveSheet()->getRowDimension($j)->setRowHeight(15);
                           $objPHPExcel->setActiveSheetIndex()->getStyle('E'.$j.':F'.$j)->applyFromArray($styleTableBorder);
                           $j++;
                      }
                      
 
                      $objPHPExcel->setActiveSheetIndex(0)
-                             ->setCellValue('D64', $ed->promediocompromisos) 
-                             ->setCellValue('D65', $ed->promediocompetencias)
-                             ->setCellValue('D66', $ed->promedioevaluacion)
-                             ->SetCellValue ('B58', $ed->comentarioevaluacion);
+                             ->setCellValue('D83', $ed->promediocompromisos) 
+                             ->setCellValue('D84', $ed->promediocompetencias)
+                             ->setCellValue('D85', $ed->promedioevaluacion)
+                             ->setCellValue('O70', $ed->promediocompromisos)
+                             ->setCellValue('P71', $ed->promediocompetencias)
+                             ->SetCellValue ('B78', $ed->comentarioevaluacion);
                      
                      if (0 <= $ed->promedioevaluacion && $ed->promedioevaluacion <= 2){
                          $objPHPExcel->getActiveSheet()
-                             ->setCellValue('D67', 'Desempeño Insuficiente')
-                             ->getStyle('D67')->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)
+                             ->setCellValue('D86', 'Desempeño Insuficiente')
+                             ->getStyle('D86')->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)
                              ->getStartColor()->setRGB('f07d30');
                      }
                      else if (2 < $ed->promedioevaluacion && $ed->promedioevaluacion < 3) {
                          $objPHPExcel->getActiveSheet()
-                             ->setCellValue('D67', 'Oportunidad de mejora')
-                             ->getStyle('D67')->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)
+                             ->setCellValue('D86', 'Oportunidad de mejora')
+                             ->getStyle('D86')->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)
                              ->getStartColor()->setRGB('fefe04');
                      }
                      else if (3 <= $ed->promedioevaluacion && $ed->promedioevaluacion < 4) {
                          $objPHPExcel->getActiveSheet()
-                             ->setCellValue('D67', 'Desempeño Esperado')
-                             ->getStyle('D67')->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)
+                             ->setCellValue('D86', 'Desempeño Esperado')
+                             ->getStyle('D86')->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)
                              ->getStartColor()->setRGB('90d152');
                      }
                      else if (4 <= $ed->promedioevaluacion && $ed->promedioevaluacion < 5) {
                          $objPHPExcel->getActiveSheet()
-                             ->setCellValue('D67', 'Desempeño Sobresaliente')
-                             ->getStyle('D67')->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)
+                             ->setCellValue('D86', 'Desempeño Sobresaliente')
+                             ->getStyle('D86')->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)
                              ->getStartColor()->setRGB('c2d6ec');
                      }
                      else {
                          $objPHPExcel->getActiveSheet()
-                             ->setCellValue('D67', 'Desempeño Superior')
-                             ->getStyle('D67')->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)
+                             ->setCellValue('D86', 'Desempeño Superior')
+                             ->getStyle('D86')->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)
                              ->getStartColor()->setRGB('2d76b5');
                      }        
                      
