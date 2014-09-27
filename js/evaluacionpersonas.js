@@ -103,6 +103,106 @@ $(document).ready(function() {
 //                mostrarerror($('#ddlpuesto'));
 //      }
    });
+   
+   //Guardar proceso de editar EC
+    $("#btnguardarprocesoECV").click(function(event){
+        event.preventDefault();      
+        
+        var idprocesoec = $('#idprocesoec').val();
+        
+        if(!validar($('#ddlperiodo'))){     
+            mostrarerror($('#ddlperiodo'));}
+       else if (!validar($('#txtdescripcion'))){
+            mostrarerror($('#txtdescripcion'));}
+       else if (!validar($('#busquedaevaluador'))){
+           mostrarerror($('#busquedaevaluador'));}
+       else if (cantidadcolaboradorestabla()== 0){
+           mostrarerror($('#tblcolaboradores'));
+       }
+       else{
+           $('#btnguardarprocesoECV').attr('disabled', 'true');
+           $.ajax({
+                    type: "POST",
+                    url: "../editarprocesoecv/"+idprocesoec,
+                    data: obtenerdatoscrearproceso(),
+                    dataType: 'json',
+                    error: function (jqXHR, textStatus){
+                        $('#btnguardarprocesoEC').removeAttr('disabled');
+                        if (jqXHR.status === 0) {                            
+                            messageerror("Problema de red, contacte al administrador de sistemas.");
+                        } else if (jqXHR.status == 404) {
+                            messagewarning("Solicitud no encontrada.");
+                        } else if (jqXHR.status == 500) {
+                            messageerror("Error 500. Ha ocurrido un problema con el servidor, contacte al administrador de sistemas.");
+                        } else if (textStatus === 'parsererror') {
+                            messagewarning("Ha ocurrido un inconveniente, intente nuevamente.");
+                        } else if (textStatus === 'timeout') {
+                            messageerror("Tiempo de espera excedido, intente nuevamente.");
+                        } else if (textStatus === 'abort') {
+                            messageerror("Se ha abortado la solicitud, intente nuevamente");
+                        } else {
+                            messageerror("Error desconocido, contacte al administrador de sistemas.");                            
+                        }
+                    },
+                    success: function(datos){                        
+                        if(datos.resultado)
+                            messagesuccess(datos.mensaje, datos.url);              
+                        else
+                            messageerror(datos.mensaje);
+                    }
+        });
+       }
+    });
+   
+   
+   //Crear Proceso de EVC
+   $("#btncrearprocesoECV").click(function(event){
+       event.preventDefault();       
+       
+       if (!validar($('#ddlpuesto'))){
+            mostrarerror($('#ddlpuesto'));}
+       else if(!validar($('#ddlperiodo'))){     
+            mostrarerror($('#ddlperiodo'));}
+       else if (!validar($('#txtdescripcion'))){
+            mostrarerror($('#txtdescripcion'));}
+       else if (!validar($('#busquedaevaluador'))){
+           mostrarerror($('#busquedaevaluador'));}
+       else if (cantidadcolaboradorestabla()== 0){
+           mostrarerror($('#tblcolaboradores'));
+       }
+       else{         
+       $('#btncrearprocesoECV').attr('disabled', 'true');
+       $.ajax({
+                    type: "POST",
+                    url: "CrearProcesoECV",
+                    data: obtenerdatoscrearproceso(),
+                    dataType: 'json',
+                    error: function (jqXHR, textStatus){
+                        $('#btncrearprocesoEC').removeAttr('disabled');
+                        if (jqXHR.status === 0) {                            
+                            messageerror("Problema de red, contacte al administrador de sistemas.");
+                        } else if (jqXHR.status == 404) {
+                            messagewarning("Solicitud no encontrada.");
+                        } else if (jqXHR.status == 500) {
+                            messageerror("Error 500. Ha ocurrido un problema con el servidor, contacte al administrador de sistemas.");
+                        } else if (textStatus === 'parsererror') {
+                            messagewarning("Ha ocurrido un inconveniente, intente nuevamente.");
+                        } else if (textStatus === 'timeout') {
+                            messageerror("Tiempo de espera excedido, intente nuevamente.");
+                        } else if (textStatus === 'abort') {
+                            messageerror("Se ha abortado la solicitud, intente nuevamente");
+                        } else {
+                            messageerror("Error desconocido, contacte al administrador de sistemas.");                            
+                        }
+                    },
+                    success: function(datos){                       
+                        if(datos.resultado)
+                            messagesuccess(datos.mensaje, datos.url);              
+                        else
+                            messageerror(datos.mensaje);
+                    }
+        });}
+   });
   
     function obtenerdatoscrearpersona(){             
     var data = {};
@@ -565,5 +665,238 @@ $(document).ready(function() {
  }
  
  /*Fin Logica de carga de Colaboradores*/
+ 
+ 
+ /*PROCESOECV*/
+ 
+//Guardar proceso de editar EC
+    $("#btnguardarprocesoECV").click(function(event){
+        event.preventDefault();      
+        
+        var idprocesoec = $('#idprocesoec').val();
+        
+        if(!validar($('#ddlperiodo'))){     
+            mostrarerror($('#ddlperiodo'));}
+       else if (!validar($('#txtdescripcion'))){
+            mostrarerror($('#txtdescripcion'));}
+       else if (!validar($('#busquedaevaluador'))){
+           mostrarerror($('#busquedaevaluador'));}
+       else if (cantidadcolaboradorestabla()== 0){
+           mostrarerror($('#tblcolaboradores'));
+       }
+       else{
+           $('#btnguardarprocesoECV').attr('disabled', 'true');
+           $.ajax({
+                    type: "POST",
+                    url: "../editarprocesoecv/"+idprocesoec,
+                    data: obtenerdatoscrearproceso(),
+                    dataType: 'json',
+                    error: function (jqXHR, textStatus){
+                        $('#btnguardarprocesoEC').removeAttr('disabled');
+                        if (jqXHR.status === 0) {                            
+                            messageerror("Problema de red, contacte al administrador de sistemas.");
+                        } else if (jqXHR.status == 404) {
+                            messagewarning("Solicitud no encontrada.");
+                        } else if (jqXHR.status == 500) {
+                            messageerror("Error 500. Ha ocurrido un problema con el servidor, contacte al administrador de sistemas.");
+                        } else if (textStatus === 'parsererror') {
+                            messagewarning("Ha ocurrido un inconveniente, intente nuevamente.");
+                        } else if (textStatus === 'timeout') {
+                            messageerror("Tiempo de espera excedido, intente nuevamente.");
+                        } else if (textStatus === 'abort') {
+                            messageerror("Se ha abortado la solicitud, intente nuevamente");
+                        } else {
+                            messageerror("Error desconocido, contacte al administrador de sistemas.");                            
+                        }
+                    },
+                    success: function(datos){                        
+                        if(datos.resultado)
+                            messagesuccess(datos.mensaje, datos.url);              
+                        else
+                            messageerror(datos.mensaje);
+                    }
+        });
+       }
+    });
+   
+   
+   //Crear Proceso de EVC
+   $("#btncrearprocesoECV").click(function(event){
+       event.preventDefault();       
+       
+       if (!validar($('#ddlpuesto'))){
+            mostrarerror($('#ddlpuesto'));}
+       else if(!validar($('#ddlperiodo'))){     
+            mostrarerror($('#ddlperiodo'));}
+       else if (!validar($('#txtdescripcion'))){
+            mostrarerror($('#txtdescripcion'));}
+       else if (!validar($('#fechareclutamiento'))){
+            mostrarerror($('#fechareclutamiento'));}
+       else if (!validar($('#fechaseleccion'))){
+            mostrarerror($('#fechaseleccion'));}
+       else if (cantidadpostulantestabla() == 0){
+           mostrarerror($('#tblpostulantes'));
+       }
+       else{         
+       $('#btncrearprocesoECV').attr('disabled', 'true');
+       
+       $.ajax({
+                    type: "POST",
+                    url: "CrearProcesoECV",
+                    data: obtenerdatoscrearprocesoECV(),
+                    dataType: 'json',
+                    error: function (jqXHR, textStatus){
+                        $('#btncrearprocesoECV').removeAttr('disabled');
+                        if (jqXHR.status === 0) {                            
+                            messageerror("Problema de red, contacte al administrador de sistemas.");
+                        } else if (jqXHR.status == 404) {
+                            messagewarning("Solicitud no encontrada.");
+                        } else if (jqXHR.status == 500) {
+                            messageerror("Error 500. Ha ocurrido un problema con el servidor, contacte al administrador de sistemas.");
+                        } else if (textStatus === 'parsererror') {
+                            messagewarning("Ha ocurrido un inconveniente, intente nuevamente.");
+                        } else if (textStatus === 'timeout') {
+                            messageerror("Tiempo de espera excedido, intente nuevamente.");
+                        } else if (textStatus === 'abort') {
+                            messageerror("Se ha abortado la solicitud, intente nuevamente");
+                        } else {
+                            messageerror("Error desconocido, contacte al administrador de sistemas.");                            
+                        }
+                    },
+                    success: function(datos){                       
+                        if(datos.resultado)
+                            messagesuccess(datos.mensaje, datos.url);              
+                        else
+                            messageerror(datos.mensaje);
+                    }
+        });
+        }
+   });
+ 
+ $("#btnagregarpostulante").click(function(){         
+       
+       $('#ddlpostulanteerror').css('visibility', 'hidden');
+       
+       var cedula = $('#cedulapostulante');
+       var nombre = $('#txtnombrepostulante');   
+       var apellido1 = $('#txtapellido1postulante'); 
+       var apellido2 = $('#txtapellido2postulante'); 
+       if ($('#indicadoreditar').val() == "true")
+           var urlimagenborrarcolaborador = "../../../images/icons/silk/delete.png";
+       else
+           var urlimagenborrarcolaborador = "../../images/icons/silk/delete.png";
+       
+       
+      
+      if(!validar(cedula) || isNaN(cedula.val()) ||  !validar(nombre) || !validar(apellido1)  || !validar(apellido2))
+        $('#ddlpostulanteerror').css('visibility', 'visible');
+      else
+      {
+      var nombrecompleto = nombre.val()+' '+apellido1.val()+' '+apellido2.val();
+      
+       if(cantidadcolaboradorestabla()==0){
+           $('#tblpostulantes > tbody').append('<tr><td name="id" style="display: none">0</td><td name="cedula">'+cedula.val()+'</td><td name="nombre" style="display: none">'+nombre.val()+'</td><td name="apellido1" style="display: none">'+apellido1.val()+'</td><td name="apellido2" style="display: none">'+apellido2.val()+'</td><td name="nombrecompleto">'+nombrecompleto+'</td><td><img id="borrarcolaborador" style="cursor: pointer; padding-left:5px;" src="'+urlimagenborrarcolaborador+'" alt="Eliminar colaborador"/></td></tr>');     
+           $('#ddlpostulantes')
+           
+       }
+       else if (existepostulantestabla(cedula)){
+           messageerror('El postulante ya fue agregado.');
+       }
+       else{
+         $('#tblpostulantes > tbody').append('<tr><td name="cedula">'+cedula+'</td><td name="nombre">'+nombrecompleto+'</td><td><img id="borrarcolaborador" style="cursor: pointer; padding-left:5px;" src="'+urlimagenborrarcolaborador+'" alt="Eliminar colaborador"/></td></tr>');     
+          $('#ddlpostulanteserror').css('visibility', 'hidden');
+       }
+       
+       restableceragregarpostulante();
+       }
+       
+       ocultarerror($('#tblpostulantes'));
+   });
+   
+ 
+ 
+    $("#btnbusquedapostulantes").click(function(){       
+       limpiarinputshabilidades();
+       $("#divpostulante").show();       
+       $("#dialogpostulante").dialog('open');
+       //infoponderacion();
+   });
+ 
+ function existepostulantestabla(idcomprobar){
+       var existe = false;
+       $('#tblpostulantes > tbody tr').each(function(index,columna){
+           var idpostulante = $(columna).find('td:eq(0)').text();//La columna cero posee el idcolaborador
+           if (idcomprobar == idpostulante)
+               return existe = true;
+       }            
+       );
+       return existe;           
+   }
+   
+   
+   function restableceragregarpostulante(){
+        $('#cedulapostulante').val('');                                              
+        $('#txtnombrepostulante').val('');       
+        $('#txtapellido1postulante').val('');       
+        $('#txtapellido2postulante').val('');
+   }
+   
+   function cantidadpostulantestabla(){
+      return $('#tblpostulantes > tbody tr').length;       
+   }
+   
+   /*
+    $('#fechareclutamiento').focusout(function(){
+       if(!validar($(this)))          
+           mostrarerror($(this));     
+   });
+   $('#fechareclutamiento').focusin(function(){
+        ocultarerror($(this)); 
+   });   
+   
+   
+   $('#fechaseleccion').focusin(function(){
+        ocultarerror($(this)); 
+   });   
+    $('#fechaseleccion').focusout(function(){
+       if(!validar($(this)))          
+           mostrarerror($(this));     
+   });*/
+   
+   
+   $('#ddlpuesto').focusin(function(){
+        ocultarerror($(this)); 
+   });
+   $('#ddlpuesto').focusout(function(){
+       if(!validar($(this)))          
+           mostrarerror($(this));     
+   });
+   
+   
+   function obtenerdatoscrearprocesoECV(){             
+    var data = {};    
+    data['puesto'] = $.trim($("#ddlpuesto").val());
+    data['fechareclutamiento'] = $.trim($("#fechareclutamiento").val());
+    data['fechaseleccion'] = $.trim($("#fechaseleccion").val());
+    data['nombreproceso'] = $.trim($("#txtdescripcion").val());
+    data['idevaluador'] = $("#idevaluador").val(); 
+    data['periodo'] = $('#ddlperiodo').val();
+    data['postulantes'] = obtenerpostulantesECV();    
+    return data;
+   }
+   
+    function obtenerpostulantesECV(){                 
+       var postulantes = Array();
+        $("#tblpostulantes > tbody > tr").each(function(index, fila) {		
+            var idpostulante = $(fila).find('td:eq(0)').text();
+            var cedulapostulante = $(fila).find('td:eq(1)').text();	            
+            var nombre = $(fila).find('td:eq(2)').text();
+            var apellido1 = $(fila).find('td:eq(3)').text();
+            var apellido2 = $(fila).find('td:eq(4)').text();
+            postulantes[index] = new Array(cedulapostulante, nombre, apellido1, apellido2, idpostulante);
+            
+        });
+        return postulantes;
+   }
  
 });
