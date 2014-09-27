@@ -452,7 +452,8 @@ class ProcesoEDController extends Controller {
             $objPHPExcel->getActiveSheet()->setCellValue('I4', $ed->_colaborador->cedula);
             $objPHPExcel->getActiveSheet()->setCellValue('I5', $ed->_procesoevaluacion->_evaluador->nombrecompleto);
             $objPHPExcel->getActiveSheet()->setCellValue('I6', CommonFunctions::datemysqltophp($ed->fechaevaluacion));
-
+            $objPHPExcel->getActiveSheet()->setCellValue('B27', $ed->comentariocompromisos);
+            
             $i = '9';
 
             foreach ($compromisos as $compromiso) {
@@ -477,6 +478,7 @@ class ProcesoEDController extends Controller {
             $objPHPExcel->getActiveSheet()->setCellValue('I4', $ed->_colaborador->cedula);
             $objPHPExcel->getActiveSheet()->setCellValue('I5', $ed->_procesoevaluacion->_evaluador->nombrecompleto);
             $objPHPExcel->getActiveSheet()->setCellValue('I6', CommonFunctions::datemysqltophp($ed->fechaevaluacion));
+            $objPHPExcel->getActiveSheet()->setCellValue('B27', $ed->comentariocompromisos);
 
             $i = '9';
 
