@@ -1,0 +1,92 @@
+.divBusquedaColaborador{
+    text-align: center;
+    margin-bottom: 50px;
+    margin-top: 30px;
+   
+}
+
+.divBusquedaColaborador > label{
+    display: block;
+    padding-right: 120px;
+    margin-bottom: 10px;
+}
+
+.divBusquedaColaborador > input{
+   text-align: center;
+}
+
+.divCargando{
+    display: none;
+    text-align: center;
+    margin-bottom: 50px;
+    margin-top: 50px;
+        
+}
+
+.divCargando > label{
+   float: left;        
+}
+
+.divColaborador{
+    display: none;
+    text-align: center;            
+    margin: 0 0 25px 0;
+    font-size: 20px;
+}
+
+.divColaborador p{
+    color: #033E6B;
+    margin: 0px 0px 5px 0px;
+}
+
+.divColaborador span{
+    color: #555;
+    margin-left: 5px;
+}
+
+.divEvaluaciones{
+    display: none;
+    margin-bottom: 35px;
+}
+
+#tdIdEvalacion{
+    display: none;
+}
+
+.tblEvaluaciones{
+    border-collapse: collapse; 
+    border-spacing: 0; 
+    width: auto; 
+    margin: 0px auto 0px auto; 
+    table-layout: fixed; 
+}
+
+.tblEvaluaciones thead th{
+    background-color: #033E6B;
+    color: #FFFFFF;
+    text-align: center;   
+    padding: 4px 10px 8px 5px;
+}
+
+.tblEvaluaciones tbody{
+     border-top: 10px solid white; 
+/*     trick que permite hacer margin en un tbody*/
+}
+
+.tblEvaluaciones tr:hover{
+    background-color: #ECF1EF;
+}
+
+.tblEvaluaciones td{    
+    vertical-align: top;
+    text-align: center;
+    font-size: 12px;
+}
+
+.divNoEvaluaciones{
+    display: none;
+}
+
+.imgReporte{
+    cursor: pointer;
+}

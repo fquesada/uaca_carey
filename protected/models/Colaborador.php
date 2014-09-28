@@ -116,6 +116,13 @@ class Colaborador extends CActiveRecord
 		));
 	}
         
+        public function getEstadoColaborador(){
+            if($this->estado == 1)        
+                return "Activo";
+            else
+                return "Inactivo";
+        }
+        
         public function getnombrecompleto(){            
             if(isset($this->_nombrecompleto)) {
                 return $this->_nombrecompleto;
@@ -161,8 +168,7 @@ class Colaborador extends CActiveRecord
                 return $unidadnegocio->nombre;
         }
         
-        public function add($idunidadnegocio)
-        {
+        public function add($idunidadnegocio){
             $criteria = new CDbCriteria;
             
             $criteria->compare('nombre',$this->nombre,true);
@@ -180,6 +186,65 @@ class Colaborador extends CActiveRecord
 			//'keyAttribute'=>'id',
                         'criteria'=>$criteria             
 		));
+        }        
+        
+        public function BuscarColaborador($keyword, $activo = true){
+            
+            if($activo){
+                $dataReader = Yii::app()->db->createCommand(
+                               'SELECT c.cedula,c.nombre,c.apellido1,c.apellido2, c.id, p.nombre as "puesto" ' .
+                               'FROM colaborador c INNER JOIN historicopuesto hp on c.id = hp.colaborador and hp.puestoactual = 1 INNER JOIN puesto p  ON hp.puesto = p.id ' .
+                               'WHERE CONCAT_WS(" ", c.nombre, c.apellido1, c.apellido2 ) like "%' . $keyword . '%" AND c.estado = 1;'
+                )->query();
+            }
+            else{
+                $dataReader = Yii::app()->db->createCommand(
+                               'SELECT c.cedula,c.nombre,c.apellido1,c.apellido2, c.id, p.nombre as "puesto" ' .
+                               'FROM colaborador c INNER JOIN historicopuesto hp on c.id = hp.colaborador and hp.puestoactual = 1 INNER JOIN puesto p  ON hp.puesto = p.id ' .
+                               'WHERE CONCAT_WS(" ", c.nombre, c.apellido1, c.apellido2 ) like "%' . $keyword . '%";'
+                )->query();
+            }
+            return $dataReader;
+
+        }
+        
+        public function HistoricoEvaluacion($idcolaborador){
+            
+        $connection = Yii::app()->db;
+        $sql = 'SELECT p.nombre AS "Puesto", un.nombre AS "UnidadNegocio", "EC" AS "TipoEvaluacion", 
+                (SELECT CONCAT_WS(" ",ev.nombre, ev.apellido1,ev.apellido2) FROM colaborador ev WHERE ev.id = pe.evaluador) AS "Evaluador",
+                ec.promedioponderado as "Calificacion", ec.id AS "IDEvaluacion", ec.fechaevaluacion AS "FechaEvaluacion"
+                FROM colaborador c INNER JOIN historicopuesto hp on c.id = hp.colaborador 
+                INNER JOIN puesto p  ON hp.puesto = p.id
+                INNER JOIN unidadnegocio un  ON hp.unidadnegocio = un.id
+                INNER JOIN evaluacioncompetencias ec ON c.id = ec.colaborador
+                INNER JOIN procesoevaluacion pe ON ec.procesoevaluacion = pe.id
+                WHERE c.id = :idcolaborador and ec.estado = 2 and pe.estado = 1
+                UNION
+                SELECT p.nombre AS "Puesto", un.nombre AS "UnidadNegocio", "ED" AS "TipoEvaluacion", 
+                (SELECT CONCAT_WS(" ",ev.nombre, ev.apellido1,ev.apellido2) FROM colaborador ev WHERE ev.id = pe.evaluador) AS "Evaluador",
+                ed.promedioevaluacion as "Calificacion", ed.id AS "IDEvaluacion",  ed.fecharegistroevaluacion AS "FechaEvaluacion"
+                FROM colaborador c INNER JOIN historicopuesto hp on c.id = hp.colaborador 
+                INNER JOIN puesto p  ON hp.puesto = p.id
+                INNER JOIN unidadnegocio un  ON hp.unidadnegocio = un.id
+                INNER JOIN evaluaciondesempeno ed ON c.id = ed.colaborador
+                INNER JOIN procesoevaluacion pe ON ed.procesoevaluacion = pe.id 
+                WHERE c.id = :idcolaborador and ed.estadoevaluacion = 2 and ed.estado = 1 and pe.estado = 1
+                ORDER BY FechaEvaluacion
+                ';
+        $command = $connection->createCommand($sql);
+        $command->bindParam(":idcolaborador", $idcolaborador, PDO::PARAM_INT);
+        $dataReader = $command->queryAll();
+
+        if (empty($dataReader))
+            return false;
+        else{
+            foreach ($dataReader as &$fila) {
+                $fecha = $fila["FechaEvaluacion"];
+                $fila["FechaEvaluacion"] = CommonFunctions::datemysqltophp($fecha);
+            }            
+            return $dataReader;
+        }
         }
 }
 

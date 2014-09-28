@@ -33,7 +33,8 @@ class ProcesoevaluacionController extends Controller
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
 				'actions'=>array('CrearProcesoEC','AdminProcesoEC','EditarProcesoEC','EliminarProcesoEC','EvaluarProcesoEC','EnvioCorreoEC','GuardarEvaluacionEC','update','admin','AgregarPersonas','AgregarPersona','AutocompleteEvaluado',
-                                                    'HabilidadesEspeciales','InfoPonderacion', 'delete', 'reporteevaluacioncompetencias', 'DataReporteEvaluacionCompetencias', 'vistaprueba','CrearReporteEC','ReporteEC','CargaMasiva','CargaDepartamento'),
+                                                    'HabilidadesEspeciales','InfoPonderacion', 'delete', 'reporteevaluacioncompetencias', 'DataReporteEvaluacionCompetencias', 'vistaprueba','CrearReporteEC','ReporteEC','CargaMasiva','CargaDepartamento',
+                                                    'ReporteAnalisisEC'),
 				'users'=>array('@'),
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -1102,5 +1103,67 @@ class ProcesoevaluacionController extends Controller
                 exit();
               
                        
+        }
+        
+        public function actionReporteAnalisisEC($fechainicio, $fechafin, $tipoanalisis, $departamentos = array()){
+            
+       $datosreporte = Evaluacioncompetencias::model()->AnalisisEvaluacion($fechainicio, $fechafin, $tipoanalisis, $departamentos);
+            
+       $phpExcelPath = Yii::getPathOfAlias('application.modules.excel');
+
+        // Turn off our amazing library autoload 
+        spl_autoload_unregister(array('YiiBase', 'autoload'));
+        
+        require_once( dirname(__FILE__) . '/../components/CommonFunctions.php');
+
+        include($phpExcelPath . DIRECTORY_SEPARATOR . 'Classes' . DIRECTORY_SEPARATOR . 'PHPExcel.php');
+
+        $objReader = PHPExcel_IOFactory::createReader('Excel2007');
+        //$objReader->setIncludeCharts(TRUE);
+       
+            $objPHPExcel = $objReader->load($phpExcelPath . DIRECTORY_SEPARATOR . "templates" . DIRECTORY_SEPARATOR . "BrechasResumidoECTemplate.xlsx");
+
+            $objPHPExcel->setActiveSheetIndex(0);  //set first sheet as active
+
+            $objPHPExcel->getActiveSheet()->setCellValue('B4', CommonFunctions::datemysqltophp($fechainicio));
+            $objPHPExcel->getActiveSheet()->setCellValue('B5', CommonFunctions::datemysqltophp($fechafin));
+            
+      
+            
+     
+      if(!$datosreporte){
+                 $objPHPExcel->setActiveSheetIndex(0)               
+                    ->setCellValue('A6',"No se encontraron evaluaciones para esta(s) unidad(es) de negocio.");
+      }else{
+        $i = '8';      
+        foreach ($datosreporte as $fila) {
+
+                   $objPHPExcel->setActiveSheetIndex(0)               
+                      ->setCellValue('A'.$i, $fila["cedula"])
+                      ->setCellValue('B'.$i, $fila["colaborador"])
+                      ->setCellValue('C'.$i, $fila["puesto"])
+                      ->setCellValue('D'.$i, $fila["departamento"])
+                      ->setCellValue('E'.$i, $fila["evaluador"])
+                      ->setCellValue('F'.$i, $fila["periodo"])
+                      ->setCellValue('G'.$i, $fila["descripcion"])
+                      ->setCellValue('H'.$i, $fila["fechaevaluacion"])
+                      ->setCellValue('I'.$i, $fila["promedioponderado"])
+                      ->setCellValue('J'.$i, $fila["eccalificacion"])
+                      ->setCellValue('K'.$i, $fila["acindicador"])
+                      ->setCellValue('L'.$i, $fila["accalificacion"]);
+
+                      $i++;
+         }           
+       }
+
+        header('Content-Type: application/excel');
+        header('Content-Disposition: attachment;filename="BrechasResumidoEC.xlsx"');
+        header('Cache-Control: max-age=0');
+
+        $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
+        //$objWriter->setIncludeCharts(TRUE);                        
+        $objWriter->save('php://output');
+        
+        exit();
         }
 }
