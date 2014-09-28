@@ -30,7 +30,7 @@ class ProcesoRSController extends Controller
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
 				'actions'=>array('CrearProcesoECV','AdminProcesoECV','EditarProcesoECV','EliminarProcesoECV','EvaluarProcesoECV','EnvioCorreoECV','GuardarEvaluacionECV','update','admin','AgregarPersonas','AgregarPersona','AutocompleteEvaluado',
-                                                    'HabilidadesEspeciales','InfoPonderacion', 'delete', 'reporteevaluacioncompetencias', 'DataReporteEvaluacionCompetencias', 'vistaprueba','CrearReporteECV','ReporteECV','CargaMasiva','CargaDepartamento'),
+                                                    'HabilidadesEspeciales','InfoPonderacion', 'delete', 'reporteevaluacioncompetencias', 'DataReporteEvaluacionCompetencias', 'vistaprueba','CrearReporteECV','ReporteECV','CargaMasiva','CargaDepartamento', 'entrevista', 'excel'),
 				'users'=>array('@'),
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -568,7 +568,7 @@ class ProcesoRSController extends Controller
                 $procesoevaluacion->fecha = CommonFunctions::datenow(); 
                 $procesoevaluacion->evaluador = $idevaluador;
                 $procesoevaluacion->descripcion = $nombreproceso;
-                $procesoevaluacion->tipo = 2; //MIGRAR VARIABLES GLOBALES CLEAN CODE
+                $procesoevaluacion->tipo = 3; //MIGRAR VARIABLES GLOBALES CLEAN CODE
                 $procesoevaluacion->periodo = $periodo;
                 
                 
@@ -905,7 +905,7 @@ class ProcesoRSController extends Controller
             }
     }
     
-        public function actionEliminarProcesoEC($id){            
+        public function actionEliminarProcesoECV($id){            
              if (Yii::app()->request->isAjaxRequest) {
             
                 $id = CommonFunctions::stringtonumber($id);
@@ -998,7 +998,7 @@ class ProcesoRSController extends Controller
 	 */
 	public function actionAdmin()
 	{
-            $ec = Procesoevaluacion::model()->obtenerevaluacioncompetencias(2);                
+            $ec = Procesoevaluacion::model()->obtenerevaluacioncompetencias(3);                
             $filtersForm=new FiltersForm;
 
             if (isset($_GET['FiltersForm']))

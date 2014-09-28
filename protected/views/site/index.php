@@ -12,9 +12,9 @@ $this->pageTitle=Yii::app()->name;
        </div>
        <div id="ContenidoR">
            <br>
-           <?php echo CHtml::link('Generar entrevista',array('entrevista/index'), array("class"=>"boton")); ?>
-           <?php echo CHtml::link('Crear proceso ECV',array('entrevista/index'), array("class"=>"boton")); ?>
-           <?php echo CHtml::link('Gestionar proceso ECV',array('entrevista/index'), array("class"=>"boton")); ?>
+           <?php echo CHtml::link('Generar entrevista',array('procesors/entrevista'), array("class"=>"boton")); ?>
+           <?php echo CHtml::link('Crear proceso ECV',array('procesors/crearProcesoecv'), array("class"=>"boton")); ?>
+           <?php echo CHtml::link('Gestionar proceso ECV',array('procesors/admin'), array("class"=>"boton")); ?>
        </div>
    </div>
     <div id="Competencias">
