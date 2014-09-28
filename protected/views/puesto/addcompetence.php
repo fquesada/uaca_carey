@@ -19,6 +19,13 @@
         'Agregar competencias'
     );
     ?>
+
+    <p></br> </br> </br> </p>
+    <?php
+    echo CHtml::button('Volver atrás', array('id'=>'btnvolveratras','submit' => array('puesto/admin/'), 'class'=>'sexybutton sexysimple sexylarge'));
+    ?>
+        
+    <p></br> </br> </br> </p>
     
     <h1>Puesto</h1>
     
@@ -29,11 +36,6 @@
                     'nombre'		
             ),
     )); ?>
-    
-    <p></br> </br> </br> </p>
-    <?php
-    echo CHtml::button('Volver atrás', array('id'=>'btnvolveratras','submit' => array('puesto/admin/'), 'class'=>'sexybutton sexysimple sexylarge'));
-    ?>
 
     <?php Yii::app()->session['puesto']=$model->id;?>
     

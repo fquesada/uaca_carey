@@ -27,6 +27,9 @@ $this->menu=array(
                         'htmlOptions'=>array('width'=>'90'),
                         'template'=>'{view}{update}{addcompetence}{addpuntualizacion}',
                         'buttons'=>array(
+                            'update'=>array(
+                                'label'=>'Actualizar',
+                            ),
                             'addcompetence'=>array(
                                 'label'=>'Agregar competencias',
                                 'imageUrl'=>Yii::app()->request->baseUrl.'/images/icons/silk/brick_add.png',

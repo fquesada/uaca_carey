@@ -8,6 +8,7 @@ $this->breadcrumbs=array(
 
 $this->menu=array(
 	array('label'=>'Crear Colaborador', 'url'=>array('create')),
+        array('label'=>'Reintegrar Colaborador', 'url'=>array('activate'))
 );
 
 ?>
@@ -21,7 +22,7 @@ Puede ingresar opcionalmente un operador comparativo (<b>&lt;</b>, <b>&lt;=</b>,
 
 <?php $this->widget('zii.widgets.grid.CGridView', array(
 	'id'=>'colaborador-grid',
-	'dataProvider'=>$model->search(),
+	'dataProvider'=>$model->search(TRUE),
 	'filter'=>$model,
         'template'=>"{pager}{items}{pager}{summary}",
 	'columns'=>array(
@@ -36,6 +37,9 @@ Puede ingresar opcionalmente un operador comparativo (<b>&lt;</b>, <b>&lt;=</b>,
                         'htmlOptions'=>array('width'=>'90'),
                         'template'=>'{view}{update}{delete}{gestionpuesto}',
                         'buttons'=>array(
+                            'update'=>array(
+                                'label'=>'Actualizar',
+                            ),
                             'gestionpuesto'=>array(
                                 'label'=>'Gestionar puesto',
                                 'imageUrl'=>Yii::app()->request->baseUrl.'/images/icons/silk/page_white_wrench.png',

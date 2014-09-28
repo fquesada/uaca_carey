@@ -22,7 +22,11 @@
         Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/messi.min.js');
         Yii::app()->clientScript->registerCssFile(Yii::app()->baseUrl.'/css/messi.min.css');
         ?>
-	<title><?php echo CHtml::encode($this->pageTitle); ?></title>
+        <title>
+            <?php 
+                echo CHtml::encode($this->pageTitle); 
+            ?>
+        </title>
 </head>
 
 <body>

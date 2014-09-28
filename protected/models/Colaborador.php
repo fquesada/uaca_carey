@@ -96,7 +96,7 @@ class Colaborador extends CActiveRecord
 	 * Retrieves a list of models based on the current search/filter conditions.
 	 * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
 	 */
-	public function search()
+	public function search($condicion)
 	{
 		// Warning: Please modify the following code to remove attributes that
 		// should not be searched.
@@ -110,6 +110,12 @@ class Colaborador extends CActiveRecord
 		$criteria->compare('apellido2',$this->apellido2,true);
 		$criteria->compare('estado',$this->estado);	
                 $criteria->compare('correo',$this->correo,true);
+                
+                if($condicion){
+                    $criteria->addColumnCondition(array('estado'=>'1'));
+                }
+                else
+                    $criteria->addColumnCondition(array('estado'=>'0'));
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

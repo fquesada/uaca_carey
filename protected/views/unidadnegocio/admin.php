@@ -31,9 +31,12 @@ Puede ingresar opcionalmente un operador comparativo (<b>&lt;</b>, <b>&lt;=</b>,
                         'htmlOptions'=>array('width'=>'70'),
                         'template'=>'{view}{update}{delete}{addpuestos}',
                         'buttons'=>array(
+                            'update'=>array(
+                                'label'=>'Actualizar',
+                            ),
                             'addpuestos'=>array(
                                 'label'=>'Agregar puestos',
-                                'imageUrl'=>  Yii::app()->request->baseUrl.'/images/icons/silk/add.png',
+                                'imageUrl'=>  Yii::app()->request->baseUrl.'/images/icons/silk/page_white_add.png',
                                 'url'=>'Yii::app()->createUrl("unidadnegocio/addpuesto", array("id"=>$data->id))'                          
                             )
                         )

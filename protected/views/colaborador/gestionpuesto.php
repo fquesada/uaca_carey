@@ -22,6 +22,17 @@
         'Gestionar puesto'
     );
     ?>
+
+     
+    <br></br>
+    
+    <?php
+    echo CHtml::button('Volver atrás', array('id'=>'btnvolveratras','submit' => array('colaborador/admin/'), 'class'=>'sexybutton sexysimple sexylarge'));
+    ?>
+    
+    <br></br>
+    <br></br>
+    
     <h1>Colaborador</h1>
     <?php
         $this->widget('zii.widgets.CDetailView', array(
@@ -53,8 +64,8 @@
     
     <h2>Seleccione el nuevo puesto</h2>
     <?php echo $this->renderPartial('_formpuestonuevo', array('model'=>$historico, 'colaborador'=>$model, 'indicador'=>$indicador, 'ingresos'=>$ingresos)); ?>
-
-
+    
+    
      <?php if(Yii::app()->user->hasFlash('error')):?>
      <script type="text/javascript">
           new Messi('<?php echo Yii::app()->user->getFlash('error'); ?>',
