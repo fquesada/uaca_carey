@@ -28,6 +28,11 @@ $this->menu = array(
 <h3 style="text-align: center">Análisis de Brechas</h3>
 
 <div class="divFiltros">
+        <p><span id="spTipoEvaluacion">Tipo de Reporte</span></p> 
+        <?php
+        echo CHtml::dropDownList('ddltiporeporte','',array('R' => 'Reporte Resumido', 'A' => 'Reporte Ampliado'), array('id'=>'ddltiporeporte'));
+        ?>
+    
         <p><span id="spTipoEvaluacion">Tipo de Evaluación</span></p> 
         <?php
         echo CHtml::dropDownList('ddlproceso','',array('EC' => 'Evaluación de Competencias', 'ED' => 'Evaluación de Desempeño'), array('id'=>'ddlproceso'));

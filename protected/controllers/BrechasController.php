@@ -107,6 +107,7 @@ class BrechasController extends Controller {
     
     public function actionGenerarReporteAnalisis() {
         if (Yii::app()->request->isAjaxRequest) {
+            $tipoReporte = $_POST['tiporeporte'];
             $tipoProceso = $_POST['tipoproceso'];
             $fechaInicio = CommonFunctions::datephptomysql($_POST['fechainicio']);
             $fechaFin = CommonFunctions::datephptomysql($_POST['fechafin']);
@@ -119,12 +120,12 @@ class BrechasController extends Controller {
                 $tipoAnalisis = "masiva";
 
             if ($tipoProceso == "ED") {
-                $url = Yii::app()->createUrl("ProcesoED/ReporteAnalisisED", array("fechainicio" => $fechaInicio, "fechafin" => $fechaFin, "tipoanalisis" => $tipoAnalisis, "departamentos" => $departamentos));
+                $url = Yii::app()->createUrl("ProcesoED/ReporteAnalisisED", array("tiporeporte" => $tipoReporte,"fechainicio" => $fechaInicio, "fechafin" => $fechaFin, "tipoanalisis" => $tipoAnalisis, "departamentos" => $departamentos));
                 $response = array('url' => $url);
                 echo CJSON::encode($response);
                 Yii::app()->end();
             } else if ($tipoProceso == "EC") {
-                $url = Yii::app()->createUrl("Procesoevaluacion/ReporteAnalisisEC", array("fechainicio" => $fechaInicio, "fechafin" => $fechaFin, "tipoanalisis" => $tipoAnalisis, "departamentos" => $departamentos));
+                $url = Yii::app()->createUrl("Procesoevaluacion/ReporteAnalisisEC", array("tiporeporte" => $tipoReporte,"fechainicio" => $fechaInicio, "fechafin" => $fechaFin, "tipoanalisis" => $tipoAnalisis, "departamentos" => $departamentos));
                 $response = array('url' => $url);
                 echo CJSON::encode($response);
                 Yii::app()->end();

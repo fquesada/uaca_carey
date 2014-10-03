@@ -101,6 +101,7 @@ $(document).ready(function() {
    
    function obtenerdatosanalisis(){
        var data = {};            
+       data['tiporeporte'] = $('#ddltiporeporte').val();
        data['tipoproceso'] = $('#ddlproceso').val();
        data['fechainicio'] = $("#dpFechaInicio").val();
        data['fechafin'] = $("#dpFechaFinal").val();

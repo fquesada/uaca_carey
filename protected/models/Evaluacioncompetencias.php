@@ -332,11 +332,12 @@ class Evaluacioncompetencias extends CActiveRecord {
         //FALTA
     }
     
-    public function AnalisisEvaluacion($fechainicio, $fechafin, $tipoanalisis, $departamentos = array()){
+    public function AnalisisEvaluacion($tiporeporte, $fechainicio, $fechafin, $tipoanalisis, $departamentos = array()){
          
         $connection = Yii::app()->db;        
         
-        if($tipoanalisis == "masiva"){
+        if($tipoanalisis == "masiva"){//Todos los colaboradores
+            if($tiporeporte == "R"){//Informe resumido            
             $sql = 'SELECT c.cedula, CONCAT_WS(" ", c.nombre, c.apellido1, c.apellido2) AS "colaborador", p.nombre AS "puesto", un.nombre AS "departamento", (select CONCAT_WS(" ",ev.nombre, ev.apellido1,ev.apellido2) FROM colaborador ev WHERE ev.id = pe.evaluador) AS "evaluador", per.nombre AS "periodo", pe.descripcion, DATE_FORMAT (ec.fechaevaluacion, "%d/%m/%Y") AS "fechaevaluacion", ec.promedioponderado, ec.eccalificacion, ec.acindicador, ec.accalificacion 
                     FROM colaborador c INNER JOIN historicopuesto hp on c.id = hp.colaborador 
                     INNER JOIN puesto p  ON hp.puesto = p.id
@@ -344,12 +345,30 @@ class Evaluacioncompetencias extends CActiveRecord {
                     INNER JOIN evaluacioncompetencias ec ON c.id = ec.colaborador
                     INNER JOIN procesoevaluacion pe ON ec.procesoevaluacion = pe.id
                     INNER JOIN periodo per ON pe.periodo = per.id
-                    WHERE ec.estado = 2 AND (ec.fechaevaluacion BETWEEN :fechainicio AND :fechafin)AND pe.estado = 1
+                    WHERE ec.estado = 2 AND c.estado = 1 AND (ec.fechaevaluacion BETWEEN :fechainicio AND :fechafin)AND pe.estado = 1
                     ORDER BY fechaevaluacion ASC;
                 ';
             $command = $connection->createCommand($sql);
             $command->bindParam(":fechainicio", $fechainicio, PDO::PARAM_STR);
-            $command->bindParam(":fechafin", $fechafin, PDO::PARAM_STR);
+            $command->bindParam(":fechafin", $fechafin, PDO::PARAM_STR);            
+            }
+            else if($tiporeporte == "A"){//Informe ampliado
+                $sql = 'SELECT c.cedula, CONCAT_WS(" ", c.nombre, c.apellido1, c.apellido2) AS "colaborador", p.nombre AS "puesto", un.nombre AS "departamento", (select CONCAT_WS(" ",ev.nombre, ev.apellido1,ev.apellido2) FROM colaborador ev WHERE ev.id = pe.evaluador) AS "evaluador", per.nombre AS "periodo", pe.descripcion, DATE_FORMAT (ec.fechaevaluacion, "%d/%m/%Y") AS "fechaevaluacion", ec.id AS "idEC",ec.promedioponderado, com.competencia, hec.calificacion AS "calificacioncompetencia"
+                    FROM colaborador c 
+                    INNER JOIN historicopuesto hp on c.id = hp.colaborador 
+                    INNER JOIN puesto p  ON hp.puesto = p.id
+                    INNER JOIN unidadnegocio un  ON hp.unidadnegocio = un.id
+                    INNER JOIN evaluacioncompetencias ec ON c.id = ec.colaborador
+                    INNER JOIN procesoevaluacion pe ON ec.procesoevaluacion = pe.id
+                    INNER JOIN periodo per ON pe.periodo = per.id
+                    INNER JOIN habilidadevaluacioncandidato hec ON ec.id = hec.evaluacioncandidato
+                    INNER JOIN competencia com ON hec.competencia = com.id
+                    WHERE ec.estado = 2 AND c.estado = 1 AND (ec.fechaevaluacion BETWEEN :fechainicio AND :fechafin) AND pe.estado = 1;
+                   ';
+               $command = $connection->createCommand($sql);
+               $command->bindParam(":fechainicio", $fechainicio, PDO::PARAM_STR);
+               $command->bindParam(":fechafin", $fechafin, PDO::PARAM_STR);   
+            }
         }
         else if($tipoanalisis == "departamento"){
             
