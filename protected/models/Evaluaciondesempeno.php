@@ -361,6 +361,85 @@ class Evaluaciondesempeno extends CActiveRecord
         
         public function cambiarEDFinalizada(){
             $this->estadoevaluacion = 2;
-        }        
+        }     
+        
+        public function AnalisisEvaluacion($tiporeporte, $fechainicio, $fechafin, $tipoanalisis, $departamentos = array()){
+         
+        $connection = Yii::app()->db;        
+        
+        if($tipoanalisis == "masiva"){//Todos los colaboradores
+            if($tiporeporte == "R"){//Informe resumido            
+            $sql = 'SELECT c.cedula, CONCAT_WS(" ", c.nombre, c.apellido1, c.apellido2) AS "colaborador", p.nombre AS "puesto", un.nombre AS "departamento", (select CONCAT_WS(" ",ev.nombre, ev.apellido1,ev.apellido2) FROM colaborador ev WHERE ev.id = pe.evaluador) AS "evaluador", per.nombre AS "periodo", pe.descripcion, DATE_FORMAT (ed.fecharegistrocompromiso, "%d/%m/%Y") AS "fecharegistrocompromiso", DATE_FORMAT (ed.fecharegistroevaluacion, "%d/%m/%Y") AS "fechaevaluacion", ed.promedioevaluacion, ed.promediocompromisos, ed.promediocompetencias 
+                    FROM colaborador c INNER JOIN historicopuesto hp on c.id = hp.colaborador 
+                    INNER JOIN puesto p  ON hp.puesto = p.id
+                    INNER JOIN unidadnegocio un  ON hp.unidadnegocio = un.id
+                    INNER JOIN evaluaciondesempeno ed ON c.id = ed.colaborador
+                    INNER JOIN procesoevaluacion pe ON ed.procesoevaluacion = pe.id
+                    INNER JOIN periodo per ON pe.periodo = per.id
+                    WHERE ed.estadoevaluacion = 2 AND c.estado = 1 AND hp.puestoactual = 1 AND (ed.fecharegistroevaluacion BETWEEN :fechainicio AND :fechafin)AND pe.estado = 1
+                    ORDER BY fechaevaluacion ASC;
+                ';                   
+            }
+            else if($tiporeporte == "A"){//Informe ampliado
+                $sql = '
+            SELECT c.cedula, CONCAT_WS(" ", c.nombre, c.apellido1, c.apellido2) AS "colaborador", p.nombre AS "puesto", un.nombre AS "departamento", (select CONCAT_WS(" ", ev.nombre, ev.apellido1,ev.apellido2) FROM colaborador ev WHERE ev.id = pe.evaluador) AS "evaluador", per.nombre AS "periodo", pe.descripcion, DATE_FORMAT (ed.fecharegistrocompromiso, "%d/%m/%Y") AS "fecharegistrocompromiso", DATE_FORMAT (ed.fecharegistroevaluacion, "%d/%m/%Y") AS "fechaevaluacion", ed.promedioevaluacion, ed.promediocompromisos,  com.competencia, cc.puntaje AS "calificacioncompetencia"
+            FROM colaborador c INNER JOIN historicopuesto hp on c.id = hp.colaborador 
+            INNER JOIN puesto p  ON hp.puesto = p.id
+            INNER JOIN unidadnegocio un  ON hp.unidadnegocio = un.id
+            INNER JOIN evaluaciondesempeno ed ON c.id = ed.colaborador
+            INNER JOIN procesoevaluacion pe ON ed.procesoevaluacion = pe.id
+            INNER JOIN periodo per ON pe.periodo = per.id
+            INNER JOIN calificacioncompetencia cc ON ed.id = cc.evaluacion
+            INNER JOIN competencia com ON cc.competencia = com.id
+            WHERE ed.estadoevaluacion = 2 AND c.estado = 1 AND hp.puestoactual = 1 AND (ed.fecharegistroevaluacion BETWEEN :fechainicio AND :fechafin)AND pe.estado = 1
+            ORDER BY c.id ASC
+                   ';              
+            }
+           $command = $connection->createCommand($sql);
+           $command->bindParam(":fechainicio", $fechainicio, PDO::PARAM_STR);
+           $command->bindParam(":fechafin", $fechafin, PDO::PARAM_STR);            
+        }
+        else if($tipoanalisis == "departamento"){
+             if($tiporeporte == "R"){//Informe resumido  
+             $sql = 'SELECT c.cedula, CONCAT_WS(" ", c.nombre, c.apellido1, c.apellido2) AS "colaborador", p.nombre AS "puesto", un.nombre AS "departamento", (select CONCAT_WS(" ",ev.nombre, ev.apellido1,ev.apellido2) FROM colaborador ev WHERE ev.id = pe.evaluador) AS "evaluador", per.nombre AS "periodo", pe.descripcion, DATE_FORMAT (ed.fecharegistrocompromiso, "%d/%m/%Y") AS "fecharegistrocompromiso", DATE_FORMAT (ed.fecharegistroevaluacion, "%d/%m/%Y") AS "fechaevaluacion", ed.promedioevaluacion, ed.promediocompromisos, ed.promediocompetencias 
+                    FROM colaborador c INNER JOIN historicopuesto hp on c.id = hp.colaborador 
+                    INNER JOIN puesto p  ON hp.puesto = p.id
+                    INNER JOIN unidadnegocio un  ON hp.unidadnegocio = un.id
+                    INNER JOIN evaluaciondesempeno ed ON c.id = ed.colaborador
+                    INNER JOIN procesoevaluacion pe ON ed.procesoevaluacion = pe.id
+                    INNER JOIN periodo per ON pe.periodo = per.id
+                    WHERE un.id IN ('.$departamentos.') AND
+                    ed.estadoevaluacion = 2 AND c.estado = 1 AND hp.puestoactual = 1 AND (ed.fecharegistroevaluacion BETWEEN :fechainicio AND :fechafin)AND pe.estado = 1
+                    ORDER BY fechaevaluacion ASC;
+                ';             
+            }
+            else if($tiporeporte == "A"){//Informe ampliado
+                $sql = 'SELECT c.cedula, CONCAT_WS(" ", c.nombre, c.apellido1, c.apellido2) AS "colaborador", p.nombre AS "puesto", un.nombre AS "departamento", (select CONCAT_WS(" ", ev.nombre, ev.apellido1,ev.apellido2) FROM colaborador ev WHERE ev.id = pe.evaluador) AS "evaluador", per.nombre AS "periodo", pe.descripcion, DATE_FORMAT (ed.fecharegistrocompromiso, "%d/%m/%Y") AS "fecharegistrocompromiso", DATE_FORMAT (ed.fecharegistroevaluacion, "%d/%m/%Y") AS "fechaevaluacion", ed.promedioevaluacion, ed.promediocompromisos,  com.competencia, cc.puntaje AS "calificacioncompetencia"
+                    FROM colaborador c INNER JOIN historicopuesto hp on c.id = hp.colaborador 
+                    INNER JOIN puesto p  ON hp.puesto = p.id
+                    INNER JOIN unidadnegocio un  ON hp.unidadnegocio = un.id
+                    INNER JOIN evaluaciondesempeno ed ON c.id = ed.colaborador
+                    INNER JOIN procesoevaluacion pe ON ed.procesoevaluacion = pe.id
+                    INNER JOIN periodo per ON pe.periodo = per.id
+                    INNER JOIN calificacioncompetencia cc ON ed.id = cc.evaluacion
+                    INNER JOIN competencia com ON cc.competencia = com.id
+                    WHERE un.id IN ('.$departamentos.') AND
+                    ed.estadoevaluacion = 2 AND c.estado = 1 AND hp.puestoactual = 1 AND (ed.fecharegistroevaluacion BETWEEN :fechainicio AND :fechafin)AND pe.estado = 1
+                    ORDER BY c.id ASC
+                   '; 
+            }
+            $command = $connection->createCommand($sql);
+            $command->bindParam(":fechainicio", $fechainicio, PDO::PARAM_STR);
+            $command->bindParam(":fechafin", $fechafin, PDO::PARAM_STR);
+        }
+       
+        $dataReader = $command->queryAll();
+
+        if (empty($dataReader))
+            return false;
+        else{                      
+            return $dataReader;
+        }
+        }
        
 }

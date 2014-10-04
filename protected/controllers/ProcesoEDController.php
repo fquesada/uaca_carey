@@ -846,8 +846,107 @@ class ProcesoEDController extends Controller {
         }
     }
     
-    public function actionReporteAnalisisED($fechainicio, $fechafin, $tipoanalisis, $departamentos = array()){
+    public function actionReporteAnalisisED($tiporeporte, $fechainicio, $fechafin, $tipoanalisis, $departamentos = array()){
        
+       $datosreporte = Evaluaciondesempeno::model()->AnalisisEvaluacion($tiporeporte, $fechainicio, $fechafin, $tipoanalisis, $departamentos); 
+        
+       $phpExcelPath = Yii::getPathOfAlias('application.modules.excel');
+
+        // Turn off our amazing library autoload 
+        spl_autoload_unregister(array('YiiBase', 'autoload'));
+        
+        require_once( dirname(__FILE__) . '/../components/CommonFunctions.php');
+
+        include($phpExcelPath . DIRECTORY_SEPARATOR . 'Classes' . DIRECTORY_SEPARATOR . 'PHPExcel.php');
+
+        $objReader = PHPExcel_IOFactory::createReader('Excel2007');
+        //$objReader->setIncludeCharts(TRUE);
+            
+            if($tiporeporte == "R"){//Informe resumido
+            $objPHPExcel = $objReader->load($phpExcelPath . DIRECTORY_SEPARATOR . "templates" . DIRECTORY_SEPARATOR . "BrechasResumidoEDTemplate.xlsx");
+            }
+            else if($tiporeporte == "A"){//Informe ampliado
+            $objPHPExcel = $objReader->load($phpExcelPath . DIRECTORY_SEPARATOR . "templates" . DIRECTORY_SEPARATOR . "BrechasAmpliadoEDTemplate.xlsx");    
+            }
+            
+
+            $objPHPExcel->setActiveSheetIndex(0);  //set first sheet as active
+
+            $objPHPExcel->getActiveSheet()->setCellValue('B4', CommonFunctions::datemysqltophp($fechainicio));
+            $objPHPExcel->getActiveSheet()->setCellValue('B5', CommonFunctions::datemysqltophp($fechafin));
+            
+      
+            
+     
+      if(!$datosreporte){
+                 $objPHPExcel->setActiveSheetIndex(0)               
+                    ->setCellValue('A6',"No se encontraron evaluaciones para estos departamentos.");
+                 
+                header('Content-Type: application/excel');
+                header('Content-Disposition: attachment;filename="BrechasED.xlsx"');
+                header('Cache-Control: max-age=0');
+      }else{
+        $i = '8';  
+        
+        if($tiporeporte == "R"){//Informe resumido
+            foreach ($datosreporte as $fila) {
+
+                       $objPHPExcel->setActiveSheetIndex(0)               
+                          ->setCellValue('A'.$i, $fila["cedula"])
+                          ->setCellValue('B'.$i, $fila["colaborador"])
+                          ->setCellValue('C'.$i, $fila["puesto"])
+                          ->setCellValue('D'.$i, $fila["departamento"])
+                          ->setCellValue('E'.$i, $fila["evaluador"])
+                          ->setCellValue('F'.$i, $fila["periodo"])
+                          ->setCellValue('G'.$i, $fila["descripcion"])
+                          ->setCellValue('H'.$i, $fila["fecharegistrocompromiso"])
+                          ->setCellValue('I'.$i, $fila["fechaevaluacion"])
+                          ->setCellValue('J'.$i, $fila["promedioevaluacion"])
+                          ->setCellValue('K'.$i, $fila["promediocompromisos"])
+                          ->setCellValue('L'.$i, $fila["promediocompetencias"]);
+
+                          $i++;
+             }
+            header('Content-Type: application/excel');
+            header('Content-Disposition: attachment;filename="BrechasResumidoED.xlsx"');
+            header('Cache-Control: max-age=0');
+         }
+         else if($tiporeporte == "A"){//Informe ampliado
+         
+            foreach ($datosreporte as $fila) {
+
+                       $objPHPExcel->setActiveSheetIndex(0)               
+                          ->setCellValue('A'.$i, $fila["cedula"])
+                          ->setCellValue('B'.$i, $fila["colaborador"])
+                          ->setCellValue('C'.$i, $fila["puesto"])
+                          ->setCellValue('D'.$i, $fila["departamento"])
+                          ->setCellValue('E'.$i, $fila["evaluador"])
+                          ->setCellValue('F'.$i, $fila["periodo"])
+                          ->setCellValue('G'.$i, $fila["descripcion"])
+                          ->setCellValue('H'.$i, $fila["fecharegistrocompromiso"])
+                          ->setCellValue('I'.$i, $fila["fechaevaluacion"])
+                          ->setCellValue('J'.$i, $fila["promedioevaluacion"])
+                          ->setCellValue('K'.$i, $fila["promediocompromisos"])
+                          ->setCellValue('L'.$i, $fila["competencia"])
+                          ->setCellValue('M'.$i, $fila["calificacioncompetencia"]);
+
+                          $i++;
+             } 
+             
+            header('Content-Type: application/excel');
+            header('Content-Disposition: attachment;filename="BrechasAmpliadoED.xlsx"');
+            header('Cache-Control: max-age=0');
+         }
+         
+       }
+
+        
+
+        $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
+        //$objWriter->setIncludeCharts(TRUE);                        
+        $objWriter->save('php://output');
+        
+        exit();
      }
 
 }

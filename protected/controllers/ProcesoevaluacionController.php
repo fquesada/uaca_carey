@@ -1139,7 +1139,11 @@ class ProcesoevaluacionController extends Controller
      
       if(!$datosreporte){
                  $objPHPExcel->setActiveSheetIndex(0)               
-                    ->setCellValue('A6',"No se encontraron evaluaciones para esta(s) unidad(es) de negocio.");
+                    ->setCellValue('A6',"No se encontraron evaluaciones para estos departamentos.");
+                 
+                header('Content-Type: application/excel');
+                header('Content-Disposition: attachment;filename="BrechasEC.xlsx"');
+                header('Cache-Control: max-age=0');
       }else{
         $i = '8';  
         

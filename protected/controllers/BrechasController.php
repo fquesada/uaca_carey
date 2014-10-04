@@ -99,9 +99,9 @@ class BrechasController extends Controller {
         }
     }
     
-    /*Metodos Analisis Competencias*/
+    /*Metodos Analisis Brechas*/
     
-    public function actionAnalisisCompetencias(){
+    public function actionAnalisisCompetencias(){//CLEAN CODE
         $this->render('analisis', array());
     }
     
