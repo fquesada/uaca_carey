@@ -36,8 +36,8 @@ $this->menu = array(
         <p><span id="spTipoEvaluacion">Tipo de Evaluación</span></p> 
         <?php
         echo CHtml::dropDownList('ddlproceso','',array('EC' => 'Evaluación de Competencias', 'ED' => 'Evaluación de Desempeño'), array('id'=>'ddlproceso'));
-        ?>
-         
+        ?>        
+        
         <p><span id="spFechaInicio">Fecha inicio</span></p>
             <?php $this->widget('zii.widgets.jui.CJuiDatePicker', array(
                         'id' => 'dpFechaInicio',
@@ -61,8 +61,7 @@ $this->menu = array(
                             'readonly' => 'readonly',
                             'style'=>'width: 118px; text-align: center'
                         ),
-                    ));?> 
-          <p class="mensajeerror" id="dpFechaInicioerror"></p>  
+                    ));?>           
           <p><span id="spFechaFinal">Fecha final</span></p>     
           <?php $this->widget('zii.widgets.jui.CJuiDatePicker', array(
                         'id' => 'dpFechaFinal',
@@ -87,7 +86,7 @@ $this->menu = array(
                             'style'=>'width: 118px; text-align: center'
                         ),
                     ));?> 
-        <p class="mensajeerror" id="dpFechaFinalerror"></p>  
+        <p class="mensajeerror" id="pFechaserror">La fecha de inicio debe ser menor a la fecha final.</p>  
         <p><span id="spTipoCarga">Tipo de Análisis</span></p>
         <input id="cbmasiva" type="radio" name="tipocarga" value="masiva" checked>Análisis Global (Todos los colaboradores)</input>        
         <input id="cbdepartamento" type="radio" name="tipocarga" value="departamento">Por Departamento(s)</input>     
@@ -100,7 +99,7 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array(
         'autoOpen'=>false,
         'modal'=>true,
         'width'=>400,
-        'height'=>600,
+        'height'=>'auto',
         'resizable' => false,
         'draggable' => false,
         'beforeClose' => 'js:function(event){$("#divDepartamentos").hide();}',
@@ -114,27 +113,15 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array(
      <button  id="btnDesmarcarTodosDepartamento" type="button" class="sexybutton sexysimple"><span class="accept">Desmarcar todos</span></button>
     
     <?php
-    echo CHtml::checkboxList('cblDepartamento', '', CHtml::listData(Unidadnegocio::model()->findAll('estado=1'), 'id', 'nombre'), array('id' => 'cblDepartamento', 'class' => 'cblDepartamento'));
+    echo CHtml::checkboxList('cblDepartamento', '', CHtml::listData(Unidadnegocio::model()->findAll(array('condition'=>'estado=1', 'order' => 'nombre')), 'id', 'nombre'), array('id' => 'cblDepartamento', 'class' => 'cblDepartamento'));
     ?>
+    <div style="text-align: center"> 
     <button  id="btnSeleccionDepartamento" type="button" class="sexybutton sexysimple"><span class="accept">Seleccionar Departamentos</span></button>
+    </div>
     <p class="mensajeerror" id="Departamentoerror">Debe seleccionar al menos un departamento.</p>  
 </div>
 
 <?php $this->endWidget();?>
-
-
-<div id="divHistoricoEvaluaciones" class="divHistoricoEvaluaciones">
-    <div id="divCargando" class="divCargando">
-    
-    <?php echo CHtml::image(Yii::app()->request->baseUrl."/images/preload.GIF", "Cargando", 
-                    array("id"=>"imgCargando", "class"=>"imgCargando")); 
-          echo CHtml::label('Cargando...','')
-    ?>
-    </div>
-    
-    <div id="divNoEvaluaciones" class="divNoEvaluaciones"></div>
-  
-</div>
 
 <div style="text-align: center"> 
     <?php

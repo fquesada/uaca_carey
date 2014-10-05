@@ -1,3 +1,5 @@
+/*Analisis Historico*/
+
 .divBusquedaColaborador{
     text-align: center;
     margin-bottom: 50px;
@@ -89,4 +91,45 @@
 
 .imgReporte{
     cursor: pointer;
+}
+
+/*Analisis Brechas*/
+
+.divFiltros{
+    margin-bottom: 20px;
+}
+
+.divFiltros p{
+    margin: 10px 0px 5px 0px;
+}
+
+.divFiltros p > span{
+    color: #033E6B;    
+}
+
+#btnMarcarTodosDepartamento{
+    margin-top: 10px
+}
+
+#btnDesmarcarTodosDepartamento{
+    margin-top: 10px
+}
+
+#cblDepartamento{
+    float: left;
+    margin: 15px 0px 25px 0px;
+}
+
+/*Error*/
+.mensajeerror{
+    font-style: italic;
+    font-size: 15px;
+    color: #EE0000;
+    margin-top: 5px; 
+    display: none;
+}
+
+/*Volver atras*/
+#btnvolveratras{
+     margin-top: 15px;
 }

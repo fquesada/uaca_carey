@@ -21,8 +21,7 @@ $this->breadcrumbs = array(
 
 $this->menu = array(
     array('label' => 'Inicio', 'url' => array('site/index')),
-    array('label' => 'Análisis de Brechas en Competencias', 'url' => array('brechas/competencias')),
-    array('label' => 'Análisis de Brechas en Desempeño', 'url' => array('brechas/desempeno')),
+    array('label' => 'Análisis de Brechas', 'url' => array('brechas/AnalisisBrechas')),
 );
 ?>
 

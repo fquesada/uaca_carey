@@ -377,7 +377,7 @@ class Evaluaciondesempeno extends CActiveRecord
                     INNER JOIN procesoevaluacion pe ON ed.procesoevaluacion = pe.id
                     INNER JOIN periodo per ON pe.periodo = per.id
                     WHERE ed.estadoevaluacion = 2 AND c.estado = 1 AND hp.puestoactual = 1 AND (ed.fecharegistroevaluacion BETWEEN :fechainicio AND :fechafin)AND pe.estado = 1
-                    ORDER BY fechaevaluacion ASC;
+                    ORDER BY ed.fecharegistroevaluacion ASC;
                 ';                   
             }
             else if($tiporeporte == "A"){//Informe ampliado
@@ -410,7 +410,7 @@ class Evaluaciondesempeno extends CActiveRecord
                     INNER JOIN periodo per ON pe.periodo = per.id
                     WHERE un.id IN ('.$departamentos.') AND
                     ed.estadoevaluacion = 2 AND c.estado = 1 AND hp.puestoactual = 1 AND (ed.fecharegistroevaluacion BETWEEN :fechainicio AND :fechafin)AND pe.estado = 1
-                    ORDER BY fechaevaluacion ASC;
+                    ORDER BY ed.fecharegistroevaluacion ASC;
                 ';             
             }
             else if($tiporeporte == "A"){//Informe ampliado

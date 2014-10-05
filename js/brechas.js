@@ -84,17 +84,21 @@ $(document).ready(function() {
    //Metodos de Analisis Evaluaciones
    
      $("#btnGenerarAnalisis").click(function(event){
-        event.preventDefault();   
+        event.preventDefault();         
+        $('#pFechaserror').hide();
         $.ajax({
                     type: "POST",
-                    url: "GenerarReporteAnalisis",
+                    url: "GenerarReporteBrechas",
                     data: obtenerdatosanalisis(),
                     dataType: 'json',
                     error: function (jqXHR, textStatus){
                         messagewarning("Ha ocurrido un inconveniente, intente nuevamente. (Codigo Sistema:"+ jqXHR.status + ")");                                  
                     },
-                    success: function(datos){                      
-                            window.location.replace(datos.url);
+                    success: function(datos){                             
+                            if(datos.validador)
+                                window.location.replace(datos.url);
+                            else
+                                $('#pFechaserror').show();
                     }
         })
     });
