@@ -27,7 +27,7 @@ class ProcesoEDController extends Controller {
     public function accessRules() {
         return array(
             array('allow', // allow all users to perform 'index' and 'view' actions
-                'actions' => array('index', 'view'),
+                'actions' => array('index', 'view','adminprocesoed','admin'),
                 'users' => array('*'),
             ),
             array('allow', // allow authenticated user to perform 'create' and 'update' actions
@@ -163,8 +163,9 @@ class ProcesoEDController extends Controller {
     }
 
     public function actionRegistrarEvaluacion($id) {
-
-        $ed = Evaluaciondesempeno::model()->findByPk($id);
+        
+        $idnuevo = CommonFunctions::decrypt($id);
+        $ed = Evaluaciondesempeno::model()->findByPk($idnuevo);
 
         if (isset($ed)) {
             $this->layout = 'column1';

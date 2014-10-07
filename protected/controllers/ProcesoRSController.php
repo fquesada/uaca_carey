@@ -25,7 +25,7 @@ class ProcesoRSController extends Controller
 	{       //CLEAN CODE GUARDAR Y EVALUAR PROCESO DEBE ESTAR ACCESO PARA TODOS
 		return array(
 			array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('index','view'),
+				'actions'=>array('index','view','AdminProcesoECV','admin','EditarProcesoECV'),
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
@@ -644,8 +644,7 @@ class ProcesoRSController extends Controller
             {                 
                 $nombreproceso = $_POST['nombreproceso'];
                 
-                $periodo = CommonFunctions::stringtonumber($_POST['periodo']);                        
-                $puesto = CommonFunctions::stringtonumber($_POST['puesto']);                        
+                $periodo = CommonFunctions::stringtonumber($_POST['periodo']);                       
                 $fechareclutamiento = $_POST['fechareclutamiento'];         
                 $fechaseleccion = $_POST['fechaseleccion'];
                 $postulantes = $_POST['postulantes'];
@@ -671,20 +670,18 @@ class ProcesoRSController extends Controller
                 }else{               
                 
                     foreach ($postulantes as $index => $nuevopostulante) {                    
-                        $indicadoragregarec = true;                                        
-                        foreach ($evaluacioncompetenciaactual as $ec) {
-                            if(CommonFunctions::stringtonumber($nuevopostulante[4]) == $ec->colaborador){                                                       
+                        $indicadoragregarec = true;                
+                            if(CommonFunctions::stringtonumber($nuevopostulante[0]) != 0){                                                       
                                $indicadoragregarec = false; 
-                               break 1;
-                            }                        
-                        }
+                               break 1;                    
+                            }
                         if($indicadoragregarec){
                             
                                 $postulante = new Postulante();
-                                $postulante->cedula = CommonFunctions::stringtonumber($nuevopostulante[0]);
-                                $postulante->nombre = $nuevopostulante[1];
-                                $postulante->apellido1 = $nuevopostulante[2];
-                                $postulante->apellido2 = $nuevopostulante[3];
+                                $postulante->cedula = CommonFunctions::stringtonumber($nuevopostulante[1]);
+                                $postulante->nombre = $nuevopostulante[2];
+                                $postulante->apellido1 = $nuevopostulante[3];
+                                $postulante->apellido2 = $nuevopostulante[4];
                                 $postulante->estado = 1;
                                 $postulante->save();
                             
@@ -711,9 +708,9 @@ class ProcesoRSController extends Controller
                     }
                     
                     foreach ($evaluacioncompetenciaactual as $ec){                    
-                        $indicadorborrarec = true;                                        
-                        foreach ($postulante as $index => $idpostulante) {
-                            if(CommonFunctions::stringtonumber($idpostulante) == $ec->colaborador){                                                       
+                        $indicadorborrarec = false;                                        
+                        foreach ($postulantes as $index => $postulante) {
+                            if(CommonFunctions::stringtonumber($postulante[0]) == $ec->colaborador){                                                       
                                $indicadorborrarec = false; 
                                break 1;
                             }                        
@@ -733,7 +730,7 @@ class ProcesoRSController extends Controller
                 }                
                 
                $transaction->commit();
-               $response = array('resultado' => true,'mensaje' => "Se guardó con éxito los cambios realizados al proceso: ".$procesoevaluacion->descripcion, 'url' => Yii::app()->getBaseUrl(true).'/index.php/procesoevaluacion/adminprocesoec/'.$procesoevaluacion->id);                  
+               $response = array('resultado' => true,'mensaje' => "Se guardó con éxito los cambios realizados al proceso: ".$procesoevaluacion->descripcion, 'url' => Yii::app()->getBaseUrl(true).'/index.php/procesors/adminprocesoecv/'.$procesoevaluacion->id);                  
                echo CJSON::encode($response);   
                Yii::app()->end();
             }

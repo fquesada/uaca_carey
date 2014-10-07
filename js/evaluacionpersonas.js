@@ -243,6 +243,8 @@ $(document).ready(function() {
         $(this).parents("tr").remove()       
    });
    
+   
+   
    $("#btncrearhabilidad").click(function(){         
        
        if(validar($('#txtnombrehabilidad')) && validar($('#txtareadescripcionhabilidad'))&& validar($('#dllponderacion'))){       
@@ -673,23 +675,29 @@ $(document).ready(function() {
     $("#btnguardarprocesoECV").click(function(event){
         event.preventDefault();      
         
-        var idprocesoec = $('#idprocesoec').val();
         
-        if(!validar($('#ddlperiodo'))){     
+        var idprocesoecv = $('#idprocesoecv').val();
+        
+        
+       if (!validar($('#ddlpuesto'))){
+            mostrarerror($('#ddlpuesto'));}
+       else if(!validar($('#ddlperiodo'))){     
             mostrarerror($('#ddlperiodo'));}
        else if (!validar($('#txtdescripcion'))){
             mostrarerror($('#txtdescripcion'));}
-       else if (!validar($('#busquedaevaluador'))){
-           mostrarerror($('#busquedaevaluador'));}
-       else if (cantidadcolaboradorestabla()== 0){
-           mostrarerror($('#tblcolaboradores'));
+       else if (!validar($('#fechareclutamiento'))){
+            mostrarerror($('#fechareclutamiento'));}
+       else if (!validar($('#fechaseleccion'))){
+            mostrarerror($('#fechaseleccion'));}
+       else if (cantidadpostulantestabla() == 0){
+           mostrarerror($('#tblpostulantes'));
        }
        else{
            $('#btnguardarprocesoECV').attr('disabled', 'true');
            $.ajax({
                     type: "POST",
-                    url: "../editarprocesoecv/"+idprocesoec,
-                    data: obtenerdatoscrearproceso(),
+                    url: "../editarprocesoecv/"+idprocesoecv,
+                    data: obtenerdatoscrearprocesoECV(),
                     dataType: 'json',
                     error: function (jqXHR, textStatus){
                         $('#btnguardarprocesoEC').removeAttr('disabled');
@@ -898,5 +906,7 @@ $(document).ready(function() {
         });
         return postulantes;
    }
+   
+    
  
 });

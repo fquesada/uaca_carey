@@ -42,6 +42,11 @@ $this->menu=array(
 )); ?>
 </div>
 
+<br>
+ <div class="row buttons">                    
+        <button  id="verenlaces" type="button" class="sexybutton sexysimple" ><span class="accept">Ver Enlaces</span></button>
+    </div>
+
 <div>
 <div class="divcolaboradoresevaluados">
     
@@ -83,7 +88,7 @@ $this->menu=array(
         echo '<th>';
         $imgcorreo=CHtml::image(Yii::app()->request->baseUrl.'/images/icons/silk/email_go.png', 'Enviar correo', array("id"=>"imgenviarcorreo", "cursor:pointer;"));
         if(!$ec->estadoevaluacionindicador)
-        echo CHtml::link($imgcorreo, '#');
+        echo CHtml::link($imgcorreo, Yii::app()->getBaseUrl(true).'/index.php/procesoevaluacion/evaluarprocesoec/'. CommonFunctions::encrypt($ec->id));
         $imgreporte=CHtml::image(Yii::app()->request->baseUrl.'/images/icons/silk/chart_pie.png', 'Generar reporte', array("id"=>"imggenerarreporte", "cursor:pointer;"));        
         if($ec->estadoevaluacionindicador)
             echo CHtml::link($imgreporte,'#');
@@ -99,4 +104,45 @@ $this->menu=array(
         echo CHtml::button('Volver atrás', array('id'=>'btnvolveratras','submit' => array('procesoevaluacion/admin'), 'class'=>'sexybutton sexysimple sexylarge'));
    ?>
     </div>
+    
+    
+    
+    <?php
+$this->beginWidget('zii.widgets.jui.CJuiDialog', array(
+    'id'=>'enlaces',
+    'options'=>array(
+        'title'=>'Enlaces',
+        'autoOpen'=>false,
+        'modal'=>true,
+        'width'=>700,
+        'height'=>400,
+        'resizable' => false,
+        'draggable' => false,
+        'beforeClose' => 'js:function(){$("#divenlaces").hide();}',
+    ),
+));
+?>
+
+<div id="divenlaces" style="display: none">
+    
+    
+    <p>Lo siguiente puede ser copiado para su posterior envio:</p>
+    <br>
+    
+    <?php
+    foreach($procesoec->_evaluacionescompetencias as $ec){
+        echo 'Cédula: '.$ec->_colaborador->cedula. '<br/>';
+        echo 'Nombre: '.$ec->_colaborador->nombrecompleto. '<br/>';
+        echo 'Puesto: '.$ec->_colaborador->nombrepuestoactual. '<br/>';
+        echo '<a href="'.Yii::app()->getBaseUrl(true).'/index.php/procesoevaluacion/evaluarprocesoec/'. CommonFunctions::encrypt($ec->id).'">'.'Ir a evaluación'.'</a>';
+        echo '<hr>';
+    }
+    ?>
+    
+    </div>
+    
+    <?php $this->endWidget();?>
+    
+    
+    
 </div>

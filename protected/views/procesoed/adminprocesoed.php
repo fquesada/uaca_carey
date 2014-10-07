@@ -42,6 +42,12 @@ $this->menu=array(
 )); ?>
 </div>
 
+
+<br>
+ <div class="row buttons">                    
+        <button  id="verenlaces" type="button" class="sexybutton sexysimple" ><span class="accept">Ver Enlaces</span></button>
+    </div>
+
 <div>
 <div class="divcolaboradoresevaluados">
     
@@ -108,4 +114,42 @@ $this->menu=array(
         echo CHtml::button('Volver atrás', array('id'=>'btnvolveratras','submit' => array('procesoed/admin'), 'class'=>'sexybutton sexysimple sexylarge'));
    ?>
     </div>
+    
+    
+    <?php
+$this->beginWidget('zii.widgets.jui.CJuiDialog', array(
+    'id'=>'enlaces',
+    'options'=>array(
+        'title'=>'Enlaces',
+        'autoOpen'=>false,
+        'modal'=>true,
+        'width'=>700,
+        'height'=>400,
+        'resizable' => false,
+        'draggable' => false,
+        'beforeClose' => 'js:function(){$("#divenlaces").hide();}',
+    ),
+));
+?>
+
+<div id="divenlaces" style="display: none">
+    
+    <p>Lo siguiente puede ser copiado para su posterior envio:</p>
+    <br>
+    <?php
+    foreach($procesoed->_evaluaciondesempenos as $ed){
+        echo 'Cédula: '.$ed->_colaborador->cedula. '<br/>';
+        echo 'Nombre: '.$ed->_colaborador->nombrecompleto. '<br/>';
+        echo 'Puesto: '.$ed->_colaborador->nombrepuestoactual. '<br/>';
+        echo '<a href="'.Yii::app()->getBaseUrl(true).'/index.php/procesoed/registrarevaluacion/'. CommonFunctions::encrypt($ed->id).'">'.'Ir a evaluación'.'</a>';
+        echo '<hr>';
+    }
+    ?>
+    
+    </div>
+    
+    <?php $this->endWidget();?>
+    
+    
+    
 </div>

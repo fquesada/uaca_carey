@@ -57,4 +57,16 @@ class CommonFunctions {
             else
                 return 0;                
     }
+    
+    public static function encrypt($number){
+        $salt =  989;
+        return $number*$salt;
+    }
+    
+    
+    public static function decrypt($number){
+        $salt =  989;
+        return $number/$salt;
+    }
+    
 }

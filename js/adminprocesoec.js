@@ -70,5 +70,13 @@ $(document).on("click", "#imggenerarreporte", function(event){
             modal:true                                          
         });
     }
+    
+    
+    $("#verenlaces").click(function(){       
+       
+       $("#divenlaces").show();       
+       $("#enlaces").dialog('open');
+       
+   });
    
    });

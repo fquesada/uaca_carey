@@ -43,4 +43,14 @@ $(document).on("click", "#imgvercompromisos", function(event){
             modal:true
         });
     }
+    
+    
+    $("#verenlaces").click(function(){       
+       
+       $("#divenlaces").show();       
+       $("#enlaces").dialog('open');
+       
+   });
+    
+    
    });
