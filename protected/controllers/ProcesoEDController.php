@@ -2,7 +2,6 @@
 
 class ProcesoEDController extends Controller {
 
-
     /**
      * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
      * using two-column layout. See 'protected/views/layouts/column2.php'.
@@ -31,9 +30,9 @@ class ProcesoEDController extends Controller {
                 'users' => array('*'),
             ),
             array('allow', // allow authenticated user to perform 'create' and 'update' actions
-                'actions' => array('crear', 'report', 'update', 'admin', 'Admined', 'EliminarProcesoED','AdminEva', 'AgregarPersona', 'AutocompleteEvaluado', 'AgregarCompromisos',
+                'actions' => array('crear', 'editar', 'report', 'update', 'admin', 'Admined', 'EliminarProcesoED', 'AdminEva', 'AgregarPersona', 'AutocompleteEvaluado', 'AgregarCompromisos',
                     'HabilidadesEspeciales', 'InfoPonderacion', 'delete', 'reporteevaluacioncompetencias', 'DataReporteEvaluacionCompetencias', 'CargaMasiva', 'CargaDepartamento',
-                    'adminprocesoed', 'GuardarCompromisos', 'RegistrarEvaluacion', 'GuardarEvaluacionED', 'ActualizarCalificacionED', 'CrearReporteED', 'ReporteED', 'CrearReporteCompromisos','ReporteCompromisos',
+                    'adminprocesoed', 'GuardarCompromisos', 'RegistrarEvaluacion', 'GuardarEvaluacionED', 'ActualizarCalificacionED', 'CrearReporteED', 'ReporteED', 'CrearReporteCompromisos', 'ReporteCompromisos',
                     'DescargaCompromisos', 'ReporteAnalisisED'),
                 'users' => array('@'),
             ),
@@ -46,7 +45,7 @@ class ProcesoEDController extends Controller {
             ),
         );
     }
-    
+
     public function actionAdminProcesoED($id) {
 
         $procesoed = Procesoevaluacion::model()->findByPk($id);
@@ -54,23 +53,23 @@ class ProcesoEDController extends Controller {
             'procesoed' => $procesoed,
         ));
     }
-    
-    public function actionEliminarProcesoED($id){            
-             if (Yii::app()->request->isAjaxRequest) {
-            
-                $id = CommonFunctions::stringtonumber($id);
-                $procesoec = Procesoevaluacion::model()->findByPk($id);
-                $procesoec->estado = 0;
-                $resultadoguardarbd = $procesoec->save();
-                if($resultadoguardarbd)
-                 $response = array('resultado' => true, 'mensaje' => "Se elimino correctamente el proceso.");
-                else
-                 $response = array('resultado' => false, 'mensaje' => "Ha ocurrido un inconveniente al intentar eliminar el proceso");
-                
-                echo CJSON::encode($response);
-                Yii::app()->end();          
-             }
+
+    public function actionEliminarProcesoED($id) {
+        if (Yii::app()->request->isAjaxRequest) {
+
+            $id = CommonFunctions::stringtonumber($id);
+            $procesoec = Procesoevaluacion::model()->findByPk($id);
+            $procesoec->estado = 0;
+            $resultadoguardarbd = $procesoec->save();
+            if ($resultadoguardarbd)
+                $response = array('resultado' => true, 'mensaje' => "Se elimino correctamente el proceso.");
+            else
+                $response = array('resultado' => false, 'mensaje' => "Ha ocurrido un inconveniente al intentar eliminar el proceso");
+
+            echo CJSON::encode($response);
+            Yii::app()->end();
         }
+    }
 
     public function actionAdminED($id) {
 
@@ -133,7 +132,7 @@ class ProcesoEDController extends Controller {
 
                 if ($result) {
                     $idevaluacion = $evaluacion->id;
-                     foreach ($_POST['compromisos'] as $compromiso) { 
+                    foreach ($_POST['compromisos'] as $compromiso) {
                         $nuevocompromiso = new Compromiso;
                         $nuevocompromiso->evaluacion = $idevaluacion;
                         $nuevocompromiso->puntualizacion = $compromiso['idPuntualizacion'];
@@ -219,7 +218,7 @@ class ProcesoEDController extends Controller {
                             $nuevacompetencia->evaluacion = $ided;
                             $nuevacompetencia->competencia = $competencia['idcompetencia'];
                             $nuevacompetencia->puntaje = $competencia['calificacion'];
-                            if($competencia['tipocompetencia'] == "core")
+                            if ($competencia['tipocompetencia'] == "core")
                                 $nuevacompetencia->tipocompetencia = 1;
                             else
                                 $nuevacompetencia->tipocompetencia = 2;
@@ -333,8 +332,7 @@ class ProcesoEDController extends Controller {
 
             if ($resultadoguardarbd) {
                 foreach ($evaluados as $index => $idcolaborador) {
-
-                    //ERROR
+                    
                     $evaluaciondesempeno = new Evaluaciondesempeno();
                     $evaluaciondesempeno->procesoevaluacion = $procesoevaluacion->id;
                     $colaborador = Colaborador::model()->findByPk($idcolaborador);
@@ -367,9 +365,95 @@ class ProcesoEDController extends Controller {
             }
         }
 
+        $this->render('crear');
+    }
 
-        $this->render('crear', array(
-            'indicadoreditar' => false,
+    public function actionEditar($id) {
+        if (Yii::app()->request->isAjaxRequest) {
+            
+            $nombreproceso = $_POST['nombreproceso'];
+            $periodo = CommonFunctions::stringtonumber($_POST['periodo']);
+            $colaboradores = $_POST['colaboradores'];
+
+            $procesoevaluacion = Procesoevaluacion::model()->findByPk($id);
+            
+            $evaluaciondesempenoactual = $procesoevaluacion->_evaluaciondesempenos;
+
+            $transaction = Yii::app()->db->beginTransaction();
+
+            $procesoevaluacion->descripcion = $nombreproceso;
+            $procesoevaluacion->periodo = $periodo;
+            $resultadoguardarbd = $procesoevaluacion->save();
+            
+            if (!$resultadoguardarbd) {
+                $transaction->rollback();
+                $response = array('resultado' => false, 'mensaje' => "Ha ocurrido un inconveniente al intentar guardar los cambios del proceso: " . $procesoevaluacion->descripcion);
+                echo CJSON::encode($response);
+                Yii::app()->end();
+            } else {
+
+                foreach ($colaboradores as $index => $idcolaborador) {
+                    $indicadoragregared = true;
+                    foreach ($evaluaciondesempenoactual as $ed) {
+                        if (CommonFunctions::stringtonumber($idcolaborador) == $ed->colaborador) {
+                            $indicadoragregared = false;
+                            break 1;
+                        }
+                    }
+                    if ($indicadoragregared) {
+                        $evaluaciondesempeno = new Evaluaciondesempeno();
+                        $evaluaciondesempeno->procesoevaluacion = $procesoevaluacion->id;
+                        $colaborador = Colaborador::model()->findByPk($idcolaborador);
+                        $evaluaciondesempeno->puesto = $colaborador->getidpuestoactual();//CLEAN CODE
+                        $evaluaciondesempeno->colaborador = $colaborador->id;
+                        $evaluaciondesempeno->save();
+
+                        $link = new Links();
+                        $link->url = $evaluaciondesempeno->id; //FALTA FUNCION HASH                          
+                        $link->save();
+
+                        $evaluaciondesempeno->links = $link->id;
+                        $resultadoguardarbd = $evaluaciondesempeno->save();
+                        if (!$resultadoguardarbd) {
+                            $transaction->rollback();
+                            $response = array('resultado' => false, 'mensaje' => "Ha ocurrido un inconveniente al intentar guardar los cambios del proceso: " . $procesoevaluacion->descripcion);
+                            echo CJSON::encode($response);
+                            Yii::app()->end();
+                        }
+                    }
+                }
+
+                foreach ($evaluaciondesempenoactual as $ed) {
+                    $indicadorborrared = true;
+                    foreach ($colaboradores as $index => $idcolaborador) {
+                        if (CommonFunctions::stringtonumber($idcolaborador) == $ed->colaborador) {
+                            $indicadorborrared = false;
+                            break 1;
+                        }
+                    }
+                    if ($indicadorborrared) {
+                        $evaluaciondesempenoborrar = Evaluaciondesempeno::model()->findByPk($ed->id);
+                        $evaluaciondesempenoborrar->estado = 0; //CLEAN CODE VARIABLES GLOBALES
+                        $resultadoguardarbd = $evaluaciondesempenoborrar->save();
+                        if (!$resultadoguardarbd) {
+                            $transaction->rollback();
+                            $response = array('resultado' => false, 'mensaje' => "Ha ocurrido un inconveniente al intentar guardar los cambios del proceso: " . $procesoevaluacion->descripcion);
+                            echo CJSON::encode($response);
+                            Yii::app()->end();
+                        }
+                    }
+                }
+            }
+
+            $transaction->commit();
+            $response = array('resultado' => true, 'mensaje' => "Se guardó con éxito los cambios realizados al proceso: " . $procesoevaluacion->descripcion, 'url' => Yii::app()->getBaseUrl(true) . '/index.php/procesoed/adminprocesoed/' . $procesoevaluacion->id);
+            echo CJSON::encode($response);
+            Yii::app()->end();
+        }
+
+        $proceso = Procesoevaluacion::model()->findByPk($id);
+        $this->render('editar', array(
+            'proceso' => $proceso,
         ));
     }
 
@@ -387,27 +471,27 @@ class ProcesoEDController extends Controller {
             Yii::app()->end();
         }
     }
-    
-    public function actionDescargaCompromisos($id){
-        
+
+    public function actionDescargaCompromisos($id) {
+
         $this->render('DescargaCompromisos', array(
             'id' => $id,
         ));
-        
+
         //$this->redirect($this->createUrl('ReporteCompromisos', array('id'=>$id)));
     }
-    
+
     //Logica para Generar el Reporte de Compromisos
-     public function actionCrearReporteCompromisos(){
-           if(Yii::app()->request->isAjaxRequest){
-           $id = CommonFunctions::stringtonumber($_POST['id']);                           
-           $response = array('url' => Yii::app()->getBaseUrl(true).'/index.php/procesoed/reportecompromisos/'.$id);               
-           echo CJSON::encode($response);                        
-           Yii::app()->end();
-            }
+    public function actionCrearReporteCompromisos() {
+        if (Yii::app()->request->isAjaxRequest) {
+            $id = CommonFunctions::stringtonumber($_POST['id']);
+            $response = array('url' => Yii::app()->getBaseUrl(true) . '/index.php/procesoed/reportecompromisos/' . $id);
+            echo CJSON::encode($response);
+            Yii::app()->end();
         }
-    
-    public function actionReporteCompromisos($id){
+    }
+
+    public function actionReporteCompromisos($id) {
         $ed = Evaluaciondesempeno::model()->findByPk($id);
         $colaborador = Colaborador::model()->findByPk($ed->colaborador);
         $compromisos = $ed->_compromisos;
@@ -502,21 +586,21 @@ class ProcesoEDController extends Controller {
         $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
         //$objWriter->setIncludeCharts(TRUE);                        
         $objWriter->save('php://output');
-        
+
         exit();
     }
-    
+
     //Logica para Generar el Reporte de ED
-     public function actionCrearReporteED(){
-           if(Yii::app()->request->isAjaxRequest){
-           $id = CommonFunctions::stringtonumber($_POST['id']);                           
-           $response = array('url' => Yii::app()->getBaseUrl(true).'/index.php/procesoed/reporteed/'.$id);               
-           echo CJSON::encode($response);                        
-           Yii::app()->end();
-            }
+    public function actionCrearReporteED() {
+        if (Yii::app()->request->isAjaxRequest) {
+            $id = CommonFunctions::stringtonumber($_POST['id']);
+            $response = array('url' => Yii::app()->getBaseUrl(true) . '/index.php/procesoed/reporteed/' . $id);
+            echo CJSON::encode($response);
+            Yii::app()->end();
         }
-        
-     public function actionReporteED($id) {
+    }
+
+    public function actionReporteED($id) {
 
         $ed = Evaluaciondesempeno::model()->findByPk($id);
         $colaborador = Colaborador::model()->findByPk($ed->colaborador);
@@ -710,7 +794,8 @@ class ProcesoEDController extends Controller {
         $objWriter->save('php://output');
         exit();
     }
-/**
+
+    /**
      * Lists all models.
      */
     public function actionIndex() {
@@ -733,7 +818,6 @@ class ProcesoEDController extends Controller {
             'filtersForm' => $filtersForm,
         ));
     }
-
 
     public static function gridmysqltophpdate($date) {
         return CommonFunctions::datemysqltophp($date);
@@ -767,7 +851,6 @@ class ProcesoEDController extends Controller {
         echo CJSON::encode($response);
         Yii::app()->end();
     }
-
 
     ///Replicado
 
@@ -845,108 +928,104 @@ class ProcesoEDController extends Controller {
             Yii::app()->end();
         }
     }
-    
-    public function actionReporteAnalisisED($tiporeporte, $fechainicio, $fechafin, $tipoanalisis, $departamentos = array()){
-       
-       $datosreporte = Evaluaciondesempeno::model()->AnalisisEvaluacion($tiporeporte, $fechainicio, $fechafin, $tipoanalisis, $departamentos); 
-        
-       $phpExcelPath = Yii::getPathOfAlias('application.modules.excel');
+
+    public function actionReporteAnalisisED($tiporeporte, $fechainicio, $fechafin, $tipoanalisis, $departamentos = array()) {
+
+        $datosreporte = Evaluaciondesempeno::model()->AnalisisEvaluacion($tiporeporte, $fechainicio, $fechafin, $tipoanalisis, $departamentos);
+
+        $phpExcelPath = Yii::getPathOfAlias('application.modules.excel');
 
         // Turn off our amazing library autoload 
         spl_autoload_unregister(array('YiiBase', 'autoload'));
-        
+
         require_once( dirname(__FILE__) . '/../components/CommonFunctions.php');
 
         include($phpExcelPath . DIRECTORY_SEPARATOR . 'Classes' . DIRECTORY_SEPARATOR . 'PHPExcel.php');
 
         $objReader = PHPExcel_IOFactory::createReader('Excel2007');
         //$objReader->setIncludeCharts(TRUE);
-            
-            if($tiporeporte == "R"){//Informe resumido
+
+        if ($tiporeporte == "R") {//Informe resumido
             $objPHPExcel = $objReader->load($phpExcelPath . DIRECTORY_SEPARATOR . "templates" . DIRECTORY_SEPARATOR . "BrechasResumidoEDTemplate.xlsx");
-            }
-            else if($tiporeporte == "A"){//Informe ampliado
-            $objPHPExcel = $objReader->load($phpExcelPath . DIRECTORY_SEPARATOR . "templates" . DIRECTORY_SEPARATOR . "BrechasAmpliadoEDTemplate.xlsx");    
-            }
-            
+        } else if ($tiporeporte == "A") {//Informe ampliado
+            $objPHPExcel = $objReader->load($phpExcelPath . DIRECTORY_SEPARATOR . "templates" . DIRECTORY_SEPARATOR . "BrechasAmpliadoEDTemplate.xlsx");
+        }
 
-            $objPHPExcel->setActiveSheetIndex(0);  //set first sheet as active
 
-            $objPHPExcel->getActiveSheet()->setCellValue('B4', CommonFunctions::datemysqltophp($fechainicio));
-            $objPHPExcel->getActiveSheet()->setCellValue('B5', CommonFunctions::datemysqltophp($fechafin));
-            
-      
-            
-     
-      if(!$datosreporte){
-                 $objPHPExcel->setActiveSheetIndex(0)               
-                    ->setCellValue('A6',"No se encontraron evaluaciones para estos departamentos.");
-                 
+        $objPHPExcel->setActiveSheetIndex(0);  //set first sheet as active
+
+        $objPHPExcel->getActiveSheet()->setCellValue('B4', CommonFunctions::datemysqltophp($fechainicio));
+        $objPHPExcel->getActiveSheet()->setCellValue('B5', CommonFunctions::datemysqltophp($fechafin));
+
+
+
+
+        if (!$datosreporte) {
+            $objPHPExcel->setActiveSheetIndex(0)
+                    ->setCellValue('A6', "No se encontraron evaluaciones para estos departamentos.");
+
+            header('Content-Type: application/excel');
+            header('Content-Disposition: attachment;filename="BrechasED.xlsx"');
+            header('Cache-Control: max-age=0');
+        } else {
+            $i = '8';
+
+            if ($tiporeporte == "R") {//Informe resumido
+                foreach ($datosreporte as $fila) {
+
+                    $objPHPExcel->setActiveSheetIndex(0)
+                            ->setCellValue('A' . $i, $fila["cedula"])
+                            ->setCellValue('B' . $i, $fila["colaborador"])
+                            ->setCellValue('C' . $i, $fila["puesto"])
+                            ->setCellValue('D' . $i, $fila["departamento"])
+                            ->setCellValue('E' . $i, $fila["evaluador"])
+                            ->setCellValue('F' . $i, $fila["periodo"])
+                            ->setCellValue('G' . $i, $fila["descripcion"])
+                            ->setCellValue('H' . $i, $fila["fecharegistrocompromiso"])
+                            ->setCellValue('I' . $i, $fila["fechaevaluacion"])
+                            ->setCellValue('J' . $i, $fila["promedioevaluacion"])
+                            ->setCellValue('K' . $i, $fila["promediocompromisos"])
+                            ->setCellValue('L' . $i, $fila["promediocompetencias"]);
+
+                    $i++;
+                }
                 header('Content-Type: application/excel');
-                header('Content-Disposition: attachment;filename="BrechasED.xlsx"');
+                header('Content-Disposition: attachment;filename="BrechasResumidoED.xlsx"');
                 header('Cache-Control: max-age=0');
-      }else{
-        $i = '8';  
-        
-        if($tiporeporte == "R"){//Informe resumido
-            foreach ($datosreporte as $fila) {
+            } else if ($tiporeporte == "A") {//Informe ampliado
+                foreach ($datosreporte as $fila) {
 
-                       $objPHPExcel->setActiveSheetIndex(0)               
-                          ->setCellValue('A'.$i, $fila["cedula"])
-                          ->setCellValue('B'.$i, $fila["colaborador"])
-                          ->setCellValue('C'.$i, $fila["puesto"])
-                          ->setCellValue('D'.$i, $fila["departamento"])
-                          ->setCellValue('E'.$i, $fila["evaluador"])
-                          ->setCellValue('F'.$i, $fila["periodo"])
-                          ->setCellValue('G'.$i, $fila["descripcion"])
-                          ->setCellValue('H'.$i, $fila["fecharegistrocompromiso"])
-                          ->setCellValue('I'.$i, $fila["fechaevaluacion"])
-                          ->setCellValue('J'.$i, $fila["promedioevaluacion"])
-                          ->setCellValue('K'.$i, $fila["promediocompromisos"])
-                          ->setCellValue('L'.$i, $fila["promediocompetencias"]);
+                    $objPHPExcel->setActiveSheetIndex(0)
+                            ->setCellValue('A' . $i, $fila["cedula"])
+                            ->setCellValue('B' . $i, $fila["colaborador"])
+                            ->setCellValue('C' . $i, $fila["puesto"])
+                            ->setCellValue('D' . $i, $fila["departamento"])
+                            ->setCellValue('E' . $i, $fila["evaluador"])
+                            ->setCellValue('F' . $i, $fila["periodo"])
+                            ->setCellValue('G' . $i, $fila["descripcion"])
+                            ->setCellValue('H' . $i, $fila["fecharegistrocompromiso"])
+                            ->setCellValue('I' . $i, $fila["fechaevaluacion"])
+                            ->setCellValue('J' . $i, $fila["promedioevaluacion"])
+                            ->setCellValue('K' . $i, $fila["promediocompromisos"])
+                            ->setCellValue('L' . $i, $fila["competencia"])
+                            ->setCellValue('M' . $i, $fila["calificacioncompetencia"]);
 
-                          $i++;
-             }
-            header('Content-Type: application/excel');
-            header('Content-Disposition: attachment;filename="BrechasResumidoED.xlsx"');
-            header('Cache-Control: max-age=0');
-         }
-         else if($tiporeporte == "A"){//Informe ampliado
-         
-            foreach ($datosreporte as $fila) {
+                    $i++;
+                }
 
-                       $objPHPExcel->setActiveSheetIndex(0)               
-                          ->setCellValue('A'.$i, $fila["cedula"])
-                          ->setCellValue('B'.$i, $fila["colaborador"])
-                          ->setCellValue('C'.$i, $fila["puesto"])
-                          ->setCellValue('D'.$i, $fila["departamento"])
-                          ->setCellValue('E'.$i, $fila["evaluador"])
-                          ->setCellValue('F'.$i, $fila["periodo"])
-                          ->setCellValue('G'.$i, $fila["descripcion"])
-                          ->setCellValue('H'.$i, $fila["fecharegistrocompromiso"])
-                          ->setCellValue('I'.$i, $fila["fechaevaluacion"])
-                          ->setCellValue('J'.$i, $fila["promedioevaluacion"])
-                          ->setCellValue('K'.$i, $fila["promediocompromisos"])
-                          ->setCellValue('L'.$i, $fila["competencia"])
-                          ->setCellValue('M'.$i, $fila["calificacioncompetencia"]);
+                header('Content-Type: application/excel');
+                header('Content-Disposition: attachment;filename="BrechasAmpliadoED.xlsx"');
+                header('Cache-Control: max-age=0');
+            }
+        }
 
-                          $i++;
-             } 
-             
-            header('Content-Type: application/excel');
-            header('Content-Disposition: attachment;filename="BrechasAmpliadoED.xlsx"');
-            header('Cache-Control: max-age=0');
-         }
-         
-       }
 
-        
 
         $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
         //$objWriter->setIncludeCharts(TRUE);                        
         $objWriter->save('php://output');
-        
+
         exit();
-     }
+    }
 
 }

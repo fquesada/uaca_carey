@@ -19,7 +19,7 @@ $(document).ready(function() {
            $('#btnguardarprocesoed').prop('disabled', true);;
            $.ajax({
                     type: "POST",
-                    url: "../editarprocesoed/"+idprocesoed,
+                    url: "../editar/"+idprocesoed,
                     data: obtenerdatoscrearproceso(),
                     dataType: 'json',
                     error: function (jqXHR, textStatus){
@@ -337,7 +337,7 @@ $(document).ready(function() {
        return existe;           
    }
    
-   //Validacion cuando se va agregar un colaborador busqueda de colaborador en el proceso de EC
+   //Validacion cuando se va agregar un colaborador busqueda de colaborador en el proceso de ED
    $("#btnagregarcolaborador").click(function(){         
        
        var idevaluador = $('#idevaluador').val();  
@@ -478,8 +478,7 @@ $(document).ready(function() {
  
     
  function cargamasivacolaboradores(idevaluador){     
-      $('#cargaajax').html('<img src="../../images/ajax-loader.gif">');
-      alert(idevaluador);
+      $('#cargaajax').html('<img src="../../images/ajax-loader.gif">');      
       $.ajax({
                     type: "POST",
                     url: "cargamasiva",                    

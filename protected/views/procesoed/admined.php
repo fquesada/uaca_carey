@@ -11,7 +11,7 @@ $this->breadcrumbs=array(
 );
 $this->menu=array(
 	array('label'=>'Lista de Procesos ED' , 'url'=>array('admin')),	
-        //array('label'=>'Editar Proceso EC' , 'url'=>array('editarprocesoec', 'id'=>$procesoed->id)),	
+        array('label'=>'Editar Proceso ED' , 'url'=>array('editar', 'id'=>$procesoed->id)),	
 );
 ?>
 
