@@ -12,7 +12,7 @@
                 <th>Mérito</th>
                 <th>Descripción</th>
                 <th>Calificación</th>
-                <th id="ponderacion">Ponderacion</th>
+                <th id="ponderacion">Ponderación</th>
             </tr>
         <thead>
         <tbody>
