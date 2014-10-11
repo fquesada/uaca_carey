@@ -130,28 +130,31 @@ class ColaboradorController extends Controller
                     $colaborador = $this->loadModel($id);
 
                     $colaborador->estado = '0';
+                    Yii::app()->user->setFlash('success',"El colaborador ". $colaborador->nombrecompleto. " fue eliminado.");
 
                     if($colaborador->save())
                         $this->redirect(array('admin'));
                 }
                 else{
-                    $mensaje = "El colaborador no puede ser eliminado porque fue nombrado como evaluador de estos procesos de evaluación de competencias: <br>";
+                    
                     $nom = "";
                     if($evaluadores != NULL){
+                        $mensaje = "El colaborador no puede ser eliminado porque fue nombrado como evaluador de estos procesos de evaluación de competencias: <br>";
                         foreach ($evaluadores as $evaluadorproceso){
 
                         $nom = $nom. implode($evaluadorproceso). "<br> ";
                                                      
                         }
-                        $mensaje = $mensaje. $nom;
+                        $mensaje = $mensaje. "<br>" .$nom. '<br><a href="../procesoevaluacion/admin">Ir a procesos de evaluación de competencias</a>';
                     }
                     else{
+                        $mensaje = "El colaborador no puede ser eliminado porque esta pendiente de evaluación en estos procesos de evaluación de competencias: <br>";
                         foreach ($procesos as $procesoevaluacion){
 
                         $nom = $nom. implode($procesoevaluacion). "<br>";
                                                
                         }
-                        $mensaje = $mensaje. $nom;
+                        $mensaje = $mensaje. "<br>"  .$nom. '<br><a href="../procesoevaluacion/admin">Ir a procesos de evaluación de competencias</a>';
                     }
                         
                     //averiguar la manera de mostrar el mensaje de error de manera que se muestre tanto cuando se hace desde editar o desde el admin

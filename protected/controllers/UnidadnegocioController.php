@@ -128,13 +128,42 @@ class UnidadnegocioController extends Controller
 	 * If deletion is successful, the browser will be redirected to the 'admin' page.
 	 * @param integer $id the ID of the model to be deleted
 	 */
+        
+       
 	public function actionDelete($id)
 	{
-		$model=$this->loadModel($id);
+                $sqlpuestos='SELECT puesto.nombre '.
+                 'FROM puesto INNER JOIN unidadnegociopuesto '.
+                 'ON puesto.id=unidadnegociopuesto.puesto '.
+                 'WHERE puesto.estado=1 AND unidadnegociopuesto.unidadnegocio='. $id;
+                
+                $puestos= Yii::app()->db->createCommand($sqlpuestos)->queryAll();
+                
+                if ($puestos == NULL){
+                
+                $model=$this->loadModel($id);
                 $model->estado = '0';
+                
+                Yii::app()->user->setFlash('success',"La unidad de negocio ". $model->nombre. " fue eliminada.");
+
                 
                 if($model->save())
                     $this->redirect(array('admin'));
+                }
+                else{
+                    $mensaje = "La unidad de negocio no puede ser eliminada porque tiene asociados los siguientes puestos: <br>";
+                    $nom = "";
+                        foreach ($puestos as $puestosasociados){
+
+                        $nom = $nom. implode($puestosasociados). "<br> ";
+                                                     
+                        }
+                        $mensaje = $mensaje. "<br>" .$nom;
+                        Yii::app()->user->setFlash('error',$mensaje);
+                }
+                
+                
+                
                 
 		// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
 		if(!isset($_GET['ajax']))
