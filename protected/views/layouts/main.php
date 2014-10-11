@@ -34,7 +34,12 @@
 <div class="container" id="page">
 
 	<div id="header">
-		<div id="logo"><?php echo CHtml::encode(Yii::app()->name); ?></div>
+		<div id="logo">
+                    <div class="logoPNG"><img title="Logo" src=<?php echo Yii::app()->baseUrl."/images/logo.png" ?>></img>
+                        </div>
+                        <div class="titulo"><h1 align="left"><?php echo CHtml::encode(Yii::app()->name); ?></h1>
+                        </div>
+                    </div>
                 <div id="opciones">
                     <div class="acciones">
                         <a href='http://localhost/uaca_carey/index.php/site/administracion'><img title="Administración" src=<?php echo Yii::app()->baseUrl."/images/tools.png" ?>></a>
