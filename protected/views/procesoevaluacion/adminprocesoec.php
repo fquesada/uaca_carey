@@ -52,8 +52,7 @@ $this->menu=array(
       <th></th>      
       <th></th> 
       <th></th>       
-      <th colspan="2" id="thevaluacion">Evaluacion</th> 
-      <th colspan="2"  id="thcomunicado">Comunicado</th>
+      <th colspan="2" id="thevaluacion">Evaluacion</th>      
       <th></th>
     </tr>
     <tr id="trencabezados">
@@ -62,9 +61,7 @@ $this->menu=array(
       <th>Colaborador</th>
       <th>Puesto</th> 
       <th>Estado</th> 
-      <th>Fecha Evaluacion</th>       
-      <th>Cant. Envios</th>
-      <th>Fecha Ultimo Envio</th>
+      <th>Fecha Evaluacion</th> 
       <th>Acciones</th>
     </tr>    
   </thead>  
@@ -77,9 +74,7 @@ $this->menu=array(
         echo '<th>'; echo $ec->_colaborador->nombrecompleto; echo '</th>';
         echo '<th>'; echo $ec->_colaborador->nombrepuestoactual; echo '</th>';
         echo '<th>'; echo $ec->estadoevaluaciondescripcion; echo '</th>';
-        echo '<th>'; echo $ec->fechaevaluacionecformato; echo '</th>';
-        echo '<th class="tdcontadorenvios">'; echo $ec->_links->contadorenvios; echo '</th>';
-        echo '<th>'; echo $ec->_links->fechaultimoenvioformato; echo '</th>';       
+        echo '<th>'; echo $ec->fechaevaluacionecformato; echo '</th>';      
         echo '<th>';
         $imgcorreo=CHtml::image(Yii::app()->request->baseUrl.'/images/icons/silk/email_go.png', 'Enviar correo', array("id"=>"imgenviarcorreo", "cursor:pointer;"));
         if(!$ec->estadoevaluacionindicador)

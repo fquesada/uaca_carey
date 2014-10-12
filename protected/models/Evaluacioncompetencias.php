@@ -177,108 +177,10 @@ class Evaluacioncompetencias extends CActiveRecord {
             return $fechaconformato;
         }
     }
-
-//        public function obtenerGraficoSpiderCalificado($idevaluacioncompetencias,$idevaluacionpersonas){
-//            
-//            $connection=Yii::app()->db;
-//            $sql = "SELECT tm.nombre as 'eje',mec.calificacion as 'calificacion'
-//                    FROM meritoevaluacioncandidato mec
-//                    INNER JOIN merito m ON mec.merito = m.id
-//                    INNER JOIN tipomerito tm ON tm.id =  m.tipomerito
-//                    WHERE mec.evaluacioncandidato = :idevaluacioncompetencias
-//                    UNION
-//                    SELECT c.competencia as 'eje',hec.calificacion as 'calificacion'
-//                    FROM habilidadevaluacioncandidato hec
-//                    INNER JOIN competencia c ON hec.competencia = c.id
-//                    WHERE hec.evaluacioncandidato = :idevaluacioncompetencias
-//                    UNION
-//                    SELECT h.nombre as 'eje',he.calificacion as 'calificacion'
-//                    FROM Habilidadespecialevaluada he
-//                    INNER JOIN Habilidadespecial h ON he.evaluacionpersonas = h.evaluacionpersonas
-//                    AND he.habilidadespecial = h.id
-//                    WHERE he.evaluacionpersonas = :idevaluacionpersonas AND he.evaluacioncompetencias = :idevaluacioncompetencias";
-//            $command = $connection->createCommand($sql);
-//            $command->bindParam(":idevaluacionpersonas", $idevaluacionpersonas, PDO::PARAM_INT);
-//            $command->bindParam(":idevaluacioncompetencias", $idevaluacioncompetencias, PDO::PARAM_INT);            
-//            $dataspider = $command->queryAll();
-//            
-//            if(empty($dataspider))
-//                return false;
-//            else 
-//                return $dataspider;
-//        }
-
-    public function obtenerdatosgraficospider($idevaluacioncompetencias, $idevaluacionpersonas) {
-
-        $connection = Yii::app()->db;
-        $sql = "SELECT tm.nombre as 'eje',mec.calificacion as 'calificacion', mec.ponderacion as 'ponderacion'
-                    FROM meritoevaluacioncandidato mec
-                    INNER JOIN merito m ON mec.merito = m.id
-                    INNER JOIN tipomerito tm ON tm.id =  m.tipomerito
-                    WHERE mec.evaluacioncandidato = :idevaluacioncompetencias
-                    UNION
-                    SELECT c.competencia as 'eje',hec.calificacion as 'calificacion', hec.ponderacion as 'ponderacion'
-                    FROM habilidadevaluacioncandidato hec
-                    INNER JOIN competencia c ON hec.competencia = c.id
-                    WHERE hec.evaluacioncandidato = :idevaluacioncompetencias
-                    UNION
-                    SELECT h.nombre as 'eje',he.calificacion as 'calificacion', h.ponderacion as 'ponderacion'
-                    FROM Habilidadespecialevaluada he
-                    INNER JOIN Habilidadespecial h ON he.evaluacionpersonas = h.evaluacionpersonas
-                    AND he.habilidadespecial = h.id
-                    WHERE he.evaluacionpersonas = :idevaluacionpersonas AND he.evaluacioncompetencias = :idevaluacioncompetencias";
-        $command = $connection->createCommand($sql);
-        $command->bindParam(":idevaluacionpersonas", $idevaluacionpersonas, PDO::PARAM_INT);
-        $command->bindParam(":idevaluacioncompetencias", $idevaluacioncompetencias, PDO::PARAM_INT);
-        $dataspider = $command->queryAll();
-
-        if (empty($dataspider))
-            return false;
-        else
-            return $dataspider;
-    }
-
-    public function obtenerGraficoSpiderRelativo($idevaluacioncompetencias, $idevaluacionpersonas) {
-
-        $connection = Yii::app()->db;
-        if ($this->tipo == 1) {
-            $sql = "SELECT tm.nombre as 'eje', m.ponderacion as 'calificacion'
-                    FROM evaluacioncompetencias ec                     
-                    INNER JOIN colaborador co ON ec.evaluado = co.id
-                    INNER JOIN unidadnegociopuesto up ON co.puesto = up.puesto
-                    INNER JOIN puesto p ON up.puesto = p.id
-                    INNER JOIN merito m ON m.puesto = p.id
-                    INNER JOIN tipomerito tm ON tm.id =  m.tipomerito                    
-                    AND ec.id = :idevaluacioncompetencias
-                    UNION
-                    SELECT c.competencia as 'eje', pc.ponderacion as 'calificacion'
-                    FROM habilidadevaluacioncandidato hec
-                    INNER JOIN evaluacioncompetencias ec ON hec.evaluacioncandidato = ec.id
-                    INNER JOIN competencia c ON hec.competencia = c.id
-                    INNER JOIN puestocompetencia pc ON c.id = pc.competencia
-                    INNER JOIN colaborador co ON ec.evaluado = co.id
-                    INNER JOIN unidadnegociopuesto up ON co.puesto = up.puesto
-                    INNER JOIN puesto p ON up.puesto = p.id
-                    WHERE pc.puesto = p.id
-                    AND hec.evaluacioncandidato = :idevaluacioncompetencias
-                    UNION
-                    SELECT he.nombre as 'eje',he.ponderacion as 'calificacion'
-                    FROM Habilidadespecial he
-                    INNER JOIN evaluacionpersonas e ON he.evaluacionpersonas = e.id
-                    WHERE he.evaluacionpersonas = :idevaluacionpersonas";
-        }
-        $command = $connection->createCommand($sql);
-        $command->bindParam(":idevaluacionpersonas", $idevaluacionpersonas, PDO::PARAM_INT);
-        $command->bindParam(":idevaluacioncompetencias", $idevaluacioncompetencias, PDO::PARAM_INT);
-        $dataspider = $command->queryAll();
-
-        if (empty($dataspider))
-            return false;
-        else
-            return $dataspider;
-    }
     
     public function calificacionec($meritos, $habilidades,$calificacionac, $indicadorac){
+-       
+        $precision = 2;
         $dividendo = 0;
         $divisor = 0;
         
@@ -293,8 +195,7 @@ class Evaluacioncompetencias extends CActiveRecord {
                     $notacore = CommonFunctions::stringtonumber($habilidad["calificacionhabilidad"]) * 0.40 + $calificacionac * 0.60;
                     $habilidad["calificacionhabilidad"] = $notacore;
                 }            
-            }
-            
+            }            
             $dividendo = $dividendo + CommonFunctions::stringtonumber($habilidad["calificacionhabilidad"]) *  CommonFunctions::stringtonumber($habilidad["ponderacion"]);
             $divisor = $divisor + CommonFunctions::stringtonumber($habilidad["ponderacion"]);           
         }
@@ -304,34 +205,11 @@ class Evaluacioncompetencias extends CActiveRecord {
         else        
             $promedioponderado = $dividendo / $divisor;
         
+        $promedioponderado = number_format((float) $promedioponderado, $precision); 
+        $promedioponderado = CommonFunctions::stringtonumber($promedioponderado);
         return $promedioponderado;  
     }
-    
-    public function promedioecac($promedioec){
-        return ($promedioec * 0.40);//CLEAN CODE poner en Variables Globales o BD 
-    }
-    
-    public function promedioac($calificacionac){
-        return ($calificacionac * 0.60);//CLEAN CODE poner en Variables Globales o BD
-    }
-    
-    public function promedioponderadoacec($promediohabilidadmerito, $promedioac){
-        $promedioponderado = $promediohabilidadmerito + $promedioac;
-        return $promedioponderado;  
-    }
-     
-    function validarmeritos($meritos){
-        //FALTA
-    }
-    
-    function validarhabilidades($habilidades){
-        //FALTA
-    }
-    
-    function validarpuntaje($valor, $puntaje){
-        //FALTA
-    }
-    
+   
     public function AnalisisEvaluacion($tiporeporte, $fechainicio, $fechafin, $tipoanalisis, $departamentos = array()){
          
         $connection = Yii::app()->db;        
@@ -411,6 +289,4 @@ class Evaluacioncompetencias extends CActiveRecord {
             return $dataReader;
         }
         }
-
-
 }

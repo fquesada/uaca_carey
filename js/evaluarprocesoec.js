@@ -21,21 +21,7 @@ $(document).ready(function() {
                 data: obtenerdatosguardarproceso(),
                 dataType: 'json',
                 error: function (jqXHR, textStatus){
-                    if (jqXHR.status === 0) {                            
-                        messageerror("Problema de red, contacte al administrador de sistemas.");
-                    } else if (jqXHR.status == 404) {
-                        messagewarning("Solicitud no encontrada.");
-                    } else if (jqXHR.status == 500) {
-                        messageerror("Error 500. Ha ocurrido un problema con el servidor, contacte al administrador de sistemas.");
-                    } else if (textStatus === 'parsererror') {
-                        messagewarning("Ha ocurrido un inconveniente, intente nuevamente.");
-                    } else if (textStatus === 'timeout') {
-                        messageerror("Tiempo de espera excedido, intente nuevamente.");
-                    } else if (textStatus === 'abort') {
-                        messageerror("Se ha abortado la solicitud, intente nuevamente");
-                    } else {
-                        messageerror("Error desconocido, contacte al administrador de sistemas.");                            
-                    }
+                messagewarning("Ha ocurrido un inconveniente, intente nuevamente. (Codigo Sistema:"+ jqXHR.status + ")");
                 },
                 success: function(datos){
                     if(datos.resultado)
@@ -273,76 +259,46 @@ $(document).ready(function() {
         });
         return habilidadesnoequivalentes;
     }
-      
-    function promediomeritoshabilidades(){
-            var promedio = 0;
-            var dividendo = 0;
-            var divisor = 0;
-            $("[name='puntaje']" ).each(function() {
-                var calificacion = $(this).val();                
-                var ponderado = parseInt($(this).parent().parent().find('td:last').text());
-                if(calificacion === ""){
-                    calificacion = 0;
-                    dividendo = dividendo + calificacion * ponderado;  
-                    divisor = divisor + ponderado;                   
-                }else{
-                    calificacion = parseInt(calificacion);
-                    dividendo = dividendo + calificacion * ponderado;  
-                    divisor = divisor + ponderado;                  
-                }                                
-        });    
-        return promedio = dividendo / divisor;
-    }
     
     function califacionac(){
         if(!validarcalificacionac($('#tfpuntajeassessmentcenter')))
            return 0;        
         else 
             return parseFloat($("#tfpuntajeassessmentcenter").val().replace(',','.'));
-    }
-    
-    function formulapromedioacec(promedioac, promedioec){       
-        var promedio = (promedioac * 0.60) + (promedioec * 0.40);        
-        actualizarpromedio(promedio);
-    }   
-    
+    }    
+     
     function actualizarpromedio(promedio){
         $('.promedioponderado > p > span').text(promedio.toPrecision(3));
-    }
-    
-    function actualizaracac(){
-        var calificacionac =  califacionac();       
-        var promedioec = promediomeritoshabilidades();
-        formulapromedioacec(calificacionac, promedioec);
-    }
-    
-    function actualizarec(){
-        var calificacionac = 0;        
-        var promedioec = promediomeritoshabilidades();
-        
-        if($("#cbassessmentcenter").is(":checked")){            
-            calificacionac =  califacionac();             
-            formulapromedioacec(calificacionac, promedioec);
-        }else{
-        actualizarpromedio(promedioec);}
+    }    
+ 
+    function actualizarcalificacion(){    
+        $.ajax({
+            type: "POST",
+            url: "../ActualizarCalificacionEC",
+            data: obtenerdatosguardarproceso(),
+            dataType: 'json',
+            error: function (jqXHR, textStatus){
+                messagewarning("Ha ocurrido un inconveniente, intente nuevamente. (Codigo Sistema:"+ jqXHR.status + ")");
+            },
+            success: function(datos){
+              actualizarpromedio(datos.calificacionec);
+            }
+        });
     }
     
     function actualizarindicadorac(){
-        actualizarec();
+        actualizarcalificacion();
         $("#taassessmentcenter").val('');
         $("#tfpuntajeassessmentcenter").val('');
-        if($("#cbassessmentcenter").is(":checked"))
-            $("#divassessmentcenter").toggle("fast");
-        else           
-            $("#divassessmentcenter").toggle("fast");
+        $("#divassessmentcenter").toggle("fast");
     }
     
     $("[name='puntajeac']").change(function(){        
-            actualizaracac();
+            actualizarcalificacion();
     });
     
     $("[name='puntaje']" ).change(function(){               
-        actualizarec();
+            actualizarcalificacion();
     });       
 
     $("#cbassessmentcenter" ).on( "click", function() {           

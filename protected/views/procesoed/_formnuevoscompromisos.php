@@ -18,16 +18,17 @@
         
         <?php
                 $puntualizaciones = $ed->_puesto->_puntualizaciones;
-                if (!$puntualizaciones) {
+                if (!$puntualizaciones || count($puntualizaciones) < 3) {//CLEAN CODE REGLA DE NEGOCIO DEBE ESTA EN BD
                 echo '<tr>';
                 echo '<td id="idPuntualizacion">';                
                 echo '</td>';
                 echo '<td id="errorCompromisos">';
-                echo "El puesto debe poseer puntualizaciones para continuar con la evaluacion.";
+                echo "El puesto debe poseer mínimo 3 puntualizaciones para continuar con la evaluacion.";
                 echo '</td>';
                 echo '</tr>';
                 Yii::app()->clientScript->registerScript('validadorpuntualizaciones', "
-                        $('#btncompromisos').attr('disabled', 'true');	                                                                                          
+                        $('#btncompromisos').attr('disabled', 'true');	
+                        $('#btncompromisos').hide();	
                 ");
             } else {
                 foreach ($puntualizaciones as $puntualizacion) {

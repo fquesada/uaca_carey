@@ -314,6 +314,7 @@ class Evaluaciondesempeno extends CActiveRecord
         }
         
         public function calificacionCompetencias($competencias) {
+            $precision = 2;
             $dividendo = 0;
             $divisor = 0;
 
@@ -329,11 +330,17 @@ class Evaluaciondesempeno extends CActiveRecord
                 $promedio = 0;
             else
                 $promedio = $dividendo / $divisor;
-
+            
+            
+            $promedio = number_format((float) $promedio, $precision); 
+            $promedio = CommonFunctions::stringtonumber($promedio);
+            
             return $promedio;
         }
 
         public function calificacionPuntualizaciones($puntualizaciones) {
+            $precision = 2;
+            
             $dividendo = 0;
             $divisor = 0;
 
@@ -349,13 +356,24 @@ class Evaluaciondesempeno extends CActiveRecord
             else
                 $promedio = $dividendo / $divisor;
 
+            $promedio = number_format((float) $promedio, $precision); 
+            $promedio = CommonFunctions::stringtonumber($promedio);
+            
             return $promedio;
         }
         
-        public function califacionED($calificacionpuntualizaciones, $calificacioncompetencias){
+        public function calificacionED($calificacionpuntualizaciones, $calificacioncompetencias){
+            
+            $precision = 2;
             
             $calificacionpuntualizaciones = $calificacionpuntualizaciones * 0.80; //Regla de Consultoria - CLEAN CODE - Guardar en BD
+            $calificacionpuntualizaciones = number_format((float) $calificacionpuntualizaciones, $precision); 
+            $calificacionpuntualizaciones = CommonFunctions::stringtonumber($calificacionpuntualizaciones);
+                        
             $calificacioncompetencias = $calificacioncompetencias * 0.20; //Regla de Consultoria - CLEAN CODE - Guardar en BD
+            $calificacioncompetencias = number_format((float) $calificacioncompetencias, $precision); 
+            $calificacioncompetencias = CommonFunctions::stringtonumber($calificacioncompetencias);
+                        
             return $calificacionpuntualizaciones + $calificacioncompetencias;
         }
         

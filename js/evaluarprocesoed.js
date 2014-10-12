@@ -109,7 +109,6 @@ $(document).ready(function() {
                 messagewarning("Ha ocurrido un inconveniente, intente nuevamente. (Codigo Sistema:"+ jqXHR.status + ")");
             },
             success: function(datos){
-                $
                 $('.promediocompromisos > p > span').text(datos.puntualizaciones.toPrecision(3));
                 $('#puntualizacionnivel').text(datos.puntualizaciones.toPrecision(3));
                 $('.promediocompetencias > p > span').text(datos.competencias.toPrecision(3)); 

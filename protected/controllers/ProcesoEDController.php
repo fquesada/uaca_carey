@@ -187,7 +187,7 @@ class ProcesoEDController extends Controller {
 
                 $calificacionPuntualizaciones = $ed->calificacionPuntualizaciones($_POST['puntualizaciones']);
                 $calificacionCompetencias = $ed->calificacionCompetencias($_POST['competencias']);
-                $calificacionED = $ed->califacionED($calificacionPuntualizaciones, $calificacionCompetencias);
+                $calificacionED = $ed->calificacionED($calificacionPuntualizaciones, $calificacionCompetencias);
 
                 $ed->promediocompromisos = $calificacionPuntualizaciones;
                 $ed->promediocompetencias = $calificacionCompetencias;
