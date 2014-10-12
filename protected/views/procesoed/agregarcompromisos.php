@@ -24,8 +24,8 @@ $this->breadcrumbs=array(
     <p style="display:none"><?php echo CHtml::label($ed->id, 'ided', array('id'=>'lblided'))?></p>
     <p> <b>Colaborador:</b> <?php echo $ed->_colaborador->nombrecompleto?> </p>
     <p> <b>Cedula:</b> <?php echo $ed->_colaborador->cedula?> </p>   
-    <p> <b>Puesto:</b> <?php echo $ed->_colaborador->nombrepuestoactual?> </p>
-    <p> <b>Departamento:</b> <?php echo $ed->_colaborador->nombreunidadnegocioactual?> </p>
+    <p> <b>Puesto:</b> <?php echo $ed->_puesto->nombre?> </p>
+    <p> <b>Departamento:</b> <?php echo $ed->UnidadNegocioEvaluacion?> </p>
     <p> <b>Evaluador:</b> <?php echo $ed->_procesoevaluacion->_evaluador->nombrecompleto?> </p>
     <p> <b>Periodo:</b> <?php echo $ed->_procesoevaluacion->_periodo->nombre ?> </p>
 </div>

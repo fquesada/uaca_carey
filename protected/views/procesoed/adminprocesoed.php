@@ -76,7 +76,7 @@ $this->menu=array(
         echo '<th style="display: none" id="ided">'; echo $ed->id; echo '</th>';
         echo '<th>'; echo $ed->_colaborador->cedula; echo '</th>';
         echo '<th>'; echo $ed->_colaborador->nombrecompleto; echo '</th>';
-        echo '<th>'; echo $ed->_colaborador->nombrepuestoactual; echo '</th>';
+        echo '<th>'; echo $ed->_puesto->nombre; echo '</th>';
         echo '<th>'; echo $ed->EstadoCompromisosDescripcion; echo '</th>'; 
         echo '<th>'; echo $ed->FechaRegistroCompromisoFormato; echo '</th>'; 
         echo '<th>'; echo $ed->FechaCompromisoEvaluacionFormato; echo '</th>';         

@@ -178,6 +178,20 @@ class Evaluacioncompetencias extends CActiveRecord {
         }
     }
     
+    public function getUnidadNegocioEvaluacion(){
+        //Si existen dos registros con el mismo Puesto ID no activos se va obtener el que tenga id mas pequeno. Es necesario en HistoricoPuesto
+        //validar que si un usuario se pasa de puesto y luego regresa al mismo no crear otro registro sino volver a activarlo.
+        $historicopuesto = Historicopuesto::model()->findByAttributes(array('puesto' => $this->puesto));
+        if(is_null($historicopuesto))
+            return false;
+        $idunidadnegocio = $historicopuesto->unidadnegocio;
+        $unidadnegocio = Unidadnegocio::model()->findByPk($idunidadnegocio);
+        if(is_null($unidadnegocio))
+            return false;
+         else           
+            return $unidadnegocio->nombre;
+    }    
+    
     public function calificacionec($meritos, $habilidades,$calificacionac, $indicadorac){
 -       
         $precision = 2;

@@ -72,7 +72,7 @@ $this->menu=array(
         echo '<th style="display: none" id="idec">'; echo $ec->id; echo '</th>';
         echo '<th>'; echo $ec->_colaborador->cedula; echo '</th>';
         echo '<th>'; echo $ec->_colaborador->nombrecompleto; echo '</th>';
-        echo '<th>'; echo $ec->_colaborador->nombrepuestoactual; echo '</th>';
+        echo '<th>'; echo $ec->_puesto->nombre; echo '</th>';
         echo '<th>'; echo $ec->estadoevaluaciondescripcion; echo '</th>';
         echo '<th>'; echo $ec->fechaevaluacionecformato; echo '</th>';      
         echo '<th>';

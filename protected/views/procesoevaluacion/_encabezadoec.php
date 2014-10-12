@@ -9,8 +9,8 @@
     <p style="display:none"><?php echo CHtml::label($ec->id, 'idec', array('id'=>'lblidec'))?></p>
     <p> <b>Colaborador:</b> <?php echo $ec->_colaborador->nombrecompleto?> </p>
     <p> <b>Cedula:</b> <?php echo $ec->_colaborador->cedula?> </p>   
-    <p> <b>Puesto:</b> <?php echo $ec->_colaborador->nombrepuestoactual?> </p>
-    <p> <b>Departamento:</b> <?php echo $ec->_colaborador->nombreunidadnegocioactual?> </p>
+    <p> <b>Puesto:</b> <?php echo  $ec->_puesto->nombre?> </p>
+    <p> <b>Departamento:</b> <?php echo $ec->UnidadNegocioEvaluacion?> </p>
     <p> <b>Evaluador:</b> <?php echo $ec->_procesoevaluacion->_evaluador->nombrecompleto?> </p>
     <p> <b>Periodo:</b> <?php echo $ec->_procesoevaluacion->_periodo->nombre ?> </p>
 </div>
