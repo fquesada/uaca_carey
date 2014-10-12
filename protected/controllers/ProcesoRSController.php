@@ -730,12 +730,28 @@ class ProcesoRSController extends Controller
                             }
                         }
                     }
-                }                
-                
-               $transaction->commit();
-               $response = array('resultado' => true,'mensaje' => "Se guardó con éxito los cambios realizados al proceso: ".$procesoevaluacion->descripcion, 'url' => Yii::app()->getBaseUrl(true).'/index.php/procesoevaluacion/adminprocesoec/'.$procesoevaluacion->id);                  
-               echo CJSON::encode($response);   
-               Yii::app()->end();
+                    
+                    //Valida que en el Proceso de Evaluacion se hallan completado sus evaluaciones.                
+                if($procesoevaluacion->EvaluacionesSinEvaluar)
+                       $procesoevaluacion->estado = 1;
+                else
+                       $procesoevaluacion->estado = 2; 
+
+                    $resultadoguardarbd = $procesoevaluacion->save();                
+                    if (!$resultadoguardarbd) {
+                        $transaction->rollback();
+                        $response = array('resultado' => false, 'mensaje' => "Ha ocurrido un inconveniente al intentar guardar los cambios del proceso: " . $procesoevaluacion->descripcion);
+                        echo CJSON::encode($response);
+                        Yii::app()->end();                
+                    }else{       
+                        $transaction->commit();
+                        $response = array('resultado' => true, 'mensaje' => "Se guardó con éxito los cambios realizados al proceso: " . $procesoevaluacion->descripcion, 'url' => Yii::app()->getBaseUrl(true) . '/index.php/procesors/adminprocesoecv/' . $procesoevaluacion->id);
+                        echo CJSON::encode($response);
+                        Yii::app()->end();                
+                    }
+                    
+                }                               
+              
             }
             
             $procesoecv = Procesoevaluacion::model()->findByPk($id);
@@ -820,13 +836,20 @@ class ProcesoRSController extends Controller
                 $link = Links::model()->findByPk($ec->links);
                 $link->estado = 0;                
                 
-                //FALTA VALIDAR SI SE DEBE PASAR EL PROCESO A TERMINADO, SI SOLO SI ES LA ULTIMA EVALUACION ACTIVA DEL PROCESO
-
                 $transaction = Yii::app()->db->beginTransaction();
                 
                 $resultadoguardarbdlink = $link->save();
                 $resultadoguardarbd = $ec->save();
-                if ($resultadoguardarbd && $resultadoguardarbdlink) {
+                
+                //Valida que en el Proceso de Evaluacion se hallan completado sus evaluaciones.
+                $pe = Procesoevaluacion::model()->findByPk($ec->procesoevaluacion);
+                if($pe->EvaluacionesSinEvaluar)
+                       $pe->estado = 1;
+                else
+                       $pe->estado = 2;
+                $resultestadoproceso = $pe->save();
+                
+                if ($resultadoguardarbd && $resultadoguardarbdlink && $resultestadoproceso) {
                     
                     foreach ($meritos as $merito) {
                         $meritoevaluacioncandidato = new Meritoevaluacioncandidato();

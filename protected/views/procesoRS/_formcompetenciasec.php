@@ -24,7 +24,7 @@
             <?php
             $competencias = $ec->_puesto->competenciasactuales;
             $competenciascore = $ec->_puesto->competenciascoreactuales;
-            if (!$competencias) {
+            if (!$competencias || count($competencias) < 3) {//CLEAN CODE REGLA DE NEGOCIO DEBE ESTA EN BD
                 echo '<tr>';
                 echo '<td id="idcompetencia">';
                 echo "false";
@@ -33,7 +33,7 @@
                 echo "false";
                 echo '</td>';
                 echo '<td id="errorcompetencia">';
-                echo "El puesto debe poseer habilidades para continuar con la evaluacion.";
+                echo "El puesto debe poseer mínimo 3 competencias para continuar con la evaluacion.";
                 echo '</td>';
                 Yii::app()->clientScript->registerScript('validadorcompetencias', "
                         $('#btnguardarec').attr('disabled', 'true');	                                                                                          

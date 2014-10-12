@@ -240,6 +240,7 @@ class ProcesoevaluacionController extends Controller {
             $procesoevaluacion->descripcion = $nombreproceso;
             $procesoevaluacion->periodo = $periodo;
             $resultadoguardarbd = $procesoevaluacion->save();
+            
             if (!$resultadoguardarbd) {
                 $transaction->rollback();
                 $response = array('resultado' => false, 'mensaje' => "Ha ocurrido un inconveniente al intentar guardar los cambios del proceso: " . $procesoevaluacion->descripcion);
@@ -298,12 +299,26 @@ class ProcesoevaluacionController extends Controller {
                         }
                     }
                 }
-            }
+                
+                //Valida que en el Proceso de Evaluacion se hallan completado sus evaluaciones.                
+                if($procesoevaluacion->EvaluacionesSinEvaluar)
+                       $procesoevaluacion->estado = 1;
+                else
+                       $procesoevaluacion->estado = 2; 
 
-            $transaction->commit();
-            $response = array('resultado' => true, 'mensaje' => "Se guardó con éxito los cambios realizados al proceso: " . $procesoevaluacion->descripcion, 'url' => Yii::app()->getBaseUrl(true) . '/index.php/procesoevaluacion/adminprocesoec/' . $procesoevaluacion->id);
-            echo CJSON::encode($response);
-            Yii::app()->end();
+                $resultadoguardarbd = $procesoevaluacion->save();                
+                if (!$resultadoguardarbd) {
+                    $transaction->rollback();
+                    $response = array('resultado' => false, 'mensaje' => "Ha ocurrido un inconveniente al intentar guardar los cambios del proceso: " . $procesoevaluacion->descripcion);
+                    echo CJSON::encode($response);
+                    Yii::app()->end();                
+                }else{       
+                    $transaction->commit();
+                    $response = array('resultado' => true, 'mensaje' => "Se guardó con éxito los cambios realizados al proceso: " . $procesoevaluacion->descripcion, 'url' => Yii::app()->getBaseUrl(true) . '/index.php/procesoevaluacion/adminprocesoec/' . $procesoevaluacion->id);
+                    echo CJSON::encode($response);
+                    Yii::app()->end();                
+                }
+            }
         }
 
         $procesoec = Procesoevaluacion::model()->findByPk($id);
@@ -400,13 +415,20 @@ class ProcesoevaluacionController extends Controller {
             $link = Links::model()->findByPk($ec->links);
             $link->estado = 0;
 
-            //FALTA VALIDAR SI SE DEBE PASAR EL PROCESO A TERMINADO, SI SOLO SI ES LA ULTIMA EVALUACION ACTIVA DEL PROCESO
-
-            $transaction = Yii::app()->db->beginTransaction();
+           $transaction = Yii::app()->db->beginTransaction();
 
             $resultadoguardarbdlink = $link->save();
             $resultadoguardarbd = $ec->save();
-            if ($resultadoguardarbd && $resultadoguardarbdlink) {
+            
+            //Valida que en el Proceso de Evaluacion se hallan completado sus evaluaciones.
+            $pe = Procesoevaluacion::model()->findByPk($ec->procesoevaluacion);
+            if($pe->EvaluacionesSinEvaluar)
+                   $pe->estado = 1;
+            else
+                   $pe->estado = 2;             
+            $resultestadoproceso = $pe->save();
+            
+            if ($resultadoguardarbd && $resultadoguardarbdlink && $resultestadoproceso) {
 
                 foreach ($meritos as $merito) {
                     $meritoevaluacioncandidato = new Meritoevaluacioncandidato();
@@ -470,8 +492,7 @@ class ProcesoevaluacionController extends Controller {
                             Yii::app()->end();
                         }
                     }
-                }
-
+                }        
                 $transaction->commit();
                 $response = array('resultado' => true, 'mensaje' => "Se guardó con éxito la evaluacion", 'url' => Yii::app()->getBaseUrl(true) . '/index.php/procesoevaluacion/adminprocesoec/' . $ec->procesoevaluacion);
                 echo CJSON::encode($response);
@@ -514,21 +535,6 @@ class ProcesoevaluacionController extends Controller {
             'ec' => $filtersForm->filter($ec),
             'filtersForm' => $filtersForm,
         ));
-    }
-
-    public static function gridmysqltophpdate($date) {
-        return CommonFunctions::datemysqltophp($date);
-    }
-
-    public static function gridestado($estado) {
-        switch ($estado) {
-            case 1:
-                return "En proceso";
-                break;
-            case 2:
-                return "Finalizado";
-                break;
-        }
     }
 
     public function actionInfoPonderacion() {

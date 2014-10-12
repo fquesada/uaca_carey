@@ -48,28 +48,7 @@ $this->breadcrumbs=array(
                 array(
 			'class'=>'CButtonColumn',
                         'htmlOptions'=>array('width'=>'90'),
-                        'template'=>'{adminprocesoec}{editar}{eliminar}',                                                
-                        //'deleteButtonUrl'=>'Yii::app()->controller->createUrl("#", array("id"=>$data["id"]))',
-                        //'deleteButtonLabel' => 'Eliminar Proceso', 
-                        //'deleteButtonImageUrl'=>Yii::app()->request->baseUrl.'/images/icons/silk/decline.png',                          
-                        //'deleteConfirmation'=>'js:alert("")',
-                        /*'afterDelete'=>'function(link,success,data){ 
-                            if(success) {
-                                new Messi(data,
-                                { title: "Exito.",
-                                    titleClass: "success",
-                                    autoclose: "4000",
-                                    modal:true
-                                });
-                            }else{
-                                new Messi("",
-                                { title: "Error",
-                                    titleClass: "anim error",
-                                    autoclose: "4000",
-                                    modal:true
-                                });
-                            }
-                            }',*/
+                        'template'=>'{adminprocesoec}{editar}{eliminar}',   
                         'buttons'=>array(                            
                             'adminprocesoec'=> array(
                                 'label'=>'Gestionar Proceso EC',
@@ -122,69 +101,8 @@ $this->breadcrumbs=array(
                                       }",
                                 
                             ),
-                            'habilidades'=>array(
-                                'label'=>'Ver Evaluaciones Especiales',
-                                'imageUrl'=>Yii::app()->request->baseUrl.'/images/icons/silk/award_star_gold_3.png',
-                                'url'=>'Yii::app()->createUrl("evaluacionpersonas/habilidadesespeciales", array("id"=>$data["id"]))',                               
-                                'options'=>array(  
-                                    'ajax'=>array(
-                                            'type'=>'POST',
-                                                // se utiliza el atributo 'url' definido arriba
-                                            'url'=>"js:$(this).attr('href')", 
-                                            'update'=>'#divhabilidades',
-                                           ),
-                                 ), //options                               
-                            ),//habilidades
-//                            'borrar'=>array(
-//                                'label'=>'Borrar este proceso.',
-//                                'imageUrl'=>Yii::app()->request->baseUrl.'/images/icons/silk/delete.png',
-//                                'url'=>'Yii::app()->createUrl("evaluacionpersonas/delete", array("id"=>$data["id"]))',                               
-//                                'click'=>'function(){messageconfirmacion();}',                                                               
-//                            ),//borrar
                         )//buttons                       
 		),
 	),//columns
         'htmlOptions' => array("style" => "padding:0"),
 )); ?>
-
-<?php
-//CLEAN CODE
-//the dialog
-$this->beginWidget('zii.widgets.jui.CJuiDialog', array( 
-'id'=>'dlghabilidadesespeciales',
-'options'=>array(
-    'title'=>'Evaluaciones especiales',
-    'autoOpen'=>false, //important!
-    'modal'=>true,
-    'width'=>'auto',
-    'height'=>'auto',
-    'position' => 'center',
-    'draggable' => false,
-    'resizable' => false,
-),
-));
-?>
-<div id="divhabilidades"></div>
-<?php $this->endWidget();?>
-
- <?php if(Yii::app()->user->hasFlash('success')):?>
-     <script type="text/javascript">
-          new Messi("",
-            { title: "Exito.",
-                titleClass: "success",
-                autoclose: "4000",
-                modal:true
-            });
-     </script>
-     <?php endif;?>
-
-          <?php if(Yii::app()->user->hasFlash('error')):?>
-     <script type="text/javascript">
-          new Messi("",
-            { title: "Error",
-                titleClass: "error anim",
-                autoclose: "4000",
-                modal:true
-            });
-     </script>
-<?php endif;?>

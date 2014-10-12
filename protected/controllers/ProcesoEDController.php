@@ -198,8 +198,16 @@ class ProcesoEDController extends Controller {
                 $transaction = Yii::app()->db->beginTransaction();
 
                 $result = $ed->save();
-
-                if ($result) {
+                
+                //Valida que en el Proceso de Evaluacion se hallan completado sus evaluaciones.
+                $pe = Procesoevaluacion::model()->findByPk($ed->procesoevaluacion);
+                if($pe->EvaluacionesSinEvaluar)
+                       $pe->estado = 1;
+                else
+                       $pe->estado = 2;             
+                $resultestadoproceso = $pe->save();
+                
+                if ($result && $resultestadoproceso) {
 
                     //Logica para almacenar puntaje de los Compromisos                       
                     foreach ($_POST['puntualizaciones'] as $compromiso) {
@@ -258,7 +266,7 @@ class ProcesoEDController extends Controller {
                 $ed = new Evaluaciondesempeno;
                 $calificacionPuntualizaciones = $ed->calificacionPuntualizaciones($_POST['puntualizaciones']);
                 $calificacionCompetencias = $ed->calificacionCompetencias($_POST['competencias']);
-                $calificacionED = $ed->califacionED($calificacionPuntualizaciones, $calificacionCompetencias);
+                $calificacionED = $ed->calificacionED($calificacionPuntualizaciones, $calificacionCompetencias);
 
                 $response = array('puntualizaciones' => $calificacionPuntualizaciones,
                     'competencias' => $calificacionCompetencias,
@@ -443,12 +451,27 @@ class ProcesoEDController extends Controller {
                         }
                     }
                 }
+                
+                //Valida que en el Proceso de Evaluacion se hallan completado sus evaluaciones.                
+                if($procesoevaluacion->EvaluacionesSinEvaluar)
+                       $procesoevaluacion->estado = 1;
+                else
+                       $procesoevaluacion->estado = 2; 
+
+                $resultadoguardarbd = $procesoevaluacion->save();                
+                if (!$resultadoguardarbd) {
+                    $transaction->rollback();
+                    $response = array('resultado' => false, 'mensaje' => "Ha ocurrido un inconveniente al intentar guardar los cambios del proceso: " . $procesoevaluacion->descripcion);
+                    echo CJSON::encode($response);
+                    Yii::app()->end();                
+                }else{       
+                    $transaction->commit();
+                    $response = array('resultado' => true, 'mensaje' => "Se guardó con éxito los cambios realizados al proceso: " . $procesoevaluacion->descripcion, 'url' => Yii::app()->getBaseUrl(true) . '/index.php/procesoed/adminprocesoed/' . $procesoevaluacion->id);
+                    echo CJSON::encode($response);
+                    Yii::app()->end();                
+                }
             }
 
-            $transaction->commit();
-            $response = array('resultado' => true, 'mensaje' => "Se guardó con éxito los cambios realizados al proceso: " . $procesoevaluacion->descripcion, 'url' => Yii::app()->getBaseUrl(true) . '/index.php/procesoed/adminprocesoed/' . $procesoevaluacion->id);
-            echo CJSON::encode($response);
-            Yii::app()->end();
         }
 
         $proceso = Procesoevaluacion::model()->findByPk($id);

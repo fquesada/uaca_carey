@@ -178,6 +178,46 @@ class Procesoevaluacion  extends CActiveRecord
             ));
             return $dataProvider;
         }
+       
+       /**
+	 * @return boolean true if El proceso posee evaluacion sin evaluar, false si no.
+        */
+       public function getEvaluacionesSinEvaluar(){
+           //1 = EC
+           //2 = ED
+           //3 = ECV
+           
+           $idprocesoevaluacion = CommonFunctions::stringtonumber($this->id);
+           $tipo = CommonFunctions::stringtonumber($this->tipo);
+           $connection = Yii::app()->db;   
+           
+           if($tipo == 1 || $tipo == 3){
+           $sql = 'SELECT count(pe.id) as "cantEvaNoCalif"FROM `procesoevaluacion` pe 
+                    INNER JOIN evaluacioncompetencias ec ON pe.id = ec.procesoevaluacion
+                    WHERE pe.id = :idprocesoevaluacion
+                    and pe.tipo = :tipoevaluacion
+                    and ec.estado = 1;
+                ';                               
+           }
+           else if($tipo == 2){
+             $sql = 'SELECT count(pe.id) as "cantEvaNoCalif"FROM `procesoevaluacion` pe 
+                    INNER JOIN evaluaciondesempeno ed ON pe.id = ed.procesoevaluacion
+                    WHERE pe.id = :idprocesoevaluacion
+                    and pe.tipo = :tipoevaluacion
+                    and ed.estadoevaluacion = 1
+                    and ed.estado <> 0;
+                ';                               
+           }
+           $command = $connection->createCommand($sql);
+           $command->bindParam(":idprocesoevaluacion", $idprocesoevaluacion, PDO::PARAM_INT);
+           $command->bindParam(":tipoevaluacion", $tipo, PDO::PARAM_INT); 
+           $consulta = $command->queryRow();
+
+           if (CommonFunctions::stringtonumber($consulta["cantEvaNoCalif"]) > 0)
+               return true;
+           else
+               return false;  
+       }
 
            
 }
