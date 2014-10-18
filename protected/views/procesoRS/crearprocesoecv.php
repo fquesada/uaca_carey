@@ -22,32 +22,32 @@ Yii::app()->clientScript->registerScript('autocomplete', '
 
 if(!$indicadoreditar){
     $this->breadcrumbs=array(
-            'EC'=>array('admin'),
-            'Nuevo proceso EC',
+            'ECV'=>array('admin'),
+            'Nuevo proceso ECV',
     );
     $this->menu=array(
-	array('label'=>'Lista de Procesos EC' , 'url'=>array('admin')),	        
+	array('label'=>'Lista de Procesos ECV' , 'url'=>array('admin')),	        
     );
 }else{
     $this->breadcrumbs=array(
-            'EC'=>array('admin'),
-            'Editar proceso EC',
+            'ECV'=>array('admin'),
+            'Editar proceso ECV',
     );
     $this->menu=array(
-	array('label'=>'Lista de Procesos EC' , 'url'=>array('admin')),	
-        array('label'=>'Crear Proceso EC' , 'url'=>array('crearprocesoec')),
+	array('label'=>'Lista de Procesos ECV' , 'url'=>array('admin')),	
+        array('label'=>'Crear Proceso ECV' , 'url'=>array('crearprocesoecv')),
     );
 }
 ?>
 
-<h3 style="text-align: center"><?php if(!$indicadoreditar) echo "Nuevo proceso EC"; else echo "Editar proceso EC #".$procesoec->id;?></h3>
+<h3 style="text-align: center"><?php if(!$indicadoreditar) echo "Nuevo proceso ECV"; else echo "Editar proceso ECV #".$procesoec->id;?></h3>
 
 <?php 
     if(!$indicadoreditar){
-        echo CHtml::button('Volver atrás', array('id'=>'btnvolveratras','submit' => array('procesoevaluacion/admin'), 'class'=>'sexybutton sexysimple sexylarge'));
+        echo CHtml::button('Volver atrás', array('id'=>'btnvolveratras','submit' => array('procesors/admin'), 'class'=>'sexybutton sexysimple sexylarge'));
     }
     else{
-        echo CHtml::button('Volver atrás', array('id'=>'btnvolveratras','submit' => array('procesoevaluacion/adminprocesoec/'.$procesoec->id), 'class'=>'sexybutton sexysimple sexylarge'));
+        echo CHtml::button('Volver atrás', array('id'=>'btnvolveratras','submit' => array('procesors/adminprocesoecv/'.$procesoec->id), 'class'=>'sexybutton sexysimple sexylarge'));
         
     }
 ?>
@@ -61,7 +61,7 @@ if(!$indicadoreditar){
     }else{
         echo $this->renderPartial('_formprocesoevaluacion', array('procesoec'=>$procesoec, 'vacante'=>$vacante,'indicadoreditar' => $indicadoreditar )); 
         echo $this->renderPartial('_formagregarpostulante', array('procesoec'=>$procesoec, 'vacante'=>$vacante,'indicadoreditar' => $indicadoreditar ));       
-        echo CHtml::hiddenField('idproceso', $procesoec->id,array('id'=>'idprocesoec','name'=>'idprocesoec'));
+        echo CHtml::hiddenField('idproceso', $procesoec->id,array('id'=>'idprocesoecv','name'=>'idprocesoecv'));
          echo CHtml::hiddenField('indicadoreditar', "true",array('id'=>'indicadoreditar','name'=>'indicadoreditar'));
     }
 ?>
@@ -73,11 +73,11 @@ if(!$indicadoreditar){
                 <?php if(!$indicadoreditar){
                         echo CHtml::submitButton('Crear proceso ECV',array('id'=>'btncrearprocesoECV', 'class'=>'sexybutton sexysimple sexylarge'));
                         echo '</br>';
-                        echo CHtml::button('Volver atrás', array('id'=>'btnvolveratras','submit' => array('procesoevaluacion/admin'), 'class'=>'sexybutton sexysimple sexylarge'));
+                        echo CHtml::button('Volver atrás', array('id'=>'btnvolveratras','submit' => array('procesors/admin'), 'class'=>'sexybutton sexysimple sexylarge'));
                 }else{
                         echo CHtml::submitButton('Guardar proceso ECV',array('id'=>'btnguardarprocesoECV', 'class'=>'sexybutton sexysimple sexylarge')); 
                         echo '</br>';
-                        echo CHtml::button('Volver atrás', array('id'=>'btnvolveratras','submit' => array('procesoevaluacion/adminprocesoec/'.$procesoec->id), 'class'=>'sexybutton sexysimple sexylarge'));
+                        echo CHtml::button('Volver atrás', array('id'=>'btnvolveratras','submit' => array('procesors/adminprocesoecv/'.$procesoec->id), 'class'=>'sexybutton sexysimple sexylarge'));
                 }
                    ?>
 </div>

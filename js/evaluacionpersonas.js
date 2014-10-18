@@ -667,32 +667,42 @@ $(document).ready(function() {
  /*Fin Logica de carga de Colaboradores*/
  
  
- /*PROCESOECV*/
+  /*PROCESOECV*/
  
 //Guardar proceso de editar EC
     $("#btnguardarprocesoECV").click(function(event){
         event.preventDefault();      
         
-        var idprocesoec = $('#idprocesoec').val();
         
-        if(!validar($('#ddlperiodo'))){     
+        var idprocesoecv = $('#idprocesoecv').val();
+        
+        
+       if (!validar($('#ddlpuesto'))){
+            mostrarerror($('#ddlpuesto'));}
+       else if(!validar($('#ddlperiodo'))){     
             mostrarerror($('#ddlperiodo'));}
        else if (!validar($('#txtdescripcion'))){
             mostrarerror($('#txtdescripcion'));}
-       else if (!validar($('#busquedaevaluador'))){
-           mostrarerror($('#busquedaevaluador'));}
-       else if (cantidadcolaboradorestabla()== 0){
-           mostrarerror($('#tblcolaboradores'));
+       else if (!validar($('#fechareclutamiento'))){
+            mostrarerror($('#fechareclutamiento'));}
+       else if (!validar($('#fechaseleccion'))){
+            mostrarerror($('#fechaseleccion'));}
+       else if (cantidadpostulantestabla() == 0){
+           mostrarerror($('#tblpostulantes'));
        }
        else{
            $('#btnguardarprocesoECV').attr('disabled', 'true');
+           
+           
+            console.log(obtenerdatoscrearprocesoECV());
+           
            $.ajax({
                     type: "POST",
-                    url: "../editarprocesoecv/"+idprocesoec,
-                    data: obtenerdatoscrearproceso(),
+                    url: "../editarprocesoecv/"+idprocesoecv, 
+                    data: obtenerdatoscrearprocesoECV(),
                     dataType: 'json',
                     error: function (jqXHR, textStatus){
-                        $('#btnguardarprocesoEC').removeAttr('disabled');
+                        $('#btnguardarprocesoECV').removeAttr('disabled');
                         if (jqXHR.status === 0) {                            
                             messageerror("Problema de red, contacte al administrador de sistemas.");
                         } else if (jqXHR.status == 404) {
@@ -898,5 +908,7 @@ $(document).ready(function() {
         });
         return postulantes;
    }
+   
+    
  
 });

@@ -44,18 +44,22 @@
             <?php echo CHtml::label('Fecha Reclutamiento *', 'fechareclutamiento');?>          
         
             <?php 
-            $fecha = date('dd-mm-yy');
+            $fecha = '';
             if($indicadoreditar)
-                $fecha = $vacante->fechareclutamiento;
+                $fecha = CommonFunctions::datemysqltophp ($vacante->fechareclutamiento);
             $this->widget('zii.widgets.jui.CJuiDatePicker',array(
                 'name'=>'fechareclutamiento',
                 'id'=>'fechareclutamiento',
+                'value'=>$fecha,
                 // additional javascript options for the date picker plugin
                 'options'=>array(
                     'showAnim'=>'slide',//'slide','fold','slideDown','fadeIn','blind','bounce','clip','drop'
                     'dateFormat'=>'dd-mm-yy',
-                    'value'=>$fecha,
-                    //'maxDate'=> CommonFunctions::datenow(),
+                    'value'=>date('dd-mm-yy'),
+                    //'minDate'=> date('dd-mm-yy'),
+                    'readonly'=>true,
+                    'htmlOptions'=>array('readonly'=>"readonly"),
+                    
                 ),
             ));
             ?>                  
@@ -68,7 +72,7 @@
             <?php 
             $fecha = '';
             if($indicadoreditar)
-                $fecha = CommonFunctions::datemysqltophp ($vacante->fechareclutamiento);
+                $fecha = CommonFunctions::datemysqltophp ($vacante->fechaseleccion);
             $this->widget('zii.widgets.jui.CJuiDatePicker',array(
                 'name'=>'fechaseleccion',
                 'id'=>'fechaseleccion',
@@ -77,7 +81,7 @@
                 'options'=>array(
                     'showAnim'=>'slide',//'slide','fold','slideDown','fadeIn','blind','bounce','clip','drop'
                     'dateFormat'=>'dd-mm-yy',
-                    'value'=>date('dd-mm-yy')
+                    'value'=>date('dd-mm-yy'),
                     //'minDate'=> CommonFunctions::datenow(),
                 ),
             ));
@@ -142,8 +146,8 @@
     <div class="row">                  
             <?php if(!$indicadoreditar) 
                     echo CHtml::hiddenField('idevaluador', '-',array('id'=>'idevaluador','name'=>'id')); 
-                  //else 
-                    //echo CHtml::hiddenField('idevaluador', $procesoec->evaluador,array('id'=>'idevaluador','name'=>'id')); 
+                  else 
+                    echo CHtml::hiddenField('idevaluador', $procesoec->evaluador,array('id'=>'idevaluador','name'=>'id')); 
             ?>        
     </div>   
     </fieldset>

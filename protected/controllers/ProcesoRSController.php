@@ -549,8 +549,8 @@ class ProcesoRSController extends Controller
                 $vacante = new Vacante();
                 $vacante->puesto = $puesto;
                 $vacante->procesoevaluacion = $procesoevaluacion->id;
-                $vacante->fechareclutamiento = $fechareclutamiento;
-                $vacante->fechaseleccion = $fechaseleccion;
+                $vacante->fechareclutamiento = CommonFunctions::datephptomysql($fechareclutamiento);
+                $vacante->fechaseleccion = CommonFunctions::datephptomysql($fechaseleccion);
                 $vacante->periodo = $periodo;
                 
                 $vacante->save();
@@ -608,14 +608,13 @@ class ProcesoRSController extends Controller
             ));       
         }
         
-        public function actionEditarProcesoECV($id){
+       public function actionEditarProcesoECV($id){
             
             if(Yii::app()->request->isAjaxRequest)
             {                 
                 $nombreproceso = $_POST['nombreproceso'];
                 
-                $periodo = CommonFunctions::stringtonumber($_POST['periodo']);                        
-                $puesto = CommonFunctions::stringtonumber($_POST['puesto']);                        
+                $periodo = CommonFunctions::stringtonumber($_POST['periodo']);                       
                 $fechareclutamiento = $_POST['fechareclutamiento'];         
                 $fechaseleccion = $_POST['fechaseleccion'];
                 $postulantes = $_POST['postulantes'];
@@ -629,10 +628,11 @@ class ProcesoRSController extends Controller
                 $procesoevaluacion->descripcion = $nombreproceso;
                 $procesoevaluacion->periodo = $periodo;
                 
-                $vacante->fechareclutamiento = $fechareclutamiento;
-                $vacante->fechaseleccion = $fechaseleccion;
+                $vacante->fechareclutamiento = CommonFunctions::datephptomysql($fechareclutamiento);
+                $vacante->fechaseleccion = CommonFunctions::datephptomysql($fechaseleccion);
+                $puesto = $vacante->puesto;
                 
-                $resultadoguardarbd =  $procesoevaluacion->save();
+                $resultadoguardarbd =  $procesoevaluacion->save() && $vacante->save();
                 if(!$resultadoguardarbd){                    
                     $transaction->rollback();
                     $response = array('resultado' => false,'mensaje' => "Ha ocurrido un inconveniente al intentar guardar los cambios del proceso: ".$procesoevaluacion->descripcion);              
@@ -641,13 +641,10 @@ class ProcesoRSController extends Controller
                 }else{               
                 
                     foreach ($postulantes as $index => $nuevopostulante) {                    
-                        $indicadoragregarec = true;                                        
-                        foreach ($evaluacioncompetenciaactual as $ec) {
-                            if(CommonFunctions::stringtonumber($nuevopostulante[4]) == $ec->colaborador){                                                       
-                               $indicadoragregarec = false; 
-                               break 1;
-                            }                        
-                        }
+                        $indicadoragregarec = false;                
+                            if(CommonFunctions::stringtonumber($nuevopostulante[4]) == 0){                                                       
+                               $indicadoragregarec = true;                  
+                            }
                         if($indicadoragregarec){
                             
                                 $postulante = new Postulante();
@@ -682,8 +679,8 @@ class ProcesoRSController extends Controller
                     
                     foreach ($evaluacioncompetenciaactual as $ec){                    
                         $indicadorborrarec = true;                                        
-                        foreach ($postulante as $index => $idpostulante) {
-                            if(CommonFunctions::stringtonumber($idpostulante) == $ec->colaborador){                                                       
+                        foreach ($postulantes as $index => $postulante) {
+                            if(CommonFunctions::stringtonumber($postulante[4]) == $ec->colaborador){                                                       
                                $indicadorborrarec = false; 
                                break 1;
                             }                        
@@ -700,28 +697,12 @@ class ProcesoRSController extends Controller
                             }
                         }
                     }
-                    
-                    //Valida que en el Proceso de Evaluacion se hallan completado sus evaluaciones.                
-                if($procesoevaluacion->EvaluacionesSinEvaluar)
-                       $procesoevaluacion->estado = 1;
-                else
-                       $procesoevaluacion->estado = 2; 
-
-                    $resultadoguardarbd = $procesoevaluacion->save();                
-                    if (!$resultadoguardarbd) {
-                        $transaction->rollback();
-                        $response = array('resultado' => false, 'mensaje' => "Ha ocurrido un inconveniente al intentar guardar los cambios del proceso: " . $procesoevaluacion->descripcion);
-                        echo CJSON::encode($response);
-                        Yii::app()->end();                
-                    }else{       
-                        $transaction->commit();
-                        $response = array('resultado' => true, 'mensaje' => "Se guardó con éxito los cambios realizados al proceso: " . $procesoevaluacion->descripcion, 'url' => Yii::app()->getBaseUrl(true) . '/index.php/procesors/adminprocesoecv/' . $procesoevaluacion->id);
-                        echo CJSON::encode($response);
-                        Yii::app()->end();                
-                    }
-                    
-                }                               
-              
+                }                
+                
+               $transaction->commit();
+               $response = array('resultado' => true,'mensaje' => "Se guardó con éxito los cambios realizados al proceso: ".$procesoevaluacion->descripcion, 'url' => Yii::app()->getBaseUrl(true).'/index.php/procesors/adminprocesoecv/'.$procesoevaluacion->id);                  
+               echo CJSON::encode($response);   
+               Yii::app()->end();
             }
             
             $procesoecv = Procesoevaluacion::model()->findByPk($id);

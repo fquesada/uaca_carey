@@ -121,5 +121,3 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array(
 </table>
   <div id="tblpostulanteserror" class="errorevaluacionpersona">Debe agregar al menos un postulante</div>  
 </div>
-
-
