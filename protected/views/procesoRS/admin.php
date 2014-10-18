@@ -4,11 +4,11 @@
 Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/evaluacionpersonas.js');//CLEAN CODE
 
 $this->breadcrumbs=array(	
-	'Evaluación de Competencias (ECV)',
+	'Evaluación de Competencias de Vacantes(ECV)',
 );
 ?>
 
-<h3 style="text-align: center">Evaluación de Competencias (ECV)</h3>
+<h3 style="text-align: center">Evaluación de Competencias de Vacantes(ECV)</h3>
 
 <?php echo CHtml::beginForm($this->createUrl('procesors/crearprocesoecv'),'post', array('id'=>'formcrearprocesoec'))?>                      
 <button  id="btnformcrearprocesoec" type="submit" class="sexybutton sexysimple"><span class="add">Nuevo proceso ECV</span></button>

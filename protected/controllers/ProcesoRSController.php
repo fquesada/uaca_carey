@@ -22,19 +22,19 @@ class ProcesoRSController extends Controller
 	 * @return array access control rules
 	 */
 	public function accessRules()
-	{       //CLEAN CODE GUARDAR Y EVALUAR PROCESO DEBE ESTAR ACCESO PARA TODOS
+	{       
 		return array(
 			array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('index','view'),
+				'actions'=>array('EvaluarProcesoECV','GuardarEvaluacionECV','InfoPonderacion',),
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('CrearProcesoECV','AdminProcesoECV','EditarProcesoECV','EliminarProcesoECV','EvaluarProcesoECV','EnvioCorreoECV','GuardarEvaluacionECV','update','admin','AgregarPersonas','AgregarPersona','AutocompleteEvaluado',
-                                                    'HabilidadesEspeciales','InfoPonderacion', 'delete', 'reporteevaluacioncompetencias', 'DataReporteEvaluacionCompetencias', 'vistaprueba','CrearReporteECV','ReporteECV','CargaMasiva','CargaDepartamento', 'entrevista', 'excel'),
+				'actions'=>array(),
 				'users'=>array('@'),
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
-				'actions'=>array('admin','delete'),
+				'actions'=>array('CrearProcesoECV','AdminProcesoECV','EditarProcesoECV','EliminarProcesoECV','EnvioCorreoECV','update','admin','AgregarPersonas','AgregarPersona','AutocompleteEvaluado',
+                                                    'HabilidadesEspeciales', 'delete', 'reporteevaluacioncompetencias', 'DataReporteEvaluacionCompetencias', 'vistaprueba','CrearReporteECV','ReporteECV','CargaMasiva','CargaDepartamento', 'entrevista', 'excel'),
 				'users'=>array('admin'),
 			),
 			array('deny',  // deny all users
@@ -48,8 +48,6 @@ class ProcesoRSController extends Controller
             $this->render('entrevista');
 	
 	}
-        
-        
         
         public function actionExcel()
         {
@@ -311,34 +309,6 @@ class ProcesoRSController extends Controller
             $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
             $objWriter->save('php://output');
 	}
-
-	// Uncomment the following methods and override them if needed
-	/*
-	public function filters()
-	{
-		// return the filter configuration for this controller, e.g.:
-		return array(
-			'inlineFilterName',
-			array(
-				'class'=>'path.to.FilterClass',
-				'propertyName'=>'propertyValue',
-			),
-		);
-	}
-
-	public function actions()
-	{
-		// return external action classes, e.g.:
-		return array(
-			'action1'=>'path.to.ActionClass',
-			'action2'=>array(
-				'class'=>'path.to.AnotherActionClass',
-				'propertyName'=>'propertyValue',
-			),
-		);
-	}
-	*/
-        
         
         public function actionAgregarPersonas($id)
         {
@@ -780,14 +750,22 @@ class ProcesoRSController extends Controller
             }
         }
                
-        public function actionEvaluarProcesoECV($id){
-            
-            $this->layout='column1';
-            $ec = Evaluacioncompetencias::model()->findByPk($id);
+        public function actionEvaluarProcesoECV($id) {
+
+        $this->layout = 'column1';
+
+        $idoriginal = CommonFunctions::decrypt($id);
+        $ec = Evaluacioncompetencias::model()->findByPk($idoriginal);
+        
+        if ($ec->estadoevaluacionindicador) {
+            $this->render('notificacionECVfinalizada', array(
+                'msj' => 'Esta Evaluación de Competencias ya fue calificada, si considera que es un error contacte al Departamento de Recursos Humanos.'));
+        } else {
             $puntaje = Puntaje::model()->obtenerpuntajesactivos();
-            $this->render('evaluarprocesoecv',array(
-                            'ec'=>$ec,'puntaje'=>$puntaje));
+            $this->render('evaluarprocesoecv', array(
+                'ec' => $ec, 'puntaje' => $puntaje));
         }
+    }
         
         public function actionGuardarEvaluacionECV() {
 
