@@ -141,7 +141,10 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array(
         echo 'Cédula: '.$ed->_colaborador->cedula. '<br/>';
         echo 'Nombre: '.$ed->_colaborador->nombrecompleto. '<br/>';
         echo 'Puesto: '.$ed->_colaborador->nombrepuestoactual. '<br/>';
+        if(!$ed->EstadoEvaluacionIndicador)
         echo '<a href="'.Yii::app()->getBaseUrl(true).'/index.php/procesoed/registrarevaluacion/'. CommonFunctions::encrypt($ed->id).'">'.'Ir a evaluación'.'</a>';
+        else
+            echo 'La evaluación ha sido realizada';
         echo '<hr>';
     }
     ?>

@@ -142,7 +142,10 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array(
         echo 'Cédula: '.$postulante->cedula. '<br/>';
         echo 'Nombre: '.$postulante->nombrecompleto. '<br/>';
         echo 'Puesto: '.$vacante->_puesto->nombre. '<br/>';
-        echo '<a href="'.Yii::app()->getBaseUrl(true).'/index.php/procesors/evaluarprocesoecv/'. CommonFunctions::encrypt($ec->id).'">'.'Ir a evaluación'.'</a>';
+        if(!$ec->estadoevaluacionindicador)
+            echo '<a href="'.Yii::app()->getBaseUrl(true).'/index.php/procesors/evaluarprocesoecv/'. CommonFunctions::encrypt($ec->id).'">'.'Ir a evaluación'.'</a>';
+        else 
+            echo 'La evaluación ha sido realizada';
         echo '<hr>';
     }
     ?>
