@@ -334,9 +334,15 @@ class ProcesoevaluacionController extends Controller {
         $idoriginal = CommonFunctions::decrypt($id);
         
         $ec = Evaluacioncompetencias::model()->findByPk($idoriginal);
-        $puntaje = Puntaje::model()->obtenerpuntajesactivos();
-        $this->render('evaluarprocesoec', array(
-            'ec' => $ec, 'puntaje' => $puntaje));
+        
+        if ($ec->estadoevaluacionindicador){
+            $this->render('notificacionECfinalizada', array(
+                'msj' => 'Esta Evaluación de Competencias ya fue calificada, si considera que es un error contacte al Departamento de Recursos Humanos.'));
+        }else{  
+            $puntaje = Puntaje::model()->obtenerpuntajesactivos();
+            $this->render('evaluarprocesoec', array(
+                'ec' => $ec, 'puntaje' => $puntaje));
+         }
     }
 
     public function actionActualizarCalificacionEC() {

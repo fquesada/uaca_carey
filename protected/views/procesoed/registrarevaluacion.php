@@ -6,15 +6,7 @@ Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/evaluarpro
 Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/jquery.placeholder.min.js');
 Yii::app()->clientScript->registerCssFile(Yii::app()->baseUrl.'/css/evaluarprocesoed.css');
 
-$this->breadcrumbs=array(
-	'Administrar ED'=>array('procesoed/admin'),
-        'Administrar proceso ED'=>array('procesoed/adminprocesoed/'.$ed->procesoevaluacion),
-	'Evaluación de Desempeño',
-);
-
 ?>
-
-<?php echo CHtml::button('Volver atrás', array('id'=>'btnvolveratras','submit' => array('procesoed/adminprocesoed/'.$ed->procesoevaluacion), 'class'=>'sexybutton sexysimple sexylarge')); ?>
 
 <div id="divEncabezadoED" class="divEncabezadoED">
     <p class="pEncabezadoED">Evaluación de Desempeño (ED)</p>

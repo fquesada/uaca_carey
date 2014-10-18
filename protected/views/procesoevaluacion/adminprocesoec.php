@@ -48,7 +48,7 @@ $this->menu = array(
 
 
 <div class="divBtnEnlaces">                    
-    <button  id="verenlaces" type="button" class="sexybutton sexysimple" ><span class="accept">Ver Enlaces</span></button>
+    <button  id="verenlaces" type="button" class="sexybutton sexysimple" ><span class="accept">Ver Enlaces de Evaluaciones</span></button>
 </div>
 
 

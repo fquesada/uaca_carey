@@ -26,18 +26,18 @@ class ProcesoEDController extends Controller {
     public function accessRules() {
         return array(
             array('allow', // allow all users to perform 'index' and 'view' actions
-                'actions' => array('index', 'view'),
+                'actions' => array('AgregarCompromisos', 'InfoPonderacion', 'GuardarCompromisos', 
+                    'ActualizarCalificacionED','RegistrarEvaluacion', 'GuardarEvaluacionED'),
                 'users' => array('*'),
             ),
             array('allow', // allow authenticated user to perform 'create' and 'update' actions
-                'actions' => array('crear', 'editar', 'report', 'update', 'admin', 'Admined', 'EliminarProcesoED', 'AdminEva', 'AgregarPersona', 'AutocompleteEvaluado', 'AgregarCompromisos',
-                    'HabilidadesEspeciales', 'InfoPonderacion', 'delete', 'reporteevaluacioncompetencias', 'DataReporteEvaluacionCompetencias', 'CargaMasiva', 'CargaDepartamento',
-                    'adminprocesoed', 'GuardarCompromisos', 'RegistrarEvaluacion', 'GuardarEvaluacionED', 'ActualizarCalificacionED', 'CrearReporteED', 'ReporteED', 'CrearReporteCompromisos', 'ReporteCompromisos',
-                    'DescargaCompromisos', 'ReporteAnalisisED'),
+                'actions' => array(),
                 'users' => array('@'),
             ),
             array('allow', // allow admin user to perform 'admin' and 'delete' actions
-                'actions' => array('admin', 'delete'),
+                'actions' => array('crear', 'editar', 'admin', 'Admined', 'EliminarProcesoED', 'AutocompleteEvaluado', 
+                    'CargaMasiva', 'CargaDepartamento', 'adminprocesoed', 'CrearReporteED', 'ReporteED', 'CrearReporteCompromisos', 'ReporteCompromisos',
+                    'DescargaCompromisos', 'ReporteAnalisisED'),
                 'users' => array('admin'),
             ),
             array('deny', // deny all users
@@ -71,42 +71,22 @@ class ProcesoEDController extends Controller {
         }
     }
 
-    public function actionAdminED($id) {
-
-        $procesoed = Procesoevaluacion::model()->findByAttributes(array('id' => $id, 'tipo' => 2));
-
-        if (isset($procesoed)) {
-            $this->render('admined', array(
-                'evaluacion' => $procesoed,
-            ));
-        }
-        else
-            $this->redirect(array('admin'));
-    }
-
-    public function actionAdminEva($id) {
-        $procesoevaluacion = Procesoevaluacion::model()->find('id=' . $id . ' AND tipo=2');
-
-        if (isset($procesoevaluacion)) {
-            $evaluaciones = new CActiveDataProvider('evaluaciondesempeno', array('criteria' => array(
-                            'condition' => 'procesoevaluacion=' . $id)));
-
-            $this->render('admineva', array(
-                'model' => $procesoevaluacion, 'evaluaciones' => $evaluaciones
-            ));
-        }
-        else
-            $this->redirect(array('admineva'));
-    }
-
     public function actionAgregarCompromisos($id) {
-        $ed = Evaluaciondesempeno::model()->findByPk($id);
+        
+        $idoriginal = CommonFunctions::decrypt($id);
+        $ed = Evaluaciondesempeno::model()->findByPk($idoriginal);
 
-        if (isset($ed)) {
-            $this->layout = 'column1';
-            $this->render('agregarcompromisos', array(
-                'ed' => $ed
-            ));
+        if ($ed->EstadoCompromisosIndicador){
+            $this->render('notificacionEDfinalizada', array(
+                'msj' => 'Los Compromisos de esta Evaluación de Desempeño ya fueron ingresados, si considera que es un error contacte al Departamento de Recursos Humanos.'));
+        }else{ 
+        
+            if (isset($ed)) {
+                $this->layout = 'column1';
+                $this->render('agregarcompromisos', array(
+                    'ed' => $ed
+                ));
+            }        
         }
     }
 
@@ -163,13 +143,21 @@ class ProcesoEDController extends Controller {
 
     public function actionRegistrarEvaluacion($id) {
 
-        $ed = Evaluaciondesempeno::model()->findByPk($id);
+        $idoriginal = CommonFunctions::decrypt($id);
+        
+        $ed = Evaluaciondesempeno::model()->findByPk($idoriginal);
+        
+        if ($ed->EstadoCompromisosIndicador && $ed->EstadoEvaluacionIndicador){
+            $this->render('notificacionEDfinalizada', array(
+                'msj' => 'Esta Evaluación de Desempeño ya fue calificada, si considera que es un error contacte al Departamento de Recursos Humanos.'));
+        }else{ 
 
-        if (isset($ed)) {
+            if (isset($ed)) {
             $this->layout = 'column1';
             $this->render('registrarevaluacion', array(
                 'ed' => $ed
             ));
+        }
         }
     }
 
@@ -478,30 +466,6 @@ class ProcesoEDController extends Controller {
         $this->render('editar', array(
             'proceso' => $proceso,
         ));
-    }
-
-    public function actionHabilidadesEspeciales() {
-
-        if (Yii::app()->request->isAjaxRequest) {
-            $hashabilidades = true;
-            $procesoevaluacion = Procesoevaluacion::model()->findByPk($_GET['id']);
-            $habilidadesespeciales = $procesoevaluacion->_habilidadesespecial;
-            if (empty($habilidadesespeciales)) {
-                $hashabilidades = false;
-            }
-            $this->renderPartial('verhabilidadesespeciales', array('procesoevaluacionnombre' => $procesoevaluacion->descripcion, 'habilidadesespeciales' => $habilidadesespeciales, 'hashabilidades' => $hashabilidades), false, true);
-            echo CHtml::script('$("#dlghabilidadesespeciales").dialog("open")');
-            Yii::app()->end();
-        }
-    }
-
-    public function actionDescargaCompromisos($id) {
-
-        $this->render('DescargaCompromisos', array(
-            'id' => $id,
-        ));
-
-        //$this->redirect($this->createUrl('ReporteCompromisos', array('id'=>$id)));
     }
 
     //Logica para Generar el Reporte de Compromisos
@@ -818,16 +782,6 @@ class ProcesoEDController extends Controller {
         exit();
     }
 
-    /**
-     * Lists all models.
-     */
-    public function actionIndex() {
-        $this->redirect('admin');
-    }
-
-    /**
-     * Manages all models.
-     */
     public function actionAdmin() {
         $ec = Procesoevaluacion::model()->obtenerevaluaciondesempeno();
         $filtersForm = new FiltersForm;
@@ -840,21 +794,6 @@ class ProcesoEDController extends Controller {
             'ec' => $filtersForm->filter($ec),
             'filtersForm' => $filtersForm,
         ));
-    }
-
-    public static function gridmysqltophpdate($date) {
-        return CommonFunctions::datemysqltophp($date);
-    }
-
-    public static function gridestado($estado) {
-        switch ($estado) {
-            case 1:
-                return "En proceso";
-                break;
-            case 2:
-                return "Finalizado";
-                break;
-        }
     }
 
     public function actionInfoPonderacion() {
@@ -874,8 +813,6 @@ class ProcesoEDController extends Controller {
         echo CJSON::encode($response);
         Yii::app()->end();
     }
-
-    ///Replicado
 
     public function actionCargaMasiva() {
         $idevaluador = CommonFunctions::stringtonumber($_POST['idevaluador']);
@@ -931,10 +868,7 @@ class ProcesoEDController extends Controller {
         }
         echo CJSON::encode($return_array);
     }
-
-///FIN REPLICADO
-
-
+    
     public function actionRegistrarCompromisosED() {
 
         if (Yii::app()->request->isAjaxRequest) {
@@ -952,6 +886,7 @@ class ProcesoEDController extends Controller {
         }
     }
 
+    /*Reporte de Analisis de Brechas*/
     public function actionReporteAnalisisED($tiporeporte, $fechainicio, $fechafin, $tipoanalisis, $departamentos = array()) {
 
         $datosreporte = Evaluaciondesempeno::model()->AnalisisEvaluacion($tiporeporte, $fechainicio, $fechafin, $tipoanalisis, $departamentos);
