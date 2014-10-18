@@ -328,27 +328,12 @@ class ProcesoevaluacionController extends Controller {
         ));
     }
 
-    public function actionEnvioCorreoEC() {
-
-        if (Yii::app()->request->isAjaxRequest) {
-            $id = CommonFunctions::stringtonumber($_POST['id']);
-            $ec = Evaluacioncompetencias::model()->findByPk($id);
-            $idlink = $ec->links;
-            $link = Links::model()->findByPk($idlink);
-            $link->contadorenvios = $link->contadorenvios + 1;
-            $link->fechaultimoenvio = CommonFunctions::datenow();
-            $link->save();
-
-            $response = array('url' => Yii::app()->getBaseUrl(true) . '/index.php/procesoevaluacion/evaluarprocesoec/' . $id);
-            echo CJSON::encode($response);
-            Yii::app()->end();
-        }
-    }
-
     public function actionEvaluarProcesoEC($id) {
 
         $this->layout = 'column1';
-        $ec = Evaluacioncompetencias::model()->findByPk($id);
+        $idoriginal = CommonFunctions::decrypt($id);
+        
+        $ec = Evaluacioncompetencias::model()->findByPk($idoriginal);
         $puntaje = Puntaje::model()->obtenerpuntajesactivos();
         $this->render('evaluarprocesoec', array(
             'ec' => $ec, 'puntaje' => $puntaje));
