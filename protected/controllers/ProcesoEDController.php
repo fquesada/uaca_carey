@@ -625,8 +625,80 @@ class ProcesoEDController extends Controller {
                 )
             ),
         );
-        if (count($compromisos) == 4) {
+        if (count($compromisos) == 5) {
             $objPHPExcel = $objReader->load($phpExcelPath . DIRECTORY_SEPARATOR . "templates" . DIRECTORY_SEPARATOR . "EvaluaciondeDesempenoTemplate.xlsx");
+
+            $objPHPExcel->setActiveSheetIndex(0);  //set first sheet as active
+
+            $objPHPExcel->getActiveSheet()->setCellValue('D4', $ed->_colaborador->nombrecompleto);
+            $objPHPExcel->getActiveSheet()->setCellValue('D5', $ed->_puesto->nombre);
+            $objPHPExcel->getActiveSheet()->setCellValue('D6', $ed->fecharegistrocompromiso);
+            $objPHPExcel->getActiveSheet()->setCellValue('I4', $ed->_colaborador->cedula);
+            $objPHPExcel->getActiveSheet()->setCellValue('I5', $ed->_procesoevaluacion->_evaluador->nombrecompleto);
+            $objPHPExcel->getActiveSheet()->setCellValue('I6', $ed->fecharegistroevaluacion);
+
+            $i = '35';
+
+            foreach ($compromisos as $compromiso) {
+
+                $objPHPExcel->setActiveSheetIndex(0)
+                        ->setCellValue('A' . $i, $compromiso->_puntualizacion->indicadorpuntualizacion)
+                        ->setCellValue('F' . $i, $compromiso->compromiso)
+                        ->setCellValue('K' . $i, $compromiso->puntaje);
+
+                $objPHPExcel->getActiveSheet()->getRowDimension($i)->setRowHeight(15);
+                $objPHPExcel->setActiveSheetIndex()->getStyle('A' . $i . ':K' . $i)->applyFromArray($styleTableBorder);
+                $i = $i + 4;
+            }
+
+            $j = $i + 7;
+
+            foreach ($competencias as $competencia) {
+                $objPHPExcel->setActiveSheetIndex(0)
+                        ->setCellValue('E' . $j, $competencia->_competencia->competencia)
+                        ->setCellValue('F' . $j, $competencia->puntaje);
+
+                $objPHPExcel->setActiveSheetIndex()->getStyle('E' . $j . ':F' . $j)->applyFromArray($styleTableBorder);
+                $j++;
+            }
+            $objPHPExcel->setActiveSheetIndex(0)
+                    ->setCellValue('D94', $ed->promediocompromisos)
+                    ->setCellValue('D95', $ed->promediocompetencias)
+                    ->setCellValue('D96', $ed->promedioevaluacion)
+                    ->setCellValue('O80', $ed->promediocompromisos)
+                    ->setCellValue('P81', $ed->promediocompetencias)
+                    ->SetCellValue('B88', $ed->comentarioevaluacion);
+
+            if (0 <= $ed->promedioevaluacion && $ed->promedioevaluacion <= 2) {
+                $objPHPExcel->getActiveSheet()
+                        ->setCellValue('D97', 'Desempeño Insuficiente')
+                        ->getStyle('D97')->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)
+                        ->getStartColor()->setRGB('f07d30');
+            } else if (2 < $ed->promedioevaluacion && $ed->promedioevaluacion < 3) {
+                $objPHPExcel->getActiveSheet()
+                        ->setCellValue('D97', 'Oportunidad de mejora')
+                        ->getStyle('D97')->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)
+                        ->getStartColor()->setRGB('fefe04');
+            } else if (3 <= $ed->promedioevaluacion && $ed->promedioevaluacion < 4) {
+                $objPHPExcel->getActiveSheet()
+                        ->setCellValue('D97', 'Desempeño Esperado')
+                        ->getStyle('D97')->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)
+                        ->getStartColor()->setRGB('90d152');
+            } else if (4 <= $ed->promedioevaluacion && $ed->promedioevaluacion < 5) {
+                $objPHPExcel->getActiveSheet()
+                        ->setCellValue('D97', 'Desempeño Sobresaliente')
+                        ->getStyle('D97')->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)
+                        ->getStartColor()->setRGB('c2d6ec');
+            } else {
+                $objPHPExcel->getActiveSheet()
+                        ->setCellValue('D97', 'Desempeño Superior')
+                        ->getStyle('D97')->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)
+                        ->getStartColor()->setRGB('2d76b5');
+            }
+        } 
+        
+        else if (count($compromisos) == 4) {
+            $objPHPExcel = $objReader->load($phpExcelPath . DIRECTORY_SEPARATOR . "templates" . DIRECTORY_SEPARATOR . "EvaluaciondeDesempenoTemplate2.xlsx");
 
             $objPHPExcel->setActiveSheetIndex(0);  //set first sheet as active
 
@@ -695,8 +767,9 @@ class ProcesoEDController extends Controller {
                         ->getStyle('D86')->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)
                         ->getStartColor()->setRGB('2d76b5');
             }
-        } else {
-            $objPHPExcel = $objReader->load($phpExcelPath . DIRECTORY_SEPARATOR . "templates" . DIRECTORY_SEPARATOR . "EvaluaciondeDesempenoTemplate2.xlsx");
+        }
+        else {
+            $objPHPExcel = $objReader->load($phpExcelPath . DIRECTORY_SEPARATOR . "templates" . DIRECTORY_SEPARATOR . "EvaluaciondeDesempenoTemplate3.xlsx");
 
             $objPHPExcel->setActiveSheetIndex(0);  //set first sheet as active
 

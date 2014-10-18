@@ -44,9 +44,29 @@ body
 
 #logo
 {
-	font-size: 200%;
-        width: 50%;
+        width: 75%;
+        height: 57px;
         float: left;
+}
+
+.logoPNG
+{
+    width: 25%;
+    float: left;
+}
+
+.logoPNG a {
+    text-decoration: none;
+}
+
+.logoPNG a img {
+    width: 20%;
+    float: left;
+}
+
+.titulo{
+    width: 75%;
+    float: right;
 }
 
 #bienvenida {
