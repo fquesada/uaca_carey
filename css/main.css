@@ -44,7 +44,7 @@ body
 
 #logo
 {
-        width: 75%;
+        width: 78%;
         height: 57px;
         float: left;
 }
@@ -67,6 +67,9 @@ body
 .titulo{
     width: 75%;
     float: right;
+    position: relative;
+    top: 25%;
+    //transform: translateY(-50%);
 }
 
 #bienvenida {
