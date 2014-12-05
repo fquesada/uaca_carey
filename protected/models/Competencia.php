@@ -78,6 +78,7 @@ class Competencia extends CActiveRecord
 		return array(
 			'id' => 'ID',
 			'competencia' => 'Competencia',
+                        'tipocompetencia'=>'Tipo de competencia',
 			'descripcion' => 'Descripción',
 			'pregunta' => 'Entrevista Conductual Estructurada',
 			'estado' => 'Estado',
@@ -97,6 +98,7 @@ class Competencia extends CActiveRecord
 
 		$criteria->compare('id',$this->id);
 		$criteria->compare('competencia',$this->competencia,true);
+                $criteria->compare('tipocompetencia',$this->tipocompetencia);
 		$criteria->compare('descripcion',$this->descripcion,true);
 		$criteria->compare('pregunta',$this->pregunta,true);
 		$criteria->compare('estado',$this->estado);
@@ -112,32 +114,9 @@ class Competencia extends CActiveRecord
 	}
         
         public function addcompetencia($id){
-//            $criteria = new CDbCriteria;
-//            
-//            $criteria->compare('competencia',$this->competencia,true);
-//            $criteria->compare('descripcion',$this->descripcion,true);
-//
-//            
-//            $criteria->addColumnCondition(array('estado'=>'1'));
-//            
-//            $competencias = Puestocompetencia::model()->findAllByAttributes(array('puesto'=>$id));
-//            $competenciasasociadas = $this->obtenerArrayColumna($competencias, 'competencia');
-//            $criteria->addNotInCondition('id', $competenciasasociadas);
-//            
-//            return new CActiveDataProvider($this, array(
-//			'criteria'=>$criteria,
-//                        'pagination'=>array('pageSize'=>'10'),
-//                        'sort'=>array(
-//                            'attributes'=>array(
-//                                'competencia',
-//                                'descripcion',
-//         
-//                                )
-//                        )
-//            ));
             
             $connection = Yii::app()->db;            
-            $sql = "SELECT competencia.id, competencia.competencia, competencia.descripcion
+            $sql = "SELECT competencia.id, competencia.competencia, competencia.descripcion, competencia.tipocompetencia
                 FROM competencia
                 WHERE competencia.estado = 1 AND competencia.id NOT IN(SELECT competencia.id              
                 FROM puesto
@@ -159,6 +138,7 @@ class Competencia extends CActiveRecord
                    'attributes'=>array(
                        'competencia',
                        'descripcion',
+                       //'tipocompetencia',
                        ),
                    ),
                    'pagination'=>array(
@@ -179,10 +159,10 @@ class Competencia extends CActiveRecord
             
             $criteria->compare('id',$this->id);
             $criteria->compare('competencia',$this->competencia,true);
+            $criteria->compare('tipocompetencia',$this->tipocompetencia,true);
             $criteria->compare('descripcion',$this->descripcion,true);
             $criteria->compare('pregunta',$this->pregunta,true);
             $criteria->compare('estado',$this->estado);
-            
             $criteria->addColumnCondition(array('estado'=>'1'));
             
             $competencias = Puestocompetencia::model()->findAllByAttributes(array('puesto'=>$id));
@@ -199,7 +179,14 @@ class Competencia extends CActiveRecord
             
         }
         
-                /**
+        public function gettipoComp(){
+            if($this->tipocompetencia == 1)        
+                return "CORE";
+            else
+                return "Específica";
+        }
+        
+        /**
          * Returns an array with the values of the column needed.
          * @param array $unidades the array with the objects that have the column needed
          * @param string $columna  the name of the column that must be obtain

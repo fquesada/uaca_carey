@@ -12,6 +12,10 @@
 	<b><?php echo CHtml::encode($data->getAttributeLabel('competencia')); ?>:</b>
 	<?php echo CHtml::encode($data->competencia); ?>
 	<br />
+        
+        <b><?php echo CHtml::encode($data->getAttributeLabel('tipocompetencia')); ?>:</b>
+	<?php echo CHtml::encode($data->tipocompetencia); ?>
+	<br />
 
 	<b><?php echo CHtml::encode($data->getAttributeLabel('descripcion')); ?>:</b>
 	<?php echo CHtml::encode($data->descripcion); ?>
