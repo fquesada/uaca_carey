@@ -89,7 +89,7 @@
                 else
                 {
                     $('#dialogPuntualizacion div.divForForm').html(data.div);
-                    setTimeout(\"$('#dialogPuntualizacion').dialog('close') \",3000);
+                    setTimeout(\"$('#dialogPuntualizacion').dialog('close') \",1000);
                 }
              }"
      ))

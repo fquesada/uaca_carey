@@ -22,6 +22,7 @@ $this->menu=array(
 	'columns'=>array(
 		'competencia',
 		'descripcion',
+                'tipocomp',
 		'pregunta',
 		array(
 			'class'=>'CButtonColumn',

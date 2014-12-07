@@ -10,7 +10,7 @@ $this->breadcrumbs=array(
 $this->menu=array(
 	array('label'=>'Crear Puesto', 'url'=>array('create')),
 	array('label'=>'Actualizar Puesto', 'url'=>array('update', 'id'=>$model->id)),
-	array('label'=>'Eliminar Puesto', 'url'=>'#', 'linkOptions'=>array('submit'=>array('delete','id'=>$model->id),'confirm'=>'Seguro que desea borrar este elemento?')),
+	//array('label'=>'Eliminar Puesto', 'url'=>'#', 'linkOptions'=>array('submit'=>array('delete','id'=>$model->id),'confirm'=>'Seguro que desea borrar este elemento?')),
 	array('label'=>'Gestionar Puesto', 'url'=>array('admin')),
 );
 ?>

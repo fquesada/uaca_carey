@@ -123,6 +123,7 @@ class PuestoController extends Controller
 	 * If deletion is successful, the browser will be redirected to the 'admin' page.
 	 * @param integer $id the ID of the model to be deleted
 	 */
+        //No se esta usando
 	public function actionDelete($id)
 	{
 		$model = $this->loadModel($id);
@@ -222,33 +223,6 @@ class PuestoController extends Controller
             }
         }
         
-//        public function actionSavePuntualizacion(){
-//            
-//            if (isset($_POST['puntualizacionselect'])){
-//                                                
-//                             
-//                $puntualizaciones = $_POST['puntualizacionselect'];
-//
-//                foreach($puntualizaciones as $puntualizacion){
-//                    $puestopun = new PuestoPuntualizacion();
-//                    $puestopun->puesto = Yii::app()->session['puesto'];
-//                    $puestopun->puntualizacion = $puntualizacion;
-//                    
-//                    $puestopun->save();
-//                }
-//
-//                
-//                Yii::app()->user->setFlash('success','Se agrego correctamente la puntualización al puesto.');
-//                $this->redirect(array('addpuntualizacion','id'=>Yii::app()->session['puesto']));
-//                
-//            }                
-//            else{
-//                
-//                 Yii::app()->user->setFlash('error','Se debe seleccionar al menos una puntualización para asociar al puesto.');
-//                 $this->redirect(array('addpuntualizacion','id'=>Yii::app()->session['puesto']));
-//                }
-//        }
-
                 	/**
 	 * Returns the data model based on the primary key given in the GET variable.
 	 * If the data model is not found, an HTTP exception will be raised.

@@ -110,17 +110,65 @@ class ColaboradorController extends Controller
 	 */
 	public function actionDelete($id)
 	{
-		$colaborador = $this->loadModel($id);
+                // Lógica para evitar borrar colaboradores que estan siendo evaluados en algún proceso
+                $sqlprocesos='SELECT procesoevaluacion.descripcion '.
+                     'FROM procesoevaluacion INNER JOIN evaluacioncompetencias '.
+                     'ON procesoevaluacion.id=evaluacioncompetencias.procesoevaluacion '.
+                     'WHERE evaluacioncompetencias.estado=1 AND evaluacioncompetencias.colaborador='. $id;
                 
-                $colaborador->estado = '0';
+                $procesos= Yii::app()->db->createCommand($sqlprocesos)->queryAll();
                 
-                if($colaborador->save())
-                    $this->redirect(array('admin'));
+               $sqlevaluadores='SELECT procesoevaluacion.descripcion '.
+               'FROM procesoevaluacion '.
+               'WHERE procesoevaluacion.estado=1 AND procesoevaluacion.evaluador='. $id;
+                
+                $evaluadores= Yii::app()->db->createCommand($sqlevaluadores)->queryAll();
+                
+                
+                
+                if ($procesos == NULL and $evaluadores == NULL){
+                    $colaborador = $this->loadModel($id);
+
+                    $colaborador->estado = '0';
+                    Yii::app()->user->setFlash('success',"El colaborador ". $colaborador->nombrecompleto. " fue eliminado.");
+
+                    if($colaborador->save())
+                        $this->redirect(array('admin'));
+                }
+                else{
+                    
+                    $nom = "";
+                    if($evaluadores != NULL){
+                        $mensaje = "El colaborador no puede ser eliminado porque fue nombrado como evaluador de estos procesos de evaluación de competencias: <br>";
+                        foreach ($evaluadores as $evaluadorproceso){
+
+                        $nom = $nom. implode($evaluadorproceso). "<br> ";
+                                                     
+                        }
+                        $mensaje = $mensaje. "<br>" .$nom. '<br><a href="../procesoevaluacion/admin">Ir a procesos de evaluación de competencias</a>';
+                    }
+                    else{
+                        $mensaje = "El colaborador no puede ser eliminado porque esta pendiente de evaluación en estos procesos de evaluación de competencias: <br>";
+                        foreach ($procesos as $procesoevaluacion){
+
+                        $nom = $nom. implode($procesoevaluacion). "<br>";
+                                               
+                        }
+                        $mensaje = $mensaje. "<br>"  .$nom. '<br><a href="../procesoevaluacion/admin">Ir a procesos de evaluación de competencias</a>';
+                    }
+                        
+                    //averiguar la manera de mostrar el mensaje de error de manera que se muestre tanto cuando se hace desde editar o desde el admin
+                    Yii::app()->user->setFlash('error',$mensaje);
+
+                }
+                    
 
 		// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
 		if(!isset($_GET['ajax']))
 			$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
-	}
+	
+                
+        }
 
 	/**
 	 * Lists all models.
@@ -292,10 +340,9 @@ class ColaboradorController extends Controller
             Yii::app()->user->setFlash('success',$model->nombrecompleto. ' ha sido reactivado/a correctamente.');
             $model->unsetAttributes();
             
-            $this->render('admin',array(
-            'model'=>$model,
-            ));
+            $this->redirect(array('admin'));
         }
+        
         
 
         

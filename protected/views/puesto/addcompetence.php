@@ -70,6 +70,10 @@
                 array(
                     'name'=>'descripcion',
                     'header'=>'Descripción'
+                ),
+                array(
+                    'name'=>'tipocompetencia',
+                    'header'=>'Tipo de competencia'
                 )
 	),
     )); ?>
@@ -99,8 +103,8 @@
     
          <p></br> </br> </br> </p>
      <h1>Paso 3: Competencias asociadas</h1>
-     <h5>Verifique que la competencia haya sido asociada correctamente</h5>
-     
+     <h5>Verifique que la competencia haya sido asociada correctamente. </h5>
+     <span class="required">Por favor asegúrese que solamente tenga 7 ó 8 competencias (4 CORE y 3 ó 4 específicas).</span>
      
     <?php 
     $puestocomp = new Puestocompetencia();
@@ -126,6 +130,10 @@
 	),
         'afterAjaxUpdate'=>'js:function(id,data){$.fn.yiiGridView.update("competenciaexistente-grid");}'
     )); ?>
+     
+     <p></br> </br> </br> </p>
+     <h1>Paso 4: Repita el proceso</h1>
+     <h5>Repita el proceso cuantas veces sean necesarias para asociar la totalidad de las competencias.</h5>
      
     <p></br> </br> </br> </p>
     <?php

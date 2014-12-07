@@ -35,7 +35,7 @@ Puede ingresar opcionalmente un operador comparativo (<b>&lt;</b>, <b>&lt;=</b>,
 		array(
 			'class'=>'CButtonColumn',
                         'htmlOptions'=>array('width'=>'90'),
-                        'template'=>'{view}{update}{delete}{gestionpuesto}',
+                        'template'=>'{view}{update}{gestionpuesto}',
                         'buttons'=>array(
                             'update'=>array(
                                 'label'=>'Actualizar',
@@ -51,6 +51,8 @@ Puede ingresar opcionalmente un operador comparativo (<b>&lt;</b>, <b>&lt;=</b>,
 	),
 )); ?>
 
+
+
  <?php if(Yii::app()->user->hasFlash('success')):?>
  <script type="text/javascript">
       new Messi('<?php echo Yii::app()->user->getFlash('success'); ?>',
@@ -61,3 +63,14 @@ Puede ingresar opcionalmente un operador comparativo (<b>&lt;</b>, <b>&lt;=</b>,
         });
  </script>
  <?php endif;?>
+
+ <?php if(Yii::app()->user->hasFlash('error')):?>
+ <script type="text/javascript">
+      new Messi('<?php echo Yii::app()->user->getFlash('error'); ?>',
+        { title: 'Error',
+            titleClass: 'error',
+            modal:true
+        });
+ </script>
+ <?php endif;?>
+
