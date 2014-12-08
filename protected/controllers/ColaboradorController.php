@@ -111,22 +111,34 @@ class ColaboradorController extends Controller
 	public function actionDelete($id)
 	{
                 // Lógica para evitar borrar colaboradores que estan siendo evaluados en algún proceso
-                $sqlprocesos='SELECT procesoevaluacion.descripcion '.
+                $sqlprocesosec='SELECT procesoevaluacion.descripcion '.
                      'FROM procesoevaluacion INNER JOIN evaluacioncompetencias '.
                      'ON procesoevaluacion.id=evaluacioncompetencias.procesoevaluacion '.
-                     'WHERE evaluacioncompetencias.estado=1 AND evaluacioncompetencias.colaborador='. $id;
+                     'WHERE procesoevaluacion.tipo=1 AND evaluacioncompetencias.estado=1 AND evaluacioncompetencias.colaborador='. $id;
                 
-                $procesos= Yii::app()->db->createCommand($sqlprocesos)->queryAll();
+                $procesosec= Yii::app()->db->createCommand($sqlprocesosec)->queryAll();
                 
-               $sqlevaluadores='SELECT procesoevaluacion.descripcion '.
+                $sqlprocesosed='SELECT procesoevaluacion.descripcion '.
+                     'FROM procesoevaluacion INNER JOIN evaluaciondesempeno '.
+                     'ON procesoevaluacion.id=evaluaciondesempeno.procesoevaluacion '.
+                     'WHERE procesoevaluacion.tipo=2 AND evaluaciondesempeno.estado=1 AND evaluaciondesempeno.colaborador='. $id;
+                
+                $procesosed= Yii::app()->db->createCommand($sqlprocesosed)->queryAll();
+                
+               $sqlevaluadoresec='SELECT procesoevaluacion.descripcion '.
                'FROM procesoevaluacion '.
-               'WHERE procesoevaluacion.estado=1 AND procesoevaluacion.evaluador='. $id;
+               'WHERE procesoevaluacion.tipo=1 AND procesoevaluacion.estado=1 AND procesoevaluacion.evaluador='. $id;
                 
-                $evaluadores= Yii::app()->db->createCommand($sqlevaluadores)->queryAll();
+                $evaluadoresec= Yii::app()->db->createCommand($sqlevaluadoresec)->queryAll();
+
+               $sqlevaluadoresed='SELECT procesoevaluacion.descripcion '.
+               'FROM procesoevaluacion '.
+               'WHERE procesoevaluacion.tipo=2 AND procesoevaluacion.estado=1 AND procesoevaluacion.evaluador='. $id;
+                
+                $evaluadoresed= Yii::app()->db->createCommand($sqlevaluadoresed)->queryAll();
                 
                 
-                
-                if ($procesos == NULL and $evaluadores == NULL){
+                if ($procesosed == NULL and $procesosec == NULL and $evaluadoresec == NULL and $evaluadoresed == NULL){
                     $colaborador = $this->loadModel($id);
 
                     $colaborador->estado = '0';
@@ -138,23 +150,46 @@ class ColaboradorController extends Controller
                 else{
                     
                     $nom = "";
-                    if($evaluadores != NULL){
+                    if($evaluadoresec != NULL){
                         $mensaje = "El colaborador no puede ser eliminado porque fue nombrado como evaluador de estos procesos de evaluación de competencias: <br>";
-                        foreach ($evaluadores as $evaluadorproceso){
+                        foreach ($evaluadoresec as $evaluadorproceso){
 
-                        $nom = $nom. implode($evaluadorproceso). "<br> ";
+                        $nom = "* ".$nom. implode($evaluadorproceso). "<br> ";
                                                      
                         }
                         $mensaje = $mensaje. "<br>" .$nom. '<br><a href="../procesoevaluacion/admin">Ir a procesos de evaluación de competencias</a>';
                     }
-                    else{
-                        $mensaje = "El colaborador no puede ser eliminado porque se encuentra pendiente de evaluación en los siguientes procesos de evaluación de competencias: <br>";
-                        foreach ($procesos as $procesoevaluacion){
+                    
+                    elseif ($evaluadoresed != NULL){
+                        $mensaje = "El colaborador no puede ser eliminado porque fue nombrado como evaluador de estos procesos de evaluación de desempeño: <br>";
+                        foreach ($evaluadoresed as $evaluadorproceso){
 
-                        $nom = $nom. implode($procesoevaluacion). "<br>";
+                        $nom = "* ".$nom. implode($evaluadorproceso). "<br> ";
+                                                     
+                        }
+                        $mensaje = $mensaje. "<br>" .$nom. '<br><a href="../procesoed/admin">Ir a procesos de evaluación de desempeño</a>';
+
+                    }
+                    
+                    elseif ($procesosec != NULL){
+                        
+                        $mensaje = "El colaborador no puede ser eliminado porque se encuentra pendiente de evaluación en los siguientes procesos de evaluación de competencias: <br>";
+                        foreach ($procesosec as $procesoevaluacion){
+
+                        $nom = "* ".$nom. implode($procesoevaluacion). "<br>";
                                                
                         }
                         $mensaje = $mensaje. "<br>"  .$nom. '<br><a href="../procesoevaluacion/admin">Ir a procesos de evaluación de competencias</a>';
+                    }
+                    else{
+                        $mensaje = "El colaborador no puede ser eliminado porque se encuentra pendiente de evaluación en los siguientes procesos de evaluación de desempeño: <br>";
+                        foreach ($procesosed as $evaluadorproceso){
+
+                        $nom = "* ".$nom. implode($evaluadorproceso). "<br> ";
+                                                     
+                        }
+                        $mensaje = $mensaje. "<br>" .$nom. '<br><a href="../procesoed/admin">Ir a procesos de evaluación de desempeño</a>';
+
                     }
                         
                     //averiguar la manera de mostrar el mensaje de error de manera que se muestre tanto cuando se hace desde editar o desde el admin

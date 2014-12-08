@@ -104,7 +104,7 @@
          <p></br> </br> </br> </p>
      <h1>Paso 3: Competencias asociadas</h1>
      <h5>Verifique que la competencia haya sido asociada correctamente. </h5>
-     <span class="required">Por favor asegúrese que solamente tenga 7 ó 8 competencias (4 CORE y 3 ó 4 específicas).</span>
+     <span class="required">Por favor asegúrese que tenga 7 ó 8 competencias (4 CORE y 3 ó 4 específicas).</span>
      
     <?php 
     $puestocomp = new Puestocompetencia();

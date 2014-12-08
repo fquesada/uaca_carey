@@ -58,11 +58,14 @@ class ProcesoEDController extends Controller {
         if (Yii::app()->request->isAjaxRequest) {
 
             $id = CommonFunctions::stringtonumber($id);
-            $procesoec = Procesoevaluacion::model()->findByPk($id);
-            $procesoec->estado = 0;
-            $resultadoguardarbd = $procesoec->save();
-            if ($resultadoguardarbd)
+            $procesoed = Procesoevaluacion::model()->findByPk($id);
+            $procesoed->estado = 0;
+            $resultadoguardarbd = $procesoed->save();
+            if ($resultadoguardarbd){
+                $sqlprocesos ='Update evaluaciondesempeno Set estado = 0 Where procesoevaluacion = '. $procesoed->id;
+                $registros = Yii::app()->db->createCommand($sqlprocesos)->execute();
                 $response = array('resultado' => true, 'mensaje' => "Se elimino correctamente el proceso.");
+            }
             else
                 $response = array('resultado' => false, 'mensaje' => "Ha ocurrido un inconveniente al intentar eliminar el proceso");
 

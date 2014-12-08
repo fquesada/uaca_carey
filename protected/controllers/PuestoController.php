@@ -188,6 +188,12 @@ class PuestoController extends Controller
         public function actionSaveCompetencia(){
             
             if (isset($_POST['compselect']) && $_POST['peso'] != ''){
+                //Verificar cuantas competencias a agregado
+//                IF()
+//                
+//                else()
+                
+                //Lógica en caso de no violentar el limite máximo de competencias
                 $puestocomp = new Puestocompetencia();
                                    
                 $puestocomp->puesto = Yii::app()->session['puesto'];
