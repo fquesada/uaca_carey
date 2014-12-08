@@ -189,10 +189,18 @@ class PuestoController extends Controller
             
             if (isset($_POST['compselect']) && $_POST['peso'] != ''){
                 //Verificar cuantas competencias a agregado
-//                IF()
-//                
-//                else()
+                $sqlcompetencias='SELECT puestocompetencia.competencia '.
+                     'FROM puestocompetencia '.
+                     'WHERE puestocompetencia.puesto='. Yii::app()->session['puesto'];
                 
+                $competencias= Yii::app()->db->createCommand($sqlcompetencias)->queryAll();
+                
+                if(count($competencias) == 8){
+                    Yii::app()->user->setFlash('error','No es posible asociar más competencias porque tiene un total de 8 (máximo de competencias permitidas)');
+                    $this->redirect(array('addcompetence','id'=>Yii::app()->session['puesto']));
+                }
+                else{
+              
                 //Lógica en caso de no violentar el limite máximo de competencias
                 $puestocomp = new Puestocompetencia();
                                    
@@ -214,7 +222,7 @@ class PuestoController extends Controller
                     Yii::app()->user->setFlash('success','Se agrego correctamente la competencia al puesto.');
                     $this->redirect(array('addcompetence','id'=>Yii::app()->session['puesto']));
                 }
-            }                
+                            
             else{
                 
                 if(!isset($_POST['compselect'])){
@@ -227,6 +235,8 @@ class PuestoController extends Controller
                     $this->redirect(array('addcompetence','id'=>Yii::app()->session['puesto']));
                 }
             }
+          }
+        }
         }
         
                 	/**

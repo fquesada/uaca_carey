@@ -134,6 +134,7 @@
      <p></br> </br> </br> </p>
      <h1>Paso 4: Repita el proceso</h1>
      <h5>Repita el proceso cuantas veces sean necesarias para asociar la totalidad de las competencias.</h5>
+     <span class="required">Por favor asegúrese que tenga 7 ó 8 competencias (4 CORE y 3 ó 4 específicas).</span>
      
     <p></br> </br> </br> </p>
     <?php
