@@ -504,11 +504,14 @@ class ProcesoevaluacionController extends Controller {
             $procesoec = Procesoevaluacion::model()->findByPk($id);
             $procesoec->estado = 0;
             $resultadoguardarbd = $procesoec->save();
-            if ($resultadoguardarbd)
+            if ($resultadoguardarbd){
+                $sqlprocesos='Update evaluacioncompetencias Set estado = 0 Where procesoevaluacion = '. $procesoec->id;
+                $registros = Yii::app()->db->createCommand($sqlprocesos)->execute();
                 $response = array('resultado' => true, 'mensaje' => "Se elimino correctamente el proceso.");
+            }                  
             else
                 $response = array('resultado' => false, 'mensaje' => "Ha ocurrido un inconveniente al intentar eliminar el proceso");
-
+            
             echo CJSON::encode($response);
             Yii::app()->end();
         }

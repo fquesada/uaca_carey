@@ -148,7 +148,7 @@ class ColaboradorController extends Controller
                         $mensaje = $mensaje. "<br>" .$nom. '<br><a href="../procesoevaluacion/admin">Ir a procesos de evaluación de competencias</a>';
                     }
                     else{
-                        $mensaje = "El colaborador no puede ser eliminado porque esta pendiente de evaluación en estos procesos de evaluación de competencias: <br>";
+                        $mensaje = "El colaborador no puede ser eliminado porque se encuentra pendiente de evaluación en los siguientes procesos de evaluación de competencias: <br>";
                         foreach ($procesos as $procesoevaluacion){
 
                         $nom = $nom. implode($procesoevaluacion). "<br>";
