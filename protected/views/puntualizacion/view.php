@@ -10,7 +10,6 @@ $this->breadcrumbs=array(
 $this->menu=array(
 	array('label'=>'Crear Puntualización', 'url'=>array('create')),
 	array('label'=>'Actualizar Puntualización', 'url'=>array('update', 'id'=>$model->id)),
-	array('label'=>'Eliminar Puntualización', 'url'=>'#', 'linkOptions'=>array('submit'=>array('delete','id'=>$model->id),'confirm'=>'Seguro que desea borrar este elemento?')),
 	array('label'=>'Gestionar Puntualización', 'url'=>array('admin')),
 );
 ?>

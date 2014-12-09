@@ -42,7 +42,7 @@
    
  <h1>Paso 1: Crear la puntualización</h1>
  <h5>Presione la opción "Crear puntualización" para crear y asignarle una puntualización al puesto. Posteriormente verifique que la puntualización haya quedado asociada al puesto en la tabla de abajo</h5>
- 
+ <span class="required">Por favor asegúrese de asociar 3,4 o 5 puntualizaciones al puesto.</span>
     <?php echo CHtml::link('Crear puntualización', "",
             array(
                 'style'=>'cursor: pointer; text-decoration: underline;',

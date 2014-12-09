@@ -61,36 +61,52 @@ class PuntualizacionController extends Controller
 	 * If creation is successful, the browser will be redirected to the 'view' page.
 	 */
 	public function actionCreate()
-	{
+	{       
 		$model=new Puntualizacion;
 
 		// Uncomment the following line if AJAX validation is needed
 		$this->performAjaxValidation($model);
 
-		if(isset($_POST['Puntualizacion']))
-		{
-			$model->attributes=$_POST['Puntualizacion'];
-			if($model->save())
-                        {
-                            $puestopun = new PuestoPuntualizacion();
-                            $puestopun->puesto = Yii::app()->session['puesto'];
-                            $puestopun->puntualizacion = $model->id;
-                    
-                            $puestopun->save();
-                            
-                            if(Yii::app()->request->isAjaxRequest)
-                            {
-                                echo CJSON::encode(array(
-                                    'status'=>'success',
-                                    'div'=>"Puntualización creada con éxito"
-                                ));
-                                exit;
-                                
-                            }
-                            else
-				$this->redirect(array('view','id'=>$model->id));                                
+		if(isset($_POST['Puntualizacion'])){
+                        $sqlpuntualizacion='SELECT puestopuntualizacion.puntualizacion '.
+                             'FROM puestopuntualizacion '.
+                             'WHERE puestopuntualizacion.puesto='. Yii::app()->session['puesto'];
+
+                        $puntualizacion= Yii::app()->db->createCommand($sqlpuntualizacion)->queryAll();
+
+                        if(count($puntualizacion)== 5){
+                            echo CJSON::encode(array(
+                            'status'=>'failure',
+                            'div'=>  "No es posible asociar la puntualización al puesto porque el mismo ya tiene asociado 5 puntualiazciones (Máximo de puntualizaciones permitido por puesto)."
+                            )
+                            );
+                            exit;
                         }
-		}
+                        else{
+                            $model->attributes=$_POST['Puntualizacion'];
+                            if($model->save())
+                            {
+
+                                $puestopun = new PuestoPuntualizacion();
+                                $puestopun->puesto = Yii::app()->session['puesto'];
+                                $puestopun->puntualizacion = $model->id;
+
+                                $puestopun->save();
+
+                                if(Yii::app()->request->isAjaxRequest)
+                                {
+                                    echo CJSON::encode(array(
+                                        'status'=>'success',
+                                        'div'=>"Puntualización creada con éxito"
+                                    ));
+                                    exit;
+
+                                }
+                                else
+                                    $this->redirect(array('view','id'=>$model->id));                                
+                            }
+                        }
+                }
                 if (Yii::app()->request->isAjaxRequest)
                 {
                     echo CJSON::encode(array(
@@ -102,7 +118,8 @@ class PuntualizacionController extends Controller
                 }
                 else
                     $this->render ('create', array('model'=>$model));
-	}
+                
+        }
 
 	/**
 	 * Updates a particular model.
@@ -126,26 +143,6 @@ class PuntualizacionController extends Controller
 		$this->render('update',array(
 			'model'=>$model,
 		));
-	}
-
-	/**
-	 * Deletes a particular model.
-	 * If deletion is successful, the browser will be redirected to the 'admin' page.
-	 * @param integer $id the ID of the model to be deleted
-	 */
-	public function actionDelete($id)
-	{
-		$model = $this->loadModel($id);
-                
-                $model->estado = '0';
-                
-                if($model->save())
-                    $this->redirect(array('admin'));
-                
-
-		// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
-		if(!isset($_GET['ajax']))
-			$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
 	}
 
 	/**
