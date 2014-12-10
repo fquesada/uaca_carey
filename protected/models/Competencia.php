@@ -51,7 +51,7 @@ class Competencia extends CActiveRecord
 			array('pregunta', 'length', 'max'=>1500),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, competencia, descripcion, pregunta, estado', 'safe', 'on'=>'search'),
+			array('id, competencia, descripcion, pregunta, estado, tipocompetencia', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -99,7 +99,7 @@ class Competencia extends CActiveRecord
 
 		$criteria->compare('id',$this->id);
 		$criteria->compare('competencia',$this->competencia,true);
-                $criteria->compare('tipocompetencia',$this->tipocompetencia);
+                $criteria->compare('tipocompetencia',$this->tipocompetencia,true);
 		$criteria->compare('descripcion',$this->descripcion,true);
 		$criteria->compare('pregunta',$this->pregunta,true);
 		$criteria->compare('estado',$this->estado);

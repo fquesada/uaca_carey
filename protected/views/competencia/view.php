@@ -22,6 +22,7 @@ $this->menu=array(
 	'attributes'=>array(
 		'competencia',
 		'descripcion',
+                'tipocomp',
 		'pregunta',
 	),
 )); ?>

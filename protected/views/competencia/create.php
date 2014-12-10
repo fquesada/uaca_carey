@@ -8,7 +8,6 @@ $this->breadcrumbs=array(
 );
 
 $this->menu=array(
-	//array('label'=>'List Competencia', 'url'=>array('index')),
 	array('label'=>'Gestionar Competencia', 'url'=>array('admin')),
 );
 ?>

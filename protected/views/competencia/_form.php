@@ -30,6 +30,19 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->baseUrl . '/css/sexybutton
 		<?php echo $form->textArea($model,'descripcion',array('style'=>'width: 375px; height: 100px;')); ?>
 		<?php echo $form->error($model,'descripcion'); ?>
 	</div>
+        
+        <div class="row">
+		<?php echo $form->labelEx($model,'tipocompetencia'); ?>
+		<?php echo $form->textField($model,'tipocompetencia',array('size'=>60,'maxlength'=>400)); ?>
+		<?php echo $form->error($model,'tipocompetencia'); ?>
+	</div>
+<!--        <div class="row">
+                <?php echo $form->labelEx($model,'tipocompetencia'); ?>
+                <?php echo $form->dropdownlist($model,'tipocompetencia',
+                    CHtml::listData($model->findAll(),'tipocompetencia', 'tipocomp'),
+                        array('empty' => 'Seleccione un tipo')
+                );?>
+        </div>-->
 
 	<div class="row">
 		<?php echo $form->labelEx($model,'pregunta'); ?>
