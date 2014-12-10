@@ -6,15 +6,15 @@
  * The followings are the available columns in table 'competencia':
  * @property integer $id
  * @property string $competencia
+ * @property integer $tipocompetencia
  * @property string $descripcion
  * @property string $pregunta
  * @property integer $estado
  *
  * The followings are the available model relations:
- * @property Calificacioncompetencia[] $_calificacioncompetencias
- * @property Habilidadevaluacioncandidato[] $_habilidadesevaluacioncandidato
- * @property Habilidadnoequivalente[] $_habilidadesnoequivalente
- * @property Puesto[] $_puestos
+ * @property Calificacioncompetencia[] $calificacioncompetencias
+ * @property Habilidadnoequivalente[] $habilidadnoequivalentes
+ * @property Puesto[] $puestos
  */
 class Competencia extends CActiveRecord
 {
@@ -44,14 +44,14 @@ class Competencia extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('competencia, descripcion, pregunta', 'required'),
-			array('estado', 'numerical', 'integerOnly'=>true),
+			array('competencia, tipocompetencia, descripcion, pregunta', 'required'),
+			array('tipocompetencia, estado', 'numerical', 'integerOnly'=>true),
 			array('competencia', 'length', 'max'=>400),
 			array('descripcion', 'length', 'max'=>800),
 			array('pregunta', 'length', 'max'=>1500),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, competencia, descripcion, pregunta, estado, tipocompetencia', 'safe', 'on'=>'search'),
+			array('id, competencia, tipocompetencia, descripcion, pregunta, estado', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -63,10 +63,9 @@ class Competencia extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'_calificacioncompetencias' => array(self::HAS_MANY, 'Calificacioncompetencia', 'competencia'),
-			'_habilidadesevaluacioncandidato' => array(self::HAS_MANY, 'Habilidadevaluacioncandidato', 'competencia'),
-			'_habilidadesnoequivalente' => array(self::HAS_MANY, 'Habilidadnoequivalente', 'competencia'),
-			'_puestos' => array(self::MANY_MANY, 'Puesto', 'puestocompetencia(competencia, puesto)'),
+			'calificacioncompetencias' => array(self::HAS_MANY, 'Calificacioncompetencia', 'competencia'),
+			'habilidadnoequivalentes' => array(self::HAS_MANY, 'Habilidadnoequivalente', 'competencia'),
+			'puestos' => array(self::MANY_MANY, 'Puesto', 'puestocompetencia(competencia, puesto)'),
 		);
 	}
 
@@ -78,11 +77,11 @@ class Competencia extends CActiveRecord
 		return array(
 			'id' => 'ID',
 			'competencia' => 'Competencia',
-                        'tipocompetencia'=>'Tipo de competencia',
+			'tipocompetencia' => 'Tipo de competencia',
 			'descripcion' => 'Descripción',
-			'pregunta' => 'Entrevista Conductual Estructurada',
+			'pregunta' => 'Pregunta',
 			'estado' => 'Estado',
-                        'tipocomp'=>'Tipo de competencia'
+                        'tipocomp' => 'Tipo de competencia',
 		);
 	}
 
@@ -99,14 +98,15 @@ class Competencia extends CActiveRecord
 
 		$criteria->compare('id',$this->id);
 		$criteria->compare('competencia',$this->competencia,true);
-                $criteria->compare('tipocompetencia',$this->tipocompetencia,true);
+		$criteria->compare('tipocompetencia',$this->tipocompetencia);
 		$criteria->compare('descripcion',$this->descripcion,true);
 		$criteria->compare('pregunta',$this->pregunta,true);
 		$criteria->compare('estado',$this->estado);
                 
                 $criteria->addColumnCondition(array('estado'=>'1'));
                 
-                $criteria->order = 'competencia';
+                $criteria->order = 'tipocompetencia';
+
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
