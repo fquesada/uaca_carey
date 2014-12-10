@@ -64,6 +64,7 @@ class Puestocompetencia extends CActiveRecord
 			'competencia' => 'Competencia',
 			'puesto' => 'Puesto',
 			'ponderacion' => 'Ponderación',
+                        'tipocompetencia' => 'Tipo de competencia'
 		);
 	}
 
@@ -75,6 +76,14 @@ class Puestocompetencia extends CActiveRecord
             }
             return $resultado;
             
+        }
+        
+        public function gettipocompetencia(){
+            $competencia = Competencia::model()->findAllByAttributes(array('id'=>$this->competencia));
+            foreach ($competencia as $comp){
+                $resultado = $comp->gettipocomp();
+            }
+            return $resultado;  
         }
 
         /**

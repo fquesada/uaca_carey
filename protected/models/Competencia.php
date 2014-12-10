@@ -117,7 +117,7 @@ class Competencia extends CActiveRecord
         public function addcompetencia($id){
             
             $connection = Yii::app()->db;            
-            $sql = "SELECT competencia.id, competencia.competencia, competencia.descripcion, competencia.tipocompetencia
+            $sql = "SELECT competencia.id, competencia.competencia, competencia.descripcion, (CASE WHEN competencia.tipocompetencia = 1 THEN 'CORE' ELSE 'Específica' END) as tipocompetencia
                 FROM competencia
                 WHERE competencia.estado = 1 AND competencia.id NOT IN(SELECT competencia.id              
                 FROM puesto

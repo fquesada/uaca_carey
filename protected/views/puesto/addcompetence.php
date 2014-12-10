@@ -117,6 +117,7 @@
         'columns'=>array(
                     'NombreCompetencia',
                     'ponderacion',
+                    'tipocompetencia',
                     array(
                             'class'=>'CButtonColumn',
                             'htmlOptions'=>array('width'=>'20'),
