@@ -37,7 +37,7 @@
 		<div id="logo">
                     <div class="logoPNG"><img title="Logo" src=<?php echo Yii::app()->baseUrl."/images/logo.png" ?>></img>
                         </div>
-                        <div class="titulo"><h1 align="left"><?php echo CHtml::encode(Yii::app()->name); ?></h1>
+                    <div class="titulo"><h1 align="center"><?php echo CHtml::encode(Yii::app()->name); ?></h1>
                         </div>
                     </div>
                 <div id="opciones">
