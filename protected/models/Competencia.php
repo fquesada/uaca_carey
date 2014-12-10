@@ -82,6 +82,7 @@ class Competencia extends CActiveRecord
 			'descripcion' => 'Descripción',
 			'pregunta' => 'Entrevista Conductual Estructurada',
 			'estado' => 'Estado',
+                        'tipocomp'=>'Tipo de competencia'
 		);
 	}
 
@@ -138,7 +139,7 @@ class Competencia extends CActiveRecord
                    'attributes'=>array(
                        'competencia',
                        'descripcion',
-                       //'tipocompetencia',
+                       'tipocompetencia',
                        ),
                    ),
                    'pagination'=>array(
@@ -179,7 +180,7 @@ class Competencia extends CActiveRecord
             
         }
         
-        public function gettipoComp(){
+        public function gettipocomp(){
             if($this->tipocompetencia == 1)        
                 return "CORE";
             else
