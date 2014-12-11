@@ -237,7 +237,7 @@ class Evaluacioncompetencias extends CActiveRecord {
                     INNER JOIN evaluacioncompetencias ec ON c.id = ec.colaborador
                     INNER JOIN procesoevaluacion pe ON ec.procesoevaluacion = pe.id
                     INNER JOIN periodo per ON pe.periodo = per.id
-                    WHERE ec.estado = 2 AND c.estado = 1 AND hp.puestoactual = 1 AND (ec.fechaevaluacion BETWEEN :fechainicio AND :fechafin)AND pe.estado = 1
+                    WHERE ec.estado = 2 AND c.estado = 1 AND hp.puestoactual = 1 AND (ec.fechaevaluacion BETWEEN :fechainicio AND :fechafin)AND pe.estado <> 0
                     ORDER BY ec.fechaevaluacion ASC;
                 ';                   
             }
@@ -252,7 +252,7 @@ class Evaluacioncompetencias extends CActiveRecord {
                     INNER JOIN periodo per ON pe.periodo = per.id
                     INNER JOIN habilidadevaluacioncandidato hec ON ec.id = hec.evaluacioncandidato
                     INNER JOIN competencia com ON hec.competencia = com.id
-                    WHERE ec.estado = 2 AND c.estado = 1 AND hp.puestoactual = 1 AND (ec.fechaevaluacion BETWEEN :fechainicio AND :fechafin) AND pe.estado = 1
+                    WHERE ec.estado = 2 AND c.estado = 1 AND hp.puestoactual = 1 AND (ec.fechaevaluacion BETWEEN :fechainicio AND :fechafin) AND pe.estado <> 1
                     ORDER BY c.id ASC;
                    ';              
             }
@@ -270,7 +270,7 @@ class Evaluacioncompetencias extends CActiveRecord {
                     INNER JOIN procesoevaluacion pe ON ec.procesoevaluacion = pe.id
                     INNER JOIN periodo per ON pe.periodo = per.id
                     WHERE un.id IN ('.$departamentos.') AND
-                    ec.estado = 2 AND c.estado = 1 AND hp.puestoactual = 1 AND (ec.fechaevaluacion BETWEEN :fechainicio AND :fechafin)AND pe.estado = 1
+                    ec.estado = 2 AND c.estado = 1 AND hp.puestoactual = 1 AND (ec.fechaevaluacion BETWEEN :fechainicio AND :fechafin)AND pe.estado <> 0
                     ORDER BY ec.fechaevaluacion ASC;
                 ';             
             }
@@ -286,7 +286,7 @@ class Evaluacioncompetencias extends CActiveRecord {
                     INNER JOIN habilidadevaluacioncandidato hec ON ec.id = hec.evaluacioncandidato
                     INNER JOIN competencia com ON hec.competencia = com.id
                     WHERE un.id IN ('.$departamentos.') AND
-                    ec.estado = 2 AND c.estado = 1 AND hp.puestoactual = 1 AND (ec.fechaevaluacion BETWEEN :fechainicio AND :fechafin) AND pe.estado = 1
+                    ec.estado = 2 AND c.estado = 1 AND hp.puestoactual = 1 AND (ec.fechaevaluacion BETWEEN :fechainicio AND :fechafin) AND pe.estado <> 0
                     ORDER BY c.id ASC;
                    '; 
             }

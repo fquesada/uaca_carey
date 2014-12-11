@@ -69,7 +69,7 @@ $this->menu = array(
         
     <div id="divColaborador" class="divColaborador">
         <p>Colaborador:<span id="spColaborador"></span></p>
-        <p>Cedula:<span id="spCedula"></span></p>
+        <p>Cédula:<span id="spCedula"></span></p>
         <p>Puesto:<span id="spPuesto"></span></p>
         <p>Departamento:<span id="spDepartamento"></span></p>
         <p>Estado:<span id="spEstado"></span></p>

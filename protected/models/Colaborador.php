@@ -225,7 +225,7 @@ class Colaborador extends CActiveRecord
                 INNER JOIN unidadnegocio un  ON hp.unidadnegocio = un.id
                 INNER JOIN evaluacioncompetencias ec ON c.id = ec.colaborador
                 INNER JOIN procesoevaluacion pe ON ec.procesoevaluacion = pe.id
-                WHERE c.id = :idcolaborador and ec.estado = 2 and pe.estado = 1
+                WHERE c.id = :idcolaborador and ec.estado = 2 and pe.estado <> 0
                 UNION
                 SELECT p.nombre AS "Puesto", un.nombre AS "UnidadNegocio", "ED" AS "TipoEvaluacion", 
                 (SELECT CONCAT_WS(" ",ev.nombre, ev.apellido1,ev.apellido2) FROM colaborador ev WHERE ev.id = pe.evaluador) AS "Evaluador",
@@ -235,7 +235,7 @@ class Colaborador extends CActiveRecord
                 INNER JOIN unidadnegocio un  ON hp.unidadnegocio = un.id
                 INNER JOIN evaluaciondesempeno ed ON c.id = ed.colaborador
                 INNER JOIN procesoevaluacion pe ON ed.procesoevaluacion = pe.id 
-                WHERE c.id = :idcolaborador and ed.estadoevaluacion = 2 and ed.estado = 1 and pe.estado = 1
+                WHERE c.id = :idcolaborador and ed.estadoevaluacion = 2 and ed.estado = 1 and pe.estado <> 0
                 ORDER BY FechaEvaluacion
                 ';
         $command = $connection->createCommand($sql);
