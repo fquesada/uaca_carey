@@ -963,9 +963,9 @@ class ProcesoEDController extends Controller {
     }
 
     /*Reporte de Analisis de Brechas*/
-    public function actionReporteAnalisisED($tiporeporte, $fechainicio, $fechafin, $tipoanalisis, $departamentos = array()) {
+    public function actionReporteAnalisisED($tiporeporte, $fechainicio, $fechafin, $tipoanalisis, $departamentos = array(), $idcolaborador = NULL) {
 
-        $datosreporte = Evaluaciondesempeno::model()->AnalisisEvaluacion($tiporeporte, $fechainicio, $fechafin, $tipoanalisis, $departamentos);
+        $datosreporte = Evaluaciondesempeno::model()->AnalisisEvaluacion($tiporeporte, $fechainicio, $fechafin, $tipoanalisis, $departamentos, $idcolaborador);
 
         $phpExcelPath = Yii::getPathOfAlias('application.modules.excel');
 

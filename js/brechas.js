@@ -97,8 +97,12 @@ $(document).ready(function() {
                     success: function(datos){                             
                             if(datos.validador)
                                 window.location.replace(datos.url);
-                            else
-                                $('#pFechaserror').show();
+                            else{
+                                if(datos.tipoerror == "fechas")
+                                    $('#pFechaserror').show();
+                                else if(datos.tipoerror == "colaborador")
+                                    $('#pColaboradoreerror').show();
+                            }
                     }
         })
     });
@@ -111,6 +115,7 @@ $(document).ready(function() {
        data['fechafin'] = $("#dpFechaFinal").val();
        data['tipoanalisis'] = $("[name='tipocarga']:checked").val();
        data['departamentos'] = obtenerDepartamentos();
+       data['idcolaborador'] = $("#tfidcolaborador").val();
        return data;
    }
    
@@ -123,14 +128,25 @@ $(document).ready(function() {
     }
    
    $("[value='masiva']").on("click",function(){   
+        $('#divBusquedaColaborador').hide();
         $('#Departamentoerror').hide();
+        $('#pColaboradoreerror').hide();
         desmarcarTodosDepartamentos();
     });
    
    $("[value='departamento']").on("click",function(){   
+        $('#divBusquedaColaborador').hide();
+        $('#pColaboradoreerror').hide();
         $('#Departamentoerror').hide();
         $('#divDepartamentos').show();
         $("#dialogDepartamentos").dialog('open');
+    });
+    
+    $("[value='individual']").on("click",function(){   
+        $('#Departamentoerror').hide();
+        $('#pColaboradoreerror').hide();
+        $('#divBusquedaColaborador').show();
+        desmarcarTodosDepartamentos();
     });
     
     $("#btnSeleccionDepartamento").click(function(){       

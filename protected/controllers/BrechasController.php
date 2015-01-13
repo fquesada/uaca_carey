@@ -108,7 +108,7 @@ class BrechasController extends Controller {
     public function actionGenerarReporteBrechas() {
         if (Yii::app()->request->isAjaxRequest) {
             if ($_POST['fechainicio'] == "" || $_POST['fechafin'] == "") {
-                $response = array('validador' => false);
+                $response = array('validador' => false, 'tipoerror' => 'fechas');
                 echo CJSON::encode($response);
                 Yii::app()->end();
             } else {
@@ -118,23 +118,32 @@ class BrechasController extends Controller {
                 $fechaFin = CommonFunctions::datephptomysql($_POST['fechafin']);
                 $tipoAnalisis = $_POST['tipoanalisis'];
                 if (strtotime($fechaInicio) > strtotime($fechaFin)) {
-                    $response = array('validador' => false);
+                    $response = array('validador' => false, 'tipoerror' => 'fechas');
                     echo CJSON::encode($response);
                     Yii::app()->end();
                 } else {
                     $departamentos = array();
-                    if (isset($_POST['departamentos']))
+                    $idColaborador = null;
+                    if (isset($_POST['departamentos'])){
                         $departamentos = implode($_POST['departamentos'], ',');
-                    else
+                    }else if($tipoAnalisis == "individual"){
+                        $idColaborador = CommonFunctions::stringtonumber($_POST['idcolaborador']);
+                        if ($idColaborador == 0){
+                            $response = array('validador' => false, 'tipoerror' => 'colaborador');
+                            echo CJSON::encode($response);
+                            Yii::app()->end();
+                        }
+                    }else{//En el caso de que tipoAnalisis = departamento pero no se seleccione un departamento, el sistema va generar un reporte masivo
                         $tipoAnalisis = "masiva";
-
+                    }
+                    
                     if ($tipoProceso == "ED") {
-                        $url = Yii::app()->createUrl("ProcesoED/ReporteAnalisisED", array("tiporeporte" => $tipoReporte, "fechainicio" => $fechaInicio, "fechafin" => $fechaFin, "tipoanalisis" => $tipoAnalisis, "departamentos" => $departamentos));
+                        $url = Yii::app()->createUrl("ProcesoED/ReporteAnalisisED", array("tiporeporte" => $tipoReporte, "fechainicio" => $fechaInicio, "fechafin" => $fechaFin, "tipoanalisis" => $tipoAnalisis, "departamentos" => $departamentos, "idcolaborador" => $idColaborador));
                         $response = array('validador' => true, 'url' => $url);
                         echo CJSON::encode($response);
                         Yii::app()->end();
                     } else if ($tipoProceso == "EC") {
-                        $url = Yii::app()->createUrl("Procesoevaluacion/ReporteAnalisisEC", array("tiporeporte" => $tipoReporte, "fechainicio" => $fechaInicio, "fechafin" => $fechaFin, "tipoanalisis" => $tipoAnalisis, "departamentos" => $departamentos));
+                        $url = Yii::app()->createUrl("Procesoevaluacion/ReporteAnalisisEC", array("tiporeporte" => $tipoReporte, "fechainicio" => $fechaInicio, "fechafin" => $fechaFin, "tipoanalisis" => $tipoAnalisis, "departamentos" => $departamentos, "idcolaborador" => $idColaborador));
                         $response = array('validador' => true, 'url' => $url);
                         echo CJSON::encode($response);
                         Yii::app()->end();

@@ -89,7 +89,8 @@ $this->menu = array(
         <p class="mensajeerror" id="pFechaserror">La fecha de inicio debe ser menor a la fecha final.</p>  
         <p><span id="spTipoCarga">Tipo de Análisis</span></p>
         <input id="cbmasiva" type="radio" name="tipocarga" value="masiva" checked>Análisis Global (Todos los colaboradores)</input>        
-        <input id="cbdepartamento" type="radio" name="tipocarga" value="departamento">Por Departamento(s)</input>     
+        <input id="cbdepartamento" type="radio" name="tipocarga" value="departamento">Por Departamento(s)</input> 
+        <input id="cbdepartamento" type="radio" name="tipocarga" value="individual">Por colaborador</input> 
 </div>  
         <?php
 $this->beginWidget('zii.widgets.jui.CJuiDialog', array(
@@ -122,6 +123,33 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array(
 </div>
 
 <?php $this->endWidget();?>
+
+<div class="divBusquedaColaborador" id="divBusquedaColaborador" style="display: none">
+    <?php
+    echo CHtml::label('Buscar Colaborador:', 'colaborador');
+    $this->widget('zii.widgets.jui.CJuiAutoComplete', array(
+        'attribute' => 'colaborador',
+        'name' => 'colaborador',
+        'id' => 'busquedaevaluador',
+        'source' => $this->createUrl('brechas/AutocompleteColaborador'),
+        // additional javascript options for the autocomplete plugin
+        'options' => array(
+            'showAnim' => 'fold',
+            'minLength' => '2',
+            'select' => "js: function(event, ui) {
+                    if(ui.item['value']!=''){
+                        $('#tfidcolaborador').val(ui.item['id']); 
+                    }
+            }",
+        ),
+        'htmlOptions' => array('size' => '30'),
+    ));
+    ?>
+    <?php
+    echo CHtml::hiddenField('tfidcolaborador', '-', array('id' => 'tfidcolaborador', 'name' => 'tfidcolaborador'));
+    ?>
+    <p class="mensajeerror" id="pColaboradoreerror">Debe indicar el colaborador.</p> 
+</div>  
 
 <div style="text-align: center"> 
     <?php
