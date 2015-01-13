@@ -76,7 +76,7 @@ class Evaluacioncompetencias extends CActiveRecord {
 			'_procesoevaluacion' => array(self::BELONGS_TO, 'Procesoevaluacion', 'procesoevaluacion'),
                         '_links' => array(self::BELONGS_TO, 'Links', 'links'),
                         '_puesto' => array(self::BELONGS_TO, 'Puesto', 'puesto'),
-			'_colaborador' => array(self::BELONGS_TO, 'Colaborador', 'colaborador'),                        
+			'_colaborador' => array(self::BELONGS_TO, 'Colaborador', 'colaborador'),
 			'_habilidadesespecialevaluada' => array(self::HAS_MANY, 'Habilidadespecialevaluada', 'evaluacioncompetencias'),
 			'_habilidadesevaluacioncandidato' => array(self::HAS_MANY, 'Habilidadevaluacioncandidato', 'evaluacioncandidato'),
 			'_habilidadesnoequivalente' => array(self::HAS_MANY, 'Habilidadnoequivalente', 'evaluacioncandidato'),

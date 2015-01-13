@@ -841,9 +841,9 @@ class ProcesoRSController extends Controller {
 
                 $objPHPExcel->setActiveSheetIndex(0);  //set first sheet as active
 
-                $objPHPExcel->getActiveSheet()->setCellValue('C4', $ec->_colaborador->nombrecompleto);
-                $objPHPExcel->getActiveSheet()->setCellValue('C5', $ec->_puesto->nombre);
-                $objPHPExcel->getActiveSheet()->setCellValue('G4', $ec->_colaborador->cedula);
+                $objPHPExcel->getActiveSheet()->setCellValue('C4', $postulante->nombrecompleto);
+                $objPHPExcel->getActiveSheet()->setCellValue('C5', $vacante->_puesto->nombre);
+                $objPHPExcel->getActiveSheet()->setCellValue('G4', $postulante->cedula);
                 $objPHPExcel->getActiveSheet()->setCellValue('G5', $ec->_procesoevaluacion->_evaluador->nombrecompleto);
                 $objPHPExcel->getActiveSheet()->setCellValue('G6', $ec->_procesoevaluacion->fecha);
                 $objPHPExcel->getActiveSheet()->setCellValue('D34', $ec->accalificacion);
@@ -892,9 +892,9 @@ class ProcesoRSController extends Controller {
 
                 $objPHPExcel->setActiveSheetIndex(0);  //set first sheet as active
 
-                $objPHPExcel->getActiveSheet()->setCellValue('C4', $ec->_colaborador->nombrecompleto);
-                $objPHPExcel->getActiveSheet()->setCellValue('C5', $ec->_puesto->nombre);
-                $objPHPExcel->getActiveSheet()->setCellValue('G4', $ec->_colaborador->cedula);
+                $objPHPExcel->getActiveSheet()->setCellValue('C4', $postulante->nombrecompleto);
+                $objPHPExcel->getActiveSheet()->setCellValue('C5', $vacante->_puesto->nombre);
+                $objPHPExcel->getActiveSheet()->setCellValue('G4', $postulante->cedula);
                 $objPHPExcel->getActiveSheet()->setCellValue('G5', $ec->_procesoevaluacion->_evaluador->nombrecompleto);
                 $objPHPExcel->getActiveSheet()->setCellValue('G6', $ec->_procesoevaluacion->fecha);
 
@@ -939,9 +939,9 @@ class ProcesoRSController extends Controller {
 
                 $objPHPExcel->setActiveSheetIndex(0);  //set first sheet as active
 
-                $objPHPExcel->getActiveSheet()->setCellValue('C4', $ec->_colaborador->nombrecompleto);
-                $objPHPExcel->getActiveSheet()->setCellValue('C5', $ec->_puesto->nombre);
-                $objPHPExcel->getActiveSheet()->setCellValue('G4', $ec->_colaborador->cedula);
+$objPHPExcel->getActiveSheet()->setCellValue('C4', $postulante->nombrecompleto);
+                $objPHPExcel->getActiveSheet()->setCellValue('C5', $vacante->_puesto->nombre);
+                $objPHPExcel->getActiveSheet()->setCellValue('G4', $postulante->cedula);
                 $objPHPExcel->getActiveSheet()->setCellValue('G5', $ec->_procesoevaluacion->_evaluador->nombrecompleto);
                 $objPHPExcel->getActiveSheet()->setCellValue('G6', $ec->_procesoevaluacion->fecha);
                 $objPHPExcel->getActiveSheet()->setCellValue('D34', $ec->accalificacion);
