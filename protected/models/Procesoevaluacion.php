@@ -85,10 +85,10 @@ class Procesoevaluacion  extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'fecha' => 'Fecha creacion',
+			'fecha' => 'Fecha creación',
 			'evaluador' => 'Evaluador',
 			'estado' => 'Estado',
-			'descripcion' => 'Descripcion',
+			'descripcion' => 'Descripción',
                         'tipo' => 'Tipo',
                         'periodo' => 'Periodo',
 		);
