@@ -99,7 +99,7 @@ $this->breadcrumbs=array(
                                                 success:function(datos) {                                                
                                                      if(datos.resultado){
                                                         new Messi(datos.mensaje,
-                                                            { title: 'Exito',
+                                                            { title: 'Éxito',
                                                                 titleClass: 'success',
                                                                 autoclose: '4000',
                                                                 modal:true
@@ -157,7 +157,7 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array(
  <?php if(Yii::app()->user->hasFlash('success')):?>
      <script type="text/javascript">
           new Messi("",
-            { title: "Exito.",
+            { title: "Éxito.",
                 titleClass: "success",
                 autoclose: "4000",
                 modal:true

@@ -44,7 +44,7 @@ return array(
 
 	),
         
-        'homeUrl'=>array('site/login'),
+        'homeUrl'=>array('../index.php'),
 	// application components
 	'components'=>array(
 		'user'=>array(

@@ -9,7 +9,7 @@
         <thead>
             <tr>
                 <th id="idPuntualizacion"></th>
-                <th>Puntualizacion</th>
+                <th>Puntualización</th>
                 <th>Indicador</th>
                 <th>Compromiso</th>                
             </tr>

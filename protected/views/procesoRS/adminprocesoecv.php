@@ -58,16 +58,16 @@ $this->menu=array(
       <th></th>      
       <th></th> 
       <th></th>       
-      <th colspan="2" id="thevaluacion">Evaluacion</th>      
+      <th colspan="2" id="thevaluacion">Evaluación</th>      
       <th></th>
     </tr>
     <tr id="trencabezados">
       <th style="display: none">idec</th>      
-      <th>Cedula</th> 
+      <th>Cédula</th> 
       <th>Postulante</th>
       <th>Puesto</th> 
       <th>Estado</th> 
-      <th>Fecha Evaluacion</th>            
+      <th>Fecha Evaluación</th>            
       <th>Acciones</th>
     </tr>    
   </thead>  

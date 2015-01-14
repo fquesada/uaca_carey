@@ -19,7 +19,7 @@ Yii::app()->clientScript->registerScript('autocomplete', '
 );
 
 $this->breadcrumbs = array(
-    'EC' => array('admin'),
+    'ED' => array('admin'),
     'Nuevo proceso ED',
 );
 $this->menu = array(

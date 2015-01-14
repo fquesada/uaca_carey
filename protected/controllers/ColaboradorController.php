@@ -114,26 +114,26 @@ class ColaboradorController extends Controller
                 $sqlprocesosec='SELECT procesoevaluacion.descripcion '.
                      'FROM procesoevaluacion INNER JOIN evaluacioncompetencias '.
                      'ON procesoevaluacion.id=evaluacioncompetencias.procesoevaluacion '.
-                     'WHERE procesoevaluacion.tipo=1 AND evaluacioncompetencias.estado=1 AND evaluacioncompetencias.colaborador='. $id;
+                     'WHERE procesoevaluacion.tipo=1 AND evaluacioncompetencias.estado=1 AND procesoevaluacion.estado=1 AND evaluacioncompetencias.colaborador='. $id;
                 
                 $procesosec= Yii::app()->db->createCommand($sqlprocesosec)->queryAll();
                 
                 $sqlprocesosed='SELECT procesoevaluacion.descripcion '.
                      'FROM procesoevaluacion INNER JOIN evaluaciondesempeno '.
                      'ON procesoevaluacion.id=evaluaciondesempeno.procesoevaluacion '.
-                     'WHERE procesoevaluacion.tipo=2 AND evaluaciondesempeno.estado=1 AND evaluaciondesempeno.colaborador='. $id;
+                     'WHERE procesoevaluacion.tipo=2 AND evaluaciondesempeno.estado=1 AND procesoevaluacion.estado=1 AND evaluaciondesempeno.colaborador='. $id;
                 
                 $procesosed= Yii::app()->db->createCommand($sqlprocesosed)->queryAll();
                 
                $sqlevaluadoresec='SELECT procesoevaluacion.descripcion '.
                'FROM procesoevaluacion '.
-               'WHERE procesoevaluacion.tipo=1 AND procesoevaluacion.estado=1 AND procesoevaluacion.evaluador='. $id;
+               'WHERE procesoevaluacion.tipo=1 AND procesoevaluacion.estado=1 AND procesoevaluacion.estado=1 AND procesoevaluacion.evaluador='. $id;
                 
                 $evaluadoresec= Yii::app()->db->createCommand($sqlevaluadoresec)->queryAll();
 
                $sqlevaluadoresed='SELECT procesoevaluacion.descripcion '.
                'FROM procesoevaluacion '.
-               'WHERE procesoevaluacion.tipo=2 AND procesoevaluacion.estado=1 AND procesoevaluacion.evaluador='. $id;
+               'WHERE procesoevaluacion.tipo=2 AND procesoevaluacion.estado=1 AND procesoevaluacion.estado=1 AND procesoevaluacion.evaluador='. $id;
                 
                 $evaluadoresed= Yii::app()->db->createCommand($sqlevaluadoresed)->queryAll();
                 
