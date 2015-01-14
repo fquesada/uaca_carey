@@ -24,7 +24,7 @@
                 echo "false";
                 echo '</td>';
                 echo '<td id="errormerito">';
-                echo "El puesto debe poseer meritos para continuar con la evaluacion.";
+                echo "El puesto debe poseer méritos para continuar con la evaluación.";
                 echo '</td>';
                 Yii::app()->clientScript->registerScript('validadormeritos', "
                         $('#btnguardarec').attr('disabled', 'true');	                                                                                          
@@ -42,8 +42,8 @@
                     echo $merito->descripcion;
                     echo '</td>';
                     echo '<td>';
-                    echo CHtml::dropDownList('puntaje', 'puntaje', CHtml::listData(Puntaje::model()->findAll('estado=1'), 'valor', 'valor'), array('empty' => 'Seleccione calificacion', 'id' => 'ddlpuntajemeritos'));
-                    echo '<p id="ddlpuntajemeritoserror"  class="mensajeerror">Debe seleccionar una calificacion</p>';
+                    echo CHtml::dropDownList('puntaje', 'puntaje', CHtml::listData(Puntaje::model()->findAll('estado=1'), 'valor', 'valor'), array('empty' => 'Seleccione calificación', 'id' => 'ddlpuntajemeritos'));
+                    echo '<p id="ddlpuntajemeritoserror"  class="mensajeerror">Debe seleccionar una calificación</p>';
                     echo '</td>';                    
                     echo '<td id="ponderacion">';
                     echo $merito->ponderacion;

@@ -5,10 +5,10 @@
 ?>
 
 <div id="divencabezadoec" class="divencabezadoec">
-    <p class="pencabezadoec">Informacion evaluación</p>
+    <p class="pencabezadoec">Información de la evaluación</p>
     <p style="display:none"><?php echo CHtml::label($ec->id, 'idec', array('id'=>'lblidec'))?></p>
     <p> <b>Colaborador:</b> <?php echo $ec->_colaborador->nombrecompleto?> </p>
-    <p> <b>Cedula:</b> <?php echo $ec->_colaborador->cedula?> </p>   
+    <p> <b>Cédula:</b> <?php echo $ec->_colaborador->cedula?> </p>   
     <p> <b>Puesto:</b> <?php echo  $ec->_puesto->nombre?> </p>
     <p> <b>Departamento:</b> <?php echo $ec->UnidadNegocioEvaluacion?> </p>
     <p> <b>Evaluador:</b> <?php echo $ec->_procesoevaluacion->_evaluador->nombrecompleto?> </p>

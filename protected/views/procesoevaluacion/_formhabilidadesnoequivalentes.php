@@ -10,8 +10,8 @@
             <tr>
                 <th id="idhabilidadnoequivalente"></th>
                 <th>Método seleccionado</th>
-                <th>Variable equivalente segun método seleccionado</th>
-                <th>Variable equivalente segun manual de puestos</th>                
+                <th>Variable equivalente según método seleccionado</th>
+                <th>Variable equivalente según manual de puestos</th>                
                 <th>Calificación</th>
                 <th>Puesto Potencial 1</th>
                 <th>Puesto Potencial 2</th>                                
@@ -35,7 +35,7 @@
                     echo CHtml::dropDownList('competencia', '', CHtml::listData(Competencia::model()->findAll('estado=1'), 'id', 'competencia'), array('empty' => 'Seleccione habilidad', 'id' => 'ddlcompetencia', 'class'=>'ddlcompetencia'));
                     echo '</td>';
                     echo '<td>';
-                    echo CHtml::dropDownList('puntajenoequivalente', '', CHtml::listData(Puntaje::model()->findAll('estado=1'), 'valor', 'valor'), array('empty' => 'Seleccione calificacion', 'id' => 'ddlpuntajenoequivalente'));
+                    echo CHtml::dropDownList('puntajenoequivalente', '', CHtml::listData(Puntaje::model()->findAll('estado=1'), 'valor', 'valor'), array('empty' => 'Seleccione calificación', 'id' => 'ddlpuntajenoequivalente'));
                     echo '</td>';                    
                     echo '<td>';
                     echo CHtml::dropDownList('puesto1', '', CHtml::listData(Puesto::model()->findAll('estado=1'), 'id', 'nombre'), array('empty' => 'Seleccione puesto', 'id' => 'ddlpuesto1', 'class'=>'ddlpuestonoequivalente'));
