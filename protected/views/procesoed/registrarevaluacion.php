@@ -13,13 +13,13 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->baseUrl.'/css/evaluarproce
     <p class="pEncabezadoED">Informacion evaluación</p>
     <p style="display:none"><?php echo CHtml::label($ed->id, 'ided', array('id'=>'lblided'))?></p>
     <p> <b>Colaborador:</b> <?php echo $ed->_colaborador->nombrecompleto?> </p>
-    <p> <b>Cedula:</b> <?php echo $ed->_colaborador->cedula?> </p>   
+    <p> <b>Cédula:</b> <?php echo $ed->_colaborador->cedula?> </p>   
     <p> <b>Puesto:</b> <?php echo $ed->_puesto->nombre?> </p>
     <p> <b>Departamento:</b> <?php echo $ed->UnidadNegocioEvaluacion?> </p>
     <p> <b>Evaluador:</b> <?php echo $ed->_procesoevaluacion->_evaluador->nombrecompleto?> </p>
     <p> <b>Periodo:</b> <?php echo $ed->_procesoevaluacion->_periodo->nombre ?> </p>
     <p> <b>Fecha Registro Compromisos:</b> <?php echo $ed->FechaRegistroCompromisoFormato?> </p>  
-    <p> <b>Fecha Evaluacion Compromisos:</b> <?php echo $ed->FechaCompromisoEvaluacionFormato?> </p>  
+    <p> <b>Fecha Evaluación Compromisos:</b> <?php echo $ed->FechaCompromisoEvaluacionFormato?> </p>  
 </div>
 
 
@@ -31,7 +31,7 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->baseUrl.'/css/evaluarproce
 
 
 <div class="row buttons" style="text-align: center">       
-                  <?php echo CHtml::submitButton('Guardar Evaluacion',array('id'=>'btnguardared', 'class'=>'sexybutton sexysimple sexylarge'));  ?>                  
+                  <?php echo CHtml::submitButton('Guardar Evaluación',array('id'=>'btnguardared', 'class'=>'sexybutton sexysimple sexylarge'));  ?>                  
 </div>
 
 <?php echo CHtml::endForm()?>

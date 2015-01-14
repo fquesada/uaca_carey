@@ -62,7 +62,7 @@
 
 
 <div class="divFechaRevision">
-    <p class="pTituloFechaEvaluacion">Fecha de Revision de los Compromisos</p>                          
+    <p class="pTituloFechaEvaluacion">Fecha de Revisión de los Compromisos</p>                          
                    <?php $this->widget('zii.widgets.jui.CJuiDatePicker', array(
                         'id' => 'dpFecha',
                         'name' => 'fechaevaluacion',                        

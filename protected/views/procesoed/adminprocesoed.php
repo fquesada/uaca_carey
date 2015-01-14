@@ -63,19 +63,19 @@ $this->menu = array(
                     <th></th> 
                     <th></th>       
                     <th colspan="3" id="thcompromisos">Compromisos</th> 
-                    <th colspan="2" id="thevaluacion">Evaluacion</th>       
+                    <th colspan="2" id="thevaluacion">Evaluación</th>       
                     <th></th>
                 </tr>
                 <tr id="trencabezados">
                     <th style="display: none">idec</th>      
-                    <th>Cedula</th> 
+                    <th>Cédula</th> 
                     <th>Colaborador</th>
                     <th>Puesto</th> 
                     <th>Estado</th> 
                     <th>Fecha Registro de Compromisos</th>
-                    <th>Fecha Evaluacion de Compromisos</th>
+                    <th>Fecha Evaluación de Compromisos</th>
                     <th>Estado</th>
-                    <th>Fecha Evaluacion</th> 
+                    <th>Fecha Evaluación</th> 
                     <th>Acciones</th>
                 </tr>    
             </thead>  

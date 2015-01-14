@@ -9,7 +9,7 @@
         <thead>
             <tr>
                 <th id="idcompromiso"></th>
-                <th>Puntualizacion</th>
+                <th>Puntualización</th>
                 <th>Indicador</th>
                 <th>Compromiso</th>                
                 <th>Calificación</th> 
@@ -35,8 +35,8 @@
                     echo $compromiso->compromiso;
                     echo '</td>';
                     echo '<td class="calificacioncompromiso">';
-                    echo CHtml::dropDownList('puntajep', 'puntajep', CHtml::listData(Puntaje::model()->findAll('estado=1'), 'valor', 'valor'), array('empty' => 'Seleccione calificacion', 'id' => 'ddlpuntajecompromisos'));
-                    echo '<p id="ddlpuntajecompromisoserror"  class="mensajeerror">Debe seleccionar una calificacion</p>';
+                    echo CHtml::dropDownList('puntajep', 'puntajep', CHtml::listData(Puntaje::model()->findAll('estado=1'), 'valor', 'valor'), array('empty' => 'Seleccione calificación', 'id' => 'ddlpuntajecompromisos'));
+                    echo '<p id="ddlpuntajecompromisoserror"  class="mensajeerror">Debe seleccionar una calificación</p>';
                     echo '</td>';
                     echo '</tr>';
                 }            

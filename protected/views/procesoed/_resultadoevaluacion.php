@@ -41,7 +41,7 @@
                 <td class="insuficiente" id="insuficiente">Desempeño Insuficiente</td>
             </tr> 
             <tr>
-                <td class="label_column">Mas de 2 y menos de 3</td>
+                <td class="label_column">Más de 2 y menos de 3</td>
                 <td class="mejora" id="mejora">Oportunidad de Mejora</td> 
             </tr>
             <tr>

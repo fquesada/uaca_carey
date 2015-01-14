@@ -64,7 +64,7 @@ class ProcesoEDController extends Controller {
             if ($resultadoguardarbd){
                 $sqlprocesos ='Update evaluaciondesempeno Set estado = 0 Where procesoevaluacion = '. $procesoed->id;
                 $registros = Yii::app()->db->createCommand($sqlprocesos)->execute();
-                $response = array('resultado' => true, 'mensaje' => "Se elimino correctamente el proceso.");
+                $response = array('resultado' => true, 'mensaje' => "Se eliminó correctamente el proceso.");
             }
             else
                 $response = array('resultado' => false, 'mensaje' => "Ha ocurrido un inconveniente al intentar eliminar el proceso");
@@ -226,22 +226,22 @@ class ProcesoEDController extends Controller {
                         }
                         if ($result) {
                             $transaction->commit();
-                            $response = array('resultado' => true, 'mensaje' => "Se ha registrado correctamente la evaluacion", 'url' => Yii::app()->getBaseUrl(true) . '/index.php/procesoed/adminprocesoed/' . $ed->procesoevaluacion);
+                            $response = array('resultado' => true, 'mensaje' => "Se ha registrado correctamente la evaluación", 'url' => Yii::app()->getBaseUrl(true) . '/index.php/procesoed/adminprocesoed/' . $ed->procesoevaluacion);
                             echo CJSON::encode($response);
                             Yii::app()->end();
                         } else {
                             $transaction->rollBack();
-                            $response = array('resultado' => false, 'mensaje' => "Lo sentimos, ha ocurrido un problema al intentar guardar la evaluacion");
+                            $response = array('resultado' => false, 'mensaje' => "Lo sentimos, ha ocurrido un problema al intentar guardar la evaluación");
                             echo CJSON::encode($response);
                         }
                     } else {
                         $transaction->rollBack();
-                        $response = array('resultado' => false, 'mensaje' => "Lo sentimos, ha ocurrido un problema al intentar guardar la evaluacion");
+                        $response = array('resultado' => false, 'mensaje' => "Lo sentimos, ha ocurrido un problema al intentar guardar la evaluación");
                         echo CJSON::encode($response);
                     }
                 } else {
                     $transaction->rollBack();
-                    $response = array('resultado' => false, 'mensaje' => "Lo sentimos, ha ocurrido un problema al intentar guardar la evaluacion");
+                    $response = array('resultado' => false, 'mensaje' => "Lo sentimos, ha ocurrido un problema al intentar guardar la evaluación");
                     echo CJSON::encode($response);
                 }
             }

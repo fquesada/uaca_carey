@@ -9,7 +9,7 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->baseUrl.'/css/edCompromiso
 ?>
 
 <div id="divEncabezadoED" class="divEncabezadoED">
-    <p class="pEncabezadoED">Informacion evaluación</p>
+    <p class="pEncabezadoED">Información de la evaluación</p>
     <p style="display:none"><?php echo CHtml::label($ed->id, 'ided', array('id'=>'lblided'))?></p>
     <p> <b>Colaborador:</b> <?php echo $ed->_colaborador->nombrecompleto?> </p>
     <p> <b>Cédula:</b> <?php echo $ed->_colaborador->cedula?> </p>   

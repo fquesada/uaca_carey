@@ -29,7 +29,7 @@
                 echo "false";
                 echo '</td>';
                 echo '<td id="errorcompetencia">';
-                echo "El puesto debe poseer mínimo 3 competencias para continuar con la evaluacion.";
+                echo "El puesto debe poseer mínimo 3 competencias para continuar con la evaluación.";
                 echo '</td>';
                 Yii::app()->clientScript->registerScript('validadorcompetencias', "
                         $('#btnguardarec').attr('disabled', 'true');
@@ -51,8 +51,8 @@
                     echo $competenciacore["descripcion"];
                     echo '</td>';                  
                     echo '<td id="calificacioncompetencia">';
-                    echo CHtml::dropDownList('puntajec', 'puntajec', CHtml::listData(Puntaje::model()->findAll('estado=1'), 'valor', 'valor'), array('empty' => 'Seleccione calificacion', 'id' => 'ddlpuntajecompetencias'));
-                    echo '<p id="ddlpuntajecompetenciaserror"  class="mensajeerror">Debe seleccionar una calificacion</p>';
+                    echo CHtml::dropDownList('puntajec', 'puntajec', CHtml::listData(Puntaje::model()->findAll('estado=1'), 'valor', 'valor'), array('empty' => 'Seleccione calificación', 'id' => 'ddlpuntajecompetencias'));
+                    echo '<p id="ddlpuntajecompetenciaserror"  class="mensajeerror">Debe seleccionar una calificación</p>';
                     echo '</td>';
                     echo '<td id="ponderacion">';
                     echo $competenciacore["ponderacion"];
@@ -75,7 +75,7 @@
                     echo '</td>';                   
                     echo '<td id="calificacioncompetencia">';
                     echo CHtml::dropDownList('puntajec', 'puntajec', CHtml::listData(Puntaje::model()->findAll('estado=1'), 'valor', 'valor'), array('empty' => 'Seleccione calificacion', 'id' => 'ddlpuntajecompetencias'));
-                    echo '<p id="ddlpuntajecompetenciaserror"  class="mensajeerror">Debe seleccionar una calificacion</p>';
+                    echo '<p id="ddlpuntajecompetenciaserror"  class="mensajeerror">Debe seleccionar una calificación</p>';
                     echo '</td>';
                     echo '<td id="ponderacion">';
                     echo $competencia["ponderacion"];
