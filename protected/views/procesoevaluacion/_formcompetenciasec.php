@@ -56,7 +56,7 @@
                     echo '</td>';
                     echo '<td>';
                     echo CHtml::dropDownList('metodoseleccionado', '', CHtml::listData(Metodoseleccionado::model()->findAll('estado=1'), 'metodo', 'metodo'), array('empty' => 'Seleccione el método de calificación', 'id' => 'ddlmetodoseleccionado'));
-                    echo '<p id="ddlmetodoseleccionadoerror"  class="mensajeerror">Debe seleccionar un metodo de calificacion</p>';                    
+                    echo '<p id="ddlmetodoseleccionadoerror"  class="mensajeerror">Debe seleccionar un mÉtodo de calificación</p>';                    
                     echo '</td>';
                     echo '<td>';
                     echo CHtml::textField('variablequivalente', '', array('id' => 'tfvariablequivalente', 'class' => 'tfvariablequivalente'));
@@ -66,7 +66,7 @@
                     echo '</td>';
                     echo '<td>';
                     echo CHtml::dropDownList('puntaje', '', CHtml::listData(Puntaje::model()->findAll('estado=1'), 'valor', 'valor'), array('empty' => 'Seleccione calificación', 'id' => 'ddlpuntajehabilidades'));
-                    echo '<p id="ddlpuntajehabilidadeserror"  class="mensajeerror">Debe seleccionar una calificacion</p>';
+                    echo '<p id="ddlpuntajehabilidadeserror"  class="mensajeerror">Debe seleccionar una calificación</p>';
                     echo '</td>';
                     echo '<td id="ponderacion">';
                     echo $competenciacore["ponderacion"];
@@ -89,7 +89,7 @@
                     echo '</td>';
                     echo '<td>';
                     echo CHtml::dropDownList('metodoseleccionado', '', CHtml::listData(Metodoseleccionado::model()->findAll('estado=1'), 'metodo', 'metodo'), array('empty' => 'Seleccione el método de calificación', 'id' => 'ddlmetodoseleccionado'));
-                    echo '<p id="ddlmetodoseleccionadoerror"  class="mensajeerror">Debe seleccionar un metodo de calificacion</p>'; 
+                    echo '<p id="ddlmetodoseleccionadoerror"  class="mensajeerror">Debe seleccionar un método de calificación</p>'; 
                     echo '</td>';
                     echo '<td>';
                     echo CHtml::textField('variablequivalente', '', array('id' => 'tfvariablequivalente', 'class' => 'tfvariablequivalente'));
@@ -99,7 +99,7 @@
                     echo '</td>';
                     echo '<td>';
                     echo CHtml::dropDownList('puntaje', '', CHtml::listData(Puntaje::model()->findAll('estado=1'), 'valor', 'valor'), array('empty' => 'Seleccione calificación', 'id' => 'ddlpuntajehabilidades'));
-                    echo '<p id="ddlpuntajehabilidadeserror"  class="mensajeerror">Debe seleccionar una calificacion</p>';
+                    echo '<p id="ddlpuntajehabilidadeserror"  class="mensajeerror">Debe seleccionar una calificación</p>';
                     echo '</td>';
                     echo '<td id="ponderacion">';
                     echo $competencia["ponderacion"];
