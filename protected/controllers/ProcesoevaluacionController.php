@@ -430,7 +430,7 @@ class ProcesoevaluacionController extends Controller {
                     $resultadoguardarbd = $meritoevaluacioncandidato->save();
                     if (!$resultadoguardarbd) {
                         $transaction->rollback();
-                        $response = array('resultado' => false, 'mensaje' => "Ha ocurrido un inconveniente al intentar guardar la Evaluacion Competencias Id: " . $ec->id);
+                        $response = array('resultado' => false, 'mensaje' => "Ha ocurrido un inconveniente al intentar guardar la Evaluación Competencias ID: " . $ec->id);
                         echo CJSON::encode($response);
                         Yii::app()->end();
                     }
@@ -459,7 +459,7 @@ class ProcesoevaluacionController extends Controller {
                     $resultadoguardarbd = $habilidadevaluacioncandidato->save();
                     if (!$resultadoguardarbd) {
                         $transaction->rollback();
-                        $response = array('resultado' => false, 'mensaje' => "Ha ocurrido un inconveniente al intentar guardar la Evaluacion Competencias Id: " . $ec->id);
+                        $response = array('resultado' => false, 'mensaje' => "Ha ocurrido un inconveniente al intentar guardar la Evaluación Competencias ID: " . $ec->id);
                         echo CJSON::encode($response);
                         Yii::app()->end();
                     }
@@ -478,19 +478,19 @@ class ProcesoevaluacionController extends Controller {
                         $resultadoguardarbd = $hnoequivalente->save();
                         if (!$resultadoguardarbd) {
                             $transaction->rollback();
-                            $response = array('resultado' => false, 'mensaje' => "Ha ocurrido un inconveniente al intentar guardar la Evaluacion Competencias Id: " . $ec->id);
+                            $response = array('resultado' => false, 'mensaje' => "Ha ocurrido un inconveniente al intentar guardar la Evaluación Competencias Id: " . $ec->id);
                             echo CJSON::encode($response);
                             Yii::app()->end();
                         }
                     }
                 }        
                 $transaction->commit();
-                $response = array('resultado' => true, 'mensaje' => "Se guardó con éxito la evaluacion", 'url' => Yii::app()->getBaseUrl(true) . '/index.php/procesoevaluacion/adminprocesoec/' . $ec->procesoevaluacion);
+                $response = array('resultado' => true, 'mensaje' => "Se guardó con éxito la evaluación", 'url' => Yii::app()->getBaseUrl(true) . '/index.php/procesoevaluacion/adminprocesoec/' . $ec->procesoevaluacion);
                 echo CJSON::encode($response);
                 Yii::app()->end();
             } else {
                 $transaction->rollback();
-                $response = array('resultado' => false, 'mensaje' => "Ha ocurrido un inconveniente al intentar guardar la Evaluacion Competencias Id: " . $ec->id);
+                $response = array('resultado' => false, 'mensaje' => "Ha ocurrido un inconveniente al intentar guardar la Evaluación Competencias ID: " . $ec->id);
                 echo CJSON::encode($response);
                 Yii::app()->end();
             }
@@ -507,7 +507,7 @@ class ProcesoevaluacionController extends Controller {
             if ($resultadoguardarbd){
                 $sqlprocesos='Update evaluacioncompetencias Set estado = 0 Where procesoevaluacion = '. $procesoec->id;
                 $registros = Yii::app()->db->createCommand($sqlprocesos)->execute();
-                $response = array('resultado' => true, 'mensaje' => "Se elimino correctamente el proceso.");
+                $response = array('resultado' => true, 'mensaje' => "Se eliminó correctamente el proceso.");
             }                  
             else
                 $response = array('resultado' => false, 'mensaje' => "Ha ocurrido un inconveniente al intentar eliminar el proceso");
