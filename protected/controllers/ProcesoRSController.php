@@ -22,7 +22,7 @@ class ProcesoRSController extends Controller {
     public function accessRules() {
         return array(
             array('allow', // allow all users to perform 'index' and 'view' actions
-                'actions' => array('EvaluarProcesoECV', 'GuardarEvaluacionECV', 'InfoPonderacion',),
+                'actions' => array('EvaluarProcesoECV', 'GuardarEvaluacionECV', 'InfoPonderacion', 'entrevista', 'AutocompletePuesto', ),
                 'users' => array('*'),
             ),
             array('allow', // allow authenticated user to perform 'create' and 'update' actions
@@ -30,7 +30,7 @@ class ProcesoRSController extends Controller {
                 'users' => array('@'),
             ),
             array('allow', // allow admin user to perform 'admin' and 'delete' actions
-                'actions' => array('CrearProcesoECV', 'AdminProcesoECV', 'EditarProcesoECV', 'EliminarProcesoECV', 'admin', 'AutocompleteEvaluado',
+                'actions' => array('CrearProcesoECV', 'AdminProcesoECV', 'EditarProcesoECV', 'EliminarProcesoECV', 'admin', 'AutocompleteEvaluado', 
                     'CrearReporteECV', 'ReporteECV', 'entrevista', 'excel'),
                 'users' => array('admin'),
             ),
@@ -45,7 +45,7 @@ class ProcesoRSController extends Controller {
     }
 
     public function actionExcel() {
-        $id = $_POST['puesto'];
+        $id = $_POST['idpuesto'];
         $puesto = Puesto::model()->findByPk($id);
         $core = $puesto->competenciascoreactuales;
         //$competencias = $puesto->_competencias;
@@ -997,5 +997,42 @@ class ProcesoRSController extends Controller {
         $objWriter->save('php://output');
         exit();
     }
+    
+    public function actionAutocompletePuesto() {
+        if (isset($_GET['term'])) {
+
+            $keyword = $_GET['term'];
+            // escape % and _ characters
+            $keyword = strtr($keyword, array('%' => '\%', '_' => '\_'));
+
+            //CLEAN CODE, DEBERIA ESTAR EN MODELS
+            $dataReader = Yii::app()->db->createCommand(
+                            'SELECT id, nombre, codigo ' .
+                            'FROM puesto ' .
+                            'WHERE nombre like "%' . $keyword . '%" AND estado = 1;'
+                    )->query();
+
+            $return_array = array();
+            if ($dataReader->count() == 0) {
+                $return_array[] = array(
+                    'label' => 'No hay resultados.',
+                    'value' => '',
+                );
+            } else {
+                foreach ($dataReader as $row) {
+                    
+                    $return_array[] = array(
+                        'label' => $row['nombre'] ,
+                        'value' => $row['nombre'],                                                
+                        'id' => $row['id'],
+                        'tipo' => 1,
+                    );
+                }
+            }
+            echo CJSON::encode($return_array);
+        }
+    }
+    
+    
 
 }
