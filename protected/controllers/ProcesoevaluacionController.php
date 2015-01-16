@@ -801,9 +801,9 @@ class ProcesoevaluacionController extends Controller {
         exit();
     }
 
-    public function actionReporteAnalisisEC($tiporeporte, $fechainicio, $fechafin, $tipoanalisis, $departamentos = array()) {
-
-        $datosreporte = Evaluacioncompetencias::model()->AnalisisEvaluacion($tiporeporte, $fechainicio, $fechafin, $tipoanalisis, $departamentos);
+    public function actionReporteAnalisisEC($tiporeporte, $fechainicio, $fechafin, $tipoanalisis, $departamentos = array(), $idcolaborador = NULL) {        
+         
+        $datosreporte = Evaluacioncompetencias::model()->AnalisisEvaluacion($tiporeporte, $fechainicio, $fechafin, $tipoanalisis, $departamentos, $idcolaborador);
 
         $phpExcelPath = Yii::getPathOfAlias('application.modules.excel');
 
