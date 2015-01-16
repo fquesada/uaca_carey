@@ -55,7 +55,7 @@
     $this->beginWidget('zii.widgets.jui.CJuiDialog', array(
         'id'=>'dialogPuntualizacion',
         'options'=>array(
-            'title'=>'Crear puntualizacion',
+            'title'=>'Crear puntualización',
             'autoOpen'=>false,
             'modal'=>true,
             'width'=>700,

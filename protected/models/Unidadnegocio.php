@@ -75,7 +75,7 @@ class Unidadnegocio extends CActiveRecord
 			'id' => 'ID',
 			'nombre' => 'Nombre',
 			'codigo' => 'Código',
-			'empresa' => 'Empresa',
+			'empresa' =>'Empresa',
 			'estado' => 'Estado',
 		);
 	}

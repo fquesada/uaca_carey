@@ -219,7 +219,7 @@ class PuestoController extends Controller
                 }
 
                 if($puestocomp->save()){
-                    Yii::app()->user->setFlash('success','Se agrego correctamente la competencia al puesto.');
+                    Yii::app()->user->setFlash('success','Se agregó correctamente la competencia al puesto.');
                     $this->redirect(array('addcompetence','id'=>Yii::app()->session['puesto']));
                 }
                             

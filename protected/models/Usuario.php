@@ -88,12 +88,12 @@ class Usuario extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'login' => 'Login',
-			'password' => 'Password',
-			'fechacreacion' => 'Fechacreacion',
+			'login' => 'Nombre de usuario',
+			'password' => 'Contraseña',
+			'fechacreacion' => 'Fecha creación',
 			'estado' => 'Estado',
 			'empresa' => 'Empresa',
-                        'estadopassword' => 'Estadopassword',
+                        'estadopassword' => 'Estado de contraseña',
 		);
 	}
 

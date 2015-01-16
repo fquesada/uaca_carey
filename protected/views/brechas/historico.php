@@ -83,7 +83,7 @@ $this->menu = array(
                    <th>Departamento</th>
                    <th>Puesto</th>
                    <th>Tipo Proceso</th>
-                   <th>Fecha Evaluacion</th>
+                   <th>Fecha Evaluación</th>
                    <th>Evaluador</th>                  
                    <th>Resultado</th>
                    <th>Reporte</th>

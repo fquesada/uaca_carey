@@ -42,7 +42,7 @@ return $( "<li></li>" )
 	</div>
         
          <div class="row">
-                <?php echo $form->labelEx($model,'confirmar contraseña'); ?>
+                <?php echo $form->labelEx($model,'Confirmar contraseña'); ?>
                 <?php echo $form->passwordField($model,'confirmarPassword',array('size'=>60,'maxlength'=>100,'value'=>'')); ?>
                 <?php echo $form->error($model,'confirmarPassword'); ?>
         </div>
