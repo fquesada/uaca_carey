@@ -14,7 +14,37 @@ $this->breadcrumbs=array(
     
     <div class="row">
         <?php echo CHtml::label('Puesto', 'puesto') ?>
-        <?php echo CHtml::dropDownList('puesto','puesto', CHtml::listData(Puesto::model()->findAll(array('order'=>'nombre','condition'=>'estado=:estado', 'params'=>array(':estado'=>1))),'id', 'nombre'),array('empty' => 'Selecione un puesto')); ?>
+        <?php  
+        $this->widget('zii.widgets.jui.CJuiAutoComplete', array(
+                'attribute'=>'puesto',
+                'name'=>'puesto', 
+                'id'=>'busquedapuesto',
+                'source'=>$this->createUrl('procesoRS/AutocompletePuesto'),
+                // additional javascript options for the autocomplete plugin
+                'options'=>array(
+                    'showAnim'=>'fold',
+                    'minLength'=>'2',
+                    'select'=>"js: function(event, ui) {
+
+                    if(ui.item['value']!='')
+                    {
+                        $('#busquedapuesto').attr('disabled', 'true');	                                            
+                        $('#idpuesto').val(ui.item['id']); 
+                        $('#imgborrarpuesto').show();                        
+
+                     }
+
+                    }",                
+                     ),
+                  'htmlOptions'=>array('size'=>'30'),
+                ));
+        ?>
+        
+        <?php echo CHtml::image(Yii::app()->request->baseUrl."/images/icons/silk/decline.png", "Borrar Puesto", 
+                    array("id"=>"imgborrarpuesto", "style" => "padding-left:5px; cursor:pointer; display:none")); 
+        
+        echo CHtml::hiddenField('idpuesto', '-',array('id'=>'idpuesto','name'=>'idpuesto')); 
+        ?>
     </div>          
  
     <div class="row submit">
