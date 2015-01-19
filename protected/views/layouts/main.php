@@ -42,13 +42,13 @@
                     </div>
                 <div id="opciones">
                     <div class="acciones">
-                        <a href='http://localhost/uaca_carey/index.php/site/administracion'><img title="Administración" src=<?php echo Yii::app()->baseUrl."/images/tools.png" ?>></a>
+                        <a href=<?php echo Yii::app()->baseUrl."/index.php/site/administracion"?>><img title="Administración" src=<?php echo Yii::app()->baseUrl."/images/tools.png" ?>></a>
                     </div>
                     <div class="acciones">
-                        <a href='http://localhost/uaca_carey/index.php'><img title="Inicio" src=<?php echo Yii::app()->baseUrl."/images/home.png" ?>></a>
+                        <a href=<?php echo Yii::app()->baseUrl."/index.php"?>><img title="Inicio" src=<?php echo Yii::app()->baseUrl."/images/home.png" ?>></a>
                     </div>
                     <div class="acciones">
-                        <a href='http://localhost/uaca_carey/index.php/site/logout'><img title="Salir" src=<?php echo Yii::app()->baseUrl."/images/logout.png" ?>></a>
+                        <a href=<?php echo Yii::app()->baseUrl."/index.php/site/logout"?>><img title="Salir" src=<?php echo Yii::app()->baseUrl."/images/logout.png" ?>></a>
                     </div>
                     <div id="bienvenida"><?php $this->widget('zii.widgets.CMenu',array(
 			'items'=>array(
