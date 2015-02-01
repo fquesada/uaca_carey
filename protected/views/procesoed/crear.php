@@ -27,7 +27,7 @@ $this->menu = array(
 );
 ?>
 
-<h3 style="text-align: center"><?php echo "Nuevo proceso ED"; ?></h3>
+<h3 style="text-align: center"><?php echo "Nuevo proceso de evaluación de desempeño (ED)"; ?></h3>
 </br>
 
 <?php
