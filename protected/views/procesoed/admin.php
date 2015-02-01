@@ -8,6 +8,17 @@ $this->breadcrumbs=array(
 );
 ?>
 
+<?php
+function estadoProceso($data) {                               
+if ($data["estado"] == "Finalizado") {
+return false;
+} else {
+return true;
+}
+}
+                                
+?>
+
 <h3 style="text-align: center">Evaluación del Desempeño (ED)</h3>
 
 <?php echo CHtml::beginForm($this->createUrl('procesoed/crear'),'post')?>                      
@@ -79,12 +90,14 @@ $this->breadcrumbs=array(
                             'editar'=> array(
                                 'label'=>'Editar Proceso ED',
                                 'imageUrl'=>Yii::app()->request->baseUrl.'/images/icons/silk/page_edit.png',
-                                'url'=>'Yii::app()->createUrl("procesoed/editar", array("id"=>$data["id"]))'
+                                'url'=>'Yii::app()->createUrl("procesoed/editar", array("id"=>$data["id"]))',
+                                'visible'=>'estadoProceso($data)'
                             ),
                             'eliminar'=> array(
                                 'label'=>'Eliminar Proceso ED',
                                 'imageUrl'=>Yii::app()->request->baseUrl.'/images/icons/silk/decline.png',                                
                                 'url'=>'Yii::app()->createUrl("procesoed/eliminarprocesoed", array("id"=>$data["id"]))',
+                                'visible'=>'estadoProceso($data)',                                
                                 'click'=>"function(){
                                         event.preventDefault();
                                         var url = $(this).attr('href');
