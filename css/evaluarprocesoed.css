@@ -257,6 +257,11 @@
     text-align: center;
 }
 
+.pexplicacionNotaFinal{
+    width: auto;    
+    margin: 0 0 0 250px;
+}
+
 /*Seccion informacion rango*/
 .table_evaluacion_rango {
     border: 1px solid black;
