@@ -99,12 +99,12 @@ $this->menu = array(
                     echo $ec->fechaevaluacionecformato;
                     echo '</th>';
                     echo '<th>';
-                    $imgcorreo = CHtml::image(Yii::app()->request->baseUrl . '/images/icons/silk/email_go.png', 'links evaluacion', array("id" => "imgenviarcorreo", "cursor:pointer;"));
+                    $imgcorreo = CHtml::image(Yii::app()->request->baseUrl . '/images/icons/silk/email_go.png', 'Links de evaluacion', array("id" => "imgenviarcorreo", "cursor:pointer;"));
                     if (!$ec->estadoevaluacionindicador)
-                        echo CHtml::link($imgcorreo, Yii::app()->getBaseUrl(true) . '/index.php/procesoevaluacion/evaluarprocesoec/' . CommonFunctions::encrypt($ec->id));
+                        echo CHtml::link($imgcorreo, Yii::app()->getBaseUrl(true) . '/index.php/procesoevaluacion/evaluarprocesoec/' . CommonFunctions::encrypt($ec->id), array('title'=>'Links de evaluación'));
                     $imgreporte = CHtml::image(Yii::app()->request->baseUrl . '/images/icons/silk/chart_pie.png', 'Generar reporte', array("id" => "imggenerarreporte", "cursor:pointer;"));
                     if ($ec->estadoevaluacionindicador)
-                        echo CHtml::link($imgreporte, '#');
+                        echo CHtml::link($imgreporte, '#', array('title'=>'Generar reporte'));
                     echo'</th>';
                     echo '</tr>';
                 }
