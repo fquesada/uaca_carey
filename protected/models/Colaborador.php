@@ -217,24 +217,20 @@ class Colaborador extends CActiveRecord
         public function HistoricoEvaluacion($idcolaborador){
             
         $connection = Yii::app()->db;
-        $sql = 'SELECT p.nombre AS "Puesto", un.nombre AS "UnidadNegocio", "EC" AS "TipoEvaluacion", 
+        $sql = 'SELECT p.nombre AS "Puesto", "EC" AS "TipoEvaluacion", 
                 (SELECT CONCAT_WS(" ",ev.nombre, ev.apellido1,ev.apellido2) FROM colaborador ev WHERE ev.id = pe.evaluador) AS "Evaluador",
                 ec.promedioponderado as "Calificacion", ec.id AS "IDEvaluacion", ec.fechaevaluacion AS "FechaEvaluacion"
-                FROM colaborador c INNER JOIN historicopuesto hp on c.id = hp.colaborador 
-                INNER JOIN puesto p  ON hp.puesto = p.id
-                INNER JOIN unidadnegocio un  ON hp.unidadnegocio = un.id
-                INNER JOIN evaluacioncompetencias ec ON c.id = ec.colaborador
+                FROM colaborador c INNER JOIN evaluacioncompetencias ec ON c.id = ec.colaborador                
+                INNER JOIN puesto p  ON ec.puesto = p.id                               
                 INNER JOIN procesoevaluacion pe ON ec.procesoevaluacion = pe.id
                 WHERE c.id = :idcolaborador and ec.estado = 2 and pe.estado <> 0
                 UNION
-                SELECT p.nombre AS "Puesto", un.nombre AS "UnidadNegocio", "ED" AS "TipoEvaluacion", 
+                SELECT p.nombre AS "Puesto", "ED" AS "TipoEvaluacion", 
                 (SELECT CONCAT_WS(" ",ev.nombre, ev.apellido1,ev.apellido2) FROM colaborador ev WHERE ev.id = pe.evaluador) AS "Evaluador",
                 ed.promedioevaluacion as "Calificacion", ed.id AS "IDEvaluacion",  ed.fecharegistroevaluacion AS "FechaEvaluacion"
-                FROM colaborador c INNER JOIN historicopuesto hp on c.id = hp.colaborador 
-                INNER JOIN puesto p  ON hp.puesto = p.id
-                INNER JOIN unidadnegocio un  ON hp.unidadnegocio = un.id
-                INNER JOIN evaluaciondesempeno ed ON c.id = ed.colaborador
-                INNER JOIN procesoevaluacion pe ON ed.procesoevaluacion = pe.id 
+                FROM colaborador c INNER JOIN evaluaciondesempeno ed on c.id = ed.colaborador 
+                INNER JOIN puesto p  ON ed.puesto = p.id                
+                INNER JOIN procesoevaluacion pe ON ed.procesoevaluacion = pe.id
                 WHERE c.id = :idcolaborador and ed.estadoevaluacion = 2 and ed.estado = 1 and pe.estado <> 0
                 ORDER BY FechaEvaluacion
                 ';

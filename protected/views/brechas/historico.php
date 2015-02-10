@@ -79,8 +79,7 @@ $this->menu = array(
        <table id="tblEvaluaciones" class="tblEvaluaciones">
            <thead>
                <tr>
-                   <th id="tdIdEvalacion"></th>
-                   <th>Departamento</th>
+                   <th id="tdIdEvalacion"></th>                   
                    <th>Puesto</th>
                    <th>Tipo Proceso</th>
                    <th>Fecha Evaluación</th>
