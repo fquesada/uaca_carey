@@ -8,7 +8,7 @@ $this->breadcrumbs=array(
 );
 ?>
 
-<h3 style="text-align: center">Evaluación del Desempeño (ED)</h3>
+<h3 style="text-align: center">Procesos de evaluación del desempeño (ED)</h3>
 
 <?php echo CHtml::beginForm($this->createUrl('procesoed/crear'),'post')?>                      
 <button  id="btnformcrearprocesoec" type="submit" class="sexybutton sexysimple"><span class="add">Nuevo proceso ED</span></button>

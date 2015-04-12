@@ -113,16 +113,16 @@ $this->menu = array(
                     echo '<th>';
                     if (!$ed->EstadoCompromisosIndicador) {
                         $imgingresarcompromiso = CHtml::image(Yii::app()->request->baseUrl . '/images/icons/silk/script_add.png', 'Registrar Compromisos', array("id" => "imgregistrarcompromisos", "cursor:pointer;"));
-                        echo CHtml::link($imgingresarcompromiso, array('procesoed/agregarcompromisos/' . CommonFunctions::encrypt($ed->id)));
+                        echo CHtml::link($imgingresarcompromiso, array('procesoed/agregarcompromisos/' . CommonFunctions::encrypt($ed->id)), array('title'=>'Registrar compromisos'));
                     } else if (!$ed->EstadoEvaluacionIndicador) {
                         $imgvercompromiso = CHtml::image(Yii::app()->request->baseUrl . '/images/icons/silk/script_key.png', 'Ver Compromisos', array("id" => "imgvercompromisos", "cursor:pointer;"));
                         $imgevaluacion = CHtml::image(Yii::app()->request->baseUrl . '/images/icons/silk/award_star_add.png', 'Registrar Evaluacion', array("id" => "imgregistrarevaluacion", "cursor:pointer;"));
-                        echo CHtml::link($imgvercompromiso, array('#'));
-                        echo CHtml::link($imgevaluacion, array('procesoed/registrarevaluacion/' . CommonFunctions::encrypt($ed->id)));
+                        echo CHtml::link($imgvercompromiso, array('#'), array('title'=>'Ver compromisos'));
+                        echo CHtml::link($imgevaluacion, array('procesoed/registrarevaluacion/' . CommonFunctions::encrypt($ed->id)), array('title'=>'Registrar evaluación'));
                     }
                     if ($ed->EstadoEvaluacionIndicador) {
                         $imgreporte = CHtml::image(Yii::app()->request->baseUrl . '/images/icons/silk/chart_pie.png', 'Generar reporte', array("id" => "imggenerarreporte", "cursor:pointer;"));
-                        echo CHtml::link($imgreporte, '#');
+                        echo CHtml::link($imgreporte, '#', array('title'=>'Generar reporte'));
                     }
                     echo'</th>';
                     echo '</tr>';
