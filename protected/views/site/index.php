@@ -39,7 +39,7 @@ $this->pageTitle=Yii::app()->name;
    </div>
    <div id="Brechas">
        <div id="TituloB">
-           <h1 align="center">Análisis de Brechas</h1>
+           <h1 align="center">Brechas</h1>
        </div>
        <div id="ContenidoB">
            <br>

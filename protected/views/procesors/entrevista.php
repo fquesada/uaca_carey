@@ -5,7 +5,7 @@ $this->breadcrumbs=array(
 	'Entrevista',
 );
 ?>
-<h1>Entrevista</h1>
+<h1>Generar entrevista</h1>
 
 <div class="form">
 <?php echo CHtml::beginForm('excel','post'); ?>

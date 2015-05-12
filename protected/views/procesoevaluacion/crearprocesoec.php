@@ -39,7 +39,7 @@ if(!$indicadoreditar){
 }
 ?>
 
-<h3 style="text-align: center"><?php if(!$indicadoreditar) echo "Nuevo proceso EC"; else echo "Editar proceso EC #".$procesoec->id;?></h3>
+<h3 style="text-align: center"><?php if(!$indicadoreditar) echo "Nuevo proceso de evaluación de competencias (EC)"; else echo "Editar proceso EC #".$procesoec->id;?></h3>
 
 <?php 
     if(!$indicadoreditar){

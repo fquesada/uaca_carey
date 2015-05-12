@@ -8,7 +8,7 @@ $this->breadcrumbs=array(
 );
 ?>
 
-<h3 style="text-align: center">Evaluación de Competencias (EC)</h3>
+<h3 style="text-align: center">Procesos de evaluación de competencias (EC)</h3>
 
 <?php echo CHtml::beginForm($this->createUrl('procesoevaluacion/crearprocesoec'),'post', array('id'=>'formcrearprocesoec'))?>                      
 <button  id="btnformcrearprocesoec" type="submit" class="sexybutton sexysimple"><span class="add">Nuevo proceso EC</span></button>
