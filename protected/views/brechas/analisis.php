@@ -59,7 +59,7 @@ $this->menu = array(
                         'htmlOptions'=>array(
                             'class' => 'dpFecha',
                             'readonly' => 'readonly',
-                            'style'=>'width: 118px; text-align: center'
+                            'style'=>'width: 118px;'
                         ),
                     ));?>           
           <p><span id="spFechaFinal">Fecha final</span></p>     
@@ -83,7 +83,7 @@ $this->menu = array(
                         'htmlOptions'=>array(
                             'class' => 'dpFecha',
                             'readonly' => 'readonly',
-                            'style'=>'width: 118px; text-align: center'
+                            'style'=>'width: 118px;'
                         ),
                     ));?> 
         <p class="mensajeerror" id="pFechaserror">La fecha de inicio debe ser menor a la fecha final.</p>  

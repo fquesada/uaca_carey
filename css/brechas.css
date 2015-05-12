@@ -13,9 +13,7 @@
     margin-bottom: 10px;
 }
 
-.divBusquedaColaborador > input{
-   text-align: center;
-}
+
 
 .divCargando{
     display: none;

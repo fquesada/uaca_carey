@@ -330,7 +330,7 @@ class ProcesoevaluacionController extends Controller {
 
     public function actionEvaluarProcesoEC($id) {
 
-        $this->layout = 'column1';
+        $this->layout = 'column3';
         $idoriginal = CommonFunctions::decrypt($id);
         
         $ec = Evaluacioncompetencias::model()->findByPk($idoriginal);
@@ -485,7 +485,7 @@ class ProcesoevaluacionController extends Controller {
                     }
                 }        
                 $transaction->commit();
-                $response = array('resultado' => true, 'mensaje' => "Se guardó con éxito la evaluación", 'url' => Yii::app()->getBaseUrl(true) . '/index.php/procesoevaluacion/adminprocesoec/' . $ec->procesoevaluacion);
+                $response = array('resultado' => true, 'mensaje' => "Se guardó con éxito la evaluación", 'url' => Yii::app()->getBaseUrl(true) . '/index.php/procesoevaluacion/reporteec/' . $ec->id);
                 echo CJSON::encode($response);
                 Yii::app()->end();
             } else {

@@ -545,7 +545,7 @@ class ProcesoRSController extends Controller {
 
     public function actionEvaluarProcesoECV($id) {
 
-        $this->layout = 'column1';
+        $this->layout = 'column3';
 
         $idoriginal = CommonFunctions::decrypt($id);
         $ec = Evaluacioncompetencias::model()->findByPk($idoriginal);
@@ -685,7 +685,7 @@ class ProcesoRSController extends Controller {
                 }
 
                 $transaction->commit();
-                $response = array('resultado' => true, 'mensaje' => "Se guardó con éxito la evaluacion", 'url' => Yii::app()->getBaseUrl(true) . '/index.php/procesors/adminprocesoecv/' . $ec->procesoevaluacion);
+                $response = array('resultado' => true, 'mensaje' => "Se guardó con éxito la evaluacion", 'url' => Yii::app()->getBaseUrl(true) . '/index.php/procesors/ReporteECV/' . $ec->id);
                 echo CJSON::encode($response);
                 Yii::app()->end();
             } else {
@@ -749,7 +749,8 @@ class ProcesoRSController extends Controller {
     public function actionCrearReporteECV() {
         if (Yii::app()->request->isAjaxRequest) {
             $id = CommonFunctions::stringtonumber($_POST['id']);
-            $response = array('url' => Yii::app()->getBaseUrl(true) . '/index.php/procesors/reporteecv/' . $id);
+            $ecv = Evaluacioncompetencias::model()->findByPk($id);
+            $response = array('url' => Yii::app()->getBaseUrl(true) . '/index.php/procesors/reporteecv/' . $ecv);
             echo CJSON::encode($response);
             Yii::app()->end();
         }

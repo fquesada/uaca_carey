@@ -73,13 +73,15 @@ $(document).ready(function() {
                 url: "../GuardarEvaluacionED",
                 data: datosGuardarProceso(),
                 dataType: 'json',
-                error: function (jqXHR, textStatus){                    
+                error: function (jqXHR, textStatus, datos){                    
                     $('#btnguardared').removeAttr('disabled');
                     messagewarning("Ha ocurrido un inconveniente, intente nuevamente. (Codigo Sistema:"+ jqXHR.status + ")");            
                 },
                 success: function(datos){
                     if(datos.resultado)
-                        messagesuccess(datos.mensaje, datos.url);              
+                    {  
+                     messagesuccess(datos.mensaje, datos.url);                 
+                    }                        
                     else{
                         $('#btnguardared').removeAttr('disabled');
                         messageerror(datos.mensaje);

@@ -15,6 +15,7 @@ $(document).ready(function() {
             messagewarning("Existen Meritos o Habilidades sin calificar.");
         }
         else{
+            $('#btnguardarecv').prop('disabled', true);
             $.ajax({
                 type: "POST",
                 url: "../GuardarEvaluacionECV",
