@@ -10,6 +10,17 @@ $this->breadcrumbs=array(
 
 <h3 style="text-align: center">Procesos de evaluación de competencias (EC)</h3>
 
+<?php
+function estadoProceso($data) {                               
+if ($data["estado"] == "Finalizado") {
+return false;
+} else {
+return true;
+}
+}
+                                
+?>
+
 <?php echo CHtml::beginForm($this->createUrl('procesoevaluacion/crearprocesoec'),'post', array('id'=>'formcrearprocesoec'))?>                      
 <button  id="btnformcrearprocesoec" type="submit" class="sexybutton sexysimple"><span class="add">Nuevo proceso EC</span></button>
 <?php echo CHtml::endForm()?>
@@ -58,12 +69,14 @@ $this->breadcrumbs=array(
                             'editar'=> array(
                                 'label'=>'Editar Proceso EC',
                                 'imageUrl'=>Yii::app()->request->baseUrl.'/images/icons/silk/page_edit.png',
-                                'url'=>'Yii::app()->createUrl("procesoevaluacion/editarprocesoec", array("id"=>$data["id"]))'
+                                'url'=>'Yii::app()->createUrl("procesoevaluacion/editarprocesoec", array("id"=>$data["id"]))',
+                                'visible'=>'estadoProceso($data)'
                             ),
                             'eliminar'=> array(
                                 'label'=>'Eliminar Proceso EC',
                                 'imageUrl'=>Yii::app()->request->baseUrl.'/images/icons/silk/decline.png',                                
                                 'url'=>'Yii::app()->createUrl("procesoevaluacion/eliminarprocesoec", array("id"=>$data["id"]))',
+                                'visible'=>'estadoProceso($data)',
                                 'click'=>"function(){
                                         event.preventDefault();
                                         var url = $(this).attr('href');

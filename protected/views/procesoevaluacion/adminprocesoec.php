@@ -7,14 +7,30 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->baseUrl . '/css/adminproce
 
 $evaluaciones = $procesoec->_evaluacionescompetencias;
 
+
+function estadoProceso($estado) {                               
+if ($estado == "Finalizado") {
+return true;
+} else {
+return false;
+}
+}
+
 $this->breadcrumbs = array(
     'EC' => array('admin'),
     'Gestionar proceso EC',
 );
+
+if(estadoProceso($procesoec->EstadoProceso)){
+    $this->menu = array(
+    array('label' => 'Lista de Procesos EC', 'url' => array('admin')));
+}
+else{
 $this->menu = array(
     array('label' => 'Lista de Procesos EC', 'url' => array('admin')),
     array('label' => 'Editar Proceso EC', 'url' => array('editarprocesoec', 'id' => $procesoec->id)),
 );
+}
 ?>
 
 <h3 style="text-align: center">Gestionar Proceso EC #<?php echo $procesoec->id; ?></h3>
@@ -47,11 +63,13 @@ $this->menu = array(
 </div>
 
 
-<div class="divBtnEnlaces">                    
-    <button  id="verenlaces" type="button" class="sexybutton sexysimple" ><span class="accept">Ver Enlaces de Evaluaciones</span></button>
-</div>
-
-
+<div class="divBtnEnlaces"> 
+<?php
+if(!estadoProceso($procesoec->EstadoProceso)){
+    echo CHtml::htmlButton('<span class="accept">Ver Enlaces de Evaluaciones</span>', array('id' => 'verenlaces', 'class' => 'sexybutton sexysimple')); 
+}
+?>
+</div> 
 
 <div>
     <div class="divcolaboradoresevaluados">

@@ -49,13 +49,12 @@ $(document).ready(function() {
             var index;        
             for (index = 0; index < evaluaciones.length; ++index) {
                 var puesto = evaluaciones[index].Puesto;
-                var departamento = evaluaciones[index].UnidadNegocio;
                 var tipoevaluacion = evaluaciones[index].TipoEvaluacion;
                 var evaluador = evaluaciones[index].Evaluador;           
                 var calificacion = evaluaciones[index].Calificacion;
                 var idevaluacion = evaluaciones[index].IDEvaluacion;
                 var fechaevaluacion = evaluaciones[index].FechaEvaluacion;
-                $('#tblEvaluaciones > tbody').append('<tr><td id="tdIdEvalacion">'+idevaluacion+'</td><td>'+departamento+'</td><td>'+puesto+'</td><td id="tdTipoProceso">'+tipoevaluacion+'</td><td>'+fechaevaluacion+'</td><td>'+evaluador+'</td><td>'+calificacion+'</td><td><img src="../../images/icons/silk/chart_pie.png" class="imgReporte" id="imgReporte"></img></td></tr>');
+                $('#tblEvaluaciones > tbody').append('<tr><td id="tdIdEvalacion">'+idevaluacion+'</td><td>'+puesto+'</td><td id="tdTipoProceso">'+tipoevaluacion+'</td><td>'+fechaevaluacion+'</td><td>'+evaluador+'</td><td>'+calificacion+'</td><td><img src="../../images/icons/silk/chart_pie.png" class="imgReporte" id="imgReporte"></img></td></tr>');
             }
         }
         else{

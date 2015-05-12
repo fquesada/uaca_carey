@@ -8,14 +8,28 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->baseUrl . '/css/adminproce
 
 $evaluaciones = $procesoed->_evaluaciondesempenos;
 
+function estadoProceso($estado) {                               
+if ($estado == "Finalizado") {
+return true;
+} else {
+return false;
+}
+}
+
 $this->breadcrumbs = array(
     'ED' => array('admin'),
     'Gestionar proceso ED',
 );
+
+if(estadoProceso($procesoed->EstadoProceso)){
+$this->menu = array(
+    array('label' => 'Lista de Procesos ED', 'url' => array('admin')));    
+}else{
 $this->menu = array(
     array('label' => 'Lista de Procesos ED', 'url' => array('admin')),
     array('label' => 'Editar Proceso ED', 'url' => array('editar', 'id' => $procesoed->id)),
 );
+}
 ?>
 
 <h3 style="text-align: center">Gestionar Proceso ED #<?php echo $procesoed->id; ?></h3>
@@ -47,9 +61,38 @@ $this->menu = array(
     ?>
 </div>
 
-<div class="divBtnEnlaces">                    
-    <button  id="verenlacescompromisos" type="button" class="sexybutton sexysimple" ><span class="accept">Ver Enlaces de Compromisos</span></button>
-    <button  id="verenlacesdesempeno" type="button" class="sexybutton sexysimple" ><span class="accept">Ver Enlaces de Evaluaciones</span></button>
+<div class="divBtnEnlaces">  
+
+<?php
+function mostrarBotonEnlacesCompromisos($evalucionesed){
+    $mostrarboton = false;
+    foreach ($evalucionesed as $edlinkdesempeno) {
+        if (!$edlinkdesempeno->EstadoCompromisosIndicador) {
+           $mostrarboton = true;
+        }
+    }
+    return $mostrarboton;
+}
+
+function mostrarBotonEnlacesDesempeno($evalucionesed){
+    $mostrarboton = false;
+    foreach ($evalucionesed as $edlinkdesempeno) {
+        if ($edlinkdesempeno->EstadoCompromisosIndicador) {
+           $mostrarboton = true;
+        }
+    }
+    return $mostrarboton;
+}  
+
+if(!estadoProceso($procesoed->EstadoProceso)){
+    if(mostrarBotonEnlacesCompromisos($evaluaciones)){
+        echo CHtml::htmlButton('<span class="accept">Ver Enlaces de Compromisos</span>', array('id' => 'verenlacescompromisos', 'class' => 'sexybutton sexysimple')); 
+    }    
+    if(mostrarBotonEnlacesDesempeno($evaluaciones)){
+        echo CHtml::htmlButton('<span class="accept">Ver Enlaces de Evaluaciones</span>', array('id' => 'verenlacesdesempeno', 'class' => 'sexybutton sexysimple'));     
+    }
+}
+?>
 </div>
 
 <div>

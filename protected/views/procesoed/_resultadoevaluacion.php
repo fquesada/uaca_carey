@@ -16,7 +16,7 @@
                 <td id="competenciasnivel" name="competenciasnivel">0</td> 
             </tr>  
             <tr>                
-                <td class="label_column">Evaluación Final</td>
+                <td class="label_column">Evaluación Final *</td>
                 <td id="evaluacion" name="evaluacion">0</td>
             </tr>
          </tbody>
@@ -24,11 +24,12 @@
             <tr> 
                 <td class="label_column">Rango</td>
                 <td id="rango" name="rango"></td>
-            </tr> 
+            </tr>             
           </tfoot>
         
     </table> 
-    <table class="table_evaluacion_rango" id="rangoevaluaciones">
+  
+      <table class="table_evaluacion_rango" id="rangoevaluaciones">
         <thead>
             <tr>
                 <th>Rango</th>
@@ -58,6 +59,10 @@
             </tr>                                                                
         </tbody>
     </table> 
+  
+<p class="pexplicacionNotaFinal">* La evaluación final corresponde al promedio de lo obtenido en Nivel de Puntualizaciones y Nivel de Compromisos.</p>
+  
+  
 </div>
 
 <div class="divComentariosEvaluacionED">   
