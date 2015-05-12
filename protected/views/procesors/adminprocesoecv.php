@@ -7,14 +7,28 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->baseUrl.'/css/adminproceso
 
 $evaluaciones = $procesoecv->_evaluacionescompetencias;
 
+function estadoProceso($estado) {                               
+if ($estado == "Finalizado") {
+return true;
+} else {
+return false;
+}
+}
+
 $this->breadcrumbs=array(
 	'ECV'=>array('admin'),
 	'Gestionar proceso ECV',
 );
+
+if(estadoProceso($procesoecv->EstadoProceso)){
 $this->menu=array(
+	array('label'=>'Lista de Procesos ECV' , 'url'=>array('admin')));}
+else{
+  $this->menu=array(
 	array('label'=>'Lista de Procesos ECV' , 'url'=>array('admin')),	
         array('label'=>'Editar Proceso ECV' , 'url'=>array('editarprocesoecv', 'id'=>$procesoecv->id)),	
-);
+);  
+}
 ?>
 
 <h3 style="text-align: center">Gestionar Proceso ECV #<?php echo $procesoecv->id;?></h3>
@@ -44,9 +58,12 @@ $this->menu=array(
 )); ?>
 </div>
 
-<div class="divBtnEnlaces">                    
-    <button  id="verenlaces" type="button" class="sexybutton sexysimple" ><span class="accept">Ver Enlaces de Evaluaciones</span></button>
-</div>
+<div class="divBtnEnlaces"> 
+    <?php
+if(!estadoProceso($procesoecv->EstadoProceso)){
+    echo CHtml::htmlButton('<span class="accept">Ver Enlaces de Evaluaciones</span>', array('id' => 'verenlaces', 'class' => 'sexybutton sexysimple')); 
+}
+?></div>
 
 <div>
 <div class="divcolaboradoresevaluados">
