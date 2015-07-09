@@ -145,7 +145,7 @@ class ProcesoEDController extends Controller {
     }
 
     public function actionRegistrarEvaluacion($id) {
-
+                
         $idoriginal = CommonFunctions::decrypt($id);
         
         $ed = Evaluaciondesempeno::model()->findByPk($idoriginal);
@@ -156,7 +156,7 @@ class ProcesoEDController extends Controller {
         }else{ 
 
             if (isset($ed)) {
-            $this->layout = 'column1';
+            $this->layout = 'column3';
             $this->render('registrarevaluacion', array(
                 'ed' => $ed
             ));
